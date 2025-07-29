@@ -1,196 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>qparadox</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      background-color: #0e0e0e;
-      color: #e0e0e0;
-      font-family: 'Georgia', serif;
-      line-height: 1.6;
-    }
-
-    header {
-      background-image: url('hero.jpg');
-      background-size: cover;
-      background-position: center;
-      height: 90vh;
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background-color: #111;
+      color: #eee;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 10px;
+    }
+
+    .hero img {
+      width: 120px;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid #444;
+      transition: transform 0.3s ease;
+    }
+
+    .hero img:hover {
+      transform: scale(1.05);
+    }
+
+    .title {
+      font-size: 32px;
+      font-weight: 500;
       text-align: center;
-      color: #f2f2f2;
-      box-shadow: inset 0 0 200px #000000cc;
+      letter-spacing: 1px;
+      color: #ddd;
     }
 
-    header h1 {
-      font-size: 4rem;
-      letter-spacing: 2px;
-      text-shadow: 0 0 10px #000;
-      text-transform: lowercase;
-    }
-
-    nav {
-      background-color: #101010;
-      padding: 1rem 2rem;
+    .links {
       display: flex;
       justify-content: center;
-      font-size: 0.95rem;
-      border-bottom: 1px solid #222;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      gap: 180px;
+      margin-top: 10px;
+      font-size: 16px;
+      color: #aaa;
     }
 
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-      position: relative;
-    }
-
-    nav ul li {
-      position: relative;
-    }
-
-    nav a {
-      color: #ccc;
+    .links a {
+      color: #aaa;
       text-decoration: none;
       transition: color 0.3s;
     }
 
-    nav a:hover {
+    .links a:hover {
       color: #fff;
     }
 
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 2.5rem;
-      left: 0;
-      background-color: #1a1a1a;
-      padding: 1rem;
-      border: 1px solid #333;
-      z-index: 1001;
-      min-width: 220px;
-    }
-
-    .dropdown-content a {
-      display: block;
-      padding: 0.3rem 0;
-      font-size: 0.9rem;
-      white-space: nowrap;
-    }
-
-    nav ul li:hover .dropdown-content,
-    .dropdown-content:hover {
-      display: block;
-    }
-
-    #qparadox-description {
+    .poetic {
+      font-size: 14px;
+      color: #888;
       text-align: center;
-      padding: 3rem 2rem;
-      max-width: 800px;
-      margin: auto;
+      max-width: 600px;
+      margin-top: 40px;
+      font-weight: 400;
     }
 
-    #qparadox-description p {
-      font-size: 1.1rem;
-      color: #ccc;
-    }
-
-    #qparadox-description p:first-child {
-      font-style: italic;
-      font-size: 1.2rem;
-      color: #d0d0d0;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.85rem;
-      color: #777;
-    }
-
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 2.5rem;
-      }
-
-      nav ul {
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .dropdown-content {
-        position: static;
-      }
+    .arrow {
+      margin-left: 6px;
     }
   </style>
 </head>
 <body>
 
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="introduction.html">Introduction</a></li>
-      <li><a href="#">Research</a></li>
-      <li>
-        <a href="#">Concepts</a>
-        <div class="dropdown-content">
-          <a href="#">Wave-Particle Duality</a>
-          <a href="#">Double-Slit Experiment</a>
-          <a href="#">Quantum Entanglement</a>
-          <a href="#">Measurement Problem</a>
-          <a href="#">Superposition</a>
-          <a href="#">Collapse of the Wave Function</a>
-          <a href="#">Uncertainty Principle</a>
-          <a href="#">Schrödinger’s Cat</a>
-          <a href="#">Quantum Tunneling</a>
-          <a href="#">Pauli Exclusion Principle</a>
-        </div>
-      </li>
-      <li>
-        <a href="#">Theory</a>
-        <div class="dropdown-content">
-          <a href="#">Entropy</a>
-          <a href="#">Relativity</a>
-          <a href="#">Black Holes</a>
-          <a href="#">Quantum Gravity</a>
-          <a href="#">Holographic Principle</a>
-          <a href="#">Multiverse</a>
-          <a href="#">Wheeler–DeWitt Equation</a>
-          <a href="#">Time Symmetry</a>
-          <a href="#">Cosmic Inflation</a>
-        </div>
-      </li>
-      <li><a href="#">Projects</a></li>
-      <li><a href="#">History</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </nav>
+  <div class="hero">
+    <a href="history.html">
+      <img src="Einstein.jpg" alt="Einstein">
+    </a>
+    <div class="title">qparadox</div>
+    <a href="introduction.html">
+      <img src="Intro-Image.jpg" alt="Introduction">
+    </a>
+  </div>
 
-  <header>
-    <h1>qparadox</h1>
-  </header>
+  <div class="links">
+    <a href="history.html">History <span class="arrow">→</span></a>
+    <a href="introduction.html">Introduction <span class="arrow">→</span></a>
+  </div>
 
-  <section id="qparadox-description">
-    <p>This is where inquiry fractures and the familiar becomes unknowable.</p>
-    <p><span style="font-style: italic;">qparadox</span> is an ongoing body of theoretical reflection, research, and intellectual architecture, standing at the intersection of physics, philosophy, and the ineffable logic beneath reality.</p>
-  </section>
-
-  <footer>
-    © 2025 qparadox. All rights reserved.
-  </footer>
+  <div class="poetic">
+    this is where inquiry fractures and the familiar becomes unknowable. <br>
+    <i>qparadox</i> is an ongoing body of theoretical reflection, research, and intellectual architecture<br>
+    standing at the intersection of physics, philosophy, and ineffable logic beneath reality.
+  </div>
 
 </body>
 </html>
