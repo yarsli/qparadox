@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>wparadox</title>
+  <title>Qparadox</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * {
@@ -10,6 +10,7 @@
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
       background-color: #0e0e0e;
       color: #e0e0e0;
@@ -18,7 +19,7 @@
     }
 
     header {
-      background-image: url('https://raw.githubusercontent.com/yarsli/qparadox.github.io/main/hero.jpg');
+      background-image: url('hero.jpg'); /* Make sure hero.jpg is uploaded in repo */
       background-size: cover;
       background-position: center;
       height: 90vh;
@@ -43,8 +44,22 @@
       display: flex;
       justify-content: center;
       gap: 2rem;
-      border-bottom: 1px solid #222;
       font-size: 0.95rem;
+      border-bottom: 1px solid #222;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      position: relative;
+    }
+
+    nav ul li {
+      position: relative;
     }
 
     nav a {
@@ -57,10 +72,45 @@
       color: #fff;
     }
 
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 2.5rem;
+      background-color: #1a1a1a;
+      padding: 1rem;
+      border: 1px solid #333;
+      z-index: 1001;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 0.3rem 0;
+      font-size: 0.9rem;
+    }
+
+    nav ul li:hover .dropdown-content {
+      display: block;
+    }
+
     main {
       max-width: 900px;
       margin: 4rem auto;
       padding: 0 2rem;
+    }
+
+    section {
+      margin-bottom: 4rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    p {
+      color: #ccc;
+      font-size: 1.05rem;
     }
 
     footer {
@@ -75,36 +125,81 @@
         font-size: 2.5rem;
       }
 
-      nav {
+      nav ul {
         flex-direction: column;
         gap: 1rem;
+      }
+
+      .dropdown-content {
+        position: static;
       }
     }
   </style>
 </head>
 <body>
+
   <nav>
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">Research</a>
-    <a href="#">Philosophy</a>
-    <a href="#">Contact</a>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#introduction">About</a></li>
+      <li><a href="#">Research</a></li>
+      <li>
+        <a href="#">Concepts</a>
+        <div class="dropdown-content">
+          <a href="#">Wave-Particle Duality</a>
+          <a href="#">Double-Slit Experiment</a>
+          <a href="#">Quantum Entanglement</a>
+          <a href="#">Measurement Problem</a>
+          <a href="#">Superposition</a>
+          <a href="#">Collapse of the Wave Function</a>
+          <a href="#">Uncertainty Principle</a>
+          <a href="#">Schrödinger’s Cat</a>
+          <a href="#">Quantum Tunneling</a>
+          <a href="#">Pauli Exclusion Principle</a>
+        </div>
+      </li>
+      <li>
+        <a href="#">Theory</a>
+        <div class="dropdown-content">
+          <a href="#">Entropy</a>
+          <a href="#">Relativity</a>
+          <a href="#">Black Holes</a>
+          <a href="#">Quantum Gravity</a>
+          <a href="#">Holographic Principle</a>
+          <a href="#">Multiverse</a>
+          <a href="#">Wheeler–DeWitt Equation</a>
+          <a href="#">Time Symmetry</a>
+          <a href="#">Cosmic Inflation</a>
+        </div>
+      </li>
+      <li><a href="#">Projects</a></li>
+      <li><a href="#">History</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
   </nav>
 
   <header>
-    <h1>wparadox</h1>
+    <h1>Qparadox</h1>
   </header>
 
   <main>
-    <p>
-      This is where inquiry fractures and the familiar becomes unknowable.<br><br>
-      <em>wparadox</em> is an ongoing body of theoretical reflection, research, and intellectual architecture — 
-      standing at the intersection of physics, philosophy, and the ineffable logic beneath reality.  
-    </p>
+    <section id="introduction">
+      <h2>Introduction</h2>
+      <p>
+        Quantum physics and theoretical physics are the two areas I find most fascinating. They're not just branches of science — they're ways of thinking about the world that reveal just how strange and complex reality really is.
+        <br><br>
+        Quantum physics deals with particles and energy at the smallest possible scale. It’s where things behave in ways that feel impossible — particles being in two places at once, reacting to being observed, and staying connected across distances. It challenges how we think about space, time, and causality.
+        <br><br>
+        Theoretical physics is more about ideas and models. It's where the universe is explored through equations, logic, and abstract reasoning. Instead of just testing what we already know, theoretical physics asks what might be possible. It's about imagining new dimensions, new laws of nature, and better ways of understanding everything from black holes to the structure of space itself.
+        <br><br>
+        This site is where I bring together everything I'm learning, wondering about, and working on. It's not just a place to share information — it's a space to explore and build.
+      </p>
+    </section>
   </main>
 
   <footer>
-    © 2025 wparadox. All rights reserved.
+    © 2025 Qparadox. All rights reserved.
   </footer>
+
 </body>
 </html>
