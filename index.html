@@ -1,196 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>qparadox</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
   <style>
-    * {
+    body {
+      background-color: #111;
+      color: #ddd;
+      font-family: 'Playfair Display', serif;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background-color: #0e0e0e;
-      color: #e0e0e0;
-      font-family: 'Georgia', serif;
-      line-height: 1.6;
-    }
-
-    header {
-      background-image: url('hero.jpg');
-      background-size: cover;
-      background-position: center;
-      height: 90vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
       text-align: center;
-      color: #f2f2f2;
-      box-shadow: inset 0 0 200px #000000cc;
-    }
-
-    header h1 {
-      font-size: 4rem;
-      letter-spacing: 2px;
-      text-shadow: 0 0 10px #000;
-      text-transform: lowercase;
     }
 
     nav {
-      background-color: #101010;
-      padding: 1rem 2rem;
+      background-color: #111;
+      padding: 20px 0;
       display: flex;
       justify-content: center;
-      font-size: 0.95rem;
-      border-bottom: 1px solid #222;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      position: relative;
+      z-index: 10;
     }
 
     nav ul {
-      list-style: none;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
       display: flex;
-      gap: 2rem;
-      position: relative;
     }
 
     nav ul li {
       position: relative;
+      margin: 0 15px;
     }
 
-    nav a {
-      color: #ccc;
+    nav ul li a {
+      color: #ddd;
       text-decoration: none;
-      transition: color 0.3s;
+      font-size: 16px;
     }
 
-    nav a:hover {
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    nav ul li ul {
+      display: none;
+      position: absolute;
+      top: 30px;
+      left: 0;
+      background-color: #111;
+      padding: 10px 0;
+      min-width: 180px;
+      text-align: left;
+      border: 1px solid #333;
+    }
+
+    nav ul li:hover ul {
+      display: block;
+    }
+
+    nav ul li ul li {
+      padding: 5px 20px;
+    }
+
+    nav ul li ul li a {
+      color: #bbb;
+      font-size: 14px;
+    }
+
+    nav ul li ul li a:hover {
       color: #fff;
     }
 
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 2.5rem;
-      left: 0;
-      background-color: #1a1a1a;
-      padding: 1rem;
-      border: 1px solid #333;
-      z-index: 1001;
-      min-width: 220px;
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 60px;
+      margin-bottom: 20px;
     }
 
-    .dropdown-content a {
-      display: block;
-      padding: 0.3rem 0;
-      font-size: 0.9rem;
-      white-space: nowrap;
+    .side-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 0 40px;
     }
 
-    nav ul li:hover .dropdown-content,
-    .dropdown-content:hover {
-      display: block;
+    .side-links a {
+      color: #aaa;
+      font-size: 14px;
+      text-decoration: none;
     }
 
-    #qparadox-description {
-      text-align: center;
-      padding: 3rem 2rem;
-      max-width: 800px;
-      margin: auto;
+    .side-links a:hover {
+      color: #fff;
+      text-decoration: underline;
     }
 
-    #qparadox-description p {
-      font-size: 1.1rem;
-      color: #ccc;
+    .main-title {
+      font-size: 64px;
+      color: #eee;
+      margin: 0 20px;
     }
 
-    #qparadox-description p:first-child {
+    .poetic-line {
+      margin-top: 30px;
+      font-size: 15px;
+      color: #bbb;
       font-style: italic;
-      font-size: 1.2rem;
-      color: #d0d0d0;
+      font-weight: 400;
     }
 
-    footer {
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.85rem;
-      color: #777;
+    .quotes {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #aaa;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .quote {
+      margin-bottom: 25px;
+    }
+
+    .footer {
+      margin-top: 60px;
+      font-size: 12px;
+      color: #666;
     }
 
     @media (max-width: 768px) {
-      header h1 {
-        font-size: 2.5rem;
-      }
-
-      nav ul {
+      .hero {
         flex-direction: column;
-        gap: 1rem;
       }
 
-      .dropdown-content {
-        position: static;
+      .side-links {
+        flex-direction: row;
+        margin: 20px 0;
+        gap: 20px;
+      }
+
+      .main-title {
+        font-size: 48px;
       }
     }
   </style>
 </head>
 <body>
 
+  <!-- Navigation bar with dropdowns -->
   <nav>
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="introduction.html">Introduction</a></li>
-      <li><a href="#">Research</a></li>
+      <li><a href="research.html">Research</a></li>
       <li>
-        <a href="#">Concepts</a>
-        <div class="dropdown-content">
-          <a href="#">Wave-Particle Duality</a>
-          <a href="#">Double-Slit Experiment</a>
-          <a href="#">Quantum Entanglement</a>
-          <a href="#">Measurement Problem</a>
-          <a href="#">Superposition</a>
-          <a href="#">Collapse of the Wave Function</a>
-          <a href="#">Uncertainty Principle</a>
-          <a href="#">Schrödinger’s Cat</a>
-          <a href="#">Quantum Tunneling</a>
-          <a href="#">Pauli Exclusion Principle</a>
-        </div>
+        <a href="concepts.html">Concepts</a>
+        <ul>
+          <li><a href="#">Wave-Particle Duality</a></li>
+          <li><a href="#">Double Slit Experiment</a></li>
+          <li><a href="#">Quantum Entanglement</a></li>
+          <li><a href="#">Measurement Problem</a></li>
+          <li><a href="#">Superposition</a></li>
+          <li><a href="#">Collapse of the Wave Function</a></li>
+          <li><a href="#">Uncertainty Principle</a></li>
+          <li><a href="#">Schrödinger’s Cat</a></li>
+          <li><a href="#">Quantum Tunneling</a></li>
+          <li><a href="#">Spin and Pauli Exclusion</a></li>
+        </ul>
       </li>
       <li>
-        <a href="#">Theory</a>
-        <div class="dropdown-content">
-          <a href="#">Entropy</a>
-          <a href="#">Relativity</a>
-          <a href="#">Black Holes</a>
-          <a href="#">Quantum Gravity</a>
-          <a href="#">Holographic Principle</a>
-          <a href="#">Multiverse</a>
-          <a href="#">Wheeler–DeWitt Equation</a>
-          <a href="#">Time Symmetry</a>
-          <a href="#">Cosmic Inflation</a>
-        </div>
+        <a href="theory.html">Theory</a>
+        <ul>
+          <li><a href="#">String Theory</a></li>
+          <li><a href="#">Loop Quantum Gravity</a></li>
+          <li><a href="#">Multiverse Hypothesis</a></li>
+          <li><a href="#">Time Symmetry</a></li>
+          <li><a href="#">Quantum Gravity</a></li>
+          <li><a href="#">Copenhagen vs Many Worlds</a></li>
+        </ul>
       </li>
-      <li><a href="#">Projects</a></li>
-      <li><a href="#">History</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="contact.html">Contact</a></li>
     </ul>
   </nav>
 
-  <header>
-    <h1>qparadox</h1>
-  </header>
+  <!-- Hero section with Qparadox -->
+  <div class="hero">
+    <div class="side-links">
+      <a href="concepts.html">Explore Concepts</a>
+      <a href="theory.html">View Theories</a>
+    </div>
+    <h1 class="main-title">qparadox</h1>
+    <div class="side-links">
+      <a href="introduction.html">Begin with Introduction</a>
+      <a href="about.html">Enter the Paradox</a>
+    </div>
+  </div>
 
-  <section id="qparadox-description">
-    <p>This is where inquiry fractures and the familiar becomes unknowable.</p>
-    <p><span style="font-style: italic;">qparadox</span> is an ongoing body of theoretical reflection, research, and intellectual architecture, standing at the intersection of physics, philosophy, and the ineffable logic beneath reality.</p>
-  </section>
+  <!-- Poetic paragraph -->
+  <div class="poetic-line">
+    this is where inquiry fractures and the familiar becomes unknowable.<br>
+    <em>qparadox</em> is an ongoing body of theoretical reflection, research, and intellectual architecture<br>
+    standing at the intersection of physics, philosophy, and ineffable logic beneath reality.
+  </div>
 
-  <footer>
+  <!-- Quotes -->
+  <div class="quotes">
+    <div class="quote">"The present is the only thing that has no end." — Erwin Schrödinger</div>
+    <div class="quote">"We are trying to prove ourselves wrong as quickly as possible, because only in that way can we find progress." — Richard Feynman</div>
+    <div class="quote">"Everything we call real is made of things that cannot be regarded as real." — Niels Bohr</div>
+  </div>
+
+  <div class="footer">
     © 2025 qparadox. All rights reserved.
-  </footer>
+  </div>
 
 </body>
 </html>
