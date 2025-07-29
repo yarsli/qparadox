@@ -7,8 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #111;
-      color: #ddd;
+      background-color: #0c0c0c;
+      color: #eaeaea;
       font-family: 'Playfair Display', serif;
       margin: 0;
       padding: 0;
@@ -16,46 +16,35 @@
     }
 
     nav {
-      background-color: #111;
+      background-color: #0c0c0c;
       padding: 20px 0;
-      display: flex;
-      justify-content: center;
-      position: relative;
-      z-index: 10;
     }
 
     nav ul {
-      list-style-type: none;
-      margin: 0;
+      list-style: none;
       padding: 0;
-      display: flex;
+      margin: 0;
     }
 
     nav ul li {
-      position: relative;
+      display: inline-block;
       margin: 0 15px;
+      position: relative;
     }
 
     nav ul li a {
-      color: #ddd;
       text-decoration: none;
+      color: #f5f5f5;
       font-size: 16px;
-    }
-
-    nav ul li a:hover {
-      text-decoration: underline;
     }
 
     nav ul li ul {
       display: none;
       position: absolute;
-      top: 30px;
+      top: 100%;
       left: 0;
-      background-color: #111;
+      background: #1a1a1a;
       padding: 10px 0;
-      min-width: 180px;
-      text-align: left;
-      border: 1px solid #333;
     }
 
     nav ul li:hover ul {
@@ -63,127 +52,88 @@
     }
 
     nav ul li ul li {
+      display: block;
+      margin: 0;
       padding: 5px 20px;
     }
 
-    nav ul li ul li a {
-      color: #bbb;
-      font-size: 14px;
-    }
-
-    nav ul li ul li a:hover {
-      color: #fff;
-    }
-
-    .hero {
+    .title-section {
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-wrap: wrap;
-      margin-top: 60px;
-      margin-bottom: 20px;
+      margin-top: 80px;
+      position: relative;
     }
 
-    .side-links {
+    .title-section .actions {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin: 0 40px;
-    }
-
-    .side-links a {
-      color: #aaa;
+      margin-left: 30px;
       font-size: 14px;
+    }
+
+    .title-section .actions a {
+      color: #ccc;
       text-decoration: none;
+      margin: 4px 0;
     }
 
-    .side-links a:hover {
-      color: #fff;
-      text-decoration: underline;
-    }
-
-    .main-title {
-      font-size: 64px;
-      color: #eee;
-      margin: 0 20px;
-    }
-
-    .poetic-line {
-      margin-top: 30px;
-      font-size: 15px;
-      color: #bbb;
-      font-style: italic;
-      font-weight: 400;
+    h1 {
+      font-size: 50px;
+      margin: 0;
     }
 
     .quotes {
-      margin-top: 40px;
+      margin-top: 15px;
       font-size: 14px;
-      color: #aaa;
+      font-style: italic;
+      color: #ccc;
       max-width: 700px;
       margin-left: auto;
       margin-right: auto;
     }
 
-    .quote {
-      margin-bottom: 25px;
-    }
-
-    .footer {
-      margin-top: 60px;
-      font-size: 12px;
-      color: #666;
-    }
-
-    @media (max-width: 768px) {
-      .hero {
-        flex-direction: column;
-      }
-
-      .side-links {
-        flex-direction: row;
-        margin: 20px 0;
-        gap: 20px;
-      }
-
-      .main-title {
-        font-size: 48px;
-      }
+    .poetic {
+      font-size: 13px;
+      font-weight: lighter;
+      color: #c5c5c5;
+      margin-top: 200px;
+      margin-bottom: 40px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
 </head>
 <body>
-
-  <!-- Navigation bar with dropdowns -->
   <nav>
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="introduction.html">Introduction</a></li>
       <li><a href="research.html">Research</a></li>
       <li>
-        <a href="concepts.html">Concepts</a>
+        <a href="#">Concepts</a>
         <ul>
-          <li><a href="#">Wave-Particle Duality</a></li>
-          <li><a href="#">Double Slit Experiment</a></li>
-          <li><a href="#">Quantum Entanglement</a></li>
-          <li><a href="#">Measurement Problem</a></li>
-          <li><a href="#">Superposition</a></li>
-          <li><a href="#">Collapse of the Wave Function</a></li>
-          <li><a href="#">Uncertainty Principle</a></li>
-          <li><a href="#">Schrödinger’s Cat</a></li>
-          <li><a href="#">Quantum Tunneling</a></li>
-          <li><a href="#">Spin and Pauli Exclusion</a></li>
+          <li><a href="wave-particle-duality.html">Wave-Particle Duality</a></li>
+          <li><a href="double-slit-experiment.html">Double Slit Experiment</a></li>
+          <li><a href="quantum-entanglement.html">Quantum Entanglement</a></li>
+          <li><a href="measurement-problem.html">Measurement Problem</a></li>
+          <li><a href="superposition.html">Superposition</a></li>
+          <li><a href="collapse.html">Collapse of the Wave Function</a></li>
+          <li><a href="uncertainty-principle.html">Heisenberg’s Uncertainty Principle</a></li>
+          <li><a href="schrodingers-cat.html">Schrödinger’s Cat</a></li>
+          <li><a href="quantum-tunneling.html">Quantum Tunneling</a></li>
+          <li><a href="spin-pauli.html">Spin and Pauli Exclusion Principle</a></li>
         </ul>
       </li>
       <li>
-        <a href="theory.html">Theory</a>
+        <a href="#">Theory</a>
         <ul>
-          <li><a href="#">String Theory</a></li>
-          <li><a href="#">Loop Quantum Gravity</a></li>
-          <li><a href="#">Multiverse Hypothesis</a></li>
-          <li><a href="#">Time Symmetry</a></li>
-          <li><a href="#">Quantum Gravity</a></li>
-          <li><a href="#">Copenhagen vs Many Worlds</a></li>
+          <li><a href="relativity.html">Relativity</a></li>
+          <li><a href="quantum-field-theory.html">Quantum Field Theory</a></li>
+          <li><a href="loop-quantum-gravity.html">Loop Quantum Gravity</a></li>
+          <li><a href="string-theory.html">String Theory</a></li>
+          <li><a href="many-worlds.html">Many-Worlds Interpretation</a></li>
         </ul>
       </li>
       <li><a href="projects.html">Projects</a></li>
@@ -192,36 +142,26 @@
     </ul>
   </nav>
 
-  <!-- Hero section with Qparadox -->
-  <div class="hero">
-    <div class="side-links">
+  <div class="title-section">
+    <h1>qparadox</h1>
+    <div class="actions">
       <a href="concepts.html">Explore Concepts</a>
       <a href="theory.html">View Theories</a>
-    </div>
-    <h1 class="main-title">qparadox</h1>
-    <div class="side-links">
       <a href="introduction.html">Begin with Introduction</a>
-      <a href="about.html">Enter the Paradox</a>
+      <a href="index.html">Enter the Paradox</a>
     </div>
   </div>
 
-  <!-- Poetic paragraph -->
-  <div class="poetic-line">
-    this is where inquiry fractures and the familiar becomes unknowable.<br>
-    <em>qparadox</em> is an ongoing body of theoretical reflection, research, and intellectual architecture<br>
-    standing at the intersection of physics, philosophy, and ineffable logic beneath reality.
-  </div>
-
-  <!-- Quotes -->
   <div class="quotes">
-    <div class="quote">"The present is the only thing that has no end." — Erwin Schrödinger</div>
-    <div class="quote">"We are trying to prove ourselves wrong as quickly as possible, because only in that way can we find progress." — Richard Feynman</div>
-    <div class="quote">"Everything we call real is made of things that cannot be regarded as real." — Niels Bohr</div>
+    <p>“We are not stuff that abides, but patterns that perpetuate themselves.” – Norbert Wiener</p>
+    <p>“The opposite of a trivial truth is false; the opposite of a great truth is also true.” – Niels Bohr</p>
+    <p>“What we observe is not nature itself, but nature exposed to our method of questioning.” – Werner Heisenberg</p>
   </div>
 
-  <div class="footer">
-    © 2025 qparadox. All rights reserved.
+  <div class="poetic">
+    <em>this is where inquiry fractures and the familiar becomes unknowable.<br>
+    <strong>qparadox</strong> is an ongoing body of theoretical reflection, research, and intellectual architecture<br>
+    standing at the intersection of physics, philosophy, and ineffable logic beneath reality.</em>
   </div>
-
 </body>
 </html>
