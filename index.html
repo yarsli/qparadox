@@ -76,16 +76,13 @@
     }
 
     header {
-      background-image: url('hero.jpeg');
-      background-size: cover;
-      background-position: center;
+      background-color: #0e0e0e; /* No hero image */
       height: 90vh;
       display: flex;
       justify-content: center;
       align-items: center;
       text-align: center;
       color: #f2f2f2;
-      box-shadow: inset 0 0 200px #000000cc;
     }
 
     header h1 {
@@ -122,6 +119,22 @@
 
     img:hover {
       transform: scale(1.05);
+    }
+
+    .image-block {
+      text-align: center;
+      flex: 1;
+    }
+
+    .image-block a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 1.1rem;
+    }
+
+    .arrow {
+      font-size: 1.2rem;
+      margin-left: 0.5rem;
     }
 
     @media (max-width: 768px) {
@@ -188,27 +201,27 @@
   </nav>
 
   <header>
-    <div style="display: flex; align-items: center; justify-content: center; gap: 4rem; flex-wrap: wrap;">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 4rem; flex-wrap: wrap; width: 100%; max-width: 1200px;">
 
-      <!-- Introduction Image -->
-      <div style="text-align: center;">
+      <!-- Introduction Image Block -->
+      <div class="image-block">
         <a href="introduction.html">
-          <img src="intro-image.jpg" alt="Introduction" style="border: 3px solid #999; border-radius: 8px; width: 160px; height: auto; transition: transform 0.3s;">
+          <img src="intro-image.jpg" alt="Introduction" style="border: 3px solid #999; border-radius: 8px; width: 200px; height: auto; transition: transform 0.3s;">
         </a>
         <br>
-        <a href="introduction.html" style="color: #e0e0e0; font-size: 1rem; text-decoration: none;">Introduction</a>
+        <a href="introduction.html">Introduction <span class="arrow">→</span></a>
       </div>
 
       <!-- Main Title -->
       <h1 style="margin: 0 2rem;">qparadox</h1>
 
-      <!-- History Image -->
-      <div style="text-align: center;">
+      <!-- History Image Block -->
+      <div class="image-block">
         <a href="history.html">
-          <img src="einstein.jpg" alt="History" style="border: 3px solid #999; border-radius: 8px; width: 160px; height: auto; transition: transform 0.3s;">
+          <img src="einstein.jpg" alt="History" style="border: 3px solid #999; border-radius: 8px; width: 200px; height: auto; transition: transform 0.3s;">
         </a>
         <br>
-        <a href="history.html" style="color: #e0e0e0; font-size: 1rem; text-decoration: none;">History</a>
+        <a href="history.html">History <span class="arrow">→</span></a>
       </div>
 
     </div>
