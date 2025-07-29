@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Qparadox</title>
+  <title>qparadox</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * {
@@ -19,7 +19,7 @@
     }
 
     header {
-      background-image: url('hero.jpg'); /* Make sure hero.jpg is uploaded in repo */
+      background-image: url('hero.jpg');
       background-size: cover;
       background-position: center;
       height: 90vh;
@@ -36,6 +36,7 @@
       font-size: 4rem;
       letter-spacing: 2px;
       text-shadow: 0 0 10px #000;
+      text-transform: lowercase;
     }
 
     nav {
@@ -43,7 +44,6 @@
       padding: 1rem 2rem;
       display: flex;
       justify-content: center;
-      gap: 2rem;
       font-size: 0.95rem;
       border-bottom: 1px solid #222;
       position: sticky;
@@ -76,41 +76,42 @@
       display: none;
       position: absolute;
       top: 2.5rem;
+      left: 0;
       background-color: #1a1a1a;
       padding: 1rem;
       border: 1px solid #333;
       z-index: 1001;
+      min-width: 220px;
     }
 
     .dropdown-content a {
       display: block;
       padding: 0.3rem 0;
       font-size: 0.9rem;
+      white-space: nowrap;
     }
 
-    nav ul li:hover .dropdown-content {
+    nav ul li:hover .dropdown-content,
+    .dropdown-content:hover {
       display: block;
     }
 
-    main {
-      max-width: 900px;
-      margin: 4rem auto;
-      padding: 0 2rem;
+    #qparadox-description {
+      text-align: center;
+      padding: 3rem 2rem;
+      max-width: 800px;
+      margin: auto;
     }
 
-    section {
-      margin-bottom: 4rem;
-    }
-
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #fff;
-    }
-
-    p {
+    #qparadox-description p {
+      font-size: 1.1rem;
       color: #ccc;
-      font-size: 1.05rem;
+    }
+
+    #qparadox-description p:first-child {
+      font-style: italic;
+      font-size: 1.2rem;
+      color: #d0d0d0;
     }
 
     footer {
@@ -140,8 +141,8 @@
 
   <nav>
     <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#introduction">About</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="introduction.html">Introduction</a></li>
       <li><a href="#">Research</a></li>
       <li>
         <a href="#">Concepts</a>
@@ -179,26 +180,16 @@
   </nav>
 
   <header>
-    <h1>Qparadox</h1>
+    <h1>qparadox</h1>
   </header>
 
-  <main>
-    <section id="introduction">
-      <h2>Introduction</h2>
-      <p>
-        Quantum physics and theoretical physics are the two areas I find most fascinating. They're not just branches of science — they're ways of thinking about the world that reveal just how strange and complex reality really is.
-        <br><br>
-        Quantum physics deals with particles and energy at the smallest possible scale. It’s where things behave in ways that feel impossible — particles being in two places at once, reacting to being observed, and staying connected across distances. It challenges how we think about space, time, and causality.
-        <br><br>
-        Theoretical physics is more about ideas and models. It's where the universe is explored through equations, logic, and abstract reasoning. Instead of just testing what we already know, theoretical physics asks what might be possible. It's about imagining new dimensions, new laws of nature, and better ways of understanding everything from black holes to the structure of space itself.
-        <br><br>
-        This site is where I bring together everything I'm learning, wondering about, and working on. It's not just a place to share information — it's a space to explore and build.
-      </p>
-    </section>
-  </main>
+  <section id="qparadox-description">
+    <p>This is where inquiry fractures and the familiar becomes unknowable.</p>
+    <p><span style="font-style: italic;">qparadox</span> is an ongoing body of theoretical reflection, research, and intellectual architecture, standing at the intersection of physics, philosophy, and the ineffable logic beneath reality.</p>
+  </section>
 
   <footer>
-    © 2025 Qparadox. All rights reserved.
+    © 2025 qparadox. All rights reserved.
   </footer>
 
 </body>
