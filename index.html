@@ -5,121 +5,63 @@
   <title>qparadox</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background-color: #0e0e0e;
       color: #e0e0e0;
       font-family: 'Georgia', serif;
       line-height: 1.6;
-      position: relative;
       overflow-x: hidden;
     }
-
     nav {
       background-color: #101010;
       padding: 1rem 2rem;
-      display: flex;
-      justify-content: center;
+      display: flex; justify-content: center;
       font-size: 0.95rem;
       border-bottom: 1px solid #222;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      position: sticky; top: 0; z-index: 10;
     }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-      position: relative;
-    }
-
-    nav ul li {
-      position: relative;
-    }
-
-    nav a {
-      color: #ccc;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    nav a:hover {
-      color: #fff;
-    }
-
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul li { position: relative; }
+    nav a { color: #ccc; text-decoration: none; transition: color 0.3s; }
+    nav a:hover { color: #fff; }
     .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 2.5rem;
-      left: 0;
-      background-color: #1a1a1a;
-      padding: 1rem;
-      border: 1px solid #333;
-      z-index: 1001;
-      min-width: 220px;
+      display: none; position: absolute; top: 2.5rem; left: 0;
+      background-color: #1a1a1a; padding: 1rem; border: 1px solid #333;
+      z-index: 1001; min-width: 220px;
     }
-
-    .dropdown-content a {
-      display: block;
-      padding: 0.3rem 0;
-      font-size: 0.9rem;
-      white-space: nowrap;
-    }
-
     nav ul li:hover .dropdown-content,
-    .dropdown-content:hover {
-      display: block;
-    }
-
-    #particles-js {
-      position: absolute;
-      width: 100%;
-      height: 100vh;
-      z-index: 0;
-      top: 0;
-      left: 0;
-    }
-
+    .dropdown-content:hover { display: block; }
     header {
-      background-color: #0e0e0e;
-      height: 90vh;
-      position: relative;
-      z-index: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
+      position: relative; background-color: #0e0e0e;
+      height: 90vh; display: flex; justify-content: center;
+      align-items: center; text-align: center; overflow: hidden;
     }
-
+    #particles-js-header {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+    /* subtle equation watermark */
+    header::before {
+      content: 'ħψ = Eψ'; /* Schrödinger’s equation snippet */
+      position: absolute;
+      font-size: 12rem;
+      color: rgba(255,255,255,0.03);
+      top: 30%; left: 50%;
+      transform: translate(-50%, -50%) rotate(10deg);
+      z-index: 0;
+      pointer-events: none;
+    }
     header h1 {
-      font-size: 4rem;
-      letter-spacing: 2px;
+      font-size: 4rem; letter-spacing: 2px;
       text-shadow: 0 0 10px #000;
       text-transform: lowercase;
-      margin: 0 2rem;
-      position: relative;
-      z-index: 1;
+      margin: 0 2rem; z-index: 1;
     }
-
     .image-block {
-      text-align: center;
-      flex: 1;
-      position: relative;
-      z-index: 1;
+      flex: 1; text-align: center; z-index: 1;
     }
-
-    .image-block a {
-      color: #e0e0e0;
-      text-decoration: none;
-      font-size: 1.1rem;
-    }
-
     .image-block img {
       border: 3px solid #999;
       border-radius: 8px;
@@ -127,79 +69,43 @@
       height: auto;
       transition: transform 0.3s, box-shadow 0.3s;
     }
-
     .image-block img:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 15px rgba(255,255,255,0.2);
     }
-
-    .arrow {
-      font-size: 1.2rem;
-      margin-left: 0.5rem;
-      display: inline-block;
-      transition: transform 0.2s;
-    }
-
-    .image-block a:hover .arrow {
-      transform: translateX(5px);
-    }
-
-    #qparadox-description {
-      text-align: center;
-      padding: 3rem 2rem;
-      max-width: 800px;
-      margin: auto;
-    }
-
-    #qparadox-description p {
+    .image-block a {
+      color: #e0e0e0;
+      text-decoration: none;
       font-size: 1.1rem;
-      color: #ccc;
     }
-
+    .arrow {
+      font-size: 1.2rem; margin-left: 0.5rem;
+      display: inline-block; transition: transform 0.2s;
+    }
+    .image-block a:hover .arrow { transform: translateX(5px); }
+    #qparadox-description {
+      text-align: center; padding: 3rem 2rem;
+      max-width: 800px; margin: auto;
+      font-size: 1.1rem; color: #ccc;
+    }
     #qparadox-description p:first-child {
-      font-style: italic;
-      font-size: 1.2rem;
-      color: #d0d0d0;
+      font-style: italic; font-size: 1.2rem; color: #d0d0d0;
     }
-
     footer {
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.85rem;
-      color: #777;
+      text-align: center; padding: 2rem;
+      font-size: 0.85rem; color: #777;
     }
-
     @media (max-width: 768px) {
-      header h1 {
-        font-size: 2.5rem;
-      }
-
-      nav ul {
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .dropdown-content {
-        position: static;
-      }
-
-      header > div {
-        flex-direction: column;
-        gap: 2rem;
-      }
-
-      .image-block img {
-        width: 80%;
-      }
+      header { height: auto; padding: 4rem 0; }
+      header h1 { font-size: 2.5rem; }
+      .image-block img { width: 80%; }
+      header > div { flex-direction: column; gap: 2rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- 🌌 Particles Background -->
-  <div id="particles-js"></div>
-
-  <!-- 🧭 Navigation -->
+  <!-- Navigation -->
   <nav>
     <ul>
       <li><a href="index.html">Home</a></li>
@@ -240,59 +146,53 @@
     </ul>
   </nav>
 
-  <!-- 🧠 Header Section -->
+  <!-- Header with Particles and Watermark -->
   <header>
-    <div style="display: flex; align-items: center; justify-content: center; gap: 4rem; flex-wrap: wrap; width: 100%; max-width: 1200px;">
+    <div id="particles-js-header"></div>
+    <div style="display:flex; align-items:center; justify-content:center; gap:4rem; flex-wrap:wrap; width:100%; max-width:1200px; z-index:1;">
       <div class="image-block">
         <a href="introduction.html">
           <img src="intro-image.jpg" alt="Introduction">
-        </a>
-        <br>
+        </a><br>
         <a href="introduction.html">Introduction <span class="arrow">→</span></a>
       </div>
-
       <h1>qparadox</h1>
-
       <div class="image-block">
         <a href="history.html">
           <img src="einstein.jpg" alt="History">
-        </a>
-        <br>
+        </a><br>
         <a href="history.html">History <span class="arrow">→</span></a>
       </div>
     </div>
   </header>
 
-  <!-- 💬 Description -->
+  <!-- Main Description -->
   <section id="qparadox-description">
     <p>This is where inquiry fractures and the familiar becomes unknowable.</p>
     <p><span style="font-style: italic;">qparadox</span> is an ongoing body of theoretical reflection, research, and intellectual architecture, standing at the intersection of physics, philosophy, and the ineffable logic beneath reality.</p>
   </section>
 
-  <!-- 🔚 Footer -->
-  <footer>
-    © 2025 qparadox. All rights reserved.
-  </footer>
+  <footer>© 2025 qparadox. All rights reserved.</footer>
 
-  <!-- 🌠 Particles.js Script -->
+  <!-- Particles.js -->
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
-    particlesJS('particles-js', {
-      "particles": {
-        "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
-        "color": { "value": "#ffffff" },
-        "shape": { "type": "circle" },
-        "opacity": { "value": 0.4, "random": true },
-        "size": { "value": 3, "random": true },
-        "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.2, "width": 1 },
-        "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out" }
+    particlesJS('particles-js-header', {
+      particles: {
+        number: { value: 60, density: { enable: true, value_area: 500 } },
+        color: { value: '#ffffff' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.4, random: true },
+        size: { value: 4, random: true },
+        line_linked: { enable: true, distance: 140, color: '#ffffff', opacity: 0.2, width: 1 },
+        move: { enable: true, speed: 2, direction: 'none', out_mode: 'out' }
       },
-      "interactivity": {
-        "detect_on": "canvas",
-        "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false }, "resize": true },
-        "modes": { "grab": { "distance": 120, "line_linked": { "opacity": 0.4 } } }
+      interactivity: {
+        detect_on: 'canvas',
+        events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: false }, resize: true },
+        modes: { grab: { distance: 120, line_linked: { opacity: 0.4 } } }
       },
-      "retina_detect": true
+      retina_detect: true
     });
   </script>
 </body>
