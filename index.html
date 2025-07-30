@@ -102,24 +102,62 @@
     <a href="prelude.html" class="see-more">See More →</a>
   </header>
 
-  <!-- Brand Block -->
-  <div class="brand-block">
-    <h2>QParadox</h2>
-    <div>
-      <span class="notebook-cover" onclick="openNotebook()">
-        <img src="cover.png" alt="Notebook Cover">
-      </span>
-      <span class="schrodinger-box" onclick="toggleCatState()">
-        <img id="schrodinger-img" src="box.png" alt="Quantum box">
-        <div id="schrodinger-status" class="schrodinger-status">Click to observe cat</div>
-      </span>
-      <span class="brand-links">
-        <p><a href="introduction.html">New to QParadox? Start here →</a></p>
-        <p><a href="concepts.html">Want to learn more? Click here →</a></p>
-        <p><a href="timeline.html">Confused about the history? Look at our timeline →</a></p>
-      </span>
+ <!-- (Assuming the rest of your HTML stays above this part) -->
+
+<!-- Brand Wordmark with Kitty & Links -->
+<div class="brand-block" style="position: relative;">
+  <h2>QParadox</h2>
+  <div style="display: flex; justify-content: center; align-items: center;">
+    <!-- Notebook Cover (to left) -->
+    <div id="notebook-entry" onclick="openNotebook()" style="cursor: pointer; margin-right: 3rem;">
+      <img src="cover.png" alt="Notebook cover" style="width: 120px; height: auto;">
+    </div>
+
+    <!-- Schrödinger's Cat -->
+    <span class="schrodinger-box" onclick="toggleCatState()">
+      <img id="schrodinger-img" src="box.png" alt="Quantum box">
+      <div id="schrodinger-status" class="schrodinger-status">Click to observe cat</div>
+    </span>
+
+    <!-- Links -->
+    <span class="brand-links">
+      <p><a href="introduction.html">New to QParadox? Start here →</a></p>
+      <p><a href="concepts.html">Want to learn more? Click here →</a></p>
+      <p><a href="timeline.html">Confused about the history? Look at our timeline →</a></p>
+    </span>
+  </div>
+</div>
+
+<!-- Embedded YouTube video -->
+<div style="text-align: center; margin-top: 2rem;">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+    title="QParadox Theory Video" frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen></iframe>
+</div>
+
+<!-- Notebook Modal -->
+<div id="notebook-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000000cc; z-index:999; justify-content:center; align-items:center;">
+  <div style="background:#fff; border-radius:8px; padding:1rem; width:90%; max-width:700px; height:90%; overflow:auto; position:relative;">
+    <button onclick="closeNotebook()" style="position:absolute; top:10px; right:15px; background:#000; color:#fff; border:none; padding:6px 12px; cursor:pointer;">Close</button>
+    <div style="position:relative;">
+      <img src="notebooks.jpg" alt="Notebook Page" style="width:100%; display:block; z-index:1;">
+      <textarea id="notebookText" placeholder="Start typing here..." style="position:absolute; top:5%; left:7%; width:86%; height:90%; border:none; background:transparent; resize:none; font-family:'Courier New',monospace; font-size:14px; line-height:1.5; z-index:2; color:#333;"></textarea>
     </div>
   </div>
+</div>
+
+<!-- Notebook Script -->
+<script>
+  function openNotebook() {
+    document.getElementById('notebook-modal').style.display = 'flex';
+  }
+
+  function closeNotebook() {
+    document.getElementById('notebook-modal').style.display = 'none';
+  }
+</script>
+
 
   <!-- Explore -->
   <section id="explore">
@@ -189,15 +227,6 @@
         status.style.opacity = 1;
       },400);
     }
-
-    function toggleSide() {}
-    function addToNotebook() {}
-    function openNotebook() {
-      document.getElementById('notebook-overlay').style.display = 'block';
-    }
-    function closeNotebook() {
-      document.getElementById('notebook-overlay').style.display = 'none';
-    }
-  </script>
+ </script>
 </body>
 </html>
