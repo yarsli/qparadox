@@ -4,61 +4,60 @@
   <meta charset="UTF-8">
   <title>QParadox</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <!-- Add AOS for animations -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <style>
-    /* Your original CSS unchanged... */
+    /* Original CSS (unchanged) */
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#0e0e0e;color:#e0e0e0;font-family:Georgia,serif;overflow-x:hidden;}
+    a{color:inherit;text-decoration:none;}
+    nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;background:#101010;position:sticky;top:0;z-index:100;border-bottom:1px solid #333;}
+    nav .nav-left,nav .nav-right{display:flex;gap:1.8rem;}
+    nav .nav-center{font-size:1.5rem;font-weight:bold;letter-spacing:2px;}
+    nav a{font-size:1rem;transition:color .3s;}
+    nav a:hover{color:#fff;}
+    .icon-btn{font-size:1.2rem;cursor:pointer;color:#ccc;transition:color .3s;}
+    .icon-btn:hover{color:#fff;}
+    header{position:relative;text-align:center;padding:4rem 1rem;overflow:hidden;}
+    #particles{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;}
+    header h1{font-size:3rem;color:#fff;margin-bottom:1rem;position:relative;z-index:2;}
+    header p{max-width:700px;margin:0 auto;font-size:1.1rem;line-height:1.6;color:#ccc;margin-bottom:1.5rem;position:relative;z-index:2;}
+    .see-more{position:relative;z-index:2;display:inline-block;padding:.8rem 1.6rem;background:#555;color:#fff;border-radius:5px;transition:background .3s;}
+    .see-more:hover{background:#777;}
+    .brand-block{text-align:center;margin-bottom:3rem;}
+    .brand-block h2{font-size:4rem;margin:0;color:#fff;letter-spacing:3px;}
+    #explore{text-align:center;padding:3rem 1rem;}
+    #explore h2{font-size:2.2rem;margin-bottom:1rem;}
+    .grid{display:flex;justify-content:center;flex-wrap:wrap;gap:2rem;}
+    .grid a{padding:1rem 2rem;border:2px solid #444;color:#ccc;font-size:1.05rem;border-radius:6px;transition:all .3s;}
+    .grid a:hover{background:#222;border-color:#888;color:#fff;}
+    .theory-card{background:#222;padding:1.4rem;max-width:700px;margin:0 auto 3rem;border-radius:8px;box-shadow:0 0 8px rgba(0,0,0,0.5);}
+    .theory-card h2{color:#e0e0e0;margin-bottom:.6rem;}
+    .theory-card p{color:#ddd;line-height:1.5;}
+    .add-note{margin-top:1rem;background:#444;padding:.5rem 1.2rem;border:none;border-radius:5px;color:#fff;font-size:1rem;cursor:pointer;transition:background .3s;}
+    .add-note:hover{background:#666;}
+    .about-preview{background:linear-gradient(to right,#121212,#1b1b1b);padding:4rem 2rem;text-align:center;margin-top:2rem;border-top:1px solid #222;border-bottom:1px solid #222;box-shadow:0 0 12px rgba(0,0,0,0.3);}
+    .about-preview h2{font-size:2.2rem;margin-bottom:1.5rem;color:#ffffff;text-transform:uppercase;letter-spacing:1px;font-weight:600;}
+    .about-inner{max-width:750px;margin:0 auto;font-size:1.1rem;line-height:1.7;color:#cccccc;}
+    .about-inner p{margin-bottom:1.2rem;}
+    .see-more-btn{display:inline-block;margin-top:2rem;color:#fff;background-color:transparent;border:1px solid #888;padding:0.6rem 1.4rem;border-radius:5px;text-decoration:none;font-weight:bold;letter-spacing:0.5px;transition:all .3s ease;}
+    .see-more-btn:hover{background-color:#222;border-color:#fff;color:#fff;}
+    footer{text-align:center;padding:2rem;font-size:.85rem;color:#777;}
+    @media(max-width:768px){nav .nav-left,nav .nav-right{display:none;}nav .nav-center{justify-content:flex-start;padding:0 1rem;} .grid a{min-width:160px;} header h1{font-size:2.4rem;} .brand-block h2{font-size:3rem;}}
 
-    /* === NEW STYLING BELOW === */
-
-    /* Search bar styles */
-    .search-bar {
-      position: relative;
-      display: inline-block;
-    }
-    .search-bar input {
-      padding: 0.5rem 1.5rem 0.5rem .8rem;
-      border-radius:4px;
-      border:1px solid #444;
-      background:#1a1a1a;
-      color:#ccc;
-    }
-    .search-bar button {
-      position:absolute;
-      right:0.3rem; top:50%;
-      transform:translateY(-50%);
-      background:none; border:none;
-      color:#888; cursor:pointer; font-size:1.1rem;
-    }
-
-    /* Schrödinger Cat box */
-    .schrodinger-box {
-      max-width:200px;
-      margin:auto;
-      text-align:center;
-      cursor:pointer;
-      transition:transform .2s;
-    }
-    .schrodinger-box:hover {
-      transform:scale(1.03);
-    }
-    .schrodinger-box img {
-      width:100%;
-      opacity:1;
-      transition:opacity .4s;
-    }
-    .schrodinger-status {
-      margin-top:0.8rem;
-      color:#ccc;
-      min-height:1.2em;
-      transition:opacity .4s;
-    }
+    /* New styles for added features */
+    .search-bar{display:inline-block;position:relative;}
+    .search-bar input{padding:0.5rem 1.5rem 0.5rem 0.8rem;border:1px solid #444;border-radius:4px;background:#1a1a1a;color:#ccc;}
+    .search-bar button{position:absolute;right:0.3rem;top:50%;transform:translateY(-50%);background:none;border:none;color:#888;cursor:pointer;font-size:1.1rem;}
+    .schrodinger-box{max-width:220px;margin:1rem auto;text-align:center;cursor:pointer;transition:transform .2s;}
+    .schrodinger-box:hover{transform:scale(1.03);}
+    .schrodinger-box img{width:100%;opacity:1;transition:opacity .4s;}
+    .schrodinger-status{margin-top:0.6rem;color:#ccc;min-height:1.2em;transition:opacity .4s;}
   </style>
 </head>
 <body>
 
-  <!-- Your existing navigation -->
-  <nav>
+  <!-- Nav with search bar added -->
+  <nav data-aos="fade-down">
     <div class="nav-left">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
@@ -67,7 +66,6 @@
     </div>
     <div class="nav-center">QParadox</div>
     <div class="nav-right">
-      <!-- INSERT Search bar here -->
       <div class="search-bar">
         <input type="text" placeholder="Search...">
         <button>🔍</button>
@@ -76,77 +74,76 @@
     </div>
   </nav>
 
-  <!-- Particle background remains -->
-  <header>
+  <!-- Hero -->
+  <header data-aos="fade-in">
     <div id="particles"></div>
-    <h1>A Prelude to the Unknown</h1>
-    <p>QParadox is a digital space where the boundaries of science and thought begin to blur.…</p>
-    <a href="prelude.html" class="see-more">See More →</a>
+    <h1 data-aos="fade-up" data-aos-delay="200">A Prelude to the Unknown</h1>
+    <p data-aos="fade-up" data-aos-delay="400">
+      QParadox is a digital space where the boundaries of science and thought begin to blur. It explores the language of quantum physics through ideas like wave–particle duality, quantum entanglement, and the uncertainty that shapes the fabric of reality. It also reflects on what these ideas mean and how they challenge our understanding of logic, causality, and truth. This is not just theory. It is a space where physics meets philosophy and curiosity becomes the only constant.
+    </p>
+    <a href="prelude.html" class="see-more" data-aos="fade-up" data-aos-delay="600">See More →</a>
   </header>
 
-  <!-- Brand with QParadox -->
-  <div class="brand-block">
+  <!-- Brand & Schrodinger's Cat toggle -->
+  <div class="brand-block" data-aos="fade-up" data-aos-delay="800">
     <h2>QParadox</h2>
-
-    <!-- INSERT Schrödinger’s Cat box adjacent/below brand -->
-    <div data-aos="fade-up" data-aos-delay="400" style="margin-top:1rem;">
-      <div class="schrodinger-box" onclick="toggleCatState()">
-        <img id="schrodinger-img" src="box.png" alt="Quantum box">
-        <div id="schrodinger-status" class="schrodinger-status">Click the box to observe the cat.</div>
-      </div>
+    <div class="schrodinger-box" onclick="toggleCatState()">
+      <img id="schrodinger-img" src="box.png" alt="Quantum box">
+      <div id="schrodinger-status" class="schrodinger-status">Click the box to observe the cat.</div>
     </div>
   </div>
 
-  <!-- Explore Contents Section -->
-  <section id="explore">
+  <!-- Explore -->
+  <section id="explore" data-aos="fade-up" data-aos-delay="1000">
     <h2>Explore the Contents</h2>
     <div class="grid">
       <a href="introduction.html">Introduction</a>
       <a href="history.html">History</a>
-      <a href="#">Concepts</a>
-      <a href="#">Theory</a>
+      <a href="concepts.html">Concepts</a>
+      <a href="theory.html">Theory</a>
     </div>
   </section>
 
   <!-- Theory of the Week -->
-  <section class="theory-card" id="theory-card">
+  <section class="theory-card" id="theory-card" data-aos="fade-up" data-aos-delay="1200">
     <h2>Theory of the Week</h2>
-    <p id="theory-text">Quantum entanglement explores…</p>
+    <p id="theory-text">
+      Quantum entanglement explores how particles remain correlated across distance, defying classical intuition, and reshaping our understanding of locality and causality.
+    </p>
     <button class="add-note" onclick="addToNotebook()">Add to Notebook</button>
   </section>
 
-  <!-- Insert Featured YouTube Video -->
-  <section style="text-align:center; margin:2rem 0;" data-aos="fade-up" data-aos-delay="800">
-    <div style="max-width:800px; margin:auto;">
-      <iframe width="100%" height="450" src="https://www.youtube.com/embed/QkhBcLk_8f0" allowfullscreen style="border:none;border-radius:6px;"></iframe>
-      <p style="color:#ccc; margin-top:0.6rem;">Richard Feynman on <em>The Beauty of Not Knowing</em></p>
-    </div>
-  </section>
-
-  <!-- About Preview added near bottom -->
-  <section class="about-preview" data-aos="fade-up" data-aos-delay="1000">
+  <!-- About Preview -->
+  <section id="about-preview" class="about-preview" data-aos="fade-up" data-aos-delay="1400">
     <h2>About QParadox</h2>
     <div class="about-inner">
-      <p>QParadox is a personal website curated by a student with a deep interest in quantum physics…</p>
+      <p>
+        QParadox is a personal website curated by a student with a deep interest in quantum physics, theoretical science, and the questions that arise at the edge of understanding.
+      </p>
+      <p>
+        It is a space where complex ideas are broken down and explored through research, writing, and reflection. The goal is not just to explain, but to think — to create a quiet place where science and philosophy can meet and expand.
+      </p>
     </div>
-    <a href="about.html" class="see-more-btn">Read Full Bio →</a>
+    <a href="about.html" class="see-more-btn" data-aos="fade-up" data-aos-delay="1600">Read Full Bio →</a>
   </section>
 
-  <footer>© 2025 QParadox. All rights reserved.</footer>
+  <!-- YouTube Video -->
+  <section style="text-align:center;margin:2rem 0;" data-aos="fade-up" data-aos-delay="1800">
+    <div style="max-width:800px;margin:auto;">
+      <iframe width="100%" height="450" src="https://www.youtube.com/embed/QkhBcLk_8f0" allowfullscreen style="border:none;border-radius:6px;"></iframe>
+      <p style="color:#ccc;margin-top:0.6rem;">Richard Feynman on <em>The Beauty of Not Knowing</em></p>
+    </div>
+  </section>
 
-  <!-- AOS and Particles scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <footer data-aos="fade-up" data-aos-delay="2000">© 2025 QParadox. All rights reserved.</footer>
+
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>
     AOS.init({ once: true, duration: 800 });
-
     particlesJS('particles', {
-      particles: { number:{value:60}, color:{value:"#fff"}, shape:{type:"circle"},
-        opacity:{value:0.3}, size:{value:2},
-        line_linked:{enable:true,distance:140,color:"#fff",opacity:0.2,width:1},
-        move:{enable:true,speed:1}
-      },
-      interactivity:{ events:{ onhover:{ enable:true, mode:"grab"}}, modes:{ grab:{distance:120,line_linked:{opacity:0.4}}}},
+      particles:{number:{value:60},color:{value:"#ffffff"},shape:{type:"circle"},opacity:{value:0.3},size:{value:2},line_linked:{enable:true,distance:140,color:"#ffffff",opacity:0.2,width:1},move:{enable:true,speed:1}},
+      interactivity:{events:{onhover:{enable:true,mode:"grab"}},modes:{grab:{distance:120,line_linked:{opacity:0.4}}}},
       retina_detect:true
     });
 
@@ -156,18 +153,15 @@
       const alive = Math.random() > 0.5;
       img.style.opacity = 0;
       status.style.opacity = 0;
-      setTimeout(() => {
+      setTimeout(()=>{
         img.src = alive ? 'cat-alive.png' : 'cat-dead.png';
-        status.textContent = alive
-          ? "😺 Alive (quantum state preserved)"
-          : "💀 Dead (state collapsed)";
+        status.textContent = alive ? "😺 Alive (quantum state preserved)" : "💀 Dead (state collapsed)";
         img.style.opacity = 1;
         status.style.opacity = 1;
-      }, 400);
+      },400);
     }
-
-    function toggleSide() { /* placeholder for burger menu */}
-    function addToNotebook() { /* placeholder */}
+    function toggleSide() {}
+    function addToNotebook() {}
   </script>
 </body>
 </html>
