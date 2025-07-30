@@ -4,180 +4,124 @@
   <meta charset="UTF-8">
   <title>QParadox</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <!-- AOS Library -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <style>
-    /* Basic Reset & Body */
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { background:#0e0e0e; color:#e0e0e0; font-family:Georgia,serif; overflow-x:hidden; line-height:1.6; }
-    a { color:inherit; text-decoration:none; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#0e0e0e;color:#e0e0e0;font-family:Georgia,serif;line-height:1.6;}
+    a{color:inherit;text-decoration:none;}
 
-    /* Nav */
-    nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; background:#101010; position:sticky; top:0; z-index:100; border-bottom:1px solid #333; }
-    nav .left, nav .right { display:flex; gap:1.8rem; }
-    nav .center { font-size:1.5rem; font-weight:bold; letter-spacing:2px; }
-    nav a { font-size:1rem; transition:color .3s; }
-    nav a:hover, .icon-btn:hover { color:#fff; }
-    .icon-btn { font-size:1.2rem; cursor:pointer; color:#ccc; }
+    nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;background:#101010;position:sticky;top:0;z-index:100;border-bottom:1px solid #333;}
+    nav .left,nav .center,nav .right{display:flex;align-items:center;}
+    nav .left a,nav .right a{margin-right:1.8rem;font-size:1rem;transition:color .3s;}
+    nav .center{font-size:1.4rem;font-weight:bold;letter-spacing:2px;}
+    nav a:hover{color:#fff;}
 
-    /* Header + Particles */
-    header { position:relative; text-align:center; padding:4rem 1rem; overflow:hidden; }
-    #particles { position:absolute; width:100%; height:100%; top:0; left:0; z-index:1; }
-    header h1, header p, header .see-more { position:relative; z-index:2; opacity:0; }
-    header h1 { font-size:3rem; margin-bottom:1rem; color:#fff; }
-    header p { max-width:700px; margin:0 auto 1.5rem; color:#ccc; }
-    .see-more { padding:.8rem 1.6rem; background:#555; color:#fff; border-radius:5px; transition:background .3s; }
-    .see-more:hover { background:#777; }
+    .search-bar{position:relative;}
+    .search-bar input{padding:0.5rem 1.5rem .5rem 0.8rem;border-radius:4px;border:1px solid #444;background:#1a1a1a;color:#ccc;transition:border .3s;}
+    .search-bar input:focus{outline:none;border-color:#888;}
+    .search-bar button{position:absolute;right:0.3rem;top:50%;transform:translateY(-50%);background:none;border:none;color:#888;cursor:pointer;font-size:1.1rem;transition:color .3s;}
+    .search-bar button:hover{color:#fff;}
 
-    /* Brand */
-    .brand-block { text-align:center; margin-bottom:3rem; opacity:0; }
-    .brand-block h2 { font-size:4rem; color:#fff; letter-spacing:3px; }
+    header{padding:5rem 2rem;text-align:center;position:relative;}
+    header h1{font-size:3rem;margin-bottom:1.2rem;color:#fff;}
+    header p{max-width:700px;margin:0 auto 1.8rem;color:#ccc;}
+    .see-more{display:inline-block;padding:.8rem 1.6rem;background:#555;color:#fff;border-radius:5px;transition:background .3s;}
+    .see-more:hover{background:#777;}
 
-    /* Explore */
-    #explore { text-align:center; padding:3rem 1rem; opacity:0; }
-    #explore h2 { font-size:2.2rem; margin-bottom:1rem; }
-    .grid { display:flex; justify-content:center; flex-wrap:wrap; gap:2rem; }
-    .grid a { padding:1rem 2rem; border:2px solid #444; color:#ccc; font-size:1.05rem; border-radius:6px; transition:0.3s; }
-    .grid a:hover { background:#222; border-color:#888; color:#fff; }
+    section {padding:3rem 2rem;}
+    #explore h2{font-size:2.2rem;color:#fff;text-align:center;margin-bottom:1.5rem;}
+    .grid{display:flex;justify-content:center;flex-wrap:wrap;gap:1.8rem;}
+    .grid a{padding:1rem 1.8rem;border:2px solid #444;color:#ccc;font-size:1.05rem;border-radius:6px;transition:0.3s;}
+    .grid a:hover{background:#222;border-color:#888;color:#fff;}
 
-    /* Theory card */
-    .theory-card { background:#222; padding:1.4rem; max-width:700px; margin:0 auto 3rem; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.5); opacity:0; }
-    .theory-card h2 { color:#e0e0e0; margin-bottom:.6rem; }
-    .theory-card p { color:#ddd; }
-    .add-note { margin-top:1rem; background:#444; padding:.5rem 1.2rem; border:none; border-radius:5px; color:#fff; transition:background .3s; cursor:pointer; }
-    .add-note:hover { background:#666; }
+    .video {text-align:center;margin-top:3rem;}
+    .video iframe{width:100%;max-width:800px;height:450px;border:none;border-radius:6px;}
+    .video-caption {margin-top:0.6rem;font-size:1.1rem;color:#ccc;}
+    .video-bio {font-size:0.95rem;color:#aaa;font-style:italic;}
 
-    /* Featured video */
-    .featured-video { max-width:800px; margin:3rem auto 0; text-align:center; opacity:0; }
-    .featured-video h2 { color:#fff; font-size:2rem; margin-bottom:1rem; }
-    .video-wrapper { position:relative; padding-bottom:56.25%; height:0; overflow:hidden; }
-    .video-wrapper iframe { position:absolute; width:100%; height:100%; border:none; }
-    .video-caption { margin-top:.8rem; color:#ccc; font-size:1rem; }
-    .video-bio { margin-top:.5rem; color:#aaa; font-size:.95rem; font-style:italic; }
+    .cat-section {text-align:center;margin-top:4rem;}
+    .cat-box {display:inline-block;background:#202020;border:2px solid #444;border-radius:10px;padding:1.5rem;cursor:pointer;transition:background .3s;}
+    .cat-box:hover{background:#2a2a2a;}
+    .cat-box img{max-width:160px;transition:opacity .4s;}
+    .cat-status{margin-top:1rem;font-size:1.1rem;color:#ccc;min-height:24px;}
 
-    /* Schrodinger toggle */
-    .cat-toggle { max-width:400px; margin:2rem auto; text-align:center; opacity:0; }
-    .cat-toggle h3 { font-size:1.3rem; color:#fff; margin-bottom:.5rem; }
-    .cat-box { background:#1a1a1a; padding:1rem; border-radius:6px; }
-    .cat-box button { padding:.6rem 1.2rem; border:none; background:#444; color:#fff; border-radius:4px; cursor:pointer; transition:background .3s; }
-    .cat-box button:hover { background:#666; }
-    .cat-box img { margin-top:1rem; max-width:100%; display:none; }
+    footer{text-align:center;padding:2rem;font-size:.85rem;color:#777;}
 
-    /* About */
-    .about-preview { background:linear-gradient(to right,#121212,#1b1b1b); padding:4rem 2rem; text-align:center; margin-top:3rem; border-top:1px solid #222; border-bottom:1px solid #222; box-shadow:0 0 12px rgba(0,0,0,0.3); opacity:0; }
-    .about-preview h2 { font-size:2.2rem; color:#fff; margin-bottom:1.5rem; text-transform:uppercase; letter-spacing:1px; }
-    .about-inner { max-width:750px; margin:0 auto; color:#ccc; line-height:1.7; }
-    .about-inner p { margin-bottom:1.2rem; }
-    .see-more-btn { display:inline-block; margin-top:2rem; padding:.6rem 1.4rem; border:1px solid #888; color:#fff; border-radius:5px; font-weight:bold; transition:all .3s; }
-    .see-more-btn:hover { background:#222; border-color:#fff; color:#fff; }
-
-    /* Footer */
-    footer { text-align:center; padding:2rem; color:#777; font-size:.85rem; }
-
-    @media(max-width:768px){
-      nav .left, nav .right { display:none; }
-      nav .center { justify-content:flex-start; padding:0 1rem; }
-      .grid a { min-width:160px; }
-      header h1 { font-size:2.4rem; }
-      .brand-block h2 { font-size:3rem; }
-    }
+    [data-aos] {opacity:0;}
   </style>
 </head>
 <body>
 
-  <nav>
-    <div class="left">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="projects.html">Projects</a>
-      <a href="contact.html">Contact</a>
+<nav>
+  <div class="left">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="center">QParadox</div>
+  <div class="right">
+    <div class="search-bar">
+      <input type="text" placeholder="Search...">
+      <button>🔍</button>
     </div>
-    <div class="center">QParadox</div>
-    <div class="right">
-      <span class="icon-btn">🔍</span>
-      <span class="icon-btn" onclick="toggleSide()">☰</span>
-    </div>
-  </nav>
+  </div>
+</nav>
 
-  <header data-aos="fade-in">
-    <div id="particles"></div>
-    <h1 data-aos="fade-up" data-aos-delay="200">A Prelude to the Unknown</h1>
-    <p data-aos="fade-up" data-aos-delay="400">
-      QParadox is a space where physics meets philosophy, ...
-    </p>
-    <a href="prelude.html" class="see-more" data-aos="fade-up" data-aos-delay="600">See More →</a>
-  </header>
+<header data-aos="fade-in">
+  <h1 data-aos="fade-up" data-aos-delay="200">A Prelude to the Unknown</h1>
+  <p data-aos="fade-up" data-aos-delay="400">
+    QParadox is a digital space where the boundaries of science and thought begin to blur. It explores the language of quantum physics through ideas like wave–particle duality, quantum entanglement, and the uncertainty that shapes the fabric of reality. It also reflects on what these ideas mean and how they challenge our understanding of logic, causality, and truth. This is not just theory. It is a space where physics meets philosophy and curiosity becomes the only constant.
+  </p>
+  <a data-aos="fade-up" data-aos-delay="600" href="prelude.html" class="see-more">See More →</a>
+</header>
 
-  <div class="brand-block" data-aos="fade-in" data-aos-delay="800"><h2>QParadox</h2></div>
+<section id="explore" data-aos="fade-up" data-aos-delay="800">
+  <h2>Explore the Contents</h2>
+  <div class="grid">
+    <a href="introduction.html">Introduction</a>
+    <a href="history.html">History</a>
+    <a href="concepts.html">Concepts</a>
+    <a href="theory.html">Theory</a>
+  </div>
+</section>
 
-  <section id="explore" data-aos="fade-up" data-aos-delay="1000">
-    <h2>Explore the Contents</h2>
-    <div class="grid">
-      <a href="introduction.html">Introduction</a>
-      <a href="history.html">History</a>
-      <a href="#">Concepts</a>
-      <a href="#">Theory</a>
-    </div>
-  </section>
+<section class="video" data-aos="fade-up" data-aos-delay="1000">
+  <iframe src="https://www.youtube.com/embed/QkhBcLk_8f0" allowfullscreen></iframe>
+  <p class="video-caption">Richard Feynman on <em>The Beauty of Not Knowing</em></p>
+  <p class="video-bio">A short clip where Feynman reflects on the power of not knowing—the beauty in mystery and inquiry.</p>
+</section>
 
-  <section class="theory-card" data-aos="fade-up" data-aos-delay="1200">
-    <h2>Theory of the Week</h2>
-    <p id="theory-text">Quantum entanglement explores ...</p>
-    <button class="add-note" onclick="addToNotebook()">Add to Notebook</button>
-  </section>
+<section class="cat-section" data-aos="fade-up" data-aos-delay="1200">
+  <h3>Schrödinger’s Cat</h3>
+  <p>Click the box below to collapse the wave function and reveal the cat’s fate.</p>
+  <div class="cat-box" onclick="toggleCat()">
+    <img id="cat-img" src="box.png" alt="Quantum box">
+    <p id="cat-status" class="cat-status">Is it alive... or dead?</p>
+  </div>
+</section>
 
-  <!-- Featured Video -->
-  <section class="featured-video" data-aos="fade-up" data-aos-delay="1400">
-    <h2>Featured Lecture</h2>
-    <div class="video-wrapper">
-      <iframe src="https://www.youtube.com/embed/QkhBcLk_8f0" allowfullscreen></iframe>
-    </div>
-    <p class="video-caption">Richard Feynman on <em>The Beauty of Not Knowing</em></p>
-    <p class="video-bio">A short clip where Feynman reflects on the power of not knowing—the beauty in mystery and inquiry.</p>
-  </section>
+<footer>© 2025 QParadox. All rights reserved.</footer>
 
-  <!-- Schrödinger's Cat Toggle -->
-  <section class="cat-toggle" data-aos="fade-up" data-aos-delay="1600">
-    <h3>Schrödinger’s Cat</h3>
-    <div class="cat-box">
-      <button onclick="toggleCat()">Check the Box</button>
-      <img id="cat-img" src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Schr%C3%B6dinger%27s_cat_-_BLINK_tag.gif" alt="Schrödinger's Cat public domain gif">
-    </div>
-  </section>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({once:true, duration:800});
 
-  <!-- About Preview -->
-  <section class="about-preview" data-aos="fade-up" data-aos-delay="1800">
-    <h2>About QParadox</h2>
-    <div class="about-inner">
-      <p>QParadox is a personal website curated by a student with a deep interest in quantum physics...</p>
-      <p>It is a space where complex ideas are broken down...</p>
-    </div>
-    <a href="about.html" class="see-more-btn">Read Full Bio →</a>
-  </section>
-
-  <footer>© 2025 QParadox. All rights reserved.</footer>
-
-  <!-- scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-  <script>
-    particlesJS('particles', {
-      particles:{ number:{value:60}, color:{value:"#ffffff"}, shape:{type:"circle"},
-        opacity:{value:0.3}, size:{value:2},
-        line_linked:{enable:true,distance:140,color:"#ffffff",opacity:0.2,width:1},
-        move:{enable:true,speed:1} },
-      interactivity:{ events:{onhover:{enable:true,mode:"grab"}}, modes:{grab:{distance:120,line_linked:{opacity:0.4}}} },
-      retina_detect:true
-    });
-
-    AOS.init({ once:true, duration:800 });
-
-    function toggleCat(){
-      const img = document.getElementById('cat-img');
-      img.style.display = img.style.display === 'block' ? 'none' : 'block';
-    }
-    function addToNotebook(){ /* placeholder */ }
-    function toggleSide(){ /* placeholder */ }
-  </script>
+  function toggleCat() {
+    const img = document.getElementById('cat-img');
+    const status = document.getElementById('cat-status');
+    const alive = Math.random() > 0.5;
+    img.style.opacity = 0;
+    status.style.opacity = 0;
+    setTimeout(()=>{
+      img.src = alive ? 'cat-alive.png' : 'cat-dead.png';
+      status.textContent = alive
+        ? "😺 Alive (quantum state preserved)"
+        : "💀 Dead (state collapsed)";
+      img.style.opacity = 1;
+      status.style.opacity = 1;
+    }, 400);
+  }
+</script>
 </body>
 </html>
