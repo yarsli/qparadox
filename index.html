@@ -5,51 +5,120 @@
   <title>QParadox</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <style>
-    body { margin:0; padding:0; background:#0e0e0e; color:#e0e0e0; font-family:Georgia,serif; }
-    nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; background:#101010; position:sticky; top:0; z-index:100; border-bottom:1px solid #333; }
-    nav .nav-left { display:flex; gap:1.6rem; }
-    nav .nav-left a { color:#ccc; font-size:1rem; text-decoration:none; transition:color .3s; }
-    nav .nav-left a:hover { color:#fff; }
+    /* Reset & Body */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#0e0e0e; color:#e0e0e0; font-family:Georgia,serif; overflow-x:hidden; }
+    a { color:inherit; text-decoration:none; }
+
+    /* Nav Bar */
+    nav { display:flex; justify-content:space-between; align-items:center;
+      padding:1rem 2rem; background:#101010; position:sticky; top:0; z-index:100;
+      border-bottom:1px solid #333; }
+    nav .nav-left, nav .nav-right { display:flex; gap:1.8rem; }
     nav .nav-center { font-size:1.5rem; font-weight:bold; letter-spacing:2px; }
-    nav .nav-right { display:flex; gap:1rem; }
-    nav .icon-btn { font-size:1.2rem; cursor:pointer; color:#ccc; transition:color .3s; }
-    nav .icon-btn:hover { color:#fff; }
+    nav a { font-size:1rem; transition:color .3s; }
+    nav a:hover { color:#fff; }
+    .icon-btn { font-size:1.2rem; cursor:pointer; color:#ccc; transition:color .3s; }
+    .icon-btn:hover { color:#fff; }
 
+    /* Header & Hero */
     header { text-align:center; padding:4rem 1rem; }
-    header h1 { font-size:3rem; margin-bottom:1rem; color:#fff; letter-spacing:1px; }
-    header p { max-width:700px; margin:0 auto; font-size:1.1rem; line-height:1.6; color:#ccc; margin-bottom:1.5rem; }
-    header .see-more { display:inline-block; padding:.8rem 1.6rem; background:#555; color:#fff; border-radius:5px; font-size:1.05rem; transition:background .3s; }
-    header .see-more:hover { background:#777; }
+    header h1 { font-size:3rem; color:#fff; margin-bottom:1rem; }
+    header p { max-width:700px; margin:0 auto; font-size:1.1rem;
+      line-height:1.6; color:#ccc; margin-bottom:1.5rem; }
+    .see-more { display:inline-block; padding:.8rem 1.6rem;
+      background:#555; color:#fff; border-radius:5px; transition:background .3s; }
+    .see-more:hover { background:#777; }
 
-    /* QParadox logo wordmark */
+    /* Brand Wordmark */
     .brand-block { text-align:center; margin-bottom:3rem; }
     .brand-block h2 { font-size:4rem; margin:0; color:#fff; letter-spacing:3px; }
 
-    /* Explore contents */
+    /* Explore Section */
     #explore { text-align:center; padding:3rem 1rem; }
     #explore h2 { font-size:2.2rem; margin-bottom:1rem; }
     .grid { display:flex; justify-content:center; flex-wrap:wrap; gap:2rem; }
-    .grid a { padding:1rem 2rem; border:2px solid #444; color:#ccc; font-size:1.05rem; border-radius:6px; transition:0.3s; }
+    .grid a { padding:1rem 2rem; border:2px solid #444; color:#ccc;
+      font-size:1.05rem; border-radius:6px; transition:all .3s; }
     .grid a:hover { background:#222; border-color:#888; color:#fff; }
 
-    /* Theory card */
-    .theory-card { background:#222; padding:1.4rem; max-width:700px; margin:0 auto 3rem; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.5); }
+    /* Theory of the Week */
+    .theory-card { background:#222; padding:1.4rem; max-width:700px;
+      margin:0 auto 3rem; border-radius:8px;
+      box-shadow:0 0 8px rgba(0,0,0,0.5); }
     .theory-card h2 { color:#e0e0e0; margin-bottom:.6rem; }
     .theory-card p { color:#ddd; line-height:1.5; }
-    .add-note { margin-top:1rem; background:#444; padding:.5rem 1.2rem; border:none; border-radius:5px; color:#fff; font-size:1rem; cursor:pointer; transition:background .3s; }
+    .add-note { margin-top:1rem; background:#444; padding:.5rem 1.2rem;
+      border:none; border-radius:5px; color:#fff;
+      font-size:1rem; cursor:pointer; transition:background .3s; }
     .add-note:hover { background:#666; }
 
-    footer { text-align:center; padding:2rem; font-size:.85rem; color:#777; }
+    /* About Section */
+    .about-preview {
+      background: linear-gradient(to right, #121212, #1b1b1b);
+      padding: 4rem 2rem;
+      text-align: center;
+      margin-top: 2rem;
+      border-top: 1px solid #222;
+      border-bottom: 1px solid #222;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+    }
+    .about-preview h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    .about-inner {
+      max-width: 750px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #cccccc;
+    }
+    .about-inner p { margin-bottom: 1.2rem; }
+    .see-more-btn {
+      display: inline-block;
+      margin-top: 2rem;
+      color: #fff;
+      background-color: transparent;
+      border: 1px solid #888;
+      padding: 0.6rem 1.4rem;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+    }
+    .see-more-btn:hover {
+      background-color: #222;
+      border-color: #fff;
+      color: #fff;
+    }
 
+    /* Footer */
+    footer {
+      text-align:center;
+      padding:2rem;
+      font-size:.85rem;
+      color:#777;
+    }
+
+    /* Responsive */
     @media(max-width:768px){
+      nav .nav-left, nav .nav-right { display:none; }
+      nav .nav-center { justify-content:flex-start; padding:0 1rem; }
+      .grid a { min-width:160px; }
       header h1 { font-size:2.4rem; }
       .brand-block h2 { font-size:3rem; }
-      .grid a { min-width:160px; }
-      nav .nav-left, nav .nav-right { display:none; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Navigation -->
   <nav>
     <div class="nav-left">
       <a href="index.html">Home</a>
@@ -64,18 +133,26 @@
     </div>
   </nav>
 
+  <!-- Hero Section -->
   <header>
     <h1>A Prelude to the Unknown</h1>
     <p>
-      QParadox is a digital space where the boundaries of science and thought begin to blur. It explores the language of quantum physics through ideas like wave–particle duality, quantum entanglement, and the uncertainty that shapes the fabric of reality. It also reflects on what these ideas mean and how they challenge our understanding of logic, causality, and truth. This is not just theory. It is a space where physics meets philosophy and curiosity becomes the only constant.
+      QParadox is a digital space where the boundaries of science and thought begin to blur.
+      It explores the language of quantum physics through ideas like wave–particle duality,
+      quantum entanglement, and the uncertainty that shapes the fabric of reality.
+      It also reflects on what these ideas mean and how they challenge our understanding
+      of logic, causality, and truth. This is not just theory. It is a space where physics
+      meets philosophy and curiosity becomes the only constant.
     </p>
     <a href="prelude.html" class="see-more">See More →</a>
   </header>
 
+  <!-- Brand Wordmark -->
   <div class="brand-block">
     <h2>QParadox</h2>
   </div>
 
+  <!-- Explore Section -->
   <section id="explore">
     <h2>Explore the Contents</h2>
     <div class="grid">
@@ -86,16 +163,36 @@
     </div>
   </section>
 
+  <!-- Theory of the Week -->
   <section class="theory-card" id="theory-card">
     <h2>Theory of the Week</h2>
     <p id="theory-text">
-      Quantum entanglement explores how particles remain correlated across distance, defying classical intuition...
+      Quantum entanglement explores how particles remain correlated across distance,
+      defying classical intuition...
     </p>
     <button class="add-note" onclick="addToNotebook()">Add to Notebook</button>
   </section>
 
+  <!-- About Preview Section -->
+  <section id="about-preview" class="about-preview">
+    <h2>About QParadox</h2>
+    <div class="about-inner">
+      <p>
+        QParadox is a personal website curated by a student with a deep interest in quantum physics,
+        theoretical science, and the questions that arise at the edge of understanding.
+      </p>
+      <p>
+        It is a space where complex ideas are broken down and explored through research, writing,
+        and reflection. The goal is not just to explain, but to think — to create a quiet place
+        where science and philosophy can meet and expand.
+      </p>
+    </div>
+    <a href="about.html" class="see-more-btn">Read Full Bio →</a>
+  </section>
+
+  <!-- Footer -->
   <footer>© 2025 QParadox. All rights reserved.</footer>
 
-  <!-- Scripts for side-panel, notebook, particles can go below -->
+  <!-- You can add scripts for sidebar, notebook, particles, etc. here -->
 </body>
 </html>
