@@ -1,807 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>QParadox • Theoretical Physics</title>
-
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-
-<!-- MathJax for equations -->
-<script>
-  window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, svg: { fontCache: 'global' } };
-</script>
-<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Theoretical Physics | QParadox</title>
 <style>
-  :root{
-    --bg:#0b0b0d;
-    --ink:#efeae2;
-    --ink-2:#d7d1c7;
-    --muted:#b9b3aa;
-    --accent:#caa36b;
-    --accent-2:#7aa0ff;
-    --accent-3:#a1e2b2;
-    --glass:rgba(255,255,255,.06);
-    --line:rgba(255,255,255,.12);
-    --shadow:0 10px 30px rgba(0,0,0,.6), inset 0 0 60px rgba(255,255,255,.02);
-    --radius:14px;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; color:var(--ink);
-    background:
-      radial-gradient(1200px 600px at 12% 0%, rgba(255,255,255,.05), transparent 60%),
-      radial-gradient(1200px 600px at 88% 12%, rgba(255,255,255,.04), transparent 60%),
-      var(--bg);
-    font-family:"Crimson Text", serif; line-height:1.72; letter-spacing:.2px; overflow-x:hidden;
-  }
-  body::before{
-    content:""; position:fixed; inset:0;
-    background:url('https://www.transparenttextures.com/patterns/blueprint.png');
-    opacity:.05; z-index:-3; pointer-events:none;
-  }
-  #sky{position:fixed; inset:0; z-index:-1; background:transparent;}
-
-  /* nav chrome */
-  .hamburger{position:fixed; top:20px; right:20px; z-index:2000; width:30px; height:22px; cursor:pointer}
-  .hamburger span{display:block; height:3px; background:var(--ink); margin:5px 0; transition:.3s}
-  .menu-overlay{position:fixed; inset:0; background:rgba(0,0,0,.9); backdrop-filter:blur(8px); transform:translateX(100%); transition:.4s; z-index:1500; padding:3rem 2rem}
-  .menu-overlay.open{transform:translateX(0)}
-  .menu-overlay nav a{display:block; color:var(--ink); font-family:"Playfair Display", serif; font-size:1.2rem; text-decoration:none; margin:1rem 0}
-  .menu-overlay nav a:hover{color:var(--accent)}
-  .scrollspy{position:fixed; top:50%; left:15px; transform:translateY(-50%); z-index:1400; display:flex; flex-direction:column; gap:10px}
-  .scrollspy a{width:10px; height:10px; border-radius:50%; background:var(--muted); display:block; transition:background .3s}
-  .scrollspy a.active{background:var(--accent)}
-  #backToTop{position:fixed; bottom:25px; right:25px; background:var(--glass); border:1px solid var(--line); border-radius:50%; width:42px; height:42px; color:var(--ink); display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; pointer-events:none; transition:opacity .3s; font-family:"JetBrains Mono", monospace}
-  #backToTop.show{opacity:1; pointer-events:auto}
-
-  /* layout */
-  header.hero{min-height:85vh; display:grid; place-items:center; padding:7rem 1.25rem 3rem; text-align:center; position:relative}
-  .brand{font-family:"Playfair Display", serif; font-weight:900; font-size:clamp(2.6rem, 4vw, 4.2rem); letter-spacing:.6px; line-height:1.15; margin:0; text-shadow:0 0 22px rgba(255,255,255,.12)}
-  .subtitle{max-width:1080px; margin:1rem auto 0; color:var(--ink-2); font-size:clamp(1.05rem, 1.3vw, 1.2rem)}
-  .breadcrumbs{margin-top:12px; font-family:"JetBrains Mono", monospace; font-size:.85rem; color:var(--muted)}
-  .breadcrumbs a{color:var(--ink-2); text-decoration:none}
-  .breadcrumbs a:hover{color:var(--accent)}
-  section{padding:4.5rem 1.25rem; border-top:1px solid var(--line)}
-  .wrap{width:min(1220px, 92%); margin:0 auto}
-  h2.section-title{font-family:"Playfair Display", serif; font-size:clamp(1.9rem, 3vw, 2.7rem); margin:0 0 1rem}
-  .lead{color:var(--ink-2); max-width:980px}
-
-  /* grids + cards */
-  .grid{display:grid; grid-template-columns:repeat(12, 1fr); gap:22px; margin-top:2rem}
-  .card{
-    grid-column:span 12; background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
-    border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
-    padding:1.4rem 1.2rem; position:relative; overflow:hidden; transition:transform .2s, box-shadow .3s, border-color .3s
-  }
-  .card:hover{transform:rotateX(3deg) rotateY(3deg) scale(1.02); border-color:rgba(255,255,255,.22); box-shadow:0 14px 40px rgba(0,0,0,.7), inset 0 0 80px rgba(255,255,255,.03)}
-  .card h3{font-family:"Playfair Display", serif; font-size:1.4rem; margin:.2rem 0 .6rem}
-  .badge{font-family:"JetBrains Mono", monospace; font-size:.74rem; color:#111; background:linear-gradient(90deg, var(--accent), #e6d1a8); padding:.28rem .55rem; border-radius:.35rem; display:inline-block; margin-bottom:.6rem}
-  .muted{color:var(--muted)}
-  @media(min-width:760px){ .span-6{grid-column:span 6} .span-4{grid-column:span 4} .span-3{grid-column:span 3} .span-8{grid-column:span 8} .span-9{grid-column:span 9} .span-12{grid-column:span 12} }
-
-  /* tabs (for equation wall) */
-  .tabs{display:flex; gap:10px; margin-top:1rem; flex-wrap:wrap}
-  .tab{font-family:"JetBrains Mono", monospace; font-size:.85rem; padding:.6rem .9rem; border:1px solid var(--line); border-radius:.6rem; background:var(--glass); color:var(--ink); cursor:pointer; transition:all .25s}
-  .tab[aria-selected="true"]{background:linear-gradient(90deg, rgba(202,163,107,.35), rgba(122,160,255,.25)); border-color:rgba(255,255,255,.28)}
-  .tabpanes>.pane{display:none; margin-top:1rem}
-  .tabpanes>.pane.active{display:block}
-
-  /* accordions, callouts */
-  details.accordion{border:1px solid var(--line); border-radius:.8rem; background:var(--glass); padding:1rem 1rem 0; margin:.8rem 0}
-  details.accordion summary{font-family:"Playfair Display", serif; font-size:1.1rem; cursor:pointer; list-style:none}
-  details.accordion[open]{box-shadow:var(--shadow)}
-  .callout{border-left:6px solid var(--accent); background:linear-gradient(180deg, rgba(202,163,107,.1), transparent); padding:1rem 1rem 1rem 1.1rem; border-radius:.6rem; transition:box-shadow .25s}
-  .callout.blue{border-left-color:var(--accent-2); background:linear-gradient(180deg, rgba(122,160,255,.12), transparent)}
-  .callout.green{border-left-color:var(--accent-3); background:linear-gradient(180deg, rgba(161,226,178,.12), transparent)}
-  .callout:hover{box-shadow:0 0 12px rgba(202,163,107,.5)}
-
-  .pill{display:inline-block; border:1px solid var(--line); padding:.35rem .6rem; border-radius:1rem; font-family:"JetBrains Mono", monospace; font-size:.75rem; background:var(--glass); margin:.2rem .2rem 0 0}
-  .cta{display:inline-block; margin-top:1rem; padding:.8rem 1.1rem; border-radius:.7rem; border:1px solid rgba(255,255,255,.25); background:linear-gradient(90deg, rgba(202,163,107,.32), rgba(122,160,255,.25)); color:var(--ink); font-family:"JetBrains Mono", monospace; text-decoration:none; transition:opacity .25s, transform .25s}
-  .cta:hover{opacity:.9; transform:translateY(-2px)}
-  pre{background:#101014; border:1px solid var(--line); box-shadow:var(--shadow); border-radius:.7rem; padding:1rem; overflow:auto; font-family:"JetBrains Mono", monospace; font-size:.92rem}
-
-  .quote{font-size:1.2rem; font-style:italic; color:var(--ink-2); text-align:center; max-width:900px; margin:1.2rem auto 0}
-  .credit{text-align:center; color:var(--muted); font-family:"JetBrains Mono", monospace; font-size:.85rem}
-  .reveal{opacity:0; transform:translateY(18px); transition:opacity .6s, transform .6s}
-  .reveal.in{opacity:1; transform:none}
-
-  /* timeline */
-  .timeline{display:flex; gap:18px; overflow:auto; scroll-snap-type:x mandatory; padding-bottom:.5rem}
-  .timeline .snap{scroll-snap-align:start; min-width:300px}
-  .timeline .year{font-family:"JetBrains Mono"; font-size:.8rem; color:var(--muted); letter-spacing:.5px}
-
-  /* tooltip */
-  .tip{border-bottom:1px dotted var(--muted); cursor:help; position:relative}
-  .tip:hover::after{content:attr(data-tip); position:absolute; left:0; top:110%; background:#1a1a1d; color:var(--ink-2); padding:.5rem .6rem; border:1px solid var(--line); border-radius:.5rem; font-size:.85rem; width:260px; z-index:10; box-shadow:var(--shadow)}
+    body {
+        background-color: #111;
+        color: #eee;
+        font-family: 'Playfair Display', serif;
+        line-height: 1.7;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        text-align: center;
+        padding: 2rem;
+        background: linear-gradient(to bottom, #1a1a1a, #000);
+    }
+    header h1 {
+        font-size: 3.5rem;
+        margin: 0;
+        letter-spacing: 2px;
+    }
+    header p {
+        font-size: 1.2rem;
+        color: #ccc;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    nav {
+        background-color: #000;
+        padding: 1rem;
+        text-align: center;
+        border-bottom: 1px solid #333;
+    }
+    nav a {
+        color: #eee;
+        text-decoration: none;
+        margin: 0 1rem;
+        font-size: 1.1rem;
+    }
+    nav a:hover {
+        color: #ffcc66;
+    }
+    section {
+        max-width: 1000px;
+        margin: 3rem auto;
+        padding: 0 1rem;
+    }
+    section h2 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        border-bottom: 1px solid #333;
+        padding-bottom: 0.3rem;
+    }
+    section p {
+        margin-bottom: 1rem;
+        color: #ddd;
+    }
+    .read-more {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background-color: #222;
+        color: #ffcc66;
+        border: 1px solid #ffcc66;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: 0.3s;
+    }
+    .read-more:hover {
+        background-color: #ffcc66;
+        color: #111;
+    }
+    footer {
+        text-align: center;
+        padding: 2rem;
+        color: #777;
+        border-top: 1px solid #333;
+        margin-top: 3rem;
+    }
 </style>
 </head>
 <body>
 
-<!-- Starfield -->
-<canvas id="sky" aria-hidden="true"></canvas>
-
-<!-- Hamburger -->
-<div class="hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></div>
-<div class="menu-overlay" id="menuOverlay" aria-hidden="true">
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="introduction.html">Introduction</a>
-    <a href="concepts.html">Concepts</a>
-    <a href="theoretical.html" style="color:var(--accent);">Theoretical</a>
-    <a href="experimental.html">Experimental</a>
-    <a href="computational.html">Computational</a>
-    <a href="projects.html">Projects</a>
-    <a href="history.html">History</a>
-    <a href="metaphysics.html">Metaphysics</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-</div>
-
-<!-- Scrollspy -->
-<div class="scrollspy" id="scrollspy" aria-hidden="true">
-  <a href="#what" title="What is"></a>
-  <a href="#core" title="Core Theories"></a>
-  <a href="#quantum" title="Quantum"></a>
-  <a href="#foundations" title="Foundations"></a>
-  <a href="#qft" title="QFT"></a>
-  <a href="#info" title="Information"></a>
-  <a href="#condensed" title="Topology"></a>
-  <a href="#cosmo" title="Cosmology"></a>
-  <a href="#qgravity" title="Quantum Gravity"></a>
-  <a href="#philosophy" title="Philosophy"></a>
-  <a href="#reading" title="Reading"></a>
-  <a href="#crossroads" title="Crossroads"></a>
-</div>
-
-<!-- Back to Top -->
-<div id="backToTop" aria-label="Back to top">↑</div>
-
-<header class="hero">
-  <div class="wrap">
-    <div class="breadcrumbs"><a href="introduction.html">Start Here</a> / Theoretical Physics</div>
-    <h1 class="brand">Theoretical Physics</h1>
-    <p class="subtitle">
-      This page is a long corridor in an old library. It begins with the familiar and walks toward ideas that bend the mind.
-      The aim is not trivia. The aim is understanding with enough depth that the symbols feel honest and the pictures feel earned.
-      We favor clarity and structure with warmth and patience.
+<header>
+    <h1>Theoretical Physics</h1>
+    <p>
+        Step into the realm where mathematics becomes a language of the cosmos and thought experiments shape our understanding of reality. 
+        This hub invites you to explore the great frameworks, quantum mysteries, and philosophical puzzles that define the frontier of human knowledge.
     </p>
-    <div class="quote">A theory is a promise to make sense of many facts with a few good ideas.</div>
-    <div class="credit">QParadox</div>
-  </div>
 </header>
 
-<!-- WHAT -->
-<section id="what" class="reveal">
-  <div class="wrap">
-    <h2 class="section-title">What is theoretical physics</h2>
-    <p class="lead">
-      Theoretical physics is the craft of writing reality in a compressed language. The compression is not just about shorter equations.
-      It is about fewer assumptions and cleaner principles that organize many possible experiments at once. A good theory gives you a way to ask
-      the right questions and a way to notice when you have fooled yourself. It does not replace experiments. It points to them, shapes them,
-      and interprets them. The engine is a cycle. You guess a structure, you translate it into mathematics, you derive consequences, you compare
-      with measurement, you keep what survives, and you discard or refine what does not. This is not cynicism. It is respect for the world.
+<nav>
+    <a href="index.html">Home</a>
+    <a href="concepts.html">Concepts</a>
+    <a href="theory.html">Theory</a>
+    <a href="projects.html">Projects</a>
+    <a href="contact.html">Contact</a>
+</nav>
+
+<section>
+    <h2>What is Theoretical Physics?</h2>
+    <p>
+        Theoretical physics seeks to understand the universe using the language of mathematics and the logic of pure thought. 
+        While experimental physics tests nature through observation, theoretical physics builds models and frameworks that can predict what those experiments might reveal. 
+        From the timeless laws of motion to the strange behavior of quantum particles, theoretical physics serves as the backbone of all physical science.
     </p>
-    <div class="callout">
-      A useful mental model is to separate three layers: principles, models, and calculations. Principles say what kind of stories are allowed.
-      Models pick the characters and their relations. Calculations tell you how those relations play out in time and in data. The art is to move
-      between these layers without getting lost.
-    </div>
-  </div>
+    <a class="read-more" href="what_is_theoretical.html">Read More</a>
 </section>
 
-<!-- CORE THEORIES -->
-<section id="core" class="reveal">
-  <div class="wrap">
-    <h2 class="section-title">Core theories you will meet</h2>
-    <p class="lead">We walk from classical to quantum with long steps and time to breathe. Each section ends with a door you can open next.</p>
-
-    <div class="grid">
-      <!-- Classical Mechanics -->
-      <article class="card span-12">
-        <div class="badge">Classical</div>
-        <h3>Classical mechanics: from forces to actions</h3>
-        <p>
-          Classical mechanics begins with the simple sentence that a body changes its motion when a force acts on it. The Newtonian picture turns this into
-          $\mathbf{F}=m\mathbf{a}$ and then builds a toolkit for forces: springs, gravity, friction, contact. You can solve many problems with that alone,
-          but the real depth appears when you step back and ask for a more universal viewpoint. Lagrangian mechanics says that instead of forces you should
-          think in terms of a single scalar function $L=T-V$ and a principle of stationary action $S=\int L\,dt$. The path taken by the system is one that
-          makes $S$ stationary with respect to small variations, which leads to the Euler–Lagrange equation
-          $\dfrac{d}{dt}(\partial L/\partial \dot{q})-\partial L/\partial q=0$. This change of viewpoint is not just elegant. It lets you choose coordinates
-          that match the symmetry of the problem, it makes constraints easy to handle, and it prepares your thinking for field theory and quantum mechanics.
-          Hamiltonian mechanics goes further and rewrites the motion in terms of coordinates and conjugate momenta, with evolution generated by a single
-          function $H$. The phase space flow preserves volume. The appearance of conserved quantities from symmetries is not a coincidence. It is the content
-          of Noether’s theorem and is one of the deepest unifying ideas you will meet.
-        </p>
-        <div class="callout green">
-          The shift from forces to actions is the first time you see how a new language can make old problems look obvious. The same logic will return in
-          quantum theory, where dynamics are generated not by forces but by operators that act on states.
-        </div>
-        <a class="cta" href="concepts.html#lagrange">Work a Lagrangian example</a>
-      </article>
-
-      <!-- Electromagnetism -->
-      <article class="card span-12">
-        <div class="badge">Fields</div>
-        <h3>Electromagnetism: unity from symmetry</h3>
-        <p>
-          Electromagnetism is the first complete field theory most students encounter. Maxwell’s equations unite electricity, magnetism, and light in four
-          compact relations. Written in differential form they say that electric charge is a source of field lines, magnetic field lines never begin or end,
-          changing magnetic fields create electric fields, and changing electric fields create magnetic fields. The equations are consistent with special
-          relativity and in fact help motivate it, since they pick out a universal speed $c$. The field viewpoint is not abstraction for its own sake.
-          It explains radiation, interference, the behavior of circuits, waves in media, and the structure of atoms once quantum enters the story.
-          When you learn to write electromagnetism in terms of a potential $A_\mu$ and a gauge symmetry, you are learning a pattern that extends to the
-          standard model of particle physics. The idea that a redundancy in description (a gauge choice) can encode a physical long range force is one of
-          the great surprises of modern physics and will return again when we talk about anomalies and the Higgs mechanism.
-        </p>
-        <div class="callout">
-          If you have ever aligned a laser and watched fringes brighten and fade, you have touched Maxwell’s equations with your hands. Theory earns its keep
-          when it gives names and rules to what your eyes already see.
-        </div>
-        <a class="cta" href="concepts.html#em">Open EM notes</a>
-      </article>
-
-      <!-- Relativity -->
-      <article class="card span-12">
-        <div class="badge">Geometry</div>
-        <h3>Relativity: spacetime as a player</h3>
-        <p>
-          Special relativity is a statement about the symmetry of nature. All inertial observers see the same laws and the same speed of light. From that
-          alone you discover that time and space mix, that simultaneity depends on motion, and that energy and mass are two faces of the same coin.
-          General relativity moves from symmetry to geometry. Gravity is not a force that pulls over a distance. It is the curvature of spacetime produced
-          by energy and momentum. Matter tells spacetime how to curve and curved spacetime tells matter how to move. The equations look compact
-          $G_{\mu\nu}+ \Lambda g_{\mu\nu}=(8\pi G/c^4)T_{\mu\nu}$, but their content includes black holes, gravitational waves, the expansion of the universe,
-          and the precise precession of Mercury. What is striking is how clean the assumptions are: local physics looks Minkowskian, motion follows geodesics,
-          and the dynamics come from an action built from curvature scalars. Even if quantum gravity will someday modify these rules at small scales,
-          the picture you learn here guides almost every conversation about the cosmos.
-        </p>
-        <div class="callout blue">
-          The geometric lesson is practical: if you can identify a symmetry you can choose coordinates that make the physics transparent. Geometry is the
-          art of picking the right view.
-        </div>
-        <a class="cta" href="concepts.html#relativity">Relativity primer</a>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- QUANTUM -->
-<section id="quantum" class="reveal">
-  <div class="wrap">
-    <h2 class="section-title">Quantum mechanics: a patient introduction</h2>
-    <p class="lead">
-      Quantum theory begins with a humble rule and a daring claim. The humble rule is that probabilities come from the squared magnitude of complex
-      amplitudes. The daring claim is that before you record an outcome the system is not in one classical state or another. It is in a superposition
-      that encodes possibilities and their phases. The mathematics is linear. The interpretation is subtle. We move slowly and do not mystify what can be said plainly.
+<section>
+    <h2>Core Classical Theories</h2>
+    <p>
+        Before the quantum age, our understanding of the universe was guided by the great classical theories: Newtonian mechanics, Maxwell's electromagnetism, and Einstein’s relativity. 
+        These ideas continue to power our technology and shape our worldview — from predicting planetary orbits to enabling the electricity that drives modern civilization.
     </p>
-
-    <div class="grid">
-      <article class="card span-12">
-        <div class="badge">States</div>
-        <h3>States and observables</h3>
-        <p>
-          A quantum state is represented by a vector $|\psi\rangle$ in a Hilbert space. An observable is represented by a Hermitian operator $\hat{A}$.
-          If you measure $\hat{A}$ on the state $|\psi\rangle$, the only outcomes you can obtain are its eigenvalues, and the probability for a particular
-          eigenvalue is set by the projection of $|\psi\rangle$ onto the corresponding eigenspace. This sounds abstract until you work a two level system.
-          Let $|0\rangle$ and $|1\rangle$ be eigenstates of $\hat{\sigma}_z$. A general state is $|\psi\rangle=\alpha|0\rangle+\beta|1\rangle$ with
-          $|\alpha|^2+|\beta|^2=1$. Measure $\hat{\sigma}_z$ and you see $+1$ with probability $|\alpha|^2$ and $-1$ with probability $|\beta|^2$.
-          Between measurements the state evolves smoothly by the Schrödinger equation $i\hbar\,\partial_t|\psi\rangle=\hat{H}|\psi\rangle$.
-          This split between smooth evolution and discrete outcomes is where much of the conceptual work of quantum foundations lives.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Superposition</div>
-        <h3>Interference and the meaning of a phase</h3>
-        <p>
-          Interference is not exotic. It is bookkeeping for how complex amplitudes add. If there are two indistinguishable paths with amplitudes
-          $A$ and $B$, the total amplitude is $A+B$ and the probability is $|A+B|^2$. The cross term $A^\*B+B^\*A$ depends on their relative phase.
-          Vary the path length and the phase changes, moving probability from one detector to another. Remove which path information and fringes return.
-          Introduce which path information and fringes fade. The lesson is that information about alternatives destroys interference, not because knowledge
-          has a magic power but because the full state, including the environment that holds the record, changes the amplitude structure.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Limits</div>
-        <h3>Uncertainty and what it really says</h3>
-        <p>
-          Heisenberg’s uncertainty relation is often misdescribed as a statement about disturbance. The clean statement is about spreads in results across
-          many identically prepared systems. For two observables $\hat{X}$ and $\hat{P}$ with commutator $[\hat{X},\hat{P}]=i\hbar$, the standard deviations
-          obey $\Delta X\,\Delta P\ge \hbar/2$. This is a property of the state and the operators, not your hands shaking at the apparatus. The inequality
-          explains why there is no physical state that is a delta function in both position and momentum. It does not say you cannot know anything. It tells
-          you what combinations of knowledge the theory allows. That is a strength. It keeps us honest about claims.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Entanglement</div>
-        <h3>Entanglement and the shape of correlations</h3>
-        <p>
-          Entanglement is not mystic unity. It is the logical structure of states that cannot be written as products of parts. Consider the Bell state
-          $(|00\rangle+|11\rangle)/\sqrt{2}$. Measure both qubits along the same axis and you see perfect correlations, yet each local outcome is random.
-          Bell’s theorem shows that no local hidden variable model can reproduce the pattern of correlations for all chosen measurement axes. The experiments
-          are clear. The correlations exceed the classical bound. What this rules out is a certain picture of pre existing local values. What it does not
-          force is faster than light signaling. Quantum theory remains consistent with relativity. The puzzle is not a channel of communication. It is the
-          structure of joint possibilities when you refuse to assign values that are not measured. When seen this way, the drama quiets and the principle
-          comes forward: constraints on joint statistics are the heart of the matter.
-        </p>
-        <div class="callout blue">
-          Entanglement is a resource. It powers quantum teleportation, super dense coding, and forms the fuel of error correction. The same structure that
-          surprises our intuition becomes a tool once we learn to handle it with care.
-        </div>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Measurement</div>
-        <h3>The measurement problem and the menu of interpretations</h3>
-        <p>
-          The textbook split between unitary evolution and collapse is a rule for making predictions. It does not by itself tell a story about what the
-          world is doing when nobody looks. Different interpretations propose different ontologies. The Copenhagen family is modest: the theory is a tool
-          for assigning probabilities to outcomes of well defined experiments and we should not demand more. Many Worlds keeps only the unitary part and says
-          that records of outcomes branch into non interfering histories; probabilities become branch weights. Pilot wave theory adds real particle positions
-          guided by a wave that evolves by Schrödinger’s equation; the randomness comes from ignorance of initial conditions. Objective collapse models add a
-          small physical mechanism that stochastically suppresses superpositions of macroscopically distinct states. Each view preserves the same empirical
-          predictions for lab scale experiments so far, but they assign reality differently. You do not need to pick one to do physics. You do need to know
-          that this is where the real conceptual work happens and why words like observer and measurement matter.
-        </p>
-      </article>
-    </div>
-  </div>
+    <a class="read-more" href="classical_mechanics.html">Read More</a>
 </section>
 
-<!-- FOUNDATIONS & NICHE -->
-<section id="foundations" class="reveal">
-  <div class="wrap">
-    <h2 class="section-title">Foundations and less traveled roads</h2>
-    <p class="lead">These topics show up in research meetings more than in textbooks. They signal depth and connect to modern frontiers.</p>
-
-    <div class="grid">
-      <article class="card span-12">
-        <div class="badge">Symmetry</div>
-        <h3>Spontaneous symmetry breaking and the Higgs mechanism</h3>
-        <p>
-          A system can obey a symmetric law while choosing an asymmetric ground state. Imagine a ball balanced on top of a hill. The equations are rotationally
-          symmetric but the resting place after a nudge points in one direction. In quantum field theory the vacuum can play the role of that resting place.
-          When a field with a symmetric potential acquires a nonzero expectation value, the excitations around that state include massless modes (Goldstone
-          bosons) for broken global symmetries and, if the symmetry is local (a gauge symmetry), the would be massless mode is absorbed to give mass to the
-          gauge boson. That is the Higgs mechanism. It sounds technical because it is technical, but the picture is human. Laws can be simple while the world
-          we inhabit is one particular choice among many allowed minima. The early universe likely passed through such transitions and left imprints we read
-          today in particle masses and cosmic structure.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">QFT</div>
-        <h3>Renormalization and why infinities are not the end</h3>
-        <p>
-          Quantum field theories often produce integrals that diverge if you try to include arbitrarily high energy virtual processes. At first glance this
-          looks fatal. The repair is not a trick. It is a recognition that the parameters you call mass and charge depend on the energy scale at which you
-          probe the system. You introduce a cutoff to keep track of what your theory can honestly claim and then you let parameters flow with scale in a way
-          that preserves predictions for finite quantities. The renormalization group organizes that flow and explains universality: very different microscopic
-          systems can show the same macroscopic behavior because details are washed out by scale. Once you grasp this you stop asking a theory to tell you
-          more than it can know. You ask it to be predictive in its range and you look for a deeper theory if new scales become relevant.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Gauge</div>
-        <h3>Gauge theories and anomalies</h3>
-        <p>
-          A gauge theory begins with a redundancy in description. You can transform your fields in a way that leaves observable quantities unchanged.
-          That redundancy demands the existence of gauge fields that act like connections, telling you how to compare phases at different points. The
-          interactions of the standard model are built on this spine. Sometimes quantum effects spoil a symmetry that exists at the classical level.
-          That is an anomaly. Anomalies are not small mistakes. They are warnings that a theory will not be consistent unless charges and representations
-          are arranged to cancel the offending terms, or unless new fields appear. This is less glamorous than black holes and more decisive. A theory that
-          mishandles anomalies is not a candidate for the world.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Geometry</div>
-        <h3>Berry phase and geometric phases</h3>
-        <p>
-          Not all phases come from time evolution. If a system’s parameters are slowly cycled around a closed loop, the state can pick up a geometric phase
-          that depends only on the path in parameter space, not on the rate. This Berry phase shows up in polarization rotation, molecular spectra, and the
-          quantum Hall effect. It is a clue that the space of states has curvature and that physical effects can be topological, insensitive to small
-          deformations. Once you see this, band structure in solids looks like a field theory on a lattice of momenta, with Berry curvature shaping electron motion.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Foundations</div>
-        <h3>Decoherence and decoherence free subspaces</h3>
-        <p>
-          Superpositions do not vanish when nobody looks. They become entangled with their environment. When you ignore the environment the reduced state of
-          the system looks like a classical mixture because phase relations have leaked into correlations you do not track. This is decoherence. It explains
-          why macroscopic objects appear classical without invoking a special role for consciousness. The same mechanism suggests a strategy for quantum
-          computing: store information in subspaces that the dominant noise channels cannot touch. These decoherence free subspaces are not a slogan. They
-          are a design principle for real devices and a reason error correction is more than wishful thinking.
-        </p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- QFT -->
-<section id="qft" class="reveal">
-  <div class="wrap">
-    <h2 class="section-title">Quantum field theory: fields first, particles second</h2>
-    <p class="lead">
-      Quantum field theory treats particles as excitations of underlying fields. The vocabulary changes and so does the intuition. Interactions are encoded
-      in the terms of a Lagrangian density. Conservation laws arise from symmetries. The vacuum is not empty but seethes with fluctuations that matter when
-      boundaries and curvature are present.
+<section>
+    <h2>Quantum Mechanics</h2>
+    <p>
+        At the atomic and subatomic scales, the rules change. Quantum mechanics describes a world where particles can be in many states at once, where observation influences reality, and where uncertainty is not a limitation but a fundamental property of nature. 
+        This strange yet accurate theory powers lasers, semiconductors, and even the algorithms behind quantum computing.
     </p>
-
-    <div class="grid">
-      <article class="card span-12">
-        <div class="badge">Sum over paths</div>
-        <h3>Path integrals and what “sum over histories” means</h3>
-        <p>
-          The path integral formulation says that the amplitude for a process is a sum over all possible configurations, each weighted by $e^{iS/\hbar}$ where
-          $S$ is the action of that configuration. In simple cases this sum reduces to the stationary phase approximation you met in classical mechanics:
-          paths near stationary action contribute coherently and dominate. In field theory this becomes an integral over field configurations. Correlation
-          functions that you compute with Feynman diagrams are moments of that integral. The diagrams are not tiny particles bouncing off each other.
-          They are a bookkeeping device for terms in a series expansion. The picture is powerful because it connects symmetry to selection rules and makes
-          renormalization a natural property of how integrals respond to scale.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Vacuum</div>
-        <h3>Vacuum fluctuations and the cosmological constant problem</h3>
-        <p>
-          If you let a quantum field jiggle with all its modes, the lowest energy of the vacuum seems enormous. Gravity should feel that energy as a cosmological
-          constant, curving the universe wildly. Observationally the cosmological constant is small but nonzero. The gap between naive quantum estimates and
-          the measured value is sometimes called the worst prediction in physics. Many ideas have been proposed to explain it, from symmetries we have not seen
-          to environmental selection in a multiverse. None is universally accepted. The honest stance is to track exactly what is measured, to be clear about
-          the assumptions behind estimates, and to notice where the problem might be reshaped by a better understanding of gravity in the quantum regime.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Topology</div>
-        <h3>Topological phases and why order can be hidden</h3>
-        <p>
-          In ordinary phases of matter you recognize order by a local pattern: spins align, density waves form, bonds freeze. In topological phases the order
-          is not local. It is encoded in global properties of the wavefunction, like winding numbers and Chern numbers. The quantum Hall effect and topological
-          insulators are examples where edges carry protected modes that shrug at impurities. The protection comes from topology, not from energy barriers.
-          This class of phases shows why phase diagrams are richer than a catalog of broken symmetries and why quantum information ideas and condensed matter
-          ideas now share a border.
-        </p>
-      </article>
-    </div>
-  </div>
+    <a class="read-more" href="quantum_mechanics.html">Read More</a>
 </section>
 
-<!-- QUANTUM INFORMATION + BLACK HOLES -->
-<section id="info" class="reveal">
-  <div class="wrap">
-    <h2 class="section-title">Information as a physical quantity</h2>
-    <p class="lead">
-      Information is not only a message in a notebook. It is a measurable, conserved like quantity with thermodynamic cost. Quantum mechanics turns this
-      into a precise accounting of possibilities and correlations. The slogan that information is physical becomes literal when you count qubits and entropy.
+<section>
+    <h2>Modern & Frontier Physics</h2>
+    <p>
+        From unifying the forces of nature to exploring the earliest moments after the Big Bang, modern theoretical physics reaches for answers to the most ambitious questions. 
+        Quantum field theory, string theory, loop quantum gravity, and cosmology are part of this ongoing quest to weave the small-scale quantum world and the large-scale cosmic structure into one grand theory.
     </p>
-
-    <div class="grid">
-      <article class="card span-12">
-        <div class="badge">Computation</div>
-        <h3>Qubits, gates, and error correction</h3>
-        <p>
-          A qubit is any two level quantum system. Gates are unitary operations that rotate states and create entanglement. Measurement produces classical
-          outcomes that guide later operations. Real devices are noisy so error correction is essential. The principle is to spread logical information across
-          many physical qubits in a way that typical errors can be detected and reversed without learning the logical value itself. Threshold theorems show
-          that if physical error rates are below a bound, arbitrarily long quantum computations are possible with enough overhead. This is an engineering
-          challenge, not a loophole in the rules. The same mathematics that protects data in a lab protects ideas in black hole physics, where the bookkeeping
-          of entropy and information becomes stark.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Black holes</div>
-        <h3>Black hole information and holography</h3>
-        <p>
-          Black holes radiate with a thermal spectrum when quantum fields live on curved spacetime. If the radiation is purely thermal, information about the
-          matter that formed the hole seems lost. Unitary evolution forbids that loss. The tension is the black hole information problem. A striking idea that
-          reshapes the question is the holographic principle: the information content of a region can be described by degrees of freedom living on a lower
-          dimensional boundary. In anti de Sitter space this becomes a duality between a quantum gravity theory in the bulk and a conformal field theory on
-          the boundary (AdS/CFT). In that language black hole evaporation maps to a unitary process in the boundary theory, suggesting that information is not
-          destroyed. The details are subtle and active research, but the broad lesson is clean. Geometry and quantum information are two ways of describing
-          the same content. When ideas meet like that you are near something fundamental.
-        </p>
-      </article>
-    </div>
-  </div>
+    <a class="read-more" href="modern_frontiers.html">Read More</a>
 </section>
 
-<!-- CONDENSED + TOPOLOGY (bonus niche) -->
-<section id="condensed" class="reveal">
-  <div class="wrap">
-    <h2 class="section-title">Condensed matter and the power of emergence</h2>
-    <p class="lead">
-      Many bodies obeying simple rules can produce behavior nobody would guess from a single component. This is emergence. Theoretical physics studies it
-      with the same tools we used for fields and particles, now applied to bands, quasi particles, defects, and topology.
+<section>
+    <h2>Beyond the Textbook</h2>
+    <p>
+        Hidden within research papers and advanced lectures are concepts that rarely make it to popular science books but are essential to modern physics. 
+        These include symmetry breaking, the holographic principle, Berry phases, retrocausality, and the deep problem of time. 
+        They reveal not only the complexity of nature but also the depth of our philosophical struggle to define reality.
     </p>
-
-    <div class="grid">
-      <article class="card span-12">
-        <div class="badge">Quasi particles</div>
-        <h3>Effective theories and why details wash out</h3>
-        <p>
-          In a crystal, electrons move in a periodic potential. Their allowed energies form bands. Near the bottom of a band the dispersion looks quadratic
-          and you can treat excitations as free particles with an effective mass that differs from the bare electron mass. Interactions dress these carriers
-          further into quasi particles that carry charge, spin, or heat. The marvel is that the huge complexity of $10^{23}$ electrons becomes a tractable
-          story about a few collective modes once you identify the right variables. The renormalization group explains this washing out of microscopic detail
-          and tells you which couplings matter at long distances. This is why a theorist can say honest things with a simple model.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Topology</div>
-        <h3>Protected edges and quantized responses</h3>
-        <p>
-          In the integer quantum Hall effect the Hall conductance is quantized in units of $e^2/h$. The steps are insanely precise and do not care about
-          the details of impurities. The reason is topological. A Chern number computed from filled bands counts something like the winding of phases across
-          the Brillouin zone and this integer cannot change without closing a gap. The boundary then carries chiral edge modes that cannot be localized by
-          static disorder. This is a new kind of order, and it keeps showing up in materials and in ideas borrowed by quantum information, where topology can
-          hide information from local noise.
-        </p>
-      </article>
-    </div>
-  </div>
+    <a class="read-more" href="hidden_dimensions.html">Read More</a>
 </section>
 
-<!-- COSMOLOGY -->
-<section id="cosmo" class="reveal">
-  <div class="wrap">
-    <h2 class="section-title">Cosmology: initial conditions and large scale order</h2>
-    <p class="lead">
-      The universe expands. Structures grow from tiny seeds. The microwave background glows with a near perfect blackbody spectrum and tiny anisotropies.
-      A small set of parameters fits a vast collection of measurements. This economy is not an accident. It is the mark of a theory with few moving parts.
+<section>
+    <h2>Physics & Philosophy</h2>
+    <p>
+        The boundary between physics and philosophy blurs when we ask questions about meaning, causality, and the ultimate nature of reality. 
+        Theoretical physics is not just about equations — it’s about interpreting what they tell us about existence, free will, and the possibility that reality is fundamentally mathematical.
     </p>
-
-    <div class="grid">
-      <article class="card span-12">
-        <div class="badge">Early universe</div>
-        <h3>Inflation and the origin of structure</h3>
-        <p>
-          Cosmic inflation is a period of accelerated expansion that stretches quantum fluctuations to astrophysical scales. These fluctuations seed the
-          temperature variations we map in the microwave background and the later clumping into galaxies. The mechanism is model dependent but the logic
-          is robust: a nearly constant energy density drives the expansion and small quantum jitters get blown up into classical initial conditions. The
-          success of this picture does not make every detail settled. You still ask what field drove inflation, how it ended, and whether there are testable
-          signatures beyond the near scale invariant spectrum we see. This is a reminder that a theory can be useful before it is final and that evidence
-          accumulates in layers.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Dark sector</div>
-        <h3>Dark matter and dark energy with a clear head</h3>
-        <p>
-          The rotation of galaxies, lensing maps, and cosmic structure argue for matter that gravitates like ordinary matter but does not emit light.
-          This is dark matter. The accelerated expansion of the universe behaves like a small positive cosmological constant or a smooth energy component.
-          This is dark energy. Many candidates exist for both. The careful stance is to separate what is measured from what is guessed. We see gravitational
-          effects. We fit them with minimal extra ingredients and we search for non gravitational signals. This habit of honesty keeps speculation from
-          turning into unearned certainty.
-        </p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- QUANTUM GRAVITY -->
-<section id="qgravity" class="reveal">
-  <div class="wrap">
-    <h2 class="section-title">Quantum gravity: two languages, one world</h2>
-    <p class="lead">
-      General relativity is classical and geometric. Quantum field theory is quantum and often built on fixed spacetime backgrounds. A full theory of nature
-      must speak both languages at once. We do not yet have that final dictionary, but there are promising dialects worth learning.
-    </p>
-
-    <div class="grid">
-      <article class="card span-12">
-        <div class="badge">Strings</div>
-        <h3>String theory and the idea of holography</h3>
-        <p>
-          Replace point particles with tiny strings and many divergences soften. Vibrational modes of the string look like the particle spectrum, including
-          a mode that behaves like the graviton. Consistency conditions lead to extra dimensions that are compactified or otherwise hidden. The most striking
-          development is the holographic duality in which a quantum gravity theory in a bulk spacetime is exactly equivalent to a quantum field theory living
-          on its boundary with no gravity. This equivalence is not a metaphor. It lets you compute hard gravitational questions by translating them into
-          gauge theory questions and returning with answers. Even if the real universe is not anti de Sitter, the conceptual lesson is large: geometry can be
-          recast as entanglement structure.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Loops</div>
-        <h3>Loop quantum gravity and the problem of time</h3>
-        <p>
-          Loop quantum gravity tries a different route. It quantizes geometry itself, leading to discrete spectra for areas and volumes. The equations that
-          describe the state of the universe do not include an external time parameter in the usual way; the Wheeler–DeWitt equation looks like $H\Psi=0$,
-          suggesting that time might be emergent from correlations between degrees of freedom. This “problem of time” is more than a puzzle. It forces you
-          to examine what you mean by change and by measurement when the clock is part of the system you describe. The reward is a cleaner view of what a
-          physical observable should be in a diffeomorphism invariant theory.
-        </p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- PHILOSOPHY BRIDGE -->
-<section id="philosophy" class="reveal">
-  <div class="wrap">
-    <h2 class="section-title">Where physics meets philosophy</h2>
-    <p class="lead">
-      Philosophy is not decoration. It is a set of tools for asking careful questions about meaning, explanation, and evidence. Physics needs that help
-      when its own concepts reach beyond everyday intuition.
-    </p>
-
-    <div class="grid">
-      <article class="card span-12">
-        <div class="badge">Wigner’s friend</div>
-        <h3>Observers, records, and consistency</h3>
-        <p>
-          Wigner imagined his friend making a measurement inside a lab while Wigner treats the whole lab as a quantum system from outside. The friend sees
-          a definite result. Wigner assigns a superposition. If both descriptions are valid, how do we reconcile them. One response is that quantum states
-          are not absolute. They are relational, assigned by an observer to a system given the information available. Another response is that only decohered
-          records accessible to both have a claim to reality. The common thread is that we should be explicit about who knows what and when, instead of using
-          the word observer as a stand in for magic. This clarifies debates without removing the genuine puzzles that remain.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Probabilities</div>
-        <h3>QBism, relational views, and superdeterminism</h3>
-        <p>
-          QBism treats the wavefunction as a personal betting book for an agent who must make decisions under uncertainty. Probabilities then live in the head,
-          not in the world, but they are constrained by coherence rules and the structure of quantum events. Relational quantum mechanics keeps states real
-          but relative: facts exist with respect to interactions, not in isolation. Superdeterminism points to a loophole in Bell’s theorem by denying that
-          experimenters can choose settings independently of hidden variables. The cost is high. You must accept precise correlations that reach into choices.
-          Thinking through these options teaches restraint. When evidence is underdetermined by theory you mark the live possibilities and you keep working.
-        </p>
-      </article>
-
-      <article class="card span-12">
-        <div class="badge">Time</div>
-        <h3>Arrow of time and Boltzmann brains</h3>
-        <p>
-          The microscopic laws of mechanics are reversible. The macroscopic world is not. The arrow of time comes from boundary conditions, not from the
-          equations of motion. The early universe sat in a low entropy state, allowing entropy to climb. Once you accept that, you can understand why eggs
-          break and do not reassemble and why memories point to the past. Push this line of thought far enough and you meet the Boltzmann brain problem:
-          in a universe that lasts long enough rare fluctuations could produce isolated observers with false memories. If such observers vastly outnumber
-          observers like us, your reasoning is in trouble. This is not an argument to stop thinking. It is a signal that cosmology must be careful about
-          measures and about which ensembles are meaningful.
-        </p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- READING + CROSSROADS -->
-<section id="reading" class="reveal">
-  <div class="wrap">
-    <h2 class="section-title">How to keep going</h2>
-    <p class="lead">
-      Read actively. Derive small results yourself. Draw diagrams. Keep a notebook of questions and return to them after each section. Understanding is
-      slow and cumulative. The reward is that once you learn to think this way you can approach any new topic without fear.
-    </p>
-
-    <div class="grid">
-      <article class="card span-6">
-        <div class="badge">Practice</div>
-        <h3>Core skills to drill</h3>
-        <p>
-          Get fluent with linear algebra identities and Dirac notation. Learn to move between Lagrangian and Hamiltonian mechanics. Practice dimensional
-          analysis until it feels like a reflex. Work basic variational problems and simple eigenvalue problems by hand. Write short codes that produce the
-          plots you wish your mind could see. These are not chores. They are the grammar of the subject, and mastery of grammar is the path to style.
-        </p>
-        <a class="cta" href="computational.html">Open computational tools</a>
-      </article>
-
-      <article class="card span-6">
-        <div class="badge">Experiments</div>
-        <h3>Bring the lab into the story</h3>
-        <p>
-          Theory earns its living when it helps design a measurement or interpret a dataset. Read about interferometers, spectrometers, cryogenic tricks, and
-          noise budgets. Learn how calibration and error bars turn a beautiful idea into a believable claim. When you can sketch a setup and predict its
-          limitations, you have crossed from reading to doing.
-        </p>
-        <a class="cta" href="experimental.html">Visit the lab wing</a>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section id="crossroads" class="reveal">
-  <div class="wrap">
-    <h2 class="section-title">Crossroads</h2>
-    <p class="lead">From here you can wander anywhere in QParadox without losing the thread.</p>
-    <div class="grid">
-      <article class="card span-4">
-        <div class="badge">Guide</div>
-        <h3>Back to the grand map</h3>
-        <p>Return to the Start Here page and choose a new path with a fresh eye.</p>
-        <a class="cta" href="introduction.html">Open Introduction</a>
-      </article>
-      <article class="card span-4">
-        <div class="badge">Meaning</div>
-        <h3>Metaphysics and method</h3>
-        <p>Questions about explanation, reality, and meaning gathered with care and restraint.</p>
-        <a class="cta" href="metaphysics.html">Open Metaphysics</a>
-      </article>
-      <article class="card span-4">
-        <div class="badge">Story</div>
-        <h3>History of ideas</h3>
-        <p>Short essays on how the core ideas were born and how they changed minds and methods.</p>
-        <a class="cta" href="history.html">Open History</a>
-      </article>
-    </div>
-  </div>
+    <a class="read-more" href="physics_and_philosophy.html">Read More</a>
 </section>
 
 <footer>
-  © 2025 QParadox. Theoretical Physics wing. Curated and built with care.
+    &copy; 2025 QParadox. All rights reserved.
 </footer>
-
-<script>
-/* ===== Starfield with occasional shooting stars ===== */
-const canvas = document.getElementById('sky'), ctx = canvas.getContext('2d');
-let W,H,stars=[],shootingStars=[];
-function resize(){W=canvas.width=innerWidth; H=canvas.height=innerHeight;
-  stars=Array.from({length:Math.floor(W*H/6500)},()=>({x:Math.random()*W,y:Math.random()*H,z:Math.random()*0.8+0.2,vx:(Math.random()-.5)*.15,vy:(Math.random()-.5)*.15,color:Math.random()>0.5?'#fff':(Math.random()>0.5?'#caa36b':'#7aa0ff')}));
-}
-addEventListener('resize',resize); resize();
-function draw(){
-  ctx.clearRect(0,0,W,H);
-  for(const s of stars){
-    s.x+=s.vx; s.y+=s.vy; if(s.x<0)s.x+=W; if(s.x>W)s.x-=W; if(s.y<0)s.y+=H; if(s.y>H)s.y-=H;
-    ctx.fillStyle=s.color; ctx.globalAlpha=.35+.65*s.z; ctx.beginPath(); ctx.arc(s.x,s.y,s.z*1.1,0,Math.PI*2); ctx.fill();
-  }
-  if(Math.random()<0.002){ shootingStars.push({x:Math.random()*W,y:Math.random()*H*0.4,len:Math.random()*80+50,spd:Math.random()*6+4,angle:Math.PI/4}); }
-  shootingStars.forEach((s,i)=>{ s.x+=Math.cos(s.angle)*s.spd; s.y+=Math.sin(s.angle)*s.spd;
-    ctx.strokeStyle='#fff'; ctx.globalAlpha=.8; ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(s.x-Math.cos(s.angle)*s.len, s.y-Math.sin(s.angle)*s.len); ctx.stroke();
-    if(s.x>W||s.y>H) shootingStars.splice(i,1);
-  });
-  ctx.globalAlpha=1; requestAnimationFrame(draw);
-} draw();
-
-/* ===== Reveal on scroll ===== */
-const obs=new IntersectionObserver(es=>{es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in'); obs.unobserve(e.target);} });},{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
-/* ===== Tabs (equation walls if you add later) ===== */
-document.querySelectorAll('.tab[role="tab"]').forEach(tab=>{
-  tab.addEventListener('click',()=>{
-    const group=[...tab.parentElement.querySelectorAll('.tab')];
-    const panes=[...tab.closest('section').querySelectorAll('.tabpanes .pane')];
-    group.forEach(t=>t.setAttribute('aria-selected','false')); tab.setAttribute('aria-selected','true');
-    panes.forEach(p=>p.classList.remove('active')); const pane=document.getElementById(tab.getAttribute('aria-controls')); if(pane) pane.classList.add('active');
-  });
-});
-
-/* ===== Hamburger menu ===== */
-const hamburger=document.getElementById('hamburger'), overlay=document.getElementById('menuOverlay');
-hamburger.addEventListener('click',()=>{ overlay.classList.toggle('open'); overlay.setAttribute('aria-hidden', overlay.classList.contains('open')?'false':'true'); });
-overlay.addEventListener('click',e=>{ if(e.target.tagName==='A'||e.target===overlay){ overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); }});
-addEventListener('keydown',e=>{ if(e.key==='Escape'){ overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); }});
-
-/* ===== Scrollspy ===== */
-const spyLinks=document.querySelectorAll('#scrollspy a');
-const sections=['#what','#core','#quantum','#foundations','#qft','#info','#condensed','#cosmo','#qgravity','#philosophy','#reading','#crossroads'].map(id=>document.querySelector(id)).filter(Boolean);
-function updateSpy(){ const y=scrollY+200;
-  sections.forEach((sec,i)=>{ if(sec.offsetTop<=y && sec.offsetTop+sec.offsetHeight>y){ spyLinks.forEach(a=>a.classList.remove('active')); if(spyLinks[i]) spyLinks[i].classList.add('active'); }});
-}
-addEventListener('scroll',updateSpy); updateSpy();
-
-/* ===== Back to Top ===== */
-const backToTop=document.getElementById('backToTop');
-addEventListener('scroll',()=>{ if(scrollY>innerHeight*0.25) backToTop.classList.add('show'); else backToTop.classList.remove('show'); });
-backToTop.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
-</script>
 
 </body>
 </html>
