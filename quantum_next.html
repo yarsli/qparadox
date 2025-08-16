@@ -5,7 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>QParadox • Quantum Next</title>
 
+<!-- Same fonts and vibe as your other long pages -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!-- MathJax enabled locally on this page -->
+<script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 <style>
 :root{
@@ -111,15 +115,16 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
 
 <header class="reveal in">
   <h1>Quantum Next</h1>
-  <p class="subtitle">A calm step beyond the Toolkit — start simple, secure the rules, then add depth with examples, tidy equations, and checks you can repeat.</p>
+  <p class="subtitle">A calm step after the Toolkit. Start simple, add clear rules, then go deeper with steady checks and examples that you can repeat.</p>
 </header>
 
 <div class="main">
   <article id="article">
 
+    <!-- HERO FIGURE -->
     <figure class="figure reveal">
-      <img src="equation-cool.jpg" alt="Equations aesthetic"/>
-      <figcaption class="figcap">Write the idea, choose the rule, do the check. The habit matters more than any one formula.</figcaption>
+      <img src="wavefunction.png" alt="Wavefunction aesthetic"/>
+      <figcaption class="figcap">Probability lives in the square of the amplitude. The habit is to write it, normalize it, then check the limits.</figcaption>
     </figure>
 
     <!-- ORIENTATION -->
@@ -129,77 +134,78 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="q1">★ Highlight</button>
       <p id="q1" class="dropcap">
-        This page extends the Quantum Toolkit without rushing the math. We begin with pictures and plain-language rules, then add one equation at a time and practice using it. The aim is to get comfortable setting up a quantum problem the same way each time. You state the system and the question, you select the clean rule that ties them together, and you check the answer in a limit where your intuition is strong. Doing this slowly builds a sense that hard-looking problems are just longer versions of moves you already know.
+        This page continues the same pattern you already know. We write the state and the question in one sentence, then we choose the rule that connects them, then we check the final line in a limit where our intuition is strong. The point is not to memorize many special cases. The point is to build a routine that does not wobble when details change. If you can name the system boundary, track the units, and predict a simple limit, you already control most of the difficulty and the rest is practice. Think of what follows as a long lab notebook entry that you can read without rushing and that you can reuse when the topic shifts.
       </p>
     </div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="q2">★ Highlight</button>
       <p id="q2">
-        Keep a short checklist in the margin. What is the state and how is it written. Which operator or conservation idea matters here. What is the simplest limit where you expect the behavior. If your final line does not respect units or the easy limit, pause and repair before pushing on. These small habits are what make theory feel steady rather than fragile.
+        Keep a short checklist near the margin. What is the minimum set of variables that answer the question. Which operator reports the thing you will read out at the end. What units must that answer carry. Which limit is easy to guess before any algebra. If a final expression disobeys the unit check or misbehaves in the easy limit, pause and repair the setup rather than hunting small algebra slips. This habit makes theory feel steady and makes your results easier to share and defend.
       </p>
     </div>
 
-    <!-- PROBABILITY BASICS -->
-    <h2 id="prob" class="reveal">Probability from the wave picture</h2>
+    <!-- AMPLITUDE TO PROBABILITY -->
+    <h2 id="prob" class="reveal">From amplitude to probability</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="q3">★ Highlight</button>
       <p id="q3" class="dropcap">
-        The wave function \( \Psi(x,t) \) is the tool for predictions. The square of its size is a probability density and the total must be one:
+        The wave function \( \Psi(x,t) \) carries amplitudes. Measurable chances live in its squared size. Two lines show up in almost every problem:
         \[
-          P(x,t)=|\Psi(x,t)|^2, \qquad \int_{-\infty}^{\infty} |\Psi(x,t)|^2\,dx = 1.
+          P(x,t) = |\Psi(x,t)|^2, \qquad \int_{-\infty}^{\infty} |\Psi(x,t)|^2\,dx = 1.
         \]
-        Read these as instructions. Compute the shape, square it, and normalize. If a result later seems odd, come back to this step first because many mistakes begin with a missing factor or a drifted normalization.
+        The first is how a detector’s clicks are distributed. The second is normalization. When an answer seems strange, check these two steps first. A missing factor in the square or a normalization slip can tilt a whole page of work. Write them early, then carry them gently through the rest of the calculation.
       </p>
     </div>
 
-    <details class="reveal"><summary>Worked example — two overlapping bumps</summary>
+    <details class="reveal"><summary>Worked example - two overlapping humps</summary>
       <p>
-        Build a state from two narrow Gaussians centered at \(-a\) and \(+a\). If the relative phase is the same, the middle region brightens. If the phase is opposite, a notch appears between the peaks. If the phase wanders from trial to trial, the cross term averages away and you see a simple sum. One plot shows how phase is not decoration but the control knob for interference.
+        Build a state from two equal narrow Gaussians centered at \(-a\) and \(+a\). If their phases match, the middle brightens. If their phases oppose, a notch appears between peaks. If the phase wanders from shot to shot, the cross term averages away and you see a simple sum. One sketch teaches a permanent lesson. Interference lives in the phase, not only in the height of each hump.
       </p>
     </details>
 
     <!-- TIME EVOLUTION -->
-    <h2 id="time" class="reveal">Time evolution without panic</h2>
+    <h2 id="time" class="reveal">Time evolution that does not panic you</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="q4">★ Highlight</button>
       <p id="q4" class="dropcap">
-        The time rule looks compact:
+        The time rule is compact:
         \[
           i\hbar\,\frac{\partial}{\partial t}\Psi(x,t) = \hat{H}\,\Psi(x,t).
         \]
-        Many useful cases separate in time and space when the potential does not change in time. Try \(\Psi(x,t)=\phi(x)\,e^{-iEt/\hbar}\). The space function \(\phi(x)\) then satisfies a quieter standing-wave equation. You do not need a closed-form solution to learn something. Describe the boundary, sketch the likely nodes, and predict how energy shifts when a parameter grows or shrinks. The sign of each change often falls out before any long algebra.
+        When the potential is steady in time, try \(\Psi(x,t) = \phi(x)\,e^{-iEt/\hbar}\). The time part becomes a simple phase and the space part \(\phi(x)\) solves a quieter standing wave condition. Even without a full solution, you can count nodes, set boundary behavior, and predict how energy shifts when length or mass changes. These quick checks protect you from getting lost in algebra and they transfer to many new cases.
       </p>
     </div>
 
-    <details class="reveal"><summary>Worked example — particle in a one-dimensional box</summary>
+    <details class="reveal"><summary>Worked example - particle in a box</summary>
       <p>
-        Inside the box the solutions are sines that fit an integer number of half-waves. The energies
+        A one dimensional box of length \(L\) with hard walls admits standing sines. Energies are
         \[
-          E_n = \frac{n^2\pi^2\hbar^2}{2mL^2}, \quad n=1,2,\dots
+          E_n = \frac{n^2 \pi^2 \hbar^2}{2mL^2}, \quad n=1,2,\dots
         \]
-        pass two quick checks. If you make the box longer, levels crowd closer, which matches the idea of a gentler standing wave. If you use a heavier particle, every level drops because heavier masses are harder to wiggle. When a formula respects these trends, trust grows.
+        Two fast checks help. If \(L\) grows, levels crowd together. If mass grows, levels drop. Both match your picture of gentler confinement and heavier inertia. If your expression fails either test, fix the setup first and save time later.
       </p>
     </details>
 
-    <!-- UNCERTAINTY -->
-    <h2 id="unc" class="reveal">Uncertainty as a design choice</h2>
+    <!-- SUPERPOSITION -->
+    <h2 id="super" class="reveal">Superposition that you can use without fear</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="q5">★ Highlight</button>
       <p id="q5" class="dropcap">
-        The spread in position and momentum is structural, not an equipment flaw. The compact limit
-        \[
-          \Delta x\,\Delta p \ge \frac{\hbar}{2}
-        \]
-        tells you how one knob widens when you narrow the other. A tight beam spot implies a wide momentum spread and faster spreading as time passes. A colder cloud has a narrower momentum spread and drifts more slowly. Use the relation to plan, not to worry.
+        Superposition means you can add allowed states with complex weights and still have an allowed state. Write \( |\psi\rangle = c_1 |\psi_1\rangle + c_2 |\psi_2\rangle \) and remember that relative phase between the pieces decides interference. This is not a trick. It is your main tool for building useful wave packets and for reasoning about splits and recombines in interferometer style setups. The size of each piece matters, but the phase between pieces is where many patterns hide.
       </p>
     </div>
+
+    <figure class="figure reveal">
+      <img src="particle-duality.png" alt="Two-path interference visual"/>
+      <figcaption class="figcap">Two clean paths add before you square. The cross term carries the relative phase that shifts the pattern.</figcaption>
+    </figure>
 
     <!-- INTERFERENCE -->
     <h2 id="phase" class="reveal">Interference and the role of phase</h2>
@@ -208,44 +214,59 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="q6">★ Highlight</button>
       <p id="q6" class="dropcap">
-        When two paths remain undisturbed their amplitudes add before you square. The cross term carries the relative phase. Small changes in path length, refractive index, or potential add up to visible shifts in the pattern. This is why careful phase control is the key to precision interferometry and also why stray coupling to the environment washes patterns away. The idea is simple: keep what you do not want to measure from learning which way the system went.
+        When two undisturbed paths meet, the total amplitude is a sum and the probability contains a cross term. That term depends on the phase difference, which is controlled by path length, refractive index, potentials, and time spent. Small changes there shift bright and dark regions here. That is the secret of precise metrology with interferometers and also the reason that even gentle coupling to the environment can wash a pattern away. If something learns which path was taken, even partly, the cross term fades and the picture softens.
       </p>
     </div>
 
-    <!-- TUNNELING -->
-    <h2 id="tunnel" class="reveal">Barriers, leakage, and tunneling</h2>
+    <!-- UNCERTAINTY -->
+    <h2 id="unc" class="reveal">Uncertainty as a design choice not a flaw</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="q7">★ Highlight</button>
       <p id="q7" class="dropcap">
-        Classically a wall that is higher than your energy is a hard stop. Quantum mechanics allows a small chance to appear beyond the wall, especially if the barrier is thin or the particle is light. Inside the wall the wave decays but survives. At the far edge a faint tail emerges. The trend is enough to understand tunneling diodes, scanning microscopes, and nuclear alpha emission without memorizing long formulas.
+        The spread in position and momentum comes from the structure of the theory. The compact limit
+        \[
+          \Delta x\,\Delta p \ge \frac{\hbar}{2}
+        \]
+        tells you how narrow one knob can be before the other must widen. A tight focus means a wide momentum spread and faster spreading in time. A colder cloud means a narrower momentum spread and slower drift. You can trade one kind of precision for another on purpose and plan your setup rather than fight the limit after the fact.
       </p>
     </div>
 
-    <!-- SPIN -->
-    <h2 id="spin" class="reveal">Spin as a clean two-state system</h2>
+    <!-- TUNNELING -->
+    <h2 id="tunnel" class="reveal">Barriers, leakage, and tunneling you can picture</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="q8">★ Highlight</button>
       <p id="q8" class="dropcap">
-        Spin is an intrinsic two-level structure that behaves like a vector of operators. The Stern–Gerlach chain teaches three repeatable facts. First, outcomes can be discrete even when inputs look smooth. Second, measuring along a new axis scrambles certainty from the old axis. Third, repeating the same axis restores predictability. Those three lines already let you reason about qubits and the Bloch sphere with confidence.
+        Classical motion stops at a wall when the energy is too low. Quantum motion allows a small chance to appear beyond the wall if it is thin enough or if the particle is light enough. Inside the barrier the amplitude decays but does not die instantly and a faint tail emerges at the far side. This already explains scanning tunneling microscopes, tunneling diodes, and alpha decay. The trend lines are safe to remember. Thicker barriers and heavier masses suppress the chance. Lower barriers and lighter masses enhance it.
       </p>
     </div>
 
-    <!-- EXPECTATION -->
-    <h2 id="expect" class="reveal">Expectation values in one line</h2>
+    <!-- SPIN -->
+    <h2 id="spin" class="reveal">Spin as a clean two state system</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="q9">★ Highlight</button>
       <p id="q9" class="dropcap">
-        The average result from many runs is
+        Spin is not a tiny top. It is an intrinsic two state structure that behaves like a vector of operators. The Stern Gerlach chain shows three rules that you can reuse often. Outcomes can be discrete. Measuring along a new axis erases certainty from the old axis. Repeating the same axis restores it. With \( |\psi\rangle = \alpha |{\uparrow}_z\rangle + \beta |{\downarrow}_z\rangle \) you can already predict how a rotated device changes counts without long algebra.
+      </p>
+    </div>
+
+    <!-- EXPECTATION -->
+    <h2 id="expect" class="reveal">Expectation values in one clean line</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="q10">★ Highlight</button>
+      <p id="q10" class="dropcap">
+        The average outcome over many runs is
         \[
-          \langle A \rangle = \int \Psi^*(x,t)\,\hat{A}\,\Psi(x,t)\,dx.
+          \langle A \rangle = \int \Psi^*(x,t)\,\hat{A}\,\Psi(x,t)\,dx = \langle \psi | \hat{A} | \psi \rangle.
         \]
-        In bra–ket language the same idea is \( \langle \psi | \hat{A} | \psi \rangle \). One advantage of the compact form is that units and symmetry are easier to inspect. If a proposed operator would make the units wrong, you catch it before a page of algebra.
+        Use whichever form makes the units and symmetries easier to inspect. If the operator measures a length, the final expression must carry length. If a supposed invariant flips sign when you change frames or rotate, something in the setup is off. These quick inspections save hours and make your notes readable later.
       </p>
     </div>
 
@@ -254,56 +275,97 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
     <div class="divider"></div>
 
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="q10">★ Highlight</button>
-      <p id="q10" class="dropcap">
-        Some states resist separation. A simple two-qubit case is
+      <button class="hlbtn" data-target="q11">★ Highlight</button>
+      <p id="q11" class="dropcap">
+        Some states cannot be split into parts. A compact two qubit example is
         \[
           \frac{1}{\sqrt{2}}\big(|00\rangle + |11\rangle\big).
         \]
-        No product of a state of A and a state of B can reproduce its perfect correlations. This is not a signal racing ahead of light. It is a structure set at preparation and revealed by which questions you ask. The safe habit is to think of the whole first, then describe parts by tracing over what you ignore.
+        No single product \( |a\rangle \otimes |b\rangle \) reproduces the perfect link between outcomes. This is not a signal that outruns light. It is a correlation set at preparation and revealed by what you choose to ask. The safe practice is to treat the pair as one system first and describe a part later by tracing over what you ignore.
       </p>
     </div>
 
     <figure class="figure reveal">
-      <img src="quantum-atom.jpg" alt="Quantum atom visual"/>
-      <figcaption class="figcap">Some predictions only make sense when you treat the pair as one system.</figcaption>
+      <img src="quantum-field.png" alt="Abstract quantum field visual"/>
+      <figcaption class="figcap">Fields give a value to every point in space and time. Boundaries and symmetry pick which shapes survive.</figcaption>
     </figure>
 
-    <!-- MEASUREMENT + DECOHERENCE -->
-    <h2 id="meas" class="reveal">Measurement and why interference fades</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="q11">★ Highlight</button>
-      <p id="q11" class="dropcap">
-        Projective measurements are the sharp ideal: outcomes line up with the eigenvectors of an operator. Real setups often leak information to the surroundings. When the environment keeps a reliable record of which path was taken, the off-diagonal terms of the reduced density description shrink and the contrast of fringes falls. You did not break any rule. You changed the conditions for phases to add. The lesson for the lab is practical. Isolation and speed preserve interference. Coupling erases it.
-      </p>
-    </div>
-
-    <!-- APPLICATIONS -->
-    <h2 id="apps" class="reveal">From rules to devices</h2>
+    <!-- MEASUREMENT -->
+    <h2 id="meas" class="reveal">Measurement and why fringes fade when records exist</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="q12">★ Highlight</button>
       <p id="q12" class="dropcap">
-        The same ideas drive real tools. Band structure in crystals is a standing wave story and explains semiconductors. Coherent emission between energy levels makes lasers. Resonant control of spin in fields makes MRI. Quantum sensors stretch uncertainty in one quantity while relaxing it in another to make tiny effects visible. None of this needs drama. It is careful use of a small kit: amplitude, phase, operators, and checks.
+        A projective measurement is the sharp ideal. Real labs have coupling to surroundings. When the environment keeps a reliable record of which path was taken, the cross terms in the reduced description shrink and the contrast of interference falls. You did not break a rule. You changed the conditions needed for phases to add. The practical lesson is short. Isolation and speed preserve interference. Coupling and delay erase it.
       </p>
     </div>
 
-    <figure class="figure reveal">
-      <img src="work.jpeg" alt="Desk with notebooks and lamp"/>
-      <figcaption class="figcap">Write assumptions beside each result. Future you will know what to trust and what to revisit.</figcaption>
-    </figure>
-
-    <!-- PRACTICE PROMPTS -->
-    <h2 id="practice" class="reveal">Practice prompts</h2>
+    <!-- APPLICATIONS -->
+    <h2 id="apps" class="reveal">From quiet rules to working devices</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="q13">★ Highlight</button>
       <p id="q13" class="dropcap">
-        One page each. Normalize a Gaussian and compute its width, then predict how the width evolves for free motion. Sketch the first three standing waves in a box and explain why the second has a node at the center. Estimate how tunneling chance changes when you double barrier thickness while keeping mass and kinetic energy fixed. Model a Stern–Gerlach chain with the middle magnet rotated and predict the three output spots. Compute an expectation value two ways to confirm comfort with both integral and bra–ket forms.
+        The same small kit drives many tools. Band structure is a standing wave story in a periodic crystal and explains semiconductors. Lasers use controlled emission between energy levels with phase locked gain. MRI uses spin in fields with resonant pulses and gradients to map position. Quantum sensors use trade offs from uncertainty and interference to make tiny effects visible. None of this needs drama. It needs clear states, honest approximations, and clean checks written next to the final line.
+      </p>
+    </div>
+
+    <!-- PRACTICE -->
+    <h2 id="practice" class="reveal">Practice prompts you can finish on one page</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="q14">★ Highlight</button>
+      <p id="q14" class="dropcap">
+        Normalize a Gaussian and compute its width, then predict how that width grows in free motion and confirm with a short sketch. Draw the first three standing waves in a box and explain node locations from the boundary. Estimate how tunneling chance changes when barrier thickness doubles at fixed energy and mass. Model a Stern Gerlach chain with the middle magnet rotated and predict the three outputs. Compute one expectation value by integral and by bra ket and confirm the match to build trust in both forms.
+      </p>
+    </div>
+
+    <!-- GLOSSARY -->
+    <h2 id="glossary" class="reveal">Glossary - quick refresh</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="g1">★ Highlight</button>
+      <p id="g1" class="dropcap">
+        <strong>Wave function \( \Psi \)</strong> - Complex field of amplitudes whose squared size gives probability density. Normalize so total chance is one. Treat it as a calculator for chances, not as a material wave.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="g2">★ Highlight</button>
+      <p id="g2">
+        <strong>Hamiltonian \( \hat{H} \)</strong> - Energy operator that drives time evolution through \( i\hbar\,\partial_t\Psi=\hat{H}\Psi \). Build it from kinetic and potential parts in coordinates that match the boundary.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="g3">★ Highlight</button>
+      <p id="g3">
+        <strong>Operator</strong> - Rule that turns one state into another. Measuring means applying a specific operator and reporting one of its eigenvalues. Unit checks and symmetry checks expose mistakes early.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="g4">★ Highlight</button>
+      <p id="g4">
+        <strong>Expectation \( \langle A \rangle \)</strong> - Average outcome across identical trials. Use \( \int \Psi^* \hat{A} \Psi\,dx \) or \( \langle \psi | \hat{A} | \psi \rangle \). Pick the form that makes units easier to inspect.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="g5">★ Highlight</button>
+      <p id="g5">
+        <strong>Superposition</strong> - Legitimate state formed by adding states with complex weights. Relative phase sets interference. Size matters, phase decides pattern.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="g6">★ Highlight</button>
+      <p id="g6">
+        <strong>Entanglement</strong> - Correlation so strong that the parts require the whole. Treat the pair first. Describe parts by tracing over what you ignore.
       </p>
     </div>
 
@@ -314,7 +376,7 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
     <section class="quiz reveal" id="quizSection">
       <div class="qitem">
         <h4>1) The meaning of \( |\Psi(x,t)|^2 \) is</h4>
-        <div class="qchoices" data-answer="b" data-explain="It is a probability density; integrate over a region to get the chance to find the particle there.">
+        <div class="qchoices" data-answer="b" data-explain="It is a probability density. Integrate over a region to get the chance to find the particle there.">
           <button data-choice="a">Energy density at x</button>
           <button data-choice="b">Probability density at x</button>
           <button data-choice="c">Momentum distribution</button>
@@ -322,11 +384,11 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
       </div>
 
       <div class="qitem">
-        <h4>2) With a time-independent potential a good first move is</h4>
-        <div class="qchoices" data-answer="a" data-explain="Try a separable form, which turns time evolution into a simple phase.">
+        <h4>2) With a time independent potential a good first move is</h4>
+        <div class="qchoices" data-answer="a" data-explain="Try a separable form which turns time evolution into a simple phase.">
           <button data-choice="a">\(\Psi(x,t)=\phi(x)e^{-iEt/\hbar}\)</button>
-          <button data-choice="b">Assume energy grows with time</button>
-          <button data-choice="c">Ignore boundary conditions</button>
+          <button data-choice="b">Assume energy grows in time</button>
+          <button data-choice="c">Ignore boundaries</button>
         </div><div class="qfeedback"></div>
       </div>
 
@@ -349,8 +411,8 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
       </div>
 
       <div class="qitem">
-        <h4>5) An entangled two-qubit state is one that</h4>
-        <div class="qchoices" data-answer="a" data-explain="It cannot be written as a simple product of a state of A and a state of B.">
+        <h4>5) An entangled two qubit state is one that</h4>
+        <div class="qchoices" data-answer="a" data-explain="It cannot be written as a product of a state of A and a state of B.">
           <button data-choice="a">Does not factor into product states</button>
           <button data-choice="b">Always yields equal outcomes</button>
           <button data-choice="c">Has zero probability everywhere</button>
@@ -363,8 +425,10 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
       </div>
     </section>
 
+    <!-- NAV ROW -->
     <div class="nextrow reveal">
       <a href="quantum_toolkit.html">← Back to Quantum Toolkit</a>
+      <a href="theoretical.html">Back to Theoretical Hub</a>
       <a href="quantum_experiments.html">Next: Quantum Experiments →</a>
     </div>
 
@@ -385,12 +449,6 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
       <button id="clearAll" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Clear all</button>
     </div>
     <p style="color:var(--muted); font-size:.9rem; margin-top:.4rem">Notes are saved in this browser.</p>
-
-    <hr class="sep"/>
-    <figure class="figure">
-      <img src="work.jpeg" alt="Desk with notebooks and lamp"/>
-      <figcaption class="figcap">Keep a compact log of assumptions and units next to each result.</figcaption>
-    </figure>
   </aside>
 </div>
 
@@ -421,7 +479,7 @@ function spy(){
 addEventListener('scroll', spy); spy();
 
 /* notebook store - unique key for this page */
-const KEY='qpx_notes_quantum_next_v1';
+const KEY='qpx_notes_quantum_next_v2';
 const listEl=document.getElementById('nbList');
 function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];} }
 function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
@@ -491,9 +549,9 @@ if(gradeBtn){
         fb.textContent='Select an option to see feedback.'; fb.style.color='#f0d28a'; return;
       }
       if(choice.dataset.choice===ans){
-        score++; choice.classList.add('correct'); fb.textContent='Correct — ' + explain; fb.style.color='#8fe0a8';
+        score++; choice.classList.add('correct'); fb.textContent='Correct - ' + explain; fb.style.color='#8fe0a8';
       }else{
-        choice.classList.add('wrong'); fb.textContent='Not quite — ' + explain; fb.style.color='#f29b9b';
+        choice.classList.add('wrong'); fb.textContent='Not quite - ' + explain; fb.style.color='#f29b9b';
         const corr=[...group.querySelectorAll('button')].find(b=>b.dataset.choice===ans);
         if(corr) corr.classList.add('correct');
       }
