@@ -5,442 +5,324 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>QParadox • What Is Theoretical Physics?</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<!-- Dark-academia fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
 
-<!--
-IMAGES (put these files next to this HTML, exactly named):
-  - theory-header.JPEG
-  - library-aesthetic.JPEG
-  - chalkboard.JPEG
+<!-- Images to place in the SAME folder as this HTML:
+     - theory-header.JPEG
+     - library-aesthetic.JPEG
+     - chalkboard.JPEG
 -->
 
 <style>
 :root{
-  --bg:#0b0b0d;
-  --panel:#131316;
-  --ink:#efeae2;
-  --ink-2:#d8d1c8;
-  --muted:#b9b3aa;
-  --gold:#caa36b;
-  --blue:#7aa0ff;
-  --line:rgba(255,255,255,.14);
-  --glass:rgba(255,255,255,.06);
-  --shadow:0 16px 50px rgba(0,0,0,.7), inset 0 0 120px rgba(255,255,255,.03);
-  --radius:18px;
-  --max:1180px;
-  --side:320px;
+  --bg:#0b0b0d; --paper:#131316; --ink:#efeae2; --ink2:#d9d2c7; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --max:1060px;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0; background:var(--bg); color:var(--ink);
-  font-family:"Crimson Text",serif; line-height:1.9; letter-spacing:.18px; overflow-x:hidden;
+  font-family:"Merriweather",serif; line-height:1.9; letter-spacing:.15px; overflow-x:hidden;
 }
 body::before{
   content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
   background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
 }
 body::after{
-  content:""; position:fixed; inset:0; z-index:-2;
+  content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
   background:
-    radial-gradient(900px 500px at 12% 0%, rgba(255,222,180,.08), transparent 60%),
-    radial-gradient(900px 500px at 88% 10%, rgba(140,160,255,.06), transparent 60%),
-    radial-gradient(1000px 560px at 50% 100%, rgba(202,163,107,.07), transparent 70%);
-  pointer-events:none;
+    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%);
 }
 .frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
 .progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
 
-/* header */
-header{padding:7rem 1.2rem 3rem; text-align:center}
-h1{font-family:"Playfair Display",serif; font-weight:900; margin:0; font-size:clamp(2.6rem,4vw,4.6rem); line-height:1.1; color:#f4ead8; text-shadow:0 0 22px rgba(255,255,255,.12)}
-.subtitle{max-width:1000px; margin:1rem auto 0; color:var(--ink-2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
-.meta{margin-top:.6rem; color:var(--muted); font-family:"JetBrains Mono",monospace; font-size:.86rem}
-
-/* layout */
-.main{width:min(1200px,94%); margin:0 auto 5rem; display:grid; grid-template-columns:1fr; gap:26px}
-@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
-
-/* article */
-article{
-  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.025));
-  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.4rem;
+/* Header */
+header{padding:6.4rem 1.2rem 2.6rem; text-align:center}
+h1{
+  font-family:"Playfair Display",serif; font-weight:900; margin:0;
+  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)
 }
-@media(min-width:760px){ article{padding:2.6rem 2.4rem} }
-article h2{font-family:"Playfair Display",serif; font-size:clamp(1.8rem,2.6vw,2.4rem); margin:2.3rem 0 1rem; color:#f6eddc}
-article h2:first-child{margin-top:0}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+.meta{margin-top:.6rem; color:var(--muted); font-size:.95rem}
+
+/* Layout */
+.wrap{width:min(var(--max),92%); margin:0 auto 4rem}
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.8rem,2.6vw,2.5rem); color:#f6eddc}
 .divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
 p{margin:1.05rem 0}
-.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.4rem; line-height:2.4rem; padding:.25rem .5rem .1rem 0; color:#f3e5c8}
-.pullquote{margin:1.4rem 0; padding:1rem 1.2rem; border-left:3px solid var(--gold); background:rgba(255,255,255,.03); color:var(--ink-2); font-style:italic; border-radius:10px}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
 
-/* figures */
+/* Figures */
 .figure{margin:1.5rem 0; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#0e0f12; box-shadow:var(--shadow)}
 .figure img{display:block; width:100%; height:auto}
-.figcap{padding:.7rem .9rem; color:var(--ink-2); font-size:.95rem; border-top:1px solid var(--line)}
+.figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
 
-/* sidebar */
-aside{
-  position:sticky; top:90px; align-self:start; height:fit-content;
-  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
-  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem;
+/* Paragraph highlight button */
+.pwrap{position:relative; padding-right:2.4rem}
+.hlbtn{
+  position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+  background:var(--glass); color:var(--ink); border:1px solid var(--line); font-size:.85rem; cursor:pointer; opacity:0; transition:.2s
 }
-aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
-.toc a{display:block; text-decoration:none; color:var(--ink-2); padding:.35rem .2rem; border-radius:.4rem; font-family:"JetBrains Mono",monospace; font-size:.88rem}
-.toc a:hover{color:var(--ink)}
-.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
-hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
 
-/* Notebook */
-.nb-controls{display:flex; gap:.4rem; flex-wrap:wrap; margin:.4rem 0 .6rem}
-.btn{border:1px solid var(--line); background:var(--glass); color:var(--ink); border-radius:.5rem; padding:.28rem .55rem; font-family:"JetBrains Mono",monospace; font-size:.82rem; cursor:pointer}
-.btn:hover{border-color:rgba(255,255,255,.28)}
-.note{border:1px solid var(--line); border-radius:10px; padding:.55rem .6rem; margin:.45rem 0; background:rgba(255,255,255,.04)}
-.note small{color:var(--muted); font-family:"JetBrains Mono",monospace}
-.note-actions{display:flex; gap:.4rem; margin-top:.3rem}
-.hl{background:linear-gradient(180deg, rgba(202,163,107,.28), rgba(122,160,255,.22)); border-radius:.2rem; padding:.05rem .1rem}
+/* Notebook panel */
+#nbToggle{
+  position:fixed; right:18px; bottom:20px; z-index:40; cursor:pointer;
+  padding:.6rem .9rem; border-radius:12px; border:1px solid var(--line);
+  background:linear-gradient(90deg,rgba(202,163,107,.35),rgba(122,160,255,.28)); color:var(--ink);
+  box-shadow:var(--shadow)
+}
+.notebook{
+  position:fixed; top:0; right:-420px; width:min(400px,94vw); height:100vh; z-index:50;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  border-left:1px solid var(--line); box-shadow:var(--shadow); transition:right .35s ease;
+  display:flex; flex-direction:column
+}
+.notebook.open{right:0}
+.nb-head{padding:1rem 1rem .6rem; border-bottom:1px solid var(--line)}
+.nb-head h3{margin:.2rem 0 .1rem; font-family:"Playfair Display",serif}
+.nb-list{padding:.9rem 1rem; overflow:auto}
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+.nb-foot{padding:.7rem 1rem; border-top:1px solid var(--line); display:flex; gap:.5rem; align-items:center}
+.nb-foot button{padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
 
-/* selection tooltip */
-.selbox{
-  position:absolute; transform:translate(-50%, -120%); background:rgba(12,12,14,.92);
-  color:var(--ink); border:1px solid var(--line); padding:.4rem .55rem; border-radius:.5rem; font-family:"JetBrains Mono",monospace; font-size:.84rem;
-  display:none; z-index:100; box-shadow:var(--shadow)
+/* Links row at end */
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{
+  text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
+  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem
 }
 
-/* modal for adding note */
-.modal{position:fixed; inset:0; background:rgba(0,0,0,.65); display:none; place-items:center; z-index:1000}
-.modal.open{display:grid}
-.modal-card{width:min(760px,92vw); background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03)); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem 1rem}
-.modal-card h4{margin:.2rem 0 .6rem; font-family:"Playfair Display",serif}
-.modal-card textarea, .modal-card input{
-  width:100%; background:rgba(255,255,255,.05); color:var(--ink); border:1px solid var(--line); border-radius:.5rem; padding:.55rem .6rem; font-family:inherit; font-size:1rem;
-}
-.modal-card textarea{height:140px; resize:vertical}
-.modal-actions{display:flex; gap:.5rem; justify-content:flex-end; margin-top:.6rem}
-
-/* progress & reveal */
-.reveal{opacity:0; transform:translateY(26px) scale(.98); transition:opacity .9s ease, transform .9s ease}
+/* Cinematic reveal */
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
 .reveal.in{opacity:1; transform:none}
 
-/* back to top */
-#topBtn{position:fixed; right:18px; bottom:20px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:50%; background:var(--glass); color:var(--ink); cursor:pointer; opacity:0; pointer-events:none; transition:.3s; z-index:50}
-#topBtn.show{opacity:1; pointer-events:auto}
-
+/* Progress */
+#progressBar{position:fixed; top:0; left:0; height:4px; width:0; background:linear-gradient(90deg,var(--gold),var(--blue)); z-index:100}
 footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
 
 <div class="frame" aria-hidden="true"></div>
-<div class="progress" id="progress"></div>
+<div id="progressBar"></div>
 
-<header class="reveal in">
+<header class="wrap reveal in">
   <h1>What Is Theoretical Physics?</h1>
-  <p class="subtitle">An orientation to practice: identify structure, choose the right variables, write a model that makes testable claims, and track where it applies. This page is written for careful reading and note-taking.</p>
-  <div class="meta">Reading time ~ 20–25 min</div>
+  <p class="subtitle">
+    A slow, clear introduction for curious students. What it is, why scientists use it, and what kinds of answers it can give.
+    This is the doorway to the rest of QParadox’s physics library.
+  </p>
+  <p class="meta">High-school & undergraduate friendly • long read</p>
 </header>
 
-<div class="main">
-  <!-- ARTICLE -->
+<div class="wrap">
   <article id="article">
 
     <figure class="figure reveal">
-      <img src="theory-header.JPEG" alt="Study with chalkboard and notes"/>
-      <figcaption class="figcap">A good model is a short statement with a long reach. The rest is careful testing over a wide range of conditions.</figcaption>
+      <img src="theory-header.JPEG" alt="Chalkboard and study table in low light"/>
+      <figcaption class="figcap">Theory is a compact description that stands up when the world replies with data.</figcaption>
     </figure>
 
-    <h2 id="intro" class="reveal">Orientation</h2>
+    <h2 id="what" class="reveal">1) What it is</h2>
     <div class="divider"></div>
-    <p class="dropcap reveal">
-      Theoretical physics is the construction and analysis of models that compress many observations into a small number of principles and clear procedures for prediction. The point is not to decorate reality with clever manipulations. The point is to put forward a description whose assumptions are visible, whose consequences are specific, and whose claims can be checked against measurements gathered under the same conditions. A strong model explains patterns that were not targeted directly and remains steady when parameters are varied over a sensible range. This emphasis on compression and stability is practical. It saves time when moving to a new problem because the same method of reasoning can be reused with minimal translation. If a result fails under a limit that ought to be safe, the model is revised or replaced, and the record of assumptions makes the diagnosis quick rather than dramatic.
-    </p>
-    <p class="reveal">
-      A useful way to think about the purpose of theory is to separate three tasks. First, isolate the variables that actually govern the observable you plan to compare with data at the scale you care about. Second, express the constraints that cannot be violated, such as conservation of energy or the invariance of certain relations under shifts or rotations. Third, provide a rule that takes an initial description of the system and produces numbers that can be compared with the readout of an instrument. These are not abstract ideals. They are checkpoints that keep work anchored. When they are followed, independent readers can reproduce a result without guessing what was intended. That reproducibility is not a bureaucratic requirement. It is the fastest route to collective progress.
-    </p>
-    <p class="reveal">
-      Because the field is broad, it is comforting to notice that the same habits appear everywhere. In mechanics you often start from an energy accounting and ask which motion keeps that accounting consistent under small changes. In electromagnetism you write local relations between fields and sources and examine the consequences for waves and forces. In relativity you demand a description that different observers can agree on even when their states of motion differ, and you treat gravity as the effect of geometry on movement. In quantum theory you describe what is prepared, how it evolves, and what is recorded. These topics feel different, yet the strategy is shared: keep the model small, keep the assumptions visible, and treat comparison with data as the last word.
-    </p>
 
-    <h2 id="model" class="reveal">Building a model</h2>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        Theoretical physics is the part of physics where we try to describe nature with short, honest rules that can be checked. A good rule tells you what matters in a situation, how to set up the calculation, and which numbers to compare with an experiment. It does not try to track every tiny detail. Instead, it chooses the few pieces that control the result at the scale we care about. This is why many theoretical papers begin with a “model”: a small, clean description of a system, the assumptions that keep it simple, and a path that leads from those assumptions to a prediction. The model is valuable when it explains many examples with the same basic logic and when it survives tests outside the situation that inspired it.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2">
+        The job is not to be fancy. The job is to be precise and useful. In class you may have seen this with motion: instead of listing every push, you write one careful statement that respects energy and constraints, and from that statement the motion follows. In electricity and magnetism, you write down a few local relations between fields and sources and discover that light emerges as a natural consequence. In quantum topics, you describe how a prepared system changes and what pattern of results a measurement produces. Different tools, same promise: a small set of ideas that produce clear, testable numbers.
+      </p>
+    </div>
+
+    <h2 id="why" class="reveal">2) Why we use it</h2>
     <div class="divider"></div>
-    <p class="dropcap reveal">
-      Start with a plain sketch. Identify the scale of interest, the quantities you will treat as adjustable, and the features that must remain fixed. Decide which idealizations are safe, such as frictionless bearings in a first pass or rigid bodies when deformations are negligible for the measurement in question. Record the symmetries that the situation respects. If a result should not depend on where the origin is placed, build that independence into the description from the start. Translate the sketch into a minimal set of relations that determine how the system changes. For many problems this means specifying an energy function in sensible coordinates and obtaining the equations that follow from requiring consistency under small variations. For systems where preparation and readout dominate the story, it is more efficient to work with states and operations and to compute the statistics of outcomes directly.
-    </p>
-    <p class="reveal">
-      After the first version exists, stress-test it using limits. Drive one parameter to an extreme while keeping the rest within realistic ranges and see whether the model reduces to a familiar behavior. Enlarging the mass in a mechanical problem should recover a trajectory that does not respond to small forces. Weak interactions should fade smoothly in problems where coupling can be turned down. If a limit misbehaves, do not add patches. Revisit the starting point and ask whether a hidden assumption slipped in without being declared. Keep unit analysis visible at each line. Many failures are caught by checking whether an intermediate expression carries the correct dimensions before numbers are substituted. These steps sound simple because they are. They remain the most reliable protection against persuasive mistakes.
-    </p>
-    <p class="reveal">
-      Finally, map the parameter space. Identify regions where the model is sharp, regions where corrections are necessary but manageable, and regions where the framework should not be trusted without fresh evidence. Publish the map alongside your main result. Readers who come later will make better use of your work, and you will spend less time explaining what was intended. In this way, a model becomes more than a set of equations on a page. It becomes a guide to where effort should be invested and where another approach is likely to pay off faster.
-    </p>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        We use theory because it gives direction. It tells us which experiments are worth doing and which details can be safely ignored. It also connects topics that look unrelated on the surface. The same way of thinking that explains a swinging pendulum also explains how molecules vibrate. When a description is truly good, it predicts something we did not build into it on purpose. Maxwell’s field relations predicted waves in empty space; the speed matched the measured speed of light. That is a sign the model has captured the heart of the phenomenon rather than just described its shadow.
+      </p>
+    </div>
 
     <figure class="figure reveal">
-      <img src="library-aesthetic.JPEG" alt="Library interior, study tables and reference volumes"/>
-      <figcaption class="figcap">Conservative assumptions and generous consequences are the right goal. Excess detail at the start slows later progress.</figcaption>
+      <img src="library-aesthetic.JPEG" alt="Quiet library shelves and notebooks"/>
+      <figcaption class="figcap">Good theory saves time. It points to the right variables and the right questions.</figcaption>
     </figure>
 
-    <h2 id="language" class="reveal">Working language</h2>
+    <h2 id="find" class="reveal">3) What we can find with it</h2>
     <div class="divider"></div>
-    <p class="dropcap reveal">
-      Mathematics is used because it keeps meaning stable when a problem changes clothing. Calculus allows careful discussion of rates and accumulations. Linear methods organize situations where the combination of possibilities matters and where certain states behave in particularly simple ways under the operations you care about. Geometric thinking lets you write rules that do not depend on how you label points, which is essential when motion and gravity are described from different frames. Probability theory supplies a disciplined way to speak about uncertainty, sampling, and repeatable statistics. None of this is optional ornament. Without it, disagreements devolve into arguments about phrasing. With it, disagreements collapse to a calculation that both sides can audit.
-    </p>
-    <p class="reveal">
-      Choosing a representation is a practical decision, not a matter of taste. For some systems it is efficient to track energy and constraints directly. For others it is smarter to monitor how preparation, evolution, and readout transform the description of the system. Switching viewpoints is not a failure. It is a sign of fluency. The benchmark is whether the result is easy to check and whether the path to that result can be followed by a second reader without side explanations. When that standard is met, the work is robust. It can be absorbed by a group quickly and extended without confusion.
-    </p>
-    <p class="reveal">
-      The last ingredient is clean notation and consistent definitions. Agree on the meaning of each quantity at the start and keep a legend nearby. If a symbol carries a different role in another section or paper, rename it rather than overloading it. The small cost of extra letters is repaid immediately when results are compared or combined. Clarity of names is as important as clarity of ideas.
-    </p>
 
-    <h2 id="areas" class="reveal">Areas that display the method</h2>
-    <div class="divider"></div>
-    <p class="dropcap reveal">
-      Mechanics provides a controlled environment for learning disciplined modeling. One identifies coordinates, writes an energy accounting that respects constraints, and derives the motion that is consistent with that accounting. This works from simple oscillators to coupled systems and constrained motion. Electromagnetism shows the power of local relations. When you treat electric and magnetic influences as fields defined at every point and tie them to sources in a consistent way, waves in empty space appear as a consequence, not as an extra assumption. This is a model doing real work: a compact framework that produces a phenomenon you did not explicitly build in.
-    </p>
-    <p class="reveal">
-      Relativity insists that descriptions of motion and cause agree between observers who move at steady speeds relative to one another and that gravitational phenomena can be described as the effect of geometry on movement. Demanding this level of consistency removes common paradoxes and promotes a single picture in which time and space are different aspects of one structure. Quantum theory treats outcomes statistically but in a way that is organized and predictive. One describes how a prepared situation develops, how it is probed, and what distribution of records is expected. This removes the need for improvised stories about hidden actions and centers discussion on preparation, operations, and readout.
-    </p>
-    <p class="reveal">
-      When many constituents are involved, statistical methods explain how collective behavior emerges and why macroscopic properties such as temperature and pressure can be defined without tracking each part. The insight is that the right variables are often distributions and averages rather than individual histories. Choosing those variables well is a skill that becomes more valuable as systems grow in size and complexity. It decides whether a calculation reveals a mechanism or hides it under bookkeeping.
-    </p>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4" class="dropcap">
+        With a strong model you can do three useful things. First, you can make a new prediction that no one has measured yet: a frequency, a lifetime, a curve that a detector should record. Second, you can organize messy observations by showing that many patterns are actually different views of the same simple effect once the right variables are chosen. Third, you can expose a limit where today’s picture must fail. This last result is not bad news; it is a map for the next experiment or the next theory. In a healthy research field, models are not trophies. They are tools that point to the next step.
+      </p>
+    </div>
 
-    <h2 id="practice" class="reveal">Practice at the desk</h2>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p5">★ Highlight</button>
+      <p id="p5">
+        Concrete examples help. A basic quantum model predicts interference when two paths remain undisturbed and predicts its disappearance when a reliable record of the path is created. A simple gravitational model predicts how time runs differently near massive objects and tells engineers how to correct satellite clocks. A statistical model shows that temperature is not a property of a single particle but a way many particles behave together. Each of these results comes from a compact description that keeps only what matters for the question at hand and then follows the logic through to a number that can be tested.
+      </p>
+    </div>
+
+    <h2 id="how" class="reveal">4) How we actually work (gentle version)</h2>
     <div class="divider"></div>
-    <p class="dropcap reveal">
-      Daily practice is steady and methodical. Begin by writing the question in plain language and stating the observable of interest. Draw a small diagram that forces you to declare what is being held fixed and what is allowed to vary. Record the scale and units so the later checks are automatic. Choose a representation that fits the question. Convert the sketch into a compact set of relations and carry out the calculation with units visible. At each stage, check a limit that should be simple and scan for terms that do not have the dimensions they should. If there is a mismatch, stop and repair before moving forward. Keep a margin log of temporary choices, like coordinate frames or approximations, so that you can change them without unraveling the entire calculation.
-    </p>
-    <p class="reveal">
-      After obtaining a result, test it against known special cases. Compare with existing data or with a standard problem whose answer is well understood. If the new result reduces properly and passes the unit checks, present it with the assumptions and range of validity on the same page. If the comparison to measurement fails, use the record of assumptions to decide whether the failure comes from parameters or from structure. This is not a defeat. It is the productive part of the work. A model that fails with dignity teaches you where the next idea should differ.
-    </p>
-    <p class="reveal">
-      Build and maintain a small library of solved problems that are genuinely understood, not just completed. Re-solve a few of them using alternate methods every month. That habit prevents dependence on a single viewpoint and keeps the underlying technique sharp. When a new topic appears, the old library supplies patterns that transfer quickly.
-    </p>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p6">★ Highlight</button>
+      <p id="p6" class="dropcap">
+        The workflow most of us use is steady and learnable. We start with a sketch of the situation and decide what will be treated as variable and what will stay fixed. We choose a description that respects the obvious symmetries so we are not working against the problem. We write the simplest rules that move the system forward in time or relate causes to effects, and we keep track of units the whole way. We test the result by pushing a parameter to an extreme where the answer should be simple. If the model misbehaves in that limit, we repair the description before going further. Only after these checks do we turn the crank and compare the final number with data that were collected under the same assumptions.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p7">★ Highlight</button>
+      <p id="p7">
+        Students often ask what to practice first. The best start is with small systems that fit on a single page: a mass on a spring, a simple circuit, light passing through two slits, a ball thrown upward with air resistance small enough to ignore. Learn to translate a plain sentence into a model and then back into a plain sentence again. Repeat the same problem with two different methods so you do not depend on a single trick. This is not flashy, but it builds a reliable sense of what matters. That sense transfers when the problems grow.
+      </p>
+    </div>
 
     <figure class="figure reveal">
-      <img src="chalkboard.JPEG" alt="Chalkboard with derivations and notes"/>
-      <figcaption class="figcap">Good notes include a clear statement of the goal, the assumptions and scale, a readable path to the result, and checks at the end.</figcaption>
+      <img src="chalkboard.JPEG" alt="Chalkboard covered with work-in-progress steps"/>
+      <figcaption class="figcap">Keep your assumptions in the margin. They are as important as the final result.</figcaption>
     </figure>
+
+    <h2 id="learn" class="reveal">5) What you gain by learning theory</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p8">★ Highlight</button>
+      <p id="p8" class="dropcap">
+        Learning theoretical physics gives you habits that help far beyond the classroom. You learn to strip a problem to its essentials without losing what makes it real. You learn to check limits before you trust a result. You learn to communicate assumptions openly, which turns disagreements into focused questions that can be settled by calculation or measurement. Perhaps the most practical gain is confidence: not confidence that you are always right, but confidence that you can find out why a result is wrong and fix it without starting over. That is a powerful skill in any field that deals with complex systems.
+      </p>
+    </div>
 
     <h2 id="next" class="reveal">Next steps</h2>
     <div class="divider"></div>
-    <p class="dropcap reveal">
-      If you are beginning, choose problems small enough that the entire derivation fits on a single page and every assumption can be circled in the margin. Write the model in plain sentences and translate it into your chosen representation, then translate back to make sure nothing was lost. Solve the same problem by two routes when possible to build flexibility. Keep a running list of confusions and return to them regularly; many collapse once you have practiced the basics. Progress rarely looks dramatic. It shows up as a quiet improvement in how quickly you identify the right variables and how consistently you can extract a number that the world can test.
-    </p>
-    <p class="reveal">
-      When you move to larger projects, formalize your workflow. Begin with a one-page charter that states the question, the observable, the scale, the assumptions you refuse to violate, and the tests you will apply to any provisional answer. Share that charter with collaborators before calculations begin. The time saved later is considerable, and the quality of discussion improves. This is how theoretical work remains practical and cumulative. It is also how a student becomes a reliable partner in a research group: by making reasoning visible and making results easy to audit.
-    </p>
-    <p class="reveal">
-      Finally, treat comparison with data as the authority. Debate is useful while ideas are being formed, but a measurement that is clean and relevant decides which direction the group should go. That habit protects time, protects morale, and keeps the field healthy. The task of theoretical physics is not to produce ornate descriptions. It is to generate compact and accurate guidance about how nature behaves when asked precise questions.
-    </p>
 
-    <div class="divider"></div>
-    <div class="pullquote reveal">Select any passage to add it to your notebook. Notes are saved locally so you can build your own study guide.</div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p9">★ Highlight</button>
+      <p id="p9" class="dropcap">
+        If you want to continue, start with the foundations: conservation laws, the action viewpoint for motion, field ideas in electromagnetism, the basic quantum toolkit, and the logic of statistical reasoning. Each topic will have its own page in this library with examples, diagrams, and short practice prompts. The goal is not speed but clarity. When you can explain a result in your own words and show exactly where each assumption was used, you are ready to move to the next layer.
+      </p>
+    </div>
+
+    <div class="nextrow reveal">
+      <a href="theoretical.html">← Back to Theoretical Hub</a>
+      <a href="theoretical_foundations.html">Next page → Foundations</a>
+    </div>
 
   </article>
-
-  <!-- SIDEBAR: TOC + NOTEBOOK -->
-  <aside class="reveal">
-    <h3>Contents</h3>
-    <div id="toc" class="toc"></div>
-    <hr class="sep"/>
-
-    <h3>Notebook</h3>
-    <div class="nb-controls">
-      <button class="btn" id="exportNotes">Export JSON</button>
-      <button class="btn" id="clearNotes">Clear</button>
-    </div>
-    <div id="notes"></div>
-
-    <hr class="sep"/>
-    <p style="color:var(--ink-2); font-size:.95rem">Highlight any sentence or paragraph in the article and click “Add to notebook”. Your notes remain in this browser.</p>
-  </aside>
 </div>
 
 <footer>© 2025 QParadox</footer>
 
-<!-- Floating selection box -->
-<div class="selbox" id="selBox"><button class="btn" id="addNoteBtn">Add to notebook</button></div>
-
-<!-- Add-note modal -->
-<div class="modal" id="noteModal">
-  <div class="modal-card">
-    <h4>Add to notebook</h4>
-    <label style="display:block; margin:.35rem 0 .25rem; color:var(--ink-2)">Excerpt</label>
-    <textarea id="excerptField" readonly></textarea>
-    <label style="display:block; margin:.6rem 0 .25rem; color:var(--ink-2)">Your note</label>
-    <textarea id="noteField" placeholder="What do you want to remember or check later?"></textarea>
-    <div class="modal-actions">
-      <button class="btn" id="cancelNote">Cancel</button>
-      <button class="btn" id="saveNote">Save</button>
-    </div>
+<!-- Notebook toggle + panel -->
+<button id="nbToggle" aria-controls="notebook" aria-expanded="false">Notebook</button>
+<aside id="notebook" class="notebook" aria-hidden="true">
+  <div class="nb-head">
+    <h3>Your Notebook</h3>
+    <p style="color:var(--ink2); margin:.2rem 0 .6rem">Saved highlights from this page</p>
   </div>
-</div>
-
-<div id="topBtn" aria-label="Back to top">↑</div>
+  <div id="nbList" class="nb-list"></div>
+  <div class="nb-foot">
+    <button id="clearAll">Clear all</button>
+    <span style="color:var(--muted); font-size:.9rem">Highlights are saved in this browser.</span>
+  </div>
+</aside>
 
 <script>
-/* ===== progress bar ===== */
-const progress=document.getElementById('progress');
-function setProgress(){
+/* progress bar */
+const bar=document.getElementById('progressBar');
+function onScroll(){
   const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
-  progress.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
 }
-addEventListener('scroll', setProgress); setProgress();
+addEventListener('scroll', onScroll); onScroll();
 
-/* ===== reveals ===== */
+/* reveal */
 const obs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} }); },{threshold:.18});
 document.querySelectorAll('.reveal').forEach(el=>{ if(!el.classList.contains('in')) obs.observe(el); });
 
-/* ===== TOC ===== */
-const toc=document.getElementById('toc');
-const heads=[...document.querySelectorAll('#article h2')];
-heads.forEach(h=>{ const a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent; toc.appendChild(a); });
-function spy(){
-  const y=scrollY+140; let idx=-1;
-  heads.forEach((s,i)=>{ if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i; });
-  [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));
-}
-addEventListener('scroll', spy); spy();
-
-/* ===== back to top ===== */
-const topBtn=document.getElementById('topBtn');
-addEventListener('scroll',()=>{ if(scrollY>innerHeight*.3) topBtn.classList.add('show'); else topBtn.classList.remove('show'); });
-topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
-
-/* ===== selection → notebook ===== */
-const article=document.getElementById('article');
-const selBox=document.getElementById('selBox');
-let currentRange=null;
-
-function getSelectionIn(el){
-  const sel=window.getSelection();
-  if(!sel.rangeCount) return null;
-  const range=sel.getRangeAt(0);
-  if(!el.contains(range.commonAncestorContainer)) return null;
-  const text=sel.toString().trim();
-  if(text.length<6) return null; // avoid tiny selections
-  return range;
-}
-
-function showSelBox(range){
-  const rect=range.getBoundingClientRect();
-  selBox.style.left=(rect.left + rect.width/2 + window.scrollX)+'px';
-  selBox.style.top=(rect.top + window.scrollY)+'px';
-  selBox.style.display='block';
-}
-
-document.addEventListener('mouseup',()=>{
-  const r=getSelectionIn(article);
-  if(r){ currentRange=r; showSelBox(r); }
-  else { selBox.style.display='none'; currentRange=null; }
+/* notebook panel */
+const toggle=document.getElementById('nbToggle');
+const panel=document.getElementById('notebook');
+toggle.addEventListener('click',()=>{
+  const open=panel.classList.toggle('open');
+  panel.setAttribute('aria-hidden', String(!open));
+  toggle.setAttribute('aria-expanded', String(open));
 });
 
-document.getElementById('addNoteBtn').addEventListener('click',()=>{
-  if(!currentRange) return;
-  const sel=window.getSelection().toString().trim();
-  document.getElementById('excerptField').value=sel;
-  document.getElementById('noteField').value="";
-  document.getElementById('noteModal').classList.add('open');
-  selBox.style.display='none';
-});
-
-document.getElementById('cancelNote').addEventListener('click',()=>document.getElementById('noteModal').classList.remove('open'));
-
-function wrapSelection(range, id){
-  const span=document.createElement('span');
-  span.className='hl';
-  span.dataset.noteId=id;
-  range.surroundContents(span);
-  return span;
-}
-
-/* ===== notebook persistence ===== */
-const NOTES_KEY='qparadox_theory_notes_v1';
-const notesEl=document.getElementById('notes');
-function loadNotes(){ try{ return JSON.parse(localStorage.getItem(NOTES_KEY)||'[]'); }catch(e){ return []; } }
-function saveNotes(list){ localStorage.setItem(NOTES_KEY, JSON.stringify(list)); }
-
-function renderNotes(){
-  const list=loadNotes();
-  notesEl.innerHTML='';
-  if(list.length===0){ notesEl.innerHTML='<p style="color:var(--muted)">No notes yet.</p>'; return; }
-  list.forEach(n=>{
-    const div=document.createElement('div'); div.className='note'; div.dataset.id=n.id;
-    div.innerHTML=`
-      <small>${new Date(n.time).toLocaleString()}</small>
-      <p><strong>Excerpt</strong>: ${n.excerpt}</p>
-      <p><strong>Note</strong>: ${n.body||''}</p>
-      <div class="note-actions">
-        <button class="btn nb-goto">Go to</button>
-        <button class="btn nb-edit">Edit</button>
-        <button class="btn nb-del">Delete</button>
-      </div>`;
-    notesEl.appendChild(div);
+/* simple notes store */
+const KEY='qpx_notes_intro_v1';
+const listEl=document.getElementById('nbList');
+function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];}}
+function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+function render(){
+  const notes=load(); listEl.innerHTML='';
+  if(notes.length===0){ listEl.innerHTML='<p style="color:var(--muted)">No highlights yet. Use the ★ buttons next to paragraphs.</p>'; return; }
+  notes.forEach(n=>{
+    const div=document.createElement('div');
+    div.className='note'; div.dataset.id=n.id;
+    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time>
+      <p>${n.text}</p>
+      <button class="del">Remove</button>`;
+    listEl.appendChild(div);
   });
 }
-renderNotes();
+render();
 
-function defaultSaveHandler(){
-  const excerpt=document.getElementById('excerptField').value.trim();
-  const body=document.getElementById('noteField').value.trim();
-  if(!excerpt){ return; }
-  const list=loadNotes();
-  const id='n'+Date.now();
-  let anchorId=id;
-  try{
-    const span=wrapSelection(currentRange.cloneRange(), id);
-    span.id='anchor_'+id;
-  }catch(e){ anchorId=null; }
-  list.push({id, excerpt, body, time:Date.now(), anchor: anchorId});
-  saveNotes(list); renderNotes(); document.getElementById('noteModal').classList.remove('open');
-  window.getSelection().removeAllRanges();
-}
-const saveBtn=document.getElementById('saveNote');
-saveBtn.onclick=defaultSaveHandler;
-
-/* note actions */
-notesEl.addEventListener('click',(e)=>{
-  const box=e.target.closest('.note'); if(!box) return;
-  const id=box.dataset.id;
-  if(e.target.classList.contains('nb-del')){
-    const list=loadNotes().filter(n=>n.id!==id); saveNotes(list); 
-    const hl=document.querySelector('[data-note-id="'+id+'"]');
-    if(hl){ const parent=hl.parentNode; while(hl.firstChild) parent.insertBefore(hl.firstChild, hl); parent.removeChild(hl); }
-    renderNotes();
-  }else if(e.target.classList.contains('nb-edit')){
-    const list=loadNotes(); const n=list.find(x=>x.id===id); if(!n) return;
-    document.getElementById('excerptField').value=n.excerpt;
-    document.getElementById('noteField').value=n.body||'';
-    document.getElementById('noteModal').classList.add('open');
-    saveBtn.onclick=()=>{
-      n.body=document.getElementById('noteField').value.trim();
-      saveNotes(list); renderNotes();
-      document.getElementById('noteModal').classList.remove('open');
-      saveBtn.onclick=defaultSaveHandler;
-    };
-  }else if(e.target.classList.contains('nb-goto')){
-    const target=document.getElementById('anchor_'+id);
-    if(target){ target.scrollIntoView({behavior:'smooth', block:'center'}); target.classList.add('pulse'); setTimeout(()=>target.classList.remove('pulse'),1200); }
-  }
-});
-
-/* export and clear */
-document.getElementById('exportNotes').addEventListener('click',()=>{
-  const data=localStorage.getItem(NOTES_KEY)||'[]';
-  const blob=new Blob([data],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='qparadox-notes.json'; a.click();
-  URL.revokeObjectURL(a.href);
-});
-document.getElementById('clearNotes').addEventListener('click',()=>{
-  if(!confirm('Remove all notes saved in this browser for this page?')) return;
-  localStorage.removeItem(NOTES_KEY); 
-  document.querySelectorAll('.hl').forEach(hl=>{
-    const parent=hl.parentNode; while(hl.firstChild) parent.insertBefore(hl.firstChild, hl); parent.removeChild(hl);
+/* add highlight on click of ★ buttons */
+document.querySelectorAll('.hlbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id=btn.dataset.target;
+    const p=document.getElementById(id);
+    if(!p) return;
+    // visual mark
+    p.classList.add('mark');
+    // save note
+    const notes=load();
+    notes.push({id:'n'+Date.now(), text:p.textContent.trim(), time:Date.now(), para:id});
+    save(notes); render();
+    // open panel once something is saved
+    panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); toggle.setAttribute('aria-expanded','true');
   });
-  renderNotes();
 });
 
-/* hide selection box on scroll or click elsewhere */
-addEventListener('scroll',()=>{ selBox.style.display='none'; });
-document.addEventListener('mousedown',(e)=>{ if(!selBox.contains(e.target)) selBox.style.display='none'; });
+/* remove and clear */
+listEl.addEventListener('click',e=>{
+  if(!e.target.classList.contains('del')) return;
+  const item=e.target.closest('.note'); const id=item.dataset.id;
+  const notes=load().filter(x=>x.id!==id);
+  save(notes); render();
+});
+document.getElementById('clearAll').addEventListener('click',()=>{
+  if(!confirm('Clear all saved highlights for this page?')) return;
+  localStorage.removeItem(KEY); render();
+  // remove visual marks
+  document.querySelectorAll('.mark').forEach(m=>m.classList.remove('mark'));
+});
 </script>
 </body>
 </html>
