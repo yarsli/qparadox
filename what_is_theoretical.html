@@ -3,27 +3,32 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>QParadox • The Long Room of Theory</title>
+<title>QParadox • What Is Theoretical Physics?</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+
+<!--
+IMAGES (put these files next to this HTML, exactly named):
+  - theory-header.JPEG
+  - library-aesthetic.JPEG
+  - chalkboard.JPEG
+-->
 
 <style>
 :root{
   --bg:#0b0b0d;
-  --panel:#121215;
+  --panel:#131316;
   --ink:#efeae2;
-  --ink-2:#d7d1c7;
+  --ink-2:#d8d1c8;
   --muted:#b9b3aa;
-  --gold:#caa36b;         /* warm accent */
-  --copper:#b97242;       /* second accent */
-  --blue:#7aa0ff;         /* cool accent */
-  --teal:#4fbfae;         /* subtle pop */
+  --gold:#caa36b;
+  --blue:#7aa0ff;
   --line:rgba(255,255,255,.14);
   --glass:rgba(255,255,255,.06);
   --shadow:0 16px 50px rgba(0,0,0,.7), inset 0 0 120px rgba(255,255,255,.03);
   --radius:18px;
-  --max:1040px;           /* content width */
-  --side:320px;           /* sidebar width on wide screens */
+  --max:1180px;
+  --side:320px;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
@@ -31,129 +36,97 @@ body{
   margin:0; background:var(--bg); color:var(--ink);
   font-family:"Crimson Text",serif; line-height:1.9; letter-spacing:.18px; overflow-x:hidden;
 }
-/* faint texture + glow */
 body::before{
   content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
   background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
 }
 body::after{
-  content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  content:""; position:fixed; inset:0; z-index:-2;
   background:
     radial-gradient(900px 500px at 12% 0%, rgba(255,222,180,.08), transparent 60%),
     radial-gradient(900px 500px at 88% 10%, rgba(140,160,255,.06), transparent 60%),
     radial-gradient(1000px 560px at 50% 100%, rgba(202,163,107,.07), transparent 70%);
+  pointer-events:none;
 }
 .frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
-
-/* progress bar */
-.progress{
-  position:fixed; top:0; left:0; height:4px; width:0; z-index:100;
-  background:linear-gradient(90deg,var(--gold),var(--blue));
-  box-shadow:0 0 10px rgba(202,163,107,.6);
-}
+.progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
 
 /* header */
-header{
-  padding:7rem 1.2rem 3rem; text-align:center; position:relative;
-}
-h1{
-  font-family:"Playfair Display",serif; font-weight:900; margin:0;
-  font-size:clamp(2.6rem,4vw,4.6rem); line-height:1.1;
-  color:#f4ead8; text-shadow:0 0 22px rgba(255,255,255,.12);
-}
-.subtitle{
-  max-width:900px; margin:1rem auto 0; color:var(--ink-2); font-size:clamp(1.06rem,1.2vw,1.2rem)
-}
-.meta{
-  margin-top:.6rem; color:var(--muted); font-family:"JetBrains Mono",monospace; font-size:.85rem
-}
+header{padding:7rem 1.2rem 3rem; text-align:center}
+h1{font-family:"Playfair Display",serif; font-weight:900; margin:0; font-size:clamp(2.6rem,4vw,4.6rem); line-height:1.1; color:#f4ead8; text-shadow:0 0 22px rgba(255,255,255,.12)}
+.subtitle{max-width:1000px; margin:1rem auto 0; color:var(--ink-2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+.meta{margin-top:.6rem; color:var(--muted); font-family:"JetBrains Mono",monospace; font-size:.86rem}
 
 /* layout */
-.main-wrap{width:min(1200px,94%); margin:0 auto 5rem; display:grid; grid-template-columns:1fr; gap:26px}
-@media(min-width:1120px){
-  .main-wrap{grid-template-columns:minmax(0, var(--max)) var(--side)}
-}
+.main{width:min(1200px,94%); margin:0 auto 5rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
 
 /* article */
 article{
   background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.025));
-  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
-  padding:2.2rem 1.4rem;
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.4rem;
 }
-@media(min-width:720px){ article{padding:2.6rem 2.4rem} }
-article h2{
-  font-family:"Playfair Display",serif; font-size:clamp(1.8rem,2.6vw,2.3rem); margin:2.2rem 0 1rem; color:#f6eddc
-}
+@media(min-width:760px){ article{padding:2.6rem 2.4rem} }
+article h2{font-family:"Playfair Display",serif; font-size:clamp(1.8rem,2.6vw,2.4rem); margin:2.3rem 0 1rem; color:#f6eddc}
 article h2:first-child{margin-top:0}
 .divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
 p{margin:1.05rem 0}
-.dropcap:first-letter{
-  float:left; font-family:"Playfair Display",serif; font-size:3.4rem; line-height:2.4rem; padding:.25rem .5rem .1rem 0; color:#f3e5c8
-}
-.pullquote{
-  margin:1.4rem 0; padding:1rem 1.2rem; border-left:3px solid var(--gold); background:rgba(255,255,255,.03); color:var(--ink-2); font-style:italic; border-radius:10px
-}
-.rule{height:10px; background:
-  radial-gradient(circle at 10px 5px, var(--gold) 2px, transparent 3px) repeat-x;
-  background-size:40px 10px; opacity:.6}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.4rem; line-height:2.4rem; padding:.25rem .5rem .1rem 0; color:#f3e5c8}
+.pullquote{margin:1.4rem 0; padding:1rem 1.2rem; border-left:3px solid var(--gold); background:rgba(255,255,255,.03); color:var(--ink-2); font-style:italic; border-radius:10px}
 
-/* image blocks */
+/* figures */
 .figure{margin:1.5rem 0; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#0e0f12; box-shadow:var(--shadow)}
-.figure img{display:block; width:100%; height:auto; filter:contrast(1.02) saturate(1.04)}
+.figure img{display:block; width:100%; height:auto}
 .figcap{padding:.7rem .9rem; color:var(--ink-2); font-size:.95rem; border-top:1px solid var(--line)}
-.grid2{display:grid; grid-template-columns:1fr; gap:10px}
-@media(min-width:720px){ .grid2{grid-template-columns:1fr 1fr}}
 
-/* dotted accents like inspiration */
-.dots{display:grid; grid-template-columns:repeat(12,1fr); gap:8px; margin:1rem 0}
-.dots span{aspect-ratio:1; border-radius:50%; background:linear-gradient(180deg,var(--gold),var(--copper)); opacity:.75}
-.dots span:nth-child(odd){background:linear-gradient(180deg,var(--blue),#a7c1ff)}
-.dots span:nth-child(3n){background:linear-gradient(180deg,var(--teal),#b7f0e7)}
-
-/* glossary term */
-.term{color:#ffdfa5; border-bottom:1px dotted #ffdfa5; cursor:pointer}
-
-/* sidenotes panel */
+/* sidebar */
 aside{
-  position:sticky; top:88px; align-self:start; height:fit-content;
+  position:sticky; top:90px; align-self:start; height:fit-content;
   background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
-  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1.1rem 1rem;
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem;
 }
 aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
-aside .toc a{display:block; text-decoration:none; color:var(--ink-2); padding:.35rem .2rem; border-radius:.4rem; font-family:"JetBrains Mono",monospace; font-size:.88rem}
-aside .toc a:hover{color:var(--ink)}
-aside .toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
-aside .chip{display:inline-block; margin:.25rem .25rem 0 0; padding:.18rem .48rem; border:1px solid var(--line); border-radius:999px; font-family:"JetBrains Mono",monospace; font-size:.75rem; background:var(--glass)}
+.toc a{display:block; text-decoration:none; color:var(--ink-2); padding:.35rem .2rem; border-radius:.4rem; font-family:"JetBrains Mono",monospace; font-size:.88rem}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
 
-/* callouts */
-.callout{
-  padding:1rem 1.1rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
-  box-shadow:var(--shadow); margin:1.1rem 0
+/* Notebook */
+.nb-controls{display:flex; gap:.4rem; flex-wrap:wrap; margin:.4rem 0 .6rem}
+.btn{border:1px solid var(--line); background:var(--glass); color:var(--ink); border-radius:.5rem; padding:.28rem .55rem; font-family:"JetBrains Mono",monospace; font-size:.82rem; cursor:pointer}
+.btn:hover{border-color:rgba(255,255,255,.28)}
+.note{border:1px solid var(--line); border-radius:10px; padding:.55rem .6rem; margin:.45rem 0; background:rgba(255,255,255,.04)}
+.note small{color:var(--muted); font-family:"JetBrains Mono",monospace}
+.note-actions{display:flex; gap:.4rem; margin-top:.3rem}
+.hl{background:linear-gradient(180deg, rgba(202,163,107,.28), rgba(122,160,255,.22)); border-radius:.2rem; padding:.05rem .1rem}
+
+/* selection tooltip */
+.selbox{
+  position:absolute; transform:translate(-50%, -120%); background:rgba(12,12,14,.92);
+  color:var(--ink); border:1px solid var(--line); padding:.4rem .55rem; border-radius:.5rem; font-family:"JetBrains Mono",monospace; font-size:.84rem;
+  display:none; z-index:100; box-shadow:var(--shadow)
 }
-kbd{font-family:"JetBrains Mono",monospace; border:1px solid var(--line); padding:.1rem .35rem; border-radius:.3rem; background:var(--glass)}
 
-/* lightbox */
-.lightbox{position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; z-index:1000}
-.lightbox.open{display:flex}
-.lightbox img{max-width:92vw; max-height:90vh; border-radius:12px; border:1px solid var(--line); box-shadow:0 0 40px rgba(0,0,0,.7)}
+/* modal for adding note */
+.modal{position:fixed; inset:0; background:rgba(0,0,0,.65); display:none; place-items:center; z-index:1000}
+.modal.open{display:grid}
+.modal-card{width:min(760px,92vw); background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03)); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem 1rem}
+.modal-card h4{margin:.2rem 0 .6rem; font-family:"Playfair Display",serif}
+.modal-card textarea, .modal-card input{
+  width:100%; background:rgba(255,255,255,.05); color:var(--ink); border:1px solid var(--line); border-radius:.5rem; padding:.55rem .6rem; font-family:inherit; font-size:1rem;
+}
+.modal-card textarea{height:140px; resize:vertical}
+.modal-actions{display:flex; gap:.5rem; justify-content:flex-end; margin-top:.6rem}
 
-/* quiz */
-.quiz{margin:2rem 0; border:1px solid var(--line); border-radius:16px; padding:1rem 1.1rem; background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02)); box-shadow:var(--shadow)}
-.quiz h3{margin:.2rem 0 .8rem; font-family:"Playfair Display",serif}
-.opt{display:block; margin:.5rem 0; padding:.6rem .7rem; border-radius:.6rem; background:var(--glass); border:1px solid var(--line); cursor:pointer}
-.opt:hover{border-color:rgba(255,255,255,.28)}
-.result{margin-top:.8rem; padding:.6rem .7rem; border:1px dashed rgba(255,255,255,.25); border-radius:.6rem; display:none}
-
-/* cinematic reveals */
+/* progress & reveal */
 .reveal{opacity:0; transform:translateY(26px) scale(.98); transition:opacity .9s ease, transform .9s ease}
 .reveal.in{opacity:1; transform:none}
 
 /* back to top */
-#topBtn{position:fixed; right:18px; bottom:20px; width:44px; height:44px; display:flex; align-items:center; justify-content:center;
-  border:1px solid var(--line); border-radius:50%; background:var(--glass); color:var(--ink); cursor:pointer; opacity:0; pointer-events:none; transition:.3s; z-index:50}
+#topBtn{position:fixed; right:18px; bottom:20px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:50%; background:var(--glass); color:var(--ink); cursor:pointer; opacity:0; pointer-events:none; transition:.3s; z-index:50}
 #topBtn.show{opacity:1; pointer-events:auto}
 
-footer{padding:2.2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -162,233 +135,312 @@ footer{padding:2.2rem 1rem; text-align:center; color:var(--muted); border-top:1p
 <div class="progress" id="progress"></div>
 
 <header class="reveal in">
-  <h1>The Long Room of Theory</h1>
-  <p class="subtitle">A guided walk through how theoretical physics actually works, told like a midnight tour of an old library where the chalk never dries and every equation was written to be argued with by reality.</p>
-  <div class="meta">QParadox • by a student who loves the subject • reading time ~ 15–20 min</div>
+  <h1>What Is Theoretical Physics?</h1>
+  <p class="subtitle">An orientation to practice: identify structure, choose the right variables, write a model that makes testable claims, and track where it applies. This page is written for careful reading and note-taking.</p>
+  <div class="meta">Reading time ~ 20–25 min</div>
 </header>
 
-<main class="main-wrap">
+<div class="main">
   <!-- ARTICLE -->
-  <article id="post">
+  <article id="article">
 
-    <!-- hero block -->
-    <div class="figure reveal">
-      <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1400&auto=format&fit=crop" alt="Chalkboard in a dark study, equations glowing softly"/>
-      <div class="figcap">The room where ideas are tried before the universe gets a vote.</div>
-    </div>
-
-    <!-- section 1 -->
-    <h2 id="s-entrance" class="reveal">A room with chalk dust in the light</h2>
-    <div class="divider"></div>
-    <p class="dropcap reveal">
-      I like to imagine that theoretical physics began the first time someone noticed that different problems rhyme. A rock falls and a planet moves and a pendulum swings, and none of these look the same at first glance. If you stare long enough the motions share a grammar. The same shapes appear with different costumes. The project of theory is to catch that grammar in a sentence that stays true when you push it. We do not worship symbols. We use them because symbols keep us honest when our pictures are persuasive but wrong. When I write a model I am promising that if someone builds an experiment and lets reality respond, the numbers in the notebook will already be waiting for the result. The promise is not certainty. The promise is that I have said where the certainty lives and where the ignorance lives, and that I have done it in a way that someone else can test without asking what I meant.
-    </p>
-    <p class="reveal">
-      There is a quiet thrill when a small set of ideas explains many things. The fewer assumptions you need and the more situations you can describe, the better your theory. This is why theorists obsess over symmetry and scale and conservation. A symmetry is a way the world can be nudged without changing the outcome. A conserved quantity is what you can count on while everything else changes its clothes. Scale is the art of deciding which details matter at this size and which belong to another story. Once you hear these themes you will hear them everywhere. They are the rhythm section under the melody of every calculation.
-    </p>
-
-    <div class="rule reveal"></div>
-    <div class="dots reveal" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span><span></span>
-    </div>
-
-    <!-- section 2 -->
-    <h2 id="s-craft" class="reveal">How the craft actually works</h2>
-    <div class="divider"></div>
-    <p class="dropcap reveal">
-      When I sit with a problem I do not start with equations. I start with a drawing and a list of characters. I decide what I will treat as a variable and what I will treat as fixed. I choose coordinates that respect the symmetry of the situation, because fighting symmetry is like walking uphill when there is a path on level ground. I search for a conserved quantity because conserved quantities are lighthouses that do not move while everything else does. Then I write down a single object that counts the energy honestly. In many problems this object is the <span class="term" data-term="Lagrangian" data-def="L = T − V. It is the difference between kinetic and potential energy, written in smart coordinates.">Lagrangian</span>. The statement that nature chooses a path which keeps the action built from that object stationary is not mystical. It is a way to turn a messy pile of pushes into clean equations of motion. The path you get is the one that would have been hardest to improve by tiny changes. That is the sense in which it is economical rather than lazy. It does not waste.
-    </p>
-    <p class="reveal">
-      If the system is quantum I tell the story differently but with the same respect for structure. The state is a vector in a space that keeps track of possibilities. The way it changes is set by the Hamiltonian which is the operator that counts allowed energies and also drives the evolution. Phases matter, because phases decide whether different possibilities add or cancel. Measurement is the part of the story where a record is made. The record is not a magical power. It is a physical change in the world that kills interference for an observer who does not keep track of every microscopic correlation. This is why interference patterns disappear when you insist on which path information. The pattern did not flee because knowledge is scary. The pattern was never available to you once the environment carried a stable trail of crumbs that marked a path.
-    </p>
-
-    <div class="pullquote reveal">“The best theories are the shortest honest stories that survive contact with the world.”</div>
-
-    <!-- section 3 -->
-    <h2 id="s-language" class="reveal">The language that keeps meaning intact</h2>
-    <div class="divider"></div>
-    <p class="dropcap reveal">
-      Mathematics is the grammar of theoretical physics. Calculus lets you talk about change without hand waving. Linear algebra lets you treat states as vectors and observables as machines that act on them. Eigenstates are the special vectors that come back scaled by a number, which is why those numbers are the outcomes you can record. Group theory collects symmetries and tells you which quantities will be conserved before you compute anything. Tensor calculus writes laws that do not depend on what coordinates you chose, which is why general relativity can be stated cleanly in any frame. These phrases can sound like a closed club until you see them used in anger. After a few problems the jargon turns back into common sense. You begin to trust the tools because they prevent your imagination from cheating.
-    </p>
-    <p class="reveal">
-      Notation helps more than pride admits. Dirac’s bra and ket symbols keep inner products and operators readable when the algebra grows. Index notation keeps you honest in curved spaces where the difference between raising and lowering an index is a physical act, not just a style. Good notation is like good punctuation. It keeps the ideas breathing at the right pace. It turns long thoughts into lines you can read without stumbling.
-    </p>
-
-    <!-- image grid like inspiration -->
-    <div class="grid2 figure reveal">
-      <img src="https://images.unsplash.com/photo-1517976487492-5769a1aeeff1?q=80&w=1200&auto=format&fit=crop" alt="Old books with tabs and notes"/>
-      <img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1200&auto=format&fit=crop" alt="Notebook sketches and equations"/>
-      <div class="figcap">Working notes. The line between a sketch and a proof is thinner than it looks.</div>
-    </div>
-
-    <!-- dotted motifs -->
-    <div class="dots reveal" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span><span></span>
-    </div>
-
-    <!-- section 4 -->
-    <h2 id="s-examples" class="reveal">Two experiments that never stop teaching</h2>
-    <div class="divider"></div>
-    <p class="dropcap reveal">
-      The double slit is the calmest revolution in science. Send particles one by one through a wall with two openings and watch dots build up on a screen. You will not get two tidy piles. You will get a striped pattern that speaks in the language of interference. The state that left the source carried both path possibilities with a definite relation between them. If you build a device that writes a record of which path was taken, the record becomes part of the system. The phases that would have interfered are now entangled with the environment. The stripes fade. No mind power has been used. Only bookkeeping with consequences. The Stern–Gerlach experiment teaches a different lesson. Spin values do not smear. They land in clean beams for the axis you choose, which means your question shapes what can be answered. Rotate the device and you have asked a new question, so the statistics reorganize to answer it. Bell’s theorem then closes the door on the idea that particles carried secret instruction cards for any angle we might try. The correlations refuse that script.
-    </p>
-
-    <!-- small callout -->
-    <div class="callout reveal">
-      Try this while you read: when you see a result that feels like a surprise, ask what symmetry protects it and what record would destroy it. Those two questions carry farther than any trick.
-    </div>
-
-    <!-- section 5 -->
-    <h2 id="s-howto" class="reveal">A day in theory</h2>
-    <div class="divider"></div>
-    <p class="dropcap reveal">
-      A typical session looks ordinary from the outside. There is tea and a pen and the same notebook that already holds many failed tries. I start with a drawing that labels the moving parts and the scales that matter. I put down the obvious conservation laws. I choose a basis that makes the symmetry easy to see. I write the simplest state that fits the story without lying. I evolve it with the right generator. I project it onto the questions I actually plan to ask. I test the limits that should be easy. Heavy mass. Weak potential. Long time. Short time. If something misbehaves I do not push harder. I change the view until the misbehavior says what it wants. When a result survives all that I do not celebrate yet. I go back to the first page and ask whether there was a hidden assumption that should have been declared. Only when that check is boring do I feel the relief that the calculation has earned trust.
-    </p>
-
-    <!-- figure with lightbox -->
     <figure class="figure reveal">
-      <img class="zoom" src="https://images.unsplash.com/photo-1517433456452-f9633a875f6f?q=80&w=1400&auto=format&fit=crop" alt="Desk with lamp and notes"/>
-      <figcaption class="figcap">The desk is not dramatic. The method is the drama.</figcaption>
+      <img src="theory-header.JPEG" alt="Study with chalkboard and notes"/>
+      <figcaption class="figcap">A good model is a short statement with a long reach. The rest is careful testing over a wide range of conditions.</figcaption>
     </figure>
 
-    <!-- section 6 -->
-    <h2 id="s-whybeauty" class="reveal">Why beauty is not an ornament</h2>
+    <h2 id="intro" class="reveal">Orientation</h2>
     <div class="divider"></div>
     <p class="dropcap reveal">
-      Beauty in physics does not mean decoration. It means economy that does not feel cheap. A beautiful theory uses few ideas and explains many results while admitting its limits without drama. Maxwell’s equations are beautiful because they accept charges and currents as sources and then produce light as a consequence, even though light was not asked for in the original brief. The action principle is beautiful because you can derive many equations of motion from one statement and a sensible choice of coordinates. Quantum mechanics is beautiful because it gives you a compact rule for how probabilities arise from amplitudes and then forces you to keep your book of phases in order. When a theory is beautiful in this sense it usually predicts a surprise that looks obvious only after you have seen it once. Those are the moments that make people stay in the subject.
+      Theoretical physics is the construction and analysis of models that compress many observations into a small number of principles and clear procedures for prediction. The point is not to decorate reality with clever manipulations. The point is to put forward a description whose assumptions are visible, whose consequences are specific, and whose claims can be checked against measurements gathered under the same conditions. A strong model explains patterns that were not targeted directly and remains steady when parameters are varied over a sensible range. This emphasis on compression and stability is practical. It saves time when moving to a new problem because the same method of reasoning can be reused with minimal translation. If a result fails under a limit that ought to be safe, the model is revised or replaced, and the record of assumptions makes the diagnosis quick rather than dramatic.
+    </p>
+    <p class="reveal">
+      A useful way to think about the purpose of theory is to separate three tasks. First, isolate the variables that actually govern the observable you plan to compare with data at the scale you care about. Second, express the constraints that cannot be violated, such as conservation of energy or the invariance of certain relations under shifts or rotations. Third, provide a rule that takes an initial description of the system and produces numbers that can be compared with the readout of an instrument. These are not abstract ideals. They are checkpoints that keep work anchored. When they are followed, independent readers can reproduce a result without guessing what was intended. That reproducibility is not a bureaucratic requirement. It is the fastest route to collective progress.
+    </p>
+    <p class="reveal">
+      Because the field is broad, it is comforting to notice that the same habits appear everywhere. In mechanics you often start from an energy accounting and ask which motion keeps that accounting consistent under small changes. In electromagnetism you write local relations between fields and sources and examine the consequences for waves and forces. In relativity you demand a description that different observers can agree on even when their states of motion differ, and you treat gravity as the effect of geometry on movement. In quantum theory you describe what is prepared, how it evolves, and what is recorded. These topics feel different, yet the strategy is shared: keep the model small, keep the assumptions visible, and treat comparison with data as the last word.
     </p>
 
-    <div class="rule reveal"></div>
-
-    <!-- section 7 -->
-    <h2 id="s-start" class="reveal">How to begin if you are new</h2>
+    <h2 id="model" class="reveal">Building a model</h2>
     <div class="divider"></div>
     <p class="dropcap reveal">
-      Start with the smallest honest systems and learn how to think in them. For quantum work this means two level systems and the harmonic oscillator. For classical work this means simple constraints and the action view. For fields this means understanding how making a symmetry local demands a new field to keep the story consistent. Draw every setup. Track units without mercy. Choose bases that match the symmetry of the question. Practice turning a verbal story into a Lagrangian and back. Write down your worst confusions and test them by inventing limits that stress the idea. Read textbooks, but also read problem solutions that explain the choices out loud. Solve the same problem in two different ways once a week so you do not fall in love with one trick. The goal is not speed. The goal is a sense of shape that lets new topics feel familiar in their bones even when the symbols are strange.
+      Start with a plain sketch. Identify the scale of interest, the quantities you will treat as adjustable, and the features that must remain fixed. Decide which idealizations are safe, such as frictionless bearings in a first pass or rigid bodies when deformations are negligible for the measurement in question. Record the symmetries that the situation respects. If a result should not depend on where the origin is placed, build that independence into the description from the start. Translate the sketch into a minimal set of relations that determine how the system changes. For many problems this means specifying an energy function in sensible coordinates and obtaining the equations that follow from requiring consistency under small variations. For systems where preparation and readout dominate the story, it is more efficient to work with states and operations and to compute the statistics of outcomes directly.
+    </p>
+    <p class="reveal">
+      After the first version exists, stress-test it using limits. Drive one parameter to an extreme while keeping the rest within realistic ranges and see whether the model reduces to a familiar behavior. Enlarging the mass in a mechanical problem should recover a trajectory that does not respond to small forces. Weak interactions should fade smoothly in problems where coupling can be turned down. If a limit misbehaves, do not add patches. Revisit the starting point and ask whether a hidden assumption slipped in without being declared. Keep unit analysis visible at each line. Many failures are caught by checking whether an intermediate expression carries the correct dimensions before numbers are substituted. These steps sound simple because they are. They remain the most reliable protection against persuasive mistakes.
+    </p>
+    <p class="reveal">
+      Finally, map the parameter space. Identify regions where the model is sharp, regions where corrections are necessary but manageable, and regions where the framework should not be trusted without fresh evidence. Publish the map alongside your main result. Readers who come later will make better use of your work, and you will spend less time explaining what was intended. In this way, a model becomes more than a set of equations on a page. It becomes a guide to where effort should be invested and where another approach is likely to pay off faster.
     </p>
 
-    <!-- end quiz -->
-    <div class="quiz reveal" id="quizBox">
-      <h3>Checkpoint • which pillar should you walk into next</h3>
-      <label class="opt"><input type="radio" name="door" value="quantum"> The very small where phases and interference decide what happens.</label>
-      <label class="opt"><input type="radio" name="door" value="relativity"> The geometry where time and space share one fabric and gravity is curvature.</label>
-      <label class="opt"><input type="radio" name="door" value="em"> The fields that ripple as light and power real technology.</label>
-      <label class="opt"><input type="radio" name="door" value="classical"> The action view of motion with clean coordinates and conserved quantities.</label>
-      <label class="opt"><input type="radio" name="door" value="statmech"> The wisdom of crowds where temperature and entropy make sense.</label>
-      <button id="seeResult" style="margin-top:.6rem; padding:.6rem .85rem; border-radius:.6rem; border:1px solid var(--line); background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.24)); color:var(--ink); font-family:'JetBrains Mono',monospace; cursor:pointer">Show my path</button>
-      <div class="result" id="quizResult"></div>
-    </div>
+    <figure class="figure reveal">
+      <img src="library-aesthetic.JPEG" alt="Library interior, study tables and reference volumes"/>
+      <figcaption class="figcap">Conservative assumptions and generous consequences are the right goal. Excess detail at the start slows later progress.</figcaption>
+    </figure>
+
+    <h2 id="language" class="reveal">Working language</h2>
+    <div class="divider"></div>
+    <p class="dropcap reveal">
+      Mathematics is used because it keeps meaning stable when a problem changes clothing. Calculus allows careful discussion of rates and accumulations. Linear methods organize situations where the combination of possibilities matters and where certain states behave in particularly simple ways under the operations you care about. Geometric thinking lets you write rules that do not depend on how you label points, which is essential when motion and gravity are described from different frames. Probability theory supplies a disciplined way to speak about uncertainty, sampling, and repeatable statistics. None of this is optional ornament. Without it, disagreements devolve into arguments about phrasing. With it, disagreements collapse to a calculation that both sides can audit.
+    </p>
+    <p class="reveal">
+      Choosing a representation is a practical decision, not a matter of taste. For some systems it is efficient to track energy and constraints directly. For others it is smarter to monitor how preparation, evolution, and readout transform the description of the system. Switching viewpoints is not a failure. It is a sign of fluency. The benchmark is whether the result is easy to check and whether the path to that result can be followed by a second reader without side explanations. When that standard is met, the work is robust. It can be absorbed by a group quickly and extended without confusion.
+    </p>
+    <p class="reveal">
+      The last ingredient is clean notation and consistent definitions. Agree on the meaning of each quantity at the start and keep a legend nearby. If a symbol carries a different role in another section or paper, rename it rather than overloading it. The small cost of extra letters is repaid immediately when results are compared or combined. Clarity of names is as important as clarity of ideas.
+    </p>
+
+    <h2 id="areas" class="reveal">Areas that display the method</h2>
+    <div class="divider"></div>
+    <p class="dropcap reveal">
+      Mechanics provides a controlled environment for learning disciplined modeling. One identifies coordinates, writes an energy accounting that respects constraints, and derives the motion that is consistent with that accounting. This works from simple oscillators to coupled systems and constrained motion. Electromagnetism shows the power of local relations. When you treat electric and magnetic influences as fields defined at every point and tie them to sources in a consistent way, waves in empty space appear as a consequence, not as an extra assumption. This is a model doing real work: a compact framework that produces a phenomenon you did not explicitly build in.
+    </p>
+    <p class="reveal">
+      Relativity insists that descriptions of motion and cause agree between observers who move at steady speeds relative to one another and that gravitational phenomena can be described as the effect of geometry on movement. Demanding this level of consistency removes common paradoxes and promotes a single picture in which time and space are different aspects of one structure. Quantum theory treats outcomes statistically but in a way that is organized and predictive. One describes how a prepared situation develops, how it is probed, and what distribution of records is expected. This removes the need for improvised stories about hidden actions and centers discussion on preparation, operations, and readout.
+    </p>
+    <p class="reveal">
+      When many constituents are involved, statistical methods explain how collective behavior emerges and why macroscopic properties such as temperature and pressure can be defined without tracking each part. The insight is that the right variables are often distributions and averages rather than individual histories. Choosing those variables well is a skill that becomes more valuable as systems grow in size and complexity. It decides whether a calculation reveals a mechanism or hides it under bookkeeping.
+    </p>
+
+    <h2 id="practice" class="reveal">Practice at the desk</h2>
+    <div class="divider"></div>
+    <p class="dropcap reveal">
+      Daily practice is steady and methodical. Begin by writing the question in plain language and stating the observable of interest. Draw a small diagram that forces you to declare what is being held fixed and what is allowed to vary. Record the scale and units so the later checks are automatic. Choose a representation that fits the question. Convert the sketch into a compact set of relations and carry out the calculation with units visible. At each stage, check a limit that should be simple and scan for terms that do not have the dimensions they should. If there is a mismatch, stop and repair before moving forward. Keep a margin log of temporary choices, like coordinate frames or approximations, so that you can change them without unraveling the entire calculation.
+    </p>
+    <p class="reveal">
+      After obtaining a result, test it against known special cases. Compare with existing data or with a standard problem whose answer is well understood. If the new result reduces properly and passes the unit checks, present it with the assumptions and range of validity on the same page. If the comparison to measurement fails, use the record of assumptions to decide whether the failure comes from parameters or from structure. This is not a defeat. It is the productive part of the work. A model that fails with dignity teaches you where the next idea should differ.
+    </p>
+    <p class="reveal">
+      Build and maintain a small library of solved problems that are genuinely understood, not just completed. Re-solve a few of them using alternate methods every month. That habit prevents dependence on a single viewpoint and keeps the underlying technique sharp. When a new topic appears, the old library supplies patterns that transfer quickly.
+    </p>
+
+    <figure class="figure reveal">
+      <img src="chalkboard.JPEG" alt="Chalkboard with derivations and notes"/>
+      <figcaption class="figcap">Good notes include a clear statement of the goal, the assumptions and scale, a readable path to the result, and checks at the end.</figcaption>
+    </figure>
+
+    <h2 id="next" class="reveal">Next steps</h2>
+    <div class="divider"></div>
+    <p class="dropcap reveal">
+      If you are beginning, choose problems small enough that the entire derivation fits on a single page and every assumption can be circled in the margin. Write the model in plain sentences and translate it into your chosen representation, then translate back to make sure nothing was lost. Solve the same problem by two routes when possible to build flexibility. Keep a running list of confusions and return to them regularly; many collapse once you have practiced the basics. Progress rarely looks dramatic. It shows up as a quiet improvement in how quickly you identify the right variables and how consistently you can extract a number that the world can test.
+    </p>
+    <p class="reveal">
+      When you move to larger projects, formalize your workflow. Begin with a one-page charter that states the question, the observable, the scale, the assumptions you refuse to violate, and the tests you will apply to any provisional answer. Share that charter with collaborators before calculations begin. The time saved later is considerable, and the quality of discussion improves. This is how theoretical work remains practical and cumulative. It is also how a student becomes a reliable partner in a research group: by making reasoning visible and making results easy to audit.
+    </p>
+    <p class="reveal">
+      Finally, treat comparison with data as the authority. Debate is useful while ideas are being formed, but a measurement that is clean and relevant decides which direction the group should go. That habit protects time, protects morale, and keeps the field healthy. The task of theoretical physics is not to produce ornate descriptions. It is to generate compact and accurate guidance about how nature behaves when asked precise questions.
+    </p>
+
+    <div class="divider"></div>
+    <div class="pullquote reveal">Select any passage to add it to your notebook. Notes are saved locally so you can build your own study guide.</div>
 
   </article>
 
-  <!-- SIDEBAR -->
-  <aside id="sidebar" class="reveal">
-    <h3>Navigator</h3>
-    <div class="toc" id="toc"></div>
-    <div style="margin-top:1rem">
-      <span class="chip">symmetry</span>
-      <span class="chip">action</span>
-      <span class="chip">fields</span>
-      <span class="chip">amplitudes</span>
-      <span class="chip">interference</span>
+  <!-- SIDEBAR: TOC + NOTEBOOK -->
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+
+    <h3>Notebook</h3>
+    <div class="nb-controls">
+      <button class="btn" id="exportNotes">Export JSON</button>
+      <button class="btn" id="clearNotes">Clear</button>
     </div>
-    <div class="divider"></div>
-    <p style="color:var(--ink-2); font-size:.98rem">
-      Glossary hint: click a <span class="term" data-term="Hamiltonian" data-def="The energy operator. It also generates time evolution of the state.">highlighted word</span> in the article to open a plain language definition. Press <kbd>Esc</kbd> to close popups.
-    </p>
-    <div class="divider"></div>
-    <p style="color:var(--muted); font-family:'JetBrains Mono',monospace; font-size:.85rem">Written for QParadox • library vibe edition</p>
+    <div id="notes"></div>
+
+    <hr class="sep"/>
+    <p style="color:var(--ink-2); font-size:.95rem">Highlight any sentence or paragraph in the article and click “Add to notebook”. Your notes remain in this browser.</p>
   </aside>
-</main>
+</div>
 
-<footer>© 2025 QParadox • The Long Room of Theory</footer>
+<footer>© 2025 QParadox</footer>
 
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox"><img alt="zoomed"/></div>
+<!-- Floating selection box -->
+<div class="selbox" id="selBox"><button class="btn" id="addNoteBtn">Add to notebook</button></div>
 
-<!-- Back to top -->
-<div id="topBtn" aria-label="Back to top">↑</div>
-
-<!-- Glossary Modal -->
-<div class="lightbox" id="glossary">
-  <div class="modal-card" style="background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03)); border:1px solid var(--line); border-radius:18px; padding:1.1rem 1.1rem; width:min(720px,92vw); box-shadow:var(--shadow)">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:.5rem">
-      <h3 id="gTitle" style="margin:.2rem 0 .4rem; font-family:'Playfair Display',serif">Term</h3>
-      <button id="gClose" style="border:1px solid var(--line); background:var(--glass); color:var(--ink); border-radius:.5rem; padding:.2rem .5rem; cursor:pointer">close ✕</button>
+<!-- Add-note modal -->
+<div class="modal" id="noteModal">
+  <div class="modal-card">
+    <h4>Add to notebook</h4>
+    <label style="display:block; margin:.35rem 0 .25rem; color:var(--ink-2)">Excerpt</label>
+    <textarea id="excerptField" readonly></textarea>
+    <label style="display:block; margin:.6rem 0 .25rem; color:var(--ink-2)">Your note</label>
+    <textarea id="noteField" placeholder="What do you want to remember or check later?"></textarea>
+    <div class="modal-actions">
+      <button class="btn" id="cancelNote">Cancel</button>
+      <button class="btn" id="saveNote">Save</button>
     </div>
-    <p id="gBody" style="color:var(--ink-2)"></p>
   </div>
 </div>
 
+<div id="topBtn" aria-label="Back to top">↑</div>
+
 <script>
-/* progress bar */
+/* ===== progress bar ===== */
 const progress=document.getElementById('progress');
 function setProgress(){
   const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
-  const pct=Math.max(0, Math.min(1, st/sh))*100; progress.style.width=pct+'%';
+  progress.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
 }
 addEventListener('scroll', setProgress); setProgress();
 
-/* cinematic reveals */
+/* ===== reveals ===== */
 const obs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} }); },{threshold:.18});
 document.querySelectorAll('.reveal').forEach(el=>{ if(!el.classList.contains('in')) obs.observe(el); });
 
-/* build TOC from article headings */
+/* ===== TOC ===== */
 const toc=document.getElementById('toc');
-const headings=[...document.querySelectorAll('#post h2')];
-headings.forEach(h=>{
-  const a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent;
-  toc.appendChild(a);
-});
+const heads=[...document.querySelectorAll('#article h2')];
+heads.forEach(h=>{ const a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent; toc.appendChild(a); });
 function spy(){
   const y=scrollY+140; let idx=-1;
-  headings.forEach((s,i)=>{ if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i; });
+  heads.forEach((s,i)=>{ if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i; });
   [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));
 }
 addEventListener('scroll', spy); spy();
 
-/* glossary modal */
-const gModal=document.getElementById('glossary');
-const gTitle=document.getElementById('gTitle');
-const gBody=document.getElementById('gBody');
-document.querySelectorAll('.term').forEach(t=>{
-  t.addEventListener('click',()=>{
-    gTitle.textContent=t.dataset.term;
-    gBody.textContent=t.dataset.def || 'Definition coming soon.';
-    gModal.classList.add('open');
-  });
-});
-document.getElementById('gClose').addEventListener('click',()=>gModal.classList.remove('open'));
-gModal.addEventListener('click',e=>{ if(e.target===gModal) gModal.classList.remove('open'); });
-addEventListener('keydown',e=>{ if(e.key==='Escape'){ gModal.classList.remove('open'); lightbox.classList.remove('open'); }});
-
-/* lightbox for images */
-const lightbox=document.getElementById('lightbox'); const lbImg=lightbox.querySelector('img');
-document.querySelectorAll('.zoom').forEach(img=>{
-  img.addEventListener('click',()=>{ lbImg.src=img.src; lightbox.classList.add('open'); });
-});
-lightbox.addEventListener('click',()=>lightbox.classList.remove('open'));
-
-/* back to top */
+/* ===== back to top ===== */
 const topBtn=document.getElementById('topBtn');
 addEventListener('scroll',()=>{ if(scrollY>innerHeight*.3) topBtn.classList.add('show'); else topBtn.classList.remove('show'); });
 topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
 
-/* quiz */
-document.getElementById('seeResult').addEventListener('click',()=>{
-  const choice=[...document.querySelectorAll('input[name="door"]')].find(i=>i.checked);
-  const box=document.getElementById('quizResult');
-  if(!choice){ box.style.display='block'; box.innerHTML="Pick one doorway above first."; return; }
-  let msg="";
-  if(choice.value==='quantum') msg=`Phases and amplitudes are your language. Continue to <a href="quantum_mechanics.html">Quantum Mechanics</a>.`;
-  if(choice.value==='relativity') msg=`Geometry is calling. Step into <a href="relativity.html">Relativity</a>.`;
-  if(choice.value==='em') msg=`Fields and waves suit you. Open <a href="electromagnetism.html">Electromagnetism</a>.`;
-  if(choice.value==='classical') msg=`You want clean rules. Begin with <a href="classical_mechanics.html">Classical Mechanics</a>.`;
-  if(choice.value==='statmech') msg=`You trust ensembles. Walk into <a href="statistical_mechanics.html">Statistical Mechanics</a>.`;
-  box.innerHTML=msg; box.style.display='block';
+/* ===== selection → notebook ===== */
+const article=document.getElementById('article');
+const selBox=document.getElementById('selBox');
+let currentRange=null;
+
+function getSelectionIn(el){
+  const sel=window.getSelection();
+  if(!sel.rangeCount) return null;
+  const range=sel.getRangeAt(0);
+  if(!el.contains(range.commonAncestorContainer)) return null;
+  const text=sel.toString().trim();
+  if(text.length<6) return null; // avoid tiny selections
+  return range;
+}
+
+function showSelBox(range){
+  const rect=range.getBoundingClientRect();
+  selBox.style.left=(rect.left + rect.width/2 + window.scrollX)+'px';
+  selBox.style.top=(rect.top + window.scrollY)+'px';
+  selBox.style.display='block';
+}
+
+document.addEventListener('mouseup',()=>{
+  const r=getSelectionIn(article);
+  if(r){ currentRange=r; showSelBox(r); }
+  else { selBox.style.display='none'; currentRange=null; }
 });
+
+document.getElementById('addNoteBtn').addEventListener('click',()=>{
+  if(!currentRange) return;
+  const sel=window.getSelection().toString().trim();
+  document.getElementById('excerptField').value=sel;
+  document.getElementById('noteField').value="";
+  document.getElementById('noteModal').classList.add('open');
+  selBox.style.display='none';
+});
+
+document.getElementById('cancelNote').addEventListener('click',()=>document.getElementById('noteModal').classList.remove('open'));
+
+function wrapSelection(range, id){
+  const span=document.createElement('span');
+  span.className='hl';
+  span.dataset.noteId=id;
+  range.surroundContents(span);
+  return span;
+}
+
+/* ===== notebook persistence ===== */
+const NOTES_KEY='qparadox_theory_notes_v1';
+const notesEl=document.getElementById('notes');
+function loadNotes(){ try{ return JSON.parse(localStorage.getItem(NOTES_KEY)||'[]'); }catch(e){ return []; } }
+function saveNotes(list){ localStorage.setItem(NOTES_KEY, JSON.stringify(list)); }
+
+function renderNotes(){
+  const list=loadNotes();
+  notesEl.innerHTML='';
+  if(list.length===0){ notesEl.innerHTML='<p style="color:var(--muted)">No notes yet.</p>'; return; }
+  list.forEach(n=>{
+    const div=document.createElement('div'); div.className='note'; div.dataset.id=n.id;
+    div.innerHTML=`
+      <small>${new Date(n.time).toLocaleString()}</small>
+      <p><strong>Excerpt</strong>: ${n.excerpt}</p>
+      <p><strong>Note</strong>: ${n.body||''}</p>
+      <div class="note-actions">
+        <button class="btn nb-goto">Go to</button>
+        <button class="btn nb-edit">Edit</button>
+        <button class="btn nb-del">Delete</button>
+      </div>`;
+    notesEl.appendChild(div);
+  });
+}
+renderNotes();
+
+function defaultSaveHandler(){
+  const excerpt=document.getElementById('excerptField').value.trim();
+  const body=document.getElementById('noteField').value.trim();
+  if(!excerpt){ return; }
+  const list=loadNotes();
+  const id='n'+Date.now();
+  let anchorId=id;
+  try{
+    const span=wrapSelection(currentRange.cloneRange(), id);
+    span.id='anchor_'+id;
+  }catch(e){ anchorId=null; }
+  list.push({id, excerpt, body, time:Date.now(), anchor: anchorId});
+  saveNotes(list); renderNotes(); document.getElementById('noteModal').classList.remove('open');
+  window.getSelection().removeAllRanges();
+}
+const saveBtn=document.getElementById('saveNote');
+saveBtn.onclick=defaultSaveHandler;
+
+/* note actions */
+notesEl.addEventListener('click',(e)=>{
+  const box=e.target.closest('.note'); if(!box) return;
+  const id=box.dataset.id;
+  if(e.target.classList.contains('nb-del')){
+    const list=loadNotes().filter(n=>n.id!==id); saveNotes(list); 
+    const hl=document.querySelector('[data-note-id="'+id+'"]');
+    if(hl){ const parent=hl.parentNode; while(hl.firstChild) parent.insertBefore(hl.firstChild, hl); parent.removeChild(hl); }
+    renderNotes();
+  }else if(e.target.classList.contains('nb-edit')){
+    const list=loadNotes(); const n=list.find(x=>x.id===id); if(!n) return;
+    document.getElementById('excerptField').value=n.excerpt;
+    document.getElementById('noteField').value=n.body||'';
+    document.getElementById('noteModal').classList.add('open');
+    saveBtn.onclick=()=>{
+      n.body=document.getElementById('noteField').value.trim();
+      saveNotes(list); renderNotes();
+      document.getElementById('noteModal').classList.remove('open');
+      saveBtn.onclick=defaultSaveHandler;
+    };
+  }else if(e.target.classList.contains('nb-goto')){
+    const target=document.getElementById('anchor_'+id);
+    if(target){ target.scrollIntoView({behavior:'smooth', block:'center'}); target.classList.add('pulse'); setTimeout(()=>target.classList.remove('pulse'),1200); }
+  }
+});
+
+/* export and clear */
+document.getElementById('exportNotes').addEventListener('click',()=>{
+  const data=localStorage.getItem(NOTES_KEY)||'[]';
+  const blob=new Blob([data],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='qparadox-notes.json'; a.click();
+  URL.revokeObjectURL(a.href);
+});
+document.getElementById('clearNotes').addEventListener('click',()=>{
+  if(!confirm('Remove all notes saved in this browser for this page?')) return;
+  localStorage.removeItem(NOTES_KEY); 
+  document.querySelectorAll('.hl').forEach(hl=>{
+    const parent=hl.parentNode; while(hl.firstChild) parent.insertBefore(hl.firstChild, hl); parent.removeChild(hl);
+  });
+  renderNotes();
+});
+
+/* hide selection box on scroll or click elsewhere */
+addEventListener('scroll',()=>{ selBox.style.display='none'; });
+document.addEventListener('mousedown',(e)=>{ if(!selBox.contains(e.target)) selBox.style.display='none'; });
 </script>
 </body>
 </html>
