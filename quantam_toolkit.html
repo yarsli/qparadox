@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Toolkit | qparadox</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Crimson Pro', serif;
+      background-color: #111;
+      color: #e0e0e0;
+      line-height: 1.8;
+    }
+    header {
+      background: url("theory-header.jpeg") center/cover no-repeat;
+      color: #fff;
+      text-align: center;
+      padding: 80px 20px;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    header p {
+      font-style: italic;
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+    main {
+      display: flex;
+      padding: 40px;
+    }
+    article {
+      flex: 3;
+      max-width: 850px;
+    }
+    article h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-top: 2rem;
+      border-bottom: 1px solid #444;
+      padding-bottom: 0.3rem;
+    }
+    article p {
+      margin: 1.2rem 0;
+      text-align: justify;
+    }
+    aside {
+      flex: 1;
+      margin-left: 40px;
+      border-left: 1px solid #333;
+      padding-left: 20px;
+      font-size: 0.9rem;
+      position: sticky;
+      top: 40px;
+      height: fit-content;
+    }
+    aside h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      margin-top: 0;
+    }
+    .notebook {
+      margin-top: 30px;
+    }
+    .notebook textarea {
+      width: 100%;
+      height: 200px;
+      background: #1a1a1a;
+      color: #e0e0e0;
+      border: 1px solid #444;
+      padding: 10px;
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.95rem;
+    }
+    .highlight {
+      background: #444;
+      padding: 4px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 6px;
+      font-size: 0.8rem;
+    }
+    .quiz {
+      background: #1a1a1a;
+      padding: 20px;
+      margin: 30px 0;
+      border: 1px solid #333;
+      border-radius: 6px;
+    }
+    .quiz h3 {
+      margin-top: 0;
+    }
+    .quiz button {
+      margin-top: 10px;
+      padding: 6px 12px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    footer {
+      text-align: center;
+      padding: 40px;
+      border-top: 1px solid #333;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>The Quantum Toolkit</h1>
+    <p>A gradual guide into the strange but beautiful architecture of the quantum world</p>
+  </header>
+  <main>
+    <article>
+      <h2>Introduction: Why Quantum?</h2>
+      <p>
+        Physics has always asked a simple question: how does the universe behave at its most basic level?
+        Classical mechanics gave us planets that trace predictable ellipses and pendulums that swing with familiar rhythm.
+        Yet when physicists looked closer, beneath the atoms themselves, they found a world that seemed to obey rules
+        very different from everyday intuition. This world, the quantum realm, does not erase classical physics but extends it,
+        demanding new principles. To study it, we need a toolkit that combines mathematics, imagination,
+        and a willingness to accept that nature can surprise us.
+      </p>
+
+      <h2>Quantum States and Probability</h2>
+      <p>
+        At the heart of quantum mechanics lies the idea of a <em>state</em>.
+        A state is not a position in space or a velocity you can write down like in classical mechanics.
+        Instead, it is a description of all the potential outcomes of a measurement.
+        The mathematics of states is encoded in wavefunctions, but at this stage you can think of them as probability maps.
+        They tell us not where a particle is, but where it is likely to be found if we look.
+      </p>
+      <p>
+        This probabilistic language is not an admission of ignorance. It is a genuine feature of nature.
+        Even if we know everything there is to know about an electron, we can only predict the probabilities of its outcomes.
+        This forces us to rethink what it means to “know” something in physics.
+        Instead of certainty, we live with probability as the fabric of prediction.
+        <span class="highlight" onclick="addHighlight('Probability is built into nature itself.')">★ Highlight</span>
+      </p>
+
+      <h2>Superposition: More Than One Possibility</h2>
+      <p>
+        A quantum system can be in multiple states at once. This is called superposition.
+        Imagine an electron going through two slits in a barrier. Classical reasoning says it must go through one slit or the other.
+        Quantum reasoning allows it to explore both paths simultaneously. Only when we measure its position on the screen
+        do we collapse this superposition into a single outcome.
+      </p>
+      <p>
+        This is not a trick of our instruments. It is a property of the system itself.
+        Superposition is what allows interference, the famous wave-like pattern that shows up in the double slit experiment.
+        It is also what makes quantum computing possible, since quantum bits can hold multiple possibilities until measurement.
+      </p>
+
+      <h2>Measurement and Collapse</h2>
+      <p>
+        If superposition allows many outcomes at once, why do we only ever see one? 
+        Measurement provides the answer. When we measure, the wavefunction seems to collapse into one definite result.
+        The mystery is whether collapse is a physical process or just a description of how information changes when we observe.
+        This question remains one of the deepest puzzles of physics.
+      </p>
+
+      <h2>Spin and Entanglement</h2>
+      <p>
+        Not all quantum properties can be visualized as simple position or momentum. 
+        Spin, for instance, has no classical counterpart. An electron has a spin of one-half,
+        which means any measurement will give either “up” or “down” relative to a chosen direction.
+        Entanglement takes this further: two particles can share a single state so that measuring one immediately tells us the outcome of the other,
+        no matter how far apart they are.
+      </p>
+      <p>
+        Experiments have shown that entanglement is real and cannot be explained by hidden classical information.
+        It challenges our sense of locality and forces us to confront whether information itself is more fundamental than matter.
+      </p>
+
+      <h2>Decoherence and the Classical World</h2>
+      <p>
+        If quantum systems can do such strange things, why does the everyday world feel classical?
+        The answer lies in decoherence. Quantum systems constantly interact with their environments.
+        These interactions effectively erase the delicate interference patterns that make quantum effects visible.
+        What remains looks classical, not because the laws change, but because the information that made the quantum system special
+        becomes scrambled beyond recovery.
+      </p>
+      <p>
+        Decoherence is what allows a cat to be alive or dead rather than both.
+        It does not solve every puzzle about measurement, but it provides a bridge between the microscopic quantum rules
+        and the macroscopic world of tables, books, and people.
+      </p>
+
+      <div class="quiz">
+        <h3>Quick Quiz</h3>
+        <p>Why can we not say an electron definitely went through slit A or slit B before measurement?</p>
+        <button onclick="alert('Because until measurement, the electron exists in a superposition of possibilities, not a single path.')">Show Answer</button>
+      </div>
+
+      <h2>Closing Thoughts</h2>
+      <p>
+        The quantum toolkit does not give us final answers. 
+        It equips us with concepts—state, superposition, measurement, entanglement, decoherence—that allow us to explore a reality stranger
+        and richer than the one we see daily. To study quantum mechanics is to train both the mathematical mind and the philosophical one,
+        since it constantly pushes against the limits of language and logic.
+      </p>
+      <p>
+        From here you might step into deeper studies of quantum field theory, or applications like quantum computing and cryptography.
+        But all of it begins here, with the toolkit. With the acceptance that nature is not only more complex than we imagined,
+        but more complex than we <em>could</em> have imagined without it.
+      </p>
+    </article>
+
+    <aside>
+      <h3>Contents</h3>
+      <ul>
+        <li>Introduction</li>
+        <li>Quantum States</li>
+        <li>Superposition</li>
+        <li>Measurement</li>
+        <li>Spin & Entanglement</li>
+        <li>Decoherence</li>
+      </ul>
+      <div class="notebook">
+        <h3>Your Notebook</h3>
+        <textarea placeholder="Write your notes here..."></textarea>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <p>Continue to: <a href="classical_core.html">Classical Mechanics Core →</a></p>
+  </footer>
+
+  <script>
+    function addHighlight(text) {
+      const notes = document.querySelector('.notebook textarea');
+      notes.value += '\\n★ ' + text;
+    }
+  </script>
+</body>
+</html>
