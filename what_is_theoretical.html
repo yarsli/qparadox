@@ -1,490 +1,394 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>QParadox • What Is Theoretical Physics?</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • The Long Room of Theory</title>
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-
-<!-- MathJax for clean equations -->
-<script>
-  window.MathJax = {
-    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-    svg: { fontCache: 'global' }
-  };
-</script>
-<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 
 <style>
-  :root{
-    --bg:#0a0a0c;
-    --walnut:#141213;
-    --ink:#efeae2;
-    --ink-2:#d7d1c7;
-    --muted:#b9b3aa;
-    --gold:#caa36b;
-    --blue:#7aa0ff;
-    --green:#a1e2b2;
-    --line:rgba(255,255,255,.12);
-    --glass:rgba(255,255,255,.06);
-    --radius:18px;
-    --shadow:0 12px 40px rgba(0,0,0,.65), inset 0 0 80px rgba(255,255,255,.03);
-    --max:1180px;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; color:var(--ink);
-    font-family:"Crimson Text",serif; line-height:1.9; letter-spacing:.2px;
-    background:var(--bg);
-    overflow-x:hidden;
-  }
+:root{
+  --bg:#0b0b0d;
+  --panel:#121215;
+  --ink:#efeae2;
+  --ink-2:#d7d1c7;
+  --muted:#b9b3aa;
+  --gold:#caa36b;         /* warm accent */
+  --copper:#b97242;       /* second accent */
+  --blue:#7aa0ff;         /* cool accent */
+  --teal:#4fbfae;         /* subtle pop */
+  --line:rgba(255,255,255,.14);
+  --glass:rgba(255,255,255,.06);
+  --shadow:0 16px 50px rgba(0,0,0,.7), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px;
+  --max:1040px;           /* content width */
+  --side:320px;           /* sidebar width on wide screens */
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.9; letter-spacing:.18px; overflow-x:hidden;
+}
+/* faint texture + glow */
+body::before{
+  content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+}
+body::after{
+  content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(900px 500px at 12% 0%, rgba(255,222,180,.08), transparent 60%),
+    radial-gradient(900px 500px at 88% 10%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 560px at 50% 100%, rgba(202,163,107,.07), transparent 70%);
+}
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
 
-  /* Textures and glow */
-  body::before{
-    content:""; position:fixed; inset:0; z-index:-3; opacity:.06; pointer-events:none;
-    background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
-  }
-  body::after{
-    content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
-    background:
-      radial-gradient(1200px 600px at 12% 0%, rgba(255,240,200,.06), transparent 60%),
-      radial-gradient(1000px 520px at 88% 8%, rgba(140,160,255,.05), transparent 60%),
-      radial-gradient(1000px 500px at 50% 100%, rgba(202,163,107,.05), transparent 70%);
-  }
+/* progress bar */
+.progress{
+  position:fixed; top:0; left:0; height:4px; width:0; z-index:100;
+  background:linear-gradient(90deg,var(--gold),var(--blue));
+  box-shadow:0 0 10px rgba(202,163,107,.6);
+}
 
-  /* Vignette frame */
-  .frame{
-    position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; z-index:0;
-    box-shadow:inset 0 0 140px rgba(0,0,0,.45);
-  }
+/* header */
+header{
+  padding:7rem 1.2rem 3rem; text-align:center; position:relative;
+}
+h1{
+  font-family:"Playfair Display",serif; font-weight:900; margin:0;
+  font-size:clamp(2.6rem,4vw,4.6rem); line-height:1.1;
+  color:#f4ead8; text-shadow:0 0 22px rgba(255,255,255,.12);
+}
+.subtitle{
+  max-width:900px; margin:1rem auto 0; color:var(--ink-2); font-size:clamp(1.06rem,1.2vw,1.2rem)
+}
+.meta{
+  margin-top:.6rem; color:var(--muted); font-family:"JetBrains Mono",monospace; font-size:.85rem
+}
 
-  /* Floating candle glow */
-  .candleglow{position:fixed; left:10%; top:8%; width:240px; height:240px; border-radius:50%; filter:blur(60px);
-    background:radial-gradient(circle at 50% 50%, rgba(255,210,130,.20), rgba(255,210,130,.02) 70%, transparent 80%);
-    animation:flick 6s ease-in-out infinite alternate; z-index:-1}
-  .candleglow.two{left:auto; right:8%; top:16%; width:180px; height:180px; animation-duration:7.5s}
-  @keyframes flick{0%{transform:translateY(-6px) scale(1)} 50%{transform:translateY(6px) scale(1.04)} 100%{transform:translateY(-4px) scale(1.02)}}
+/* layout */
+.main-wrap{width:min(1200px,94%); margin:0 auto 5rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){
+  .main-wrap{grid-template-columns:minmax(0, var(--max)) var(--side)}
+}
 
-  /* Header */
-  header.hero{min-height:72vh; display:grid; place-items:center; text-align:center; padding:7rem 1rem 2.5rem; position:relative; z-index:1}
-  .wrap{width:min(var(--max),92%); margin:0 auto}
-  h1.brand{
-    font-family:"Playfair Display",serif; font-weight:900; letter-spacing:.4px; margin:0; line-height:1.1;
-    font-size:clamp(2.7rem,4.1vw,4.6rem); color:#f4ead9; text-shadow:0 0 22px rgba(255,255,255,.12)
-  }
-  .subtitle{max-width:1000px; margin:1rem auto 0; color:var(--ink-2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
-  .breadcrumbs{margin-top:.6rem; color:var(--muted); font-family:"JetBrains Mono",monospace; font-size:.87rem}
-  .breadcrumbs a{color:var(--ink-2); text-decoration:none}
-  .breadcrumbs a:hover{color:var(--gold)}
-  .epigraph{max-width:980px; margin:1.2rem auto 0; font-style:italic; color:var(--ink-2)}
+/* article */
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.025));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:2.2rem 1.4rem;
+}
+@media(min-width:720px){ article{padding:2.6rem 2.4rem} }
+article h2{
+  font-family:"Playfair Display",serif; font-size:clamp(1.8rem,2.6vw,2.3rem); margin:2.2rem 0 1rem; color:#f6eddc
+}
+article h2:first-child{margin-top:0}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0}
+.dropcap:first-letter{
+  float:left; font-family:"Playfair Display",serif; font-size:3.4rem; line-height:2.4rem; padding:.25rem .5rem .1rem 0; color:#f3e5c8
+}
+.pullquote{
+  margin:1.4rem 0; padding:1rem 1.2rem; border-left:3px solid var(--gold); background:rgba(255,255,255,.03); color:var(--ink-2); font-style:italic; border-radius:10px
+}
+.rule{height:10px; background:
+  radial-gradient(circle at 10px 5px, var(--gold) 2px, transparent 3px) repeat-x;
+  background-size:40px 10px; opacity:.6}
 
-  /* Sticky nav */
-  nav.primary{
-    position:sticky; top:0; z-index:12; background:rgba(10,10,12,.72); backdrop-filter:blur(10px);
-    border-top:1px solid var(--line); border-bottom:1px solid var(--line)
-  }
-  nav.primary .bar{display:flex; gap:.8rem; flex-wrap:wrap; align-items:center; justify-content:center; padding:.7rem}
-  nav.primary a{
-    color:var(--ink-2); text-decoration:none; font-family:"JetBrains Mono",monospace; font-size:.86rem;
-    padding:.46rem .8rem; border:1px solid var(--line); border-radius:999px; background:var(--glass);
-    transition:.2s
-  }
-  nav.primary a:hover{color:var(--ink); border-color:rgba(255,255,255,.25)}
-  nav.primary a.active{color:#111; background:linear-gradient(90deg,var(--gold),#e6d1a8); border-color:transparent}
+/* image blocks */
+.figure{margin:1.5rem 0; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#0e0f12; box-shadow:var(--shadow)}
+.figure img{display:block; width:100%; height:auto; filter:contrast(1.02) saturate(1.04)}
+.figcap{padding:.7rem .9rem; color:var(--ink-2); font-size:.95rem; border-top:1px solid var(--line)}
+.grid2{display:grid; grid-template-columns:1fr; gap:10px}
+@media(min-width:720px){ .grid2{grid-template-columns:1fr 1fr}}
 
-  /* Sections */
-  section{padding:4.2rem 1rem; border-top:1px solid var(--line); position:relative; z-index:1}
-  section .wrap > h2{
-    font-family:"Playfair Display",serif; font-size:clamp(2rem,3vw,2.8rem); margin:0 0 1.2rem; color:#f6eddc;
-    text-shadow:0 0 18px rgba(255,255,255,.08)
-  }
-  .divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.6rem 0}
-  p{margin:1rem 0}
-  .panel{
-    background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));
-    border:1px solid var(--line); border-radius:var(--radius); padding:1.25rem 1.15rem; box-shadow:var(--shadow);
-  }
-  .lead{color:var(--ink-2); font-size:1.06rem}
-  .quote{border-left:3px solid var(--gold); padding-left:1rem; font-style:italic; color:var(--ink-2); margin:1.2rem 0}
+/* dotted accents like inspiration */
+.dots{display:grid; grid-template-columns:repeat(12,1fr); gap:8px; margin:1rem 0}
+.dots span{aspect-ratio:1; border-radius:50%; background:linear-gradient(180deg,var(--gold),var(--copper)); opacity:.75}
+.dots span:nth-child(odd){background:linear-gradient(180deg,var(--blue),#a7c1ff)}
+.dots span:nth-child(3n){background:linear-gradient(180deg,var(--teal),#b7f0e7)}
 
-  /* Equations */
-  .equation{
-    display:inline-block; padding:.25rem .45rem; border-radius:.5rem; background:rgba(255,255,255,.04);
-    border:1px solid var(--line); transition:box-shadow .25s
-  }
-  .equation:hover{box-shadow:0 0 18px rgba(202,163,107,.25)}
-  .eqex{font-size:.95rem; color:var(--ink-2); margin-top:.35rem}
+/* glossary term */
+.term{color:#ffdfa5; border-bottom:1px dotted #ffdfa5; cursor:pointer}
 
-  /* Glossary chips + modal */
-  .term{color:#ffe0a2; cursor:pointer; border-bottom:1px dotted #ffe0a2}
-  .modal{
-    position:fixed; inset:0; background:rgba(0,0,0,.65); backdrop-filter:blur(6px); display:none; align-items:center; justify-content:center; z-index:1000;
-  }
-  .modal.open{display:flex}
-  .modal-card{
-    width:min(760px,92vw); max-height:80vh; overflow:auto;
-    background:linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.02));
-    border:1px solid var(--line); border-radius:18px; padding:1.25rem 1.2rem; box-shadow:var(--shadow)
-  }
-  .modal-card h3{font-family:"Playfair Display",serif; margin:.2rem 0 .6rem}
-  .modal-close{float:right; cursor:pointer; font-family:"JetBrains Mono",monospace; color:var(--ink-2)}
+/* sidenotes panel */
+aside{
+  position:sticky; top:88px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1.1rem 1rem;
+}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+aside .toc a{display:block; text-decoration:none; color:var(--ink-2); padding:.35rem .2rem; border-radius:.4rem; font-family:"JetBrains Mono",monospace; font-size:.88rem}
+aside .toc a:hover{color:var(--ink)}
+aside .toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+aside .chip{display:inline-block; margin:.25rem .25rem 0 0; padding:.18rem .48rem; border:1px solid var(--line); border-radius:999px; font-family:"JetBrains Mono",monospace; font-size:.75rem; background:var(--glass)}
 
-  /* Did-you-know cards */
-  .fact{
-    position:absolute; right:-230px; width:210px; font-size:.93rem; color:var(--ink-2);
-    background:var(--glass); border:1px solid var(--line); border-radius:14px; padding:.7rem .75rem; box-shadow:var(--shadow)
-  }
-  @media(max-width:1120px){ .fact{display:none} }
+/* callouts */
+.callout{
+  padding:1rem 1.1rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+  box-shadow:var(--shadow); margin:1.1rem 0
+}
+kbd{font-family:"JetBrains Mono",monospace; border:1px solid var(--line); padding:.1rem .35rem; border-radius:.3rem; background:var(--glass)}
 
-  /* Demo box */
-  .demo{border:1px solid var(--line); background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01)); border-radius:12px; padding:.7rem; box-shadow:var(--shadow); margin:1rem 0}
-  .demo canvas{width:100%; height:240px; display:block; border-radius:10px; background:#0e0f12}
+/* lightbox */
+.lightbox{position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; z-index:1000}
+.lightbox.open{display:flex}
+.lightbox img{max-width:92vw; max-height:90vh; border-radius:12px; border:1px solid var(--line); box-shadow:0 0 40px rgba(0,0,0,.7)}
 
-  /* Quiz */
-  .quiz{
-    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
-    border:1px solid var(--line); border-radius:18px; padding:1.05rem; box-shadow:var(--shadow)
-  }
-  .quiz h3{font-family:"Playfair Display",serif; margin:.2rem 0 .6rem}
-  .opt{display:block; margin:.6rem 0; padding:.6rem .7rem; border-radius:.65rem; border:1px solid rgba(255,255,255,.23); cursor:pointer; background:var(--glass)}
-  .opt:hover{border-color:rgba(255,255,255,.35)}
-  .result{margin-top:1rem; padding:.75rem .85rem; border:1px dashed rgba(255,255,255,.28); border-radius:.7rem; display:none}
+/* quiz */
+.quiz{margin:2rem 0; border:1px solid var(--line); border-radius:16px; padding:1rem 1.1rem; background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02)); box-shadow:var(--shadow)}
+.quiz h3{margin:.2rem 0 .8rem; font-family:"Playfair Display",serif}
+.opt{display:block; margin:.5rem 0; padding:.6rem .7rem; border-radius:.6rem; background:var(--glass); border:1px solid var(--line); cursor:pointer}
+.opt:hover{border-color:rgba(255,255,255,.28)}
+.result{margin-top:.8rem; padding:.6rem .7rem; border:1px dashed rgba(255,255,255,.25); border-radius:.6rem; display:none}
 
-  /* Pillar buttons */
-  .footnav{display:flex; gap:.7rem; flex-wrap:wrap; margin-top:1.2rem}
-  .footnav a{
-    color:var(--ink); text-decoration:none; border:1px solid rgba(255,255,255,.25); border-radius:.75rem;
-    background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem; font-family:"JetBrains Mono",monospace
-  }
-  .footnav a:hover{opacity:.9}
+/* cinematic reveals */
+.reveal{opacity:0; transform:translateY(26px) scale(.98); transition:opacity .9s ease, transform .9s ease}
+.reveal.in{opacity:1; transform:none}
 
-  /* Back to top */
-  #backToTop{position:fixed; right:20px; bottom:22px; width:46px; height:46px; display:flex; align-items:center; justify-content:center;
-    border-radius:50%; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer; opacity:0; pointer-events:none; transition:.3s; z-index:20}
-  #backToTop.show{opacity:1; pointer-events:auto}
+/* back to top */
+#topBtn{position:fixed; right:18px; bottom:20px; width:44px; height:44px; display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--line); border-radius:50%; background:var(--glass); color:var(--ink); cursor:pointer; opacity:0; pointer-events:none; transition:.3s; z-index:50}
+#topBtn.show{opacity:1; pointer-events:auto}
 
-  footer{padding:2rem 1rem; color:var(--muted); text-align:center; border-top:1px solid var(--line)}
-
-  /* Cinematic scroll reveal */
-  .reveal{opacity:0; transform:translateY(28px) scale(.98); transition:opacity .9s ease, transform .9s ease}
-  .reveal.in{opacity:1; transform:none}
-
-  /* Decorative dropcaps for first paragraph in each section */
-  .dropcap:first-letter{
-    float:left; font-family:"Playfair Display",serif; font-size:3.4rem; line-height:2.4rem; padding:.25rem .5rem .25rem 0; color:#f3e6cb
-  }
+footer{padding:2.2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
 
 <div class="frame" aria-hidden="true"></div>
-<div class="candleglow"></div>
-<div class="candleglow two"></div>
+<div class="progress" id="progress"></div>
 
-<header class="hero">
-  <div class="wrap reveal in">
-    <div class="breadcrumbs"><a href="introduction.html">Start Here</a> / <a href="theoretical.html">Theoretical</a> / What Is Theoretical Physics?</div>
-    <h1 class="brand">What Is Theoretical Physics?</h1>
-    <p class="subtitle">Step into a quiet chamber lined with chalkboards and star charts. The air holds a faint scent of paper and graphite. Somewhere a clock ticks. This is where patterns become principles, and principles become equations that dare the universe to disagree.</p>
-    <p class="epigraph">“There is a crack in everything. That is how the light gets in.” The crack is where a new idea begins.</p>
-  </div>
+<header class="reveal in">
+  <h1>The Long Room of Theory</h1>
+  <p class="subtitle">A guided walk through how theoretical physics actually works, told like a midnight tour of an old library where the chalk never dries and every equation was written to be argued with by reality.</p>
+  <div class="meta">QParadox • by a student who loves the subject • reading time ~ 15–20 min</div>
 </header>
 
-<nav class="primary">
-  <div class="bar">
-    <a href="#essence" class="active">Essence</a>
-    <a href="#method">Method</a>
-    <a href="#language">Language</a>
-    <a href="#pillars">Pillars</a>
-    <a href="#experiments">Experiments</a>
-    <a href="#frontiers">Frontiers</a>
-    <a href="#closing">Closing</a>
-    <a href="#quiz">Quiz</a>
-    <!-- library links -->
-    <a href="theoretical.html">Hub</a>
-    <a href="quantum_mechanics.html">Quantum</a>
-    <a href="relativity.html">Relativity</a>
-    <a href="classical_mechanics.html">Classical</a>
-    <a href="electromagnetism.html">EM</a>
-    <a href="statistical_mechanics.html">StatMech</a>
-    <a href="cosmology.html">Cosmology</a>
-    <a href="physics_and_philosophy.html">Philosophy</a>
-  </div>
-</nav>
+<main class="main-wrap">
+  <!-- ARTICLE -->
+  <article id="post">
 
-<!-- ESSENCE -->
-<section id="essence" class="reveal">
-  <div class="wrap">
-    <div class="fact" style="top:24px">Maxwell unified electricity and magnetism. The math predicted waves in empty space. The speed matched light. A theory explained a mystery no one asked it to explain directly.</div>
-    <h2>The essence of theoretical physics</h2>
+    <!-- hero block -->
+    <div class="figure reveal">
+      <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1400&auto=format&fit=crop" alt="Chalkboard in a dark study, equations glowing softly"/>
+      <div class="figcap">The room where ideas are tried before the universe gets a vote.</div>
+    </div>
+
+    <!-- section 1 -->
+    <h2 id="s-entrance" class="reveal">A room with chalk dust in the light</h2>
     <div class="divider"></div>
-    <div class="panel">
-      <p class="lead dropcap">
-        Theoretical physics is the attempt to describe nature with statements that stay true when reality pushes back. It is not a place where symbols float without meaning. It is a practice where each symbol is a promise about what measurements will say when you finally build the apparatus. The promise is not that theory gives certainty. The promise is that a good theory will tell you what matters, where to look, and what you should ignore without guilt. When you study theory seriously you start to see the same ideas everywhere. An idea that explains the swing of a pendulum also explains the vibration of a molecule. A statement about symmetry in one corner of physics turns into a conservation law in another. This is why theorists love compression. The fewer ideas you need for more situations, the better your map.
-      </p>
-      <p>
-        The work begins with honest noticing. You look at experiments and you try to hear the rhyme between problems that do not look similar at first. You write down a model that keeps only the necessary characters. You test its limits by pushing the parameters to extremes. You look for a conserved quantity because a conserved quantity is like a lighthouse. You choose coordinates that respect the symmetry of the situation because fighting symmetry wastes time. Then you translate the picture into mathematics so that your own taste cannot trick you. Equations do not flatter anyone. If units do not match, you are wrong. If a limit behaves badly, you are wrong. If a prediction misses a simple check, you are wrong. This honesty is a relief. It is why many of us fall in love with the subject. There is beauty here, but it is not perfume. It is the clean shape of an idea that works when you pull on it.
-      </p>
-    </div>
-  </div>
-</section>
+    <p class="dropcap reveal">
+      I like to imagine that theoretical physics began the first time someone noticed that different problems rhyme. A rock falls and a planet moves and a pendulum swings, and none of these look the same at first glance. If you stare long enough the motions share a grammar. The same shapes appear with different costumes. The project of theory is to catch that grammar in a sentence that stays true when you push it. We do not worship symbols. We use them because symbols keep us honest when our pictures are persuasive but wrong. When I write a model I am promising that if someone builds an experiment and lets reality respond, the numbers in the notebook will already be waiting for the result. The promise is not certainty. The promise is that I have said where the certainty lives and where the ignorance lives, and that I have done it in a way that someone else can test without asking what I meant.
+    </p>
+    <p class="reveal">
+      There is a quiet thrill when a small set of ideas explains many things. The fewer assumptions you need and the more situations you can describe, the better your theory. This is why theorists obsess over symmetry and scale and conservation. A symmetry is a way the world can be nudged without changing the outcome. A conserved quantity is what you can count on while everything else changes its clothes. Scale is the art of deciding which details matter at this size and which belong to another story. Once you hear these themes you will hear them everywhere. They are the rhythm section under the melody of every calculation.
+    </p>
 
-<!-- METHOD -->
-<section id="method" class="reveal">
-  <div class="wrap">
-    <div class="fact" style="top:160px">Time symmetry gives energy conservation. Space translation symmetry gives momentum conservation. Rotation symmetry gives angular momentum conservation. This is Noether’s theorem in spirit.</div>
-    <h2>How a theory is made on a blank page</h2>
+    <div class="rule reveal"></div>
+    <div class="dots reveal" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- section 2 -->
+    <h2 id="s-craft" class="reveal">How the craft actually works</h2>
     <div class="divider"></div>
-    <div class="panel">
-      <p class="lead dropcap">
-        The rhythm is simple to describe and hard to fake. Start with a sketch that captures the physical characters. Decide what you will treat as a variable and what you will treat as a parameter. Pick coordinates that make the symmetries obvious. Write an energy book for the system. Count kinetic and potential energy together. Ask for the path that keeps that book steady with respect to small changes. The answer is a family of equations that say how your coordinates will move if the idea is right. This is the principle of least action. It sounds like poetry until you see how quickly it replaces a mess of forces with a clear rule. You do not push on objects one by one. You ask which path the system selects when it balances the whole situation honestly.
-      </p>
-      <p>
-        The same mood appears when the system is quantum. You write a state that encodes possibilities. You evolve it with the Hamiltonian which is the operator that counts allowed energies and also moves the state forward in time. You keep track of phases because phases decide whether two possibilities add or cancel. You remember that a measurement is not a spell. It is the creation of a record in the world that selects one branch of possibilities and makes interference impossible for you. The state never needed your attention to change. It followed its own rule between the times you looked. When you do this work a few times the fear of symbols melts. What remains is a method. Choose a model. Respect symmetry. Count energy honestly. Evolve the state with the right generator. Compare to the world. Fix what fails. Keep what survives. Move on.
-      </p>
-    </div>
+    <p class="dropcap reveal">
+      When I sit with a problem I do not start with equations. I start with a drawing and a list of characters. I decide what I will treat as a variable and what I will treat as fixed. I choose coordinates that respect the symmetry of the situation, because fighting symmetry is like walking uphill when there is a path on level ground. I search for a conserved quantity because conserved quantities are lighthouses that do not move while everything else does. Then I write down a single object that counts the energy honestly. In many problems this object is the <span class="term" data-term="Lagrangian" data-def="L = T − V. It is the difference between kinetic and potential energy, written in smart coordinates.">Lagrangian</span>. The statement that nature chooses a path which keeps the action built from that object stationary is not mystical. It is a way to turn a messy pile of pushes into clean equations of motion. The path you get is the one that would have been hardest to improve by tiny changes. That is the sense in which it is economical rather than lazy. It does not waste.
+    </p>
+    <p class="reveal">
+      If the system is quantum I tell the story differently but with the same respect for structure. The state is a vector in a space that keeps track of possibilities. The way it changes is set by the Hamiltonian which is the operator that counts allowed energies and also drives the evolution. Phases matter, because phases decide whether different possibilities add or cancel. Measurement is the part of the story where a record is made. The record is not a magical power. It is a physical change in the world that kills interference for an observer who does not keep track of every microscopic correlation. This is why interference patterns disappear when you insist on which path information. The pattern did not flee because knowledge is scary. The pattern was never available to you once the environment carried a stable trail of crumbs that marked a path.
+    </p>
 
-    <!-- tiny action principle equation with gloss terms -->
-    <div class="panel" style="margin-top:1rem">
-      <div class="equation">$$\delta S=\delta\int_{t_1}^{t_2} L(q,\dot q,t)\,dt=0$$</div>
-      <div class="eqex">
-        The action $S$ is built from the <span class="term" data-term="Lagrangian" data-def="L = T − V. It is the difference between kinetic and potential energy, written in smart coordinates.">Lagrangian</span>.
-        The Euler–Lagrange rule is the statement that the chosen path keeps $S$ stationary under tiny variations. The idea turns force problems into clean calculus.
-      </div>
-    </div>
-  </div>
-</section>
+    <div class="pullquote reveal">“The best theories are the shortest honest stories that survive contact with the world.”</div>
 
-<!-- LANGUAGE -->
-<section id="language" class="reveal">
-  <div class="wrap">
-    <div class="fact" style="top:40px">A vector space with an inner product and completeness is a Hilbert space. Quantum states live there. The phrase sounds heavy. The idea is a playground for superposition.</div>
-    <h2>The language that lets ideas keep their shape</h2>
+    <!-- section 3 -->
+    <h2 id="s-language" class="reveal">The language that keeps meaning intact</h2>
     <div class="divider"></div>
-    <div class="panel">
-      <p class="lead dropcap">
-        Mathematics is not decoration here. It is the grammar that keeps meaning intact when you move between problems. Calculus lets you talk about change without hand waving. Linear algebra gives you states as vectors and observables as operators that act on those vectors. Eigenstates are special because an observable returns the same state scaled by an eigenvalue. This is why measurement outcomes are the numbers you find on the diagonal when you choose a good basis. Group theory collects symmetries and tells you what must be conserved before you compute anything. Tensors let you write laws that do not depend on your choice of coordinates. If you learn to trust these tools you gain something that feels like x-ray vision. You look through the mess. You see the skeleton that holds the situation together.
-      </p>
-      <p>
-        The most practical lesson for me was that good notation is not fancy. It is humane. Bra-ket notation looks like poetry until you realize it keeps inner products and operators readable when you chain many steps. Index notation in relativity looks like a puzzle until you feel how it saves you from mistakes in curved coordinates. When people say the math is the hard part, I understand the worry. The truth is kinder. The math is the part that does not lie. It will not protect your favorite picture if the picture fails a limit test. It will not allow units to cheat. It will not let two ideas that contradict each other sit in the same line without a protest. Once you experience that honesty you do not want to work without it again.
-      </p>
+    <p class="dropcap reveal">
+      Mathematics is the grammar of theoretical physics. Calculus lets you talk about change without hand waving. Linear algebra lets you treat states as vectors and observables as machines that act on them. Eigenstates are the special vectors that come back scaled by a number, which is why those numbers are the outcomes you can record. Group theory collects symmetries and tells you which quantities will be conserved before you compute anything. Tensor calculus writes laws that do not depend on what coordinates you chose, which is why general relativity can be stated cleanly in any frame. These phrases can sound like a closed club until you see them used in anger. After a few problems the jargon turns back into common sense. You begin to trust the tools because they prevent your imagination from cheating.
+    </p>
+    <p class="reveal">
+      Notation helps more than pride admits. Dirac’s bra and ket symbols keep inner products and operators readable when the algebra grows. Index notation keeps you honest in curved spaces where the difference between raising and lowering an index is a physical act, not just a style. Good notation is like good punctuation. It keeps the ideas breathing at the right pace. It turns long thoughts into lines you can read without stumbling.
+    </p>
+
+    <!-- image grid like inspiration -->
+    <div class="grid2 figure reveal">
+      <img src="https://images.unsplash.com/photo-1517976487492-5769a1aeeff1?q=80&w=1200&auto=format&fit=crop" alt="Old books with tabs and notes"/>
+      <img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1200&auto=format&fit=crop" alt="Notebook sketches and equations"/>
+      <div class="figcap">Working notes. The line between a sketch and a proof is thinner than it looks.</div>
     </div>
 
-    <div class="panel" style="margin-top:1rem">
-      <div class="equation">$$i\hbar\,\frac{\partial}{\partial t}\,\Psi=\hat H\,\Psi$$</div>
-      <div class="eqex">This is the Schrödinger equation. The Hamiltonian decides the tempo of change. The state moves according to allowed energies. The music does not skip unless a record is made.</div>
+    <!-- dotted motifs -->
+    <div class="dots reveal" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
     </div>
-  </div>
-</section>
 
-<!-- PILLARS -->
-<section id="pillars" class="reveal">
-  <div class="wrap">
-    <div class="fact" style="top:18px">Particles are ripples of fields. This is the quantum field view. The phrase sounds bold. The predictions match experiments to absurd precision.</div>
-    <h2>Pillars that carry most of physics</h2>
+    <!-- section 4 -->
+    <h2 id="s-examples" class="reveal">Two experiments that never stop teaching</h2>
     <div class="divider"></div>
-    <div class="panel">
-      <p class="lead dropcap">
-        Classical mechanics is where many of us learn to think cleanly about motion. The old phrase force equals mass times acceleration still works when used with care, but the action view is kinder to the mind. You count kinetic and potential energy together. You choose coordinates that respect the situation. You find equations that follow from one statement rather than many pushes. This way of working scales to systems with constraints and curves. Electromagnetism teaches you that fields are the right characters. Electric and magnetic fields are not bookkeeping tricks. They carry energy and momentum. They add up to light when they dance in a coupled way. The field language is the first hint that the world cares about local rules that respect symmetry everywhere.
-      </p>
-      <p>
-        Relativity rewrites movement and gravity in a way that keeps the speed of light steady for all observers and turns gravity into geometry. Space and time are not separate bins. They are threads in one fabric that curves when energy and momentum are present. Quantum mechanics replaces certainty with structured possibility. States are vectors. Probabilities come from squared amplitudes. Interference is not an optional effect. It is the default. Measurement is the making of a record that removes the possibility of interference for you. Quantum field theory takes a final step. Fields are the main characters and particles are the quanta of those fields. Interactions come from symmetry kept local. The details can be heavy. The mood is simple. Make the symmetry local. Write the simplest terms that respect it. Renormalize honestly. Compare to experiments. Keep what works.
-      </p>
+    <p class="dropcap reveal">
+      The double slit is the calmest revolution in science. Send particles one by one through a wall with two openings and watch dots build up on a screen. You will not get two tidy piles. You will get a striped pattern that speaks in the language of interference. The state that left the source carried both path possibilities with a definite relation between them. If you build a device that writes a record of which path was taken, the record becomes part of the system. The phases that would have interfered are now entangled with the environment. The stripes fade. No mind power has been used. Only bookkeeping with consequences. The Stern–Gerlach experiment teaches a different lesson. Spin values do not smear. They land in clean beams for the axis you choose, which means your question shapes what can be answered. Rotate the device and you have asked a new question, so the statistics reorganize to answer it. Bell’s theorem then closes the door on the idea that particles carried secret instruction cards for any angle we might try. The correlations refuse that script.
+    </p>
+
+    <!-- small callout -->
+    <div class="callout reveal">
+      Try this while you read: when you see a result that feels like a surprise, ask what symmetry protects it and what record would destroy it. Those two questions carry farther than any trick.
     </div>
 
-    <div class="panel" style="margin-top:1rem">
-      <div class="equation">$$\nabla\cdot\mathbf{E}=\frac{\rho}{\varepsilon_0}, \quad \nabla\cdot\mathbf{B}=0, \quad \nabla\times\mathbf{E}=-\frac{\partial\mathbf{B}}{\partial t}, \quad \nabla\times\mathbf{B}=\mu_0\mathbf{J}+\mu_0\varepsilon_0\frac{\partial\mathbf{E}}{\partial t}$$</div>
-      <div class="eqex">Combine these and light emerges with speed $c$. A theory about charges and currents gives you waves in empty space that match what we already call light. That is the kind of surprise theory can give.</div>
-    </div>
-
-    <div class="footnav" style="margin-top:1.2rem">
-      <a href="classical_mechanics.html">Open • Classical Mechanics</a>
-      <a href="electromagnetism.html">Open • Electromagnetism</a>
-      <a href="relativity.html">Open • Relativity</a>
-      <a href="quantum_mechanics.html">Open • Quantum Mechanics</a>
-      <a href="quantum_field_theory.html">Open • Quantum Field Theory</a>
-      <a href="statistical_mechanics.html">Open • Statistical Mechanics</a>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIMENTS -->
-<section id="experiments" class="reveal">
-  <div class="wrap">
-    <div class="fact" style="top:120px">The Stern–Gerlach experiment shows spin values split into discrete beams. The beam does not smear. The record is sharp.</div>
-    <h2>Why theory never walks alone</h2>
+    <!-- section 5 -->
+    <h2 id="s-howto" class="reveal">A day in theory</h2>
     <div class="divider"></div>
-    <div class="panel">
-      <p class="lead dropcap">
-        Experiments are not a final exam that you take once. They are conversations you keep having until your story stops changing when new data arrives. The double slit is the most patient teacher. Send particles one at a time and wait for the screen to collect dots. You will not get two neat piles behind the openings. You will get a pattern of bright and dark that is impossible to explain with a picture where the particle chose one path in advance. If you try to track which path it followed the pattern will fade. The information you wrote into the world breaks the phase relation that made the pattern. The result is not magic. It is a reminder that information is physical. The Stern–Gerlach experiment teaches a different lesson. Some properties do not vary continuously. Spin comes in discrete outcomes for the chosen axis. When you rotate the axis you do not reveal a hidden value that was sitting there. You create a new question and the statistics answer that question cleanly.
-      </p>
-      <p>
-        Bell’s theorem takes away a comforting escape. You cannot explain all quantum correlations by saying that each particle carried a card with instructions that say what to do for any angle you might choose. The numbers rule that out. The lesson here is not that messages travel faster than light. The lesson is that joint possibilities have a structure that classical hidden instructions cannot mimic. When I first understood this, the spookiness cooled into respect. A theory that forbids some kinds of stories is not an enemy of intuition. It is a guide away from dead ends.
-      </p>
-    </div>
+    <p class="dropcap reveal">
+      A typical session looks ordinary from the outside. There is tea and a pen and the same notebook that already holds many failed tries. I start with a drawing that labels the moving parts and the scales that matter. I put down the obvious conservation laws. I choose a basis that makes the symmetry easy to see. I write the simplest state that fits the story without lying. I evolve it with the right generator. I project it onto the questions I actually plan to ask. I test the limits that should be easy. Heavy mass. Weak potential. Long time. Short time. If something misbehaves I do not push harder. I change the view until the misbehavior says what it wants. When a result survives all that I do not celebrate yet. I go back to the first page and ask whether there was a hidden assumption that should have been declared. Only when that check is boring do I feel the relief that the calculation has earned trust.
+    </p>
 
-    <!-- tiny double-slit demo -->
-    <div class="demo">
-      <canvas id="slitDemo"></canvas>
-    </div>
-  </div>
-</section>
+    <!-- figure with lightbox -->
+    <figure class="figure reveal">
+      <img class="zoom" src="https://images.unsplash.com/photo-1517433456452-f9633a875f6f?q=80&w=1400&auto=format&fit=crop" alt="Desk with lamp and notes"/>
+      <figcaption class="figcap">The desk is not dramatic. The method is the drama.</figcaption>
+    </figure>
 
-<!-- FRONTIERS -->
-<section id="frontiers" class="reveal">
-  <div class="wrap">
-    <div class="fact" style="top:20px">Some frontiers try to quantize gravity. Others try to read new symmetry in data we already have. All of them must reduce to known physics where they should.</div>
-    <h2>Where the map is blank and the questions are honest</h2>
+    <!-- section 6 -->
+    <h2 id="s-whybeauty" class="reveal">Why beauty is not an ornament</h2>
     <div class="divider"></div>
-    <div class="panel">
-      <p class="lead dropcap">
-        The most exciting part of theoretical physics is that it is not finished. Quantum theory and general relativity are both right where we can test them carefully. They do not speak the same language at the smallest scales. We have names for pieces that do not fit. Dark matter and dark energy are placeholders that admit our ignorance. Quantum gravity proposals try to write a dictionary that lets geometry and quantum information talk without confusion. String theory suggests that fundamental objects look like loops that vibrate and that extra dimensions may organize the rules. Loop quantum gravity suggests that space itself might have a discrete structure when you zoom in far enough. These ideas ask you to be brave and cautious at once. Brave because the pictures are different from what daily life trained you to expect. Cautious because the standard for acceptance in physics has not changed. Reduce to what we already know where we know it. Predict something clean enough that we can check it. Survive the check.
-      </p>
-      <p>
-        There are quieter frontiers that feel just as important. Better ways to organize effective theories at low energy. Cleaner renormalization strategies that keep track of what matters at each scale without drowning in algebra. New symmetry principles that explain parameters we used to treat as given. The best part is that the same habits we learned in simpler rooms still work here. Look for symmetry. Count information. Track units. Respect limits. Tell the truth about what your model can and cannot do. This is not a rejection of imagination. It is the discipline that lets imagination pay rent.
-      </p>
-    </div>
-  </div>
-</section>
+    <p class="dropcap reveal">
+      Beauty in physics does not mean decoration. It means economy that does not feel cheap. A beautiful theory uses few ideas and explains many results while admitting its limits without drama. Maxwell’s equations are beautiful because they accept charges and currents as sources and then produce light as a consequence, even though light was not asked for in the original brief. The action principle is beautiful because you can derive many equations of motion from one statement and a sensible choice of coordinates. Quantum mechanics is beautiful because it gives you a compact rule for how probabilities arise from amplitudes and then forces you to keep your book of phases in order. When a theory is beautiful in this sense it usually predicts a surprise that looks obvious only after you have seen it once. Those are the moments that make people stay in the subject.
+    </p>
 
-<!-- CLOSING -->
-<section id="closing" class="reveal">
-  <div class="wrap">
-    <h2>A closing invitation</h2>
+    <div class="rule reveal"></div>
+
+    <!-- section 7 -->
+    <h2 id="s-start" class="reveal">How to begin if you are new</h2>
     <div class="divider"></div>
-    <div class="panel">
-      <p class="lead dropcap">
-        If you have read this far you already know the feeling that pulls many of us toward theory. It is the feeling that reality has a grammar and that we can learn enough of it to say something true with a few symbols on a page. The promise is not that you will never be confused again. The promise is that your confusion will be about the right things. If you keep a sketchbook, a habit of checking limits, and an appetite for simple models, you will be able to walk from this chamber into any other hallway in physics without losing your balance. Pick a pillar and go deep. Then come back and pick another. The library is large. It rewards patience.
-      </p>
-    </div>
+    <p class="dropcap reveal">
+      Start with the smallest honest systems and learn how to think in them. For quantum work this means two level systems and the harmonic oscillator. For classical work this means simple constraints and the action view. For fields this means understanding how making a symmetry local demands a new field to keep the story consistent. Draw every setup. Track units without mercy. Choose bases that match the symmetry of the question. Practice turning a verbal story into a Lagrangian and back. Write down your worst confusions and test them by inventing limits that stress the idea. Read textbooks, but also read problem solutions that explain the choices out loud. Solve the same problem in two different ways once a week so you do not fall in love with one trick. The goal is not speed. The goal is a sense of shape that lets new topics feel familiar in their bones even when the symbols are strange.
+    </p>
 
-    <div class="footnav" style="margin-top:1.1rem">
-      <a href="theoretical.html">Back • Theoretical Hub</a>
-      <a href="quantum_mechanics.html">Go • Quantum Mechanics</a>
-      <a href="relativity.html">Go • Relativity</a>
-      <a href="classical_mechanics.html">Go • Classical Mechanics</a>
-      <a href="electromagnetism.html">Go • Electromagnetism</a>
-      <a href="statistical_mechanics.html">Go • Statistical Mechanics</a>
-    </div>
-  </div>
-</section>
-
-<!-- QUIZ -->
-<section id="quiz" class="reveal">
-  <div class="wrap">
-    <h2>Choose your doorway</h2>
-    <div class="divider"></div>
-    <div class="quiz">
-      <h3>Which kind of beauty pulls you most right now</h3>
-      <label class="opt"><input type="radio" name="q1" value="quantum"> Patterns at very small scales where phases decide what is real.</label>
-      <label class="opt"><input type="radio" name="q1" value="relativity"> Geometry that bends light and time into one fabric.</label>
-      <label class="opt"><input type="radio" name="q1" value="classical"> Motion told with a single action principle and good coordinates.</label>
-      <label class="opt"><input type="radio" name="q1" value="em"> Fields that ripple as light and power everything from radios to MRI.</label>
-      <label class="opt"><input type="radio" name="q1" value="statmech"> Order that appears when you trust ensembles more than individuals.</label>
-      <button id="seeResult" style="margin-top:.7rem; padding:.65rem .9rem; border-radius:.7rem; border:1px solid rgba(255,255,255,.25); background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); color:var(--ink); font-family:'JetBrains Mono',monospace; cursor:pointer">Show my path</button>
+    <!-- end quiz -->
+    <div class="quiz reveal" id="quizBox">
+      <h3>Checkpoint • which pillar should you walk into next</h3>
+      <label class="opt"><input type="radio" name="door" value="quantum"> The very small where phases and interference decide what happens.</label>
+      <label class="opt"><input type="radio" name="door" value="relativity"> The geometry where time and space share one fabric and gravity is curvature.</label>
+      <label class="opt"><input type="radio" name="door" value="em"> The fields that ripple as light and power real technology.</label>
+      <label class="opt"><input type="radio" name="door" value="classical"> The action view of motion with clean coordinates and conserved quantities.</label>
+      <label class="opt"><input type="radio" name="door" value="statmech"> The wisdom of crowds where temperature and entropy make sense.</label>
+      <button id="seeResult" style="margin-top:.6rem; padding:.6rem .85rem; border-radius:.6rem; border:1px solid var(--line); background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.24)); color:var(--ink); font-family:'JetBrains Mono',monospace; cursor:pointer">Show my path</button>
       <div class="result" id="quizResult"></div>
     </div>
 
-    <div class="footnav" style="margin-top:1.2rem">
-      <a href="theoretical.html">← Return to Hub</a>
-    </div>
-  </div>
-</section>
+  </article>
 
-<footer>© 2025 QParadox • What Is Theoretical Physics</footer>
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="reveal">
+    <h3>Navigator</h3>
+    <div class="toc" id="toc"></div>
+    <div style="margin-top:1rem">
+      <span class="chip">symmetry</span>
+      <span class="chip">action</span>
+      <span class="chip">fields</span>
+      <span class="chip">amplitudes</span>
+      <span class="chip">interference</span>
+    </div>
+    <div class="divider"></div>
+    <p style="color:var(--ink-2); font-size:.98rem">
+      Glossary hint: click a <span class="term" data-term="Hamiltonian" data-def="The energy operator. It also generates time evolution of the state.">highlighted word</span> in the article to open a plain language definition. Press <kbd>Esc</kbd> to close popups.
+    </p>
+    <div class="divider"></div>
+    <p style="color:var(--muted); font-family:'JetBrains Mono',monospace; font-size:.85rem">Written for QParadox • library vibe edition</p>
+  </aside>
+</main>
+
+<footer>© 2025 QParadox • The Long Room of Theory</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox"><img alt="zoomed"/></div>
 
 <!-- Back to top -->
-<div id="backToTop" aria-label="Back to top">↑</div>
+<div id="topBtn" aria-label="Back to top">↑</div>
 
-<!-- Glossary modal -->
-<div class="modal" id="glossary">
-  <div class="modal-card">
-    <span class="modal-close" id="closeGlossary">close ✕</span>
-    <h3 id="gTitle">Term</h3>
-    <p id="gBody">Definition goes here.</p>
+<!-- Glossary Modal -->
+<div class="lightbox" id="glossary">
+  <div class="modal-card" style="background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03)); border:1px solid var(--line); border-radius:18px; padding:1.1rem 1.1rem; width:min(720px,92vw); box-shadow:var(--shadow)">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:.5rem">
+      <h3 id="gTitle" style="margin:.2rem 0 .4rem; font-family:'Playfair Display',serif">Term</h3>
+      <button id="gClose" style="border:1px solid var(--line); background:var(--glass); color:var(--ink); border-radius:.5rem; padding:.2rem .5rem; cursor:pointer">close ✕</button>
+    </div>
+    <p id="gBody" style="color:var(--ink-2)"></p>
   </div>
 </div>
 
 <script>
-/* ===== Cinematic scroll reveal ===== */
-const revealEls=[...document.querySelectorAll('.reveal')];
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }
-  });
-},{threshold:.14});
-revealEls.forEach(el=>obs.observe(el));
+/* progress bar */
+const progress=document.getElementById('progress');
+function setProgress(){
+  const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
+  const pct=Math.max(0, Math.min(1, st/sh))*100; progress.style.width=pct+'%';
+}
+addEventListener('scroll', setProgress); setProgress();
 
-/* ===== Sticky nav active link ===== */
-const navLinks=[...document.querySelectorAll('nav.primary a')].filter(a=>a.hash);
-const targets=navLinks.map(a=>document.querySelector(a.hash)).filter(Boolean);
+/* cinematic reveals */
+const obs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} }); },{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{ if(!el.classList.contains('in')) obs.observe(el); });
+
+/* build TOC from article headings */
+const toc=document.getElementById('toc');
+const headings=[...document.querySelectorAll('#post h2')];
+headings.forEach(h=>{
+  const a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent;
+  toc.appendChild(a);
+});
 function spy(){
   const y=scrollY+140; let idx=-1;
-  for(let i=0;i<targets.length;i++){
-    const s=targets[i];
-    if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y){ idx=i; break; }
-  }
-  navLinks.forEach((a,i)=>a.classList.toggle('active',i===idx));
+  headings.forEach((s,i)=>{ if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i; });
+  [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));
 }
-addEventListener('scroll',spy); spy();
+addEventListener('scroll', spy); spy();
 
-/* ===== Back to top ===== */
-const btt=document.getElementById('backToTop');
-addEventListener('scroll',()=>{ if(scrollY>innerHeight*.3){ btt.classList.add('show'); } else { btt.classList.remove('show'); }});
-btt.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
-
-/* ===== Glossary modal ===== */
-const glossary=document.getElementById('glossary');
+/* glossary modal */
+const gModal=document.getElementById('glossary');
 const gTitle=document.getElementById('gTitle');
 const gBody=document.getElementById('gBody');
 document.querySelectorAll('.term').forEach(t=>{
   t.addEventListener('click',()=>{
     gTitle.textContent=t.dataset.term;
-    gBody.textContent=t.dataset.def;
-    glossary.classList.add('open');
+    gBody.textContent=t.dataset.def || 'Definition coming soon.';
+    gModal.classList.add('open');
   });
 });
-document.getElementById('closeGlossary').addEventListener('click',()=>glossary.classList.remove('open'));
-glossary.addEventListener('click',e=>{ if(e.target===glossary){ glossary.classList.remove('open'); }});
+document.getElementById('gClose').addEventListener('click',()=>gModal.classList.remove('open'));
+gModal.addEventListener('click',e=>{ if(e.target===gModal) gModal.classList.remove('open'); });
+addEventListener('keydown',e=>{ if(e.key==='Escape'){ gModal.classList.remove('open'); lightbox.classList.remove('open'); }});
 
-/* ===== Double-slit demo ===== */
-const slitC=document.getElementById('slitDemo'), g=slitC.getContext('2d');
-function fit(){ const r=slitC.getBoundingClientRect(); slitC.width=r.width; slitC.height=240; }
-fit(); addEventListener('resize',fit);
-let dots=[];
-function addDot(){
-  const x=Math.random()*slitC.width;
-  const phase=(x-slitC.width/2)/8;
-  const pattern=0.5+0.5*Math.cos(phase);
-  const yPos=Math.floor(Math.random()*slitC.height);
-  if(Math.random()<pattern){ dots.push({x, y:yPos}); }
-}
-function drawDots(){
-  g.fillStyle="#0e0f12"; g.fillRect(0,0,slitC.width,slitC.height);
-  g.fillStyle="#dcdcdc";
-  dots.slice(-2200).forEach(p=>{ g.fillRect(p.x, p.y, 1.3, 1.3); });
-  requestAnimationFrame(drawDots);
-}
-setInterval(addDot, 12);
-drawDots();
+/* lightbox for images */
+const lightbox=document.getElementById('lightbox'); const lbImg=lightbox.querySelector('img');
+document.querySelectorAll('.zoom').forEach(img=>{
+  img.addEventListener('click',()=>{ lbImg.src=img.src; lightbox.classList.add('open'); });
+});
+lightbox.addEventListener('click',()=>lightbox.classList.remove('open'));
 
-/* ===== Quiz ===== */
+/* back to top */
+const topBtn=document.getElementById('topBtn');
+addEventListener('scroll',()=>{ if(scrollY>innerHeight*.3) topBtn.classList.add('show'); else topBtn.classList.remove('show'); });
+topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+
+/* quiz */
 document.getElementById('seeResult').addEventListener('click',()=>{
-  const pick=[...document.querySelectorAll('input[name="q1"]')].find(i=>i.checked);
+  const choice=[...document.querySelectorAll('input[name="door"]')].find(i=>i.checked);
   const box=document.getElementById('quizResult');
-  if(!pick){ box.style.display='block'; box.innerHTML="Choose one doorway first. Curiosity is part of the method."; return; }
+  if(!choice){ box.style.display='block'; box.innerHTML="Pick one doorway above first."; return; }
   let msg="";
-  if(pick.value==="quantum") msg=`You read the world in phases. Step into <a href="quantum_mechanics.html">Quantum Mechanics</a>.`;
-  if(pick.value==="relativity") msg=`Geometry speaks to you. Open <a href="relativity.html">Relativity</a>.`;
-  if(pick.value==="classical") msg=`You want clean rules and good coordinates. Begin with <a href="classical_mechanics.html">Classical Mechanics</a>.`;
-  if(pick.value==="em") msg=`Fields and waves feel honest. Try <a href="electromagnetism.html">Electromagnetism</a>.`;
-  if(pick.value==="statmech") msg=`You trust ensembles. Walk into <a href="statistical_mechanics.html">Statistical Mechanics</a>.`;
+  if(choice.value==='quantum') msg=`Phases and amplitudes are your language. Continue to <a href="quantum_mechanics.html">Quantum Mechanics</a>.`;
+  if(choice.value==='relativity') msg=`Geometry is calling. Step into <a href="relativity.html">Relativity</a>.`;
+  if(choice.value==='em') msg=`Fields and waves suit you. Open <a href="electromagnetism.html">Electromagnetism</a>.`;
+  if(choice.value==='classical') msg=`You want clean rules. Begin with <a href="classical_mechanics.html">Classical Mechanics</a>.`;
+  if(choice.value==='statmech') msg=`You trust ensembles. Walk into <a href="statistical_mechanics.html">Statistical Mechanics</a>.`;
   box.innerHTML=msg; box.style.display='block';
 });
 </script>
-
 </body>
 </html>
