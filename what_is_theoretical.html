@@ -1,210 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>What is Theoretical Physics?</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Times New Roman", serif;
-      background-color: #0e0e0e;
-      color: #e5e5e5;
-      line-height: 1.8;
-    }
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • What Is Theoretical Physics?</title>
 
-    header {
-      background: #111;
-      color: #f4f4f4;
-      padding: 2rem;
-      text-align: center;
-      font-size: 2.5rem;
-      letter-spacing: 2px;
-      border-bottom: 2px solid #333;
-    }
+<!-- Fonts (original vibe) -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
 
-    .container {
-      display: flex;
-    }
+<!--
+Image files required (same folder as this HTML; names are case-sensitive):
+  - theory-header.jpeg
+  - library-aesthetic.jpeg
+  - chalkboard.jpeg
+-->
 
-    .content {
-      flex: 3;
-      padding: 2.5rem;
-      max-width: 900px;
-    }
+<style>
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --max:1180px; --side:320px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
+}
+body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
 
-    .content h2 {
-      font-size: 2rem;
-      margin-top: 2rem;
-      color: #c9a36b;
-    }
+header{padding:6.4rem 1.2rem 2.6rem; text-align:center}
+h1{font-family:"Playfair Display",serif; font-weight:900; margin:0;
+  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+.meta{margin-top:.6rem; color:var(--muted); font-size:.95rem}
 
-    .content p {
-      margin-bottom: 2rem;
-      font-size: 1.15rem;
-      text-align: justify;
-    }
+/* layout with right sidebar */
+.main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
 
-    .content img {
-      display: block;
-      max-width: 70%;
-      margin: 2rem auto;
-      border-radius: 6px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.6);
-    }
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
 
-    /* Notebook sidebar */
-    .notebook {
-      flex: 1;
-      background: #1b1b1b;
-      padding: 1rem;
-      border-left: 2px solid #333;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      font-size: 0.9rem;
-    }
+/* figures — smaller, centered */
+.figure{
+  margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden;
+  background:#0e0f12; box-shadow:var(--shadow); max-width:860px
+}
+.figure img{display:block; width:100%; height:auto}
+.figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
 
-    .notebook h3 {
-      margin-top: 0;
-      font-size: 1.2rem;
-      color: #c9a36b;
-      margin-bottom: 0.5rem;
-    }
+/* paragraph highlight button */
+.pwrap{position:relative; padding-right:2.5rem}
+.hlbtn{
+  position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+  background:var(--glass); color:var(--ink); border:1px solid var(--line); font-size:.85rem; cursor:pointer; opacity:0; transition:.2s
+}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
 
-    .note-input {
-      width: 100%;
-      padding: 0.4rem;
-      margin-bottom: 0.5rem;
-      border: none;
-      border-radius: 3px;
-      font-family: inherit;
-    }
+/* sidebar (TOC + notebook) — slim panel on the right */
+aside{
+  position:sticky; top:90px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem
+}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
 
-    .note-btn {
-      background: #c9a36b;
-      color: #111;
-      padding: 0.4rem 0.8rem;
-      border: none;
-      cursor: pointer;
-      border-radius: 3px;
-      font-size: 0.85rem;
-    }
+/* end links */
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
+  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem}
 
-    .note-list {
-      margin-top: 1rem;
-    }
-
-    .highlight-btn {
-      background: #444;
-      color: #fff;
-      padding: 0.2rem 0.5rem;
-      border: none;
-      cursor: pointer;
-      font-size: 0.75rem;
-      border-radius: 3px;
-      margin-left: 0.3rem;
-    }
-
-    .highlight {
-      background: #c9a36b;
-      color: #111;
-      padding: 0.1rem;
-    }
-
-    footer {
-      background: #111;
-      color: #aaa;
-      text-align: center;
-      padding: 1rem;
-      margin-top: 2rem;
-      font-size: 0.9rem;
-    }
-  </style>
+/* reveals & footer */
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
+</style>
 </head>
 <body>
-  <header>
-    What is Theoretical Physics?
-  </header>
 
-  <div class="container">
-    <div class="content">
-      <img src="theory-header.jpeg" alt="Chalkboard and study table" loading="lazy"/>
+<div class="frame" aria-hidden="true"></div>
+<div id="progress"></div>
 
-      <p>
-        Theoretical physics is the discipline of using the language of mathematics and the tool of imagination to explain the workings of the universe. Unlike experimental physics, which relies on direct measurements and data, theoretical physics asks us to reason our way into the unknown. It is the practice of asking, if these laws hold true, what else must also follow? Through this process, theoretical physicists create models of nature that can be tested by experiments later on, but which often begin purely as ideas. This ability to think beyond the immediate and the visible is what gives the field its enduring power and its almost philosophical appeal.
-      </p>
+<header class="reveal in">
+  <h1>What Is Theoretical Physics?</h1>
+  <p class="subtitle">A calm, student-friendly doorway: what it is, why we use it, and what kinds of answers it can give—without heavy vocabulary.</p>
+  <p class="meta">long read • clear and practical</p>
+</header>
 
-      <p>
-        One of the most fascinating things about theoretical physics is that it allows us to uncover truths before we can see them. When Albert Einstein developed general relativity, it was not the result of experiments but of a bold rethinking of space and time. Only after his predictions were made did experiments confirm them. In this way, theoretical physics serves as a guide for discovery, pointing us toward what to look for and how to interpret it when we find it. Without this intellectual map, much of science would move without direction. Theoretical physics provides that direction, linking imagination to observation.
-      </p>
+<div class="main">
+  <!-- ARTICLE -->
+  <article id="article">
 
-      <img src="library-aesthetic.jpeg" alt="Quiet library shelves" loading="lazy"/>
+    <figure class="figure reveal">
+      <img src="theory-header.jpeg" alt="Chalkboard and study table"/>
+      <figcaption class="figcap">Theory is a compact description that stays honest when the world replies with data.</figcaption>
+    </figure>
 
-      <p>
-        For students just starting, the subject can feel like a mountain of abstractions. Yet its core is not unreachable. The essence of theoretical physics is the search for patterns and the attempt to explain them in a logical framework. For example, why do the planets orbit in ellipses rather than circles? Why does light bend when it passes through glass? Why does heat move from hot to cold? These may sound like questions from everyday experience, but the answers reveal deep mathematical laws that govern everything from the motion of galaxies to the behavior of atoms. Step by step, by learning these foundations, you build the ability to think in the same way theoretical physicists do.
-      </p>
+    <h2 id="what" class="reveal">What it is</h2>
+    <div class="divider"></div>
 
-      <p>
-        The field extends in many directions. Classical mechanics, thermodynamics, and electromagnetism form the groundwork, while relativity, quantum theory, and modern cosmology stretch into frontiers where everyday intuition no longer works. Each subject is like a different lens: mechanics explains motion, thermodynamics explains energy, quantum theory explains probability at the smallest scales, relativity explains the shape of spacetime itself. Together, they weave a coherent picture, but each branch offers its own surprises and mysteries that remain unsolved. Students are not expected to master all at once; part of the beauty lies in the gradual unfolding, where one topic naturally leads into the next.
-      </p>
-
-      <img src="chalkboard.jpeg" alt="Chalkboard covered with equations" loading="lazy"/>
-
-      <p>
-        What makes theoretical physics different from many other sciences is its creative freedom. Theories are not static laws carved forever in stone. They are frameworks that evolve. Newton’s laws were once considered absolute, yet relativity revealed a deeper layer beneath them. In the same way, quantum mechanics may itself be just one chapter in an even larger book. To study theoretical physics is to accept that knowledge grows, adapts, and sometimes transforms entirely. That uncertainty is not a weakness but a strength. It means that the field is alive, continually reshaping itself as human understanding expands.
-      </p>
-
-      <p>
-        As you go through this material, use the notebook on the side. Write down questions, highlight sentences that capture your attention, and revisit them later. Treat it as your own record of discovery. You will find that the more you engage with the material, the more it begins to connect to your own way of thinking. Theoretical physics is not only about solving equations. It is about training the mind to think in patterns, to question assumptions, and to see the world in a sharper, more curious way. And in doing so, you step into the same intellectual tradition that has guided scientists, philosophers, and thinkers for centuries.
-      </p>
-
-      <p style="text-align:center; margin-top: 3rem;">
-        <a href="next_page.html" style="color:#c9a36b; font-size:1.2rem;">→ Continue to Next Section</a>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        Theoretical physics is the art of writing small, careful descriptions of how nature behaves and checking them. A strong description tells you which parts of a situation matter for the question you are asking and which can be ignored without changing the result in any meaningful way. It keeps the few pieces that control the outcome at the scale you care about, states those choices openly, and shows how to turn them into a prediction in units a real instrument could read. The value of a theory is not its style but its reach. If the same short idea helps with a pendulum, a vibrating molecule, and a laser cavity—with only minor edits—that is a signal you are seeing the structure beneath the surface. In this sense, theory is not a pile of tricks. It is a method for compressing many observations into a clear map that other people can use.
       </p>
     </div>
 
-    <!-- Notebook sidebar -->
-    <div class="notebook">
-      <h3>Notebook</h3>
-      <input type="text" id="noteInput" class="note-input" placeholder="Write a quick note..."/>
-      <button class="note-btn" onclick="addNote()">Add</button>
-      <div class="note-list" id="noteList"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2">
+        Most chapters and papers begin with a “model.” Think of a model as a focused cartoon of reality that keeps the features driving the effect and drops the rest. The cartoon is not sloppy; it is deliberate. Once the main mechanism is captured, we add corrections step by step and measure how much they matter. The habit is the same across subjects. In mechanics, we track energy and constraints and let motion follow from consistency. In electromagnetism, we tie fields to sources through local relations and watch waves appear as a consequence. In quantum topics, we describe preparation, evolution, and readout and compute the pattern of results. Different tools, same rhythm: choose the right variables, write a clean rule, compute a number that can be checked.
+      </p>
     </div>
-  </div>
 
-  <footer>
-    © 2025 QParadox | Theoretical Physics Section
-  </footer>
+    <h2 id="why" class="reveal">Why we use it</h2>
+    <div class="divider"></div>
 
-  <script>
-    // Add note function
-    function addNote() {
-      const input = document.getElementById('noteInput');
-      const text = input.value.trim();
-      if (text !== "") {
-        const noteList = document.getElementById('noteList');
-        const noteItem = document.createElement('div');
-        noteItem.textContent = text;
-        noteList.appendChild(noteItem);
-        input.value = "";
-      }
-    }
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        Theory gives direction. A good model tells experimenters which measurements are worth the time and which details will not change the answer. It also links topics that look unrelated. The same ideas that explain a mass on a spring explain the tiny vibrations of molecules; methods that describe ripples on a pond also describe light. The best models even predict things we did not build in on purpose. Maxwell’s relations between electric and magnetic fields automatically predicted waves in empty space and gave their speed; that speed matched the measured speed of light. When that happens, you know the description has caught something essential.
+      </p>
+    </div>
 
-    // Highlight selection
-    document.addEventListener('mouseup', () => {
-      const selection = window.getSelection().toString();
-      if (selection.length > 0) {
-        const confirmed = confirm("Highlight this text?");
-        if (confirmed) {
-          const range = window.getSelection().getRangeAt(0);
-          const span = document.createElement('span');
-          span.classList.add('highlight');
-          range.surroundContents(span);
-          window.getSelection().removeAllRanges();
-        }
-      }
-    });
-  </script>
+    <figure class="figure reveal">
+      <img src="library-aesthetic.jpeg" alt="Quiet library shelves"/>
+      <figcaption class="figcap">Good theory points to the right questions and the right variables, saving months of trial and error.</figcaption>
+    </figure>
+
+    <h2 id="find" class="reveal">What we can find with it</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4" class="dropcap">
+        A strong model does three jobs. First, it makes new predictions: a frequency a detector should see, a curve a graph should follow, a lifetime a particle should have. Second, it organizes messy data by showing that many patterns are different faces of the same simple effect once you use the right variables. Third, it shows the limits of its own use by pointing to situations where its assumptions will fail. That last job is not a weakness. It is a map for the next experiment or the next theory. In a healthy field, models are tools for action, not trophies.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p5">★ Highlight</button>
+      <p id="p5">
+        Friendly examples help. A basic quantum model explains interference when two paths remain undisturbed and explains why the pattern fades when a reliable record of the path is created. A simple gravitational model explains why clocks on GPS satellites tick differently from clocks on Earth and tells engineers how to correct them. A statistical model explains why temperature is not about one particle but about how many particles share energy. These are the kind of steady insights theory is built to deliver.
+      </p>
+    </div>
+
+    <h2 id="how" class="reveal">How we actually work</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p6">★ Highlight</button>
+      <p id="p6" class="dropcap">
+        The method is learnable. Start with a sketch of the situation and pick a scale. Decide what will vary and what will be treated as fixed. Use a description that respects the obvious symmetries so you are not working against the problem. Write the simplest rules that move the system forward in time or relate causes to effects, and keep units visible on every line. Test the candidate result by pushing a parameter to a safe extreme—heavy mass, weak force, long time—where the answer should be simple. If the model misbehaves there, repair the setup before going further. Only when the checks pass do you compare with data taken under the same assumptions. It looks plain, but it is the reason good theory avoids confusion later.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p7">★ Highlight</button>
+      <p id="p7">
+        For practice, choose small systems you can solve on a single page. Translate a plain sentence into a model and then back into a plain sentence to be sure nothing was smuggled in. Solve the same problem in two ways—energy methods and direct forces, for instance—so you do not depend on one trick. Keep a margin note of assumptions and limits beside each result. When something fails, that record lets you tell whether you need better numbers or a better idea. The habit scales from homework to research.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="chalkboard.jpeg" alt="Chalkboard full of steps"/>
+      <figcaption class="figcap">Assumptions, scales, and quick limit checks belong beside the final expression, not hidden in your head.</figcaption>
+    </figure>
+
+    <h2 id="learn" class="reveal">What you gain by learning theory</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p8">★ Highlight</button>
+      <p id="p8" class="dropcap">
+        Learning theory gives you portable skills. You learn to strip a problem to its essentials without losing what makes it real, to check limits before trusting an answer, and to make your assumptions public so disagreements turn into focused questions that can be settled by calculation or by measurement. The confidence you build is not the sense that you are always right; it is the steady knowledge that you can find out why something is wrong and fix it without starting over. That confidence transfers to any field that studies complex systems.
+      </p>
+    </div>
+
+    <h2 id="next" class="reveal">Next steps</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p9">★ Highlight</button>
+      <p id="p9" class="dropcap">
+        Ready to continue? The next page—<em>Foundations</em>—starts with conservation laws, the action viewpoint for motion, field ideas in electromagnetism, the basic quantum toolkit, and the logic behind statistical reasoning. Each topic comes with examples and short practice prompts you can actually work through. Move at a calm pace. When you can explain a result in your own words and point to the line where each assumption was used, you are doing real theory.
+      </p>
+    </div>
+
+    <div class="nextrow reveal">
+      <a href="theoretical.html">← Back to Theoretical Hub</a>
+      <a href="theoretical_foundations.html">Next page → Foundations</a>
+    </div>
+
+  </article>
+
+  <!-- SIDEBAR: TOC + NOTEBOOK (the slim right panel you liked) -->
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ next to any paragraph to save it here.</p>
+    <div id="nbList"></div>
+
+    <hr class="sep"/>
+    <button id="clearAll" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Clear all</button>
+    <p style="color:var(--muted); font-size:.9rem; margin-top:.4rem">Highlights are saved in this browser.</p>
+  </aside>
+</div>
+
+<footer>© 2025 QParadox</footer>
+
+<script>
+/* progress bar */
+const bar=document.getElementById('progress');
+function onScroll(){
+  const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
+}
+addEventListener('scroll', onScroll); onScroll();
+
+/* reveals */
+const obs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} }); },{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{ if(!el.classList.contains('in')) obs.observe(el); });
+
+/* build TOC */
+const toc=document.getElementById('toc');
+const heads=[...document.querySelectorAll('#article h2')];
+heads.forEach(h=>{ const a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent; toc.appendChild(a); });
+function spy(){
+  const y=scrollY+140; let idx=-1;
+  heads.forEach((s,i)=>{ if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i; });
+  [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));
+}
+addEventListener('scroll', spy); spy();
+
+/* sidebar notebook (highlights saved in localStorage) */
+const KEY='qpx_notes_intro_sidebar_v1';
+const listEl=document.getElementById('nbList');
+function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];}}
+function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+function render(){
+  const notes=load(); listEl.innerHTML='';
+  if(notes.length===0){ listEl.innerHTML='<p style="color:var(--muted)">No highlights yet.</p>'; return; }
+  notes.forEach(n=>{
+    const div=document.createElement('div'); div.className='note'; div.dataset.id=n.id;
+    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time>
+      <p>${n.text}</p>
+      <button class="del">Remove</button>`;
+    listEl.appendChild(div);
+  });
+}
+render();
+
+/* paragraph ★ buttons → save */
+document.querySelectorAll('.hlbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id=btn.dataset.target, p=document.getElementById(id);
+    if(!p) return;
+    p.classList.add('mark');
+    const notes=load(); notes.push({id:'n'+Date.now(), text:p.textContent.trim(), time:Date.now(), para:id});
+    save(notes); render();
+  });
+});
+
+/* remove & clear */
+listEl.addEventListener('click',e=>{
+  if(!e.target.classList.contains('del')) return;
+  const item=e.target.closest('.note'); const id=item.dataset.id;
+  const notes=load().filter(x=>x.id!==id); save(notes); render();
+});
+document.getElementById('clearAll').addEventListener('click',()=>{
+  if(!confirm('Clear all saved highlights for this page?')) return;
+  localStorage.removeItem(KEY); render();
+  document.querySelectorAll('.mark').forEach(m=>m.classList.remove('mark'));
+});
+</script>
 </body>
 </html>
