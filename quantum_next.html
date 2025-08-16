@@ -3,32 +3,16 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>QParadox • Quantum Deep Dive</title>
+<title>QParadox • Quantum Next</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
-
-<!-- MathJax (keeps equations textbook-clean) -->
-<script>
-  window.MathJax = {
-    tex: {
-      inlineMath: [['\\(','\\)'], ['$', '$']],
-      displayMath: [['\\[','\\]'], ['$$','$$']],
-      tags: 'ams',
-      macros: {
-        H:'{\\hat{H}}', p:'{\\hat{p}}', x:'{\\hat{x}}', a:'{\\hat{a}}', adag:'{\\hat{a}^\\dagger}',
-        ket:['\\lvert #1 \\rangle',1], bra:['\\langle #1 \\rvert',1], braket:['\\langle #1 \\rvert #2 \\rangle',2]
-      }
-    }
-  };
-</script>
-<script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 <style>
 :root{
   --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
   --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
   --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
-  --radius:18px; --side:330px;
+  --radius:18px; --max:1180px; --side:330px;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
@@ -63,18 +47,27 @@ article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:c
 p{margin:1.05rem 0; text-align:justify}
 .dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
 
-/* callouts and figures (optional images if you add later) */
+/* callouts */
 .call{border:1px solid var(--line); border-radius:12px; background:rgba(255,255,255,.05); padding:.85rem .9rem; color:var(--ink2); margin:1rem 0}
+
+/* figures */
 .figure{margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#0e0f12; box-shadow:var(--shadow); max-width:820px}
 .figure img{display:block; width:100%; height:auto}
 .figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
 
-/* highlight + notebook */
+/* paragraph highlight button */
 .pwrap{position:relative; padding-right:2.5rem}
-.hlbtn{position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
-  background:var(--glass); color:var(--ink); border:1px solid var(--line); font-size:.85rem; cursor:pointer; opacity:0; transition:.2s}
+.hlbtn{
+  position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+  background:var(--glass); color:var(--ink); border:1px solid var(--line);
+  font-size:.85rem; cursor:pointer; opacity:0; transition:.2s
+}
 .pwrap:hover .hlbtn{opacity:1}
 .mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+
+/* collapsible worked examples */
+details{border:1px solid var(--line); border-radius:12px; padding:.7rem .9rem; background:rgba(255,255,255,.04); margin:1rem 0}
+details summary{cursor:pointer; font-family:"Playfair Display",serif; font-size:1.15rem; outline:none}
 
 /* sidebar */
 aside{
@@ -84,11 +77,22 @@ aside{
 }
 aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
 .toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
-.toc a:hover{color:var(--ink)} .toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
 hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
 .note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
 .note time{display:block; color:var(--muted); font-size:.85rem}
 .note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+
+/* quiz */
+.quiz{margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.04)}
+.qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
+.qchoices{display:grid; gap:.45rem}
+.qchoices button{text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05); color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer}
+.qchoices button.correct{border-color:#46d17d}
+.qchoices button.wrong{border-color:#e07070}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
 
 /* nav links */
 .nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
@@ -106,176 +110,258 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
 <div id="progress"></div>
 
 <header class="reveal in">
-  <h1>Quantum Deep Dive</h1>
-  <p class="subtitle">A slower, denser tour of the machinery behind quantum predictions — the postulates, the vector space, the operator calculus, dynamics, measurement, entanglement, and the bridges to information and fields.</p>
+  <h1>Quantum Next</h1>
+  <p class="subtitle">A calm step beyond the Toolkit — start simple, secure the rules, then add depth with examples, tidy equations, and checks you can repeat.</p>
 </header>
 
 <div class="main">
   <article id="article">
 
-    <!-- INTRO -->
-    <h2 id="orientation" class="reveal">Why a deep dive</h2>
+    <figure class="figure reveal">
+      <img src="equation-cool.jpg" alt="Equations aesthetic"/>
+      <figcaption class="figcap">Write the idea, choose the rule, do the check. The habit matters more than any one formula.</figcaption>
+    </figure>
+
+    <!-- ORIENTATION -->
+    <h2 id="orientation" class="reveal">Orientation</h2>
     <div class="divider"></div>
+
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="d1">★ Highlight</button>
-      <p id="d1" class="dropcap">
-        The Toolkit gave you the working language. Here we slow down and look under the hood. We will write the postulates plainly, see why the state lives in a vector space with an inner product, learn how operators carry physical meaning, and watch time evolution from more than one viewpoint. We will also meet density matrices for situations with incomplete information, and we will study entanglement by following one inequality from classical intuition to its quantum violation. Each section is long on purpose so the ideas have room to breathe. Keep a notebook open; copy the single sentence that makes the paragraph click, then test it on a small example of your own.
+      <button class="hlbtn" data-target="q1">★ Highlight</button>
+      <p id="q1" class="dropcap">
+        This page extends the Quantum Toolkit without rushing the math. We begin with pictures and plain-language rules, then add one equation at a time and practice using it. The aim is to get comfortable setting up a quantum problem the same way each time. You state the system and the question, you select the clean rule that ties them together, and you check the answer in a limit where your intuition is strong. Doing this slowly builds a sense that hard-looking problems are just longer versions of moves you already know.
       </p>
     </div>
 
-    <!-- POSTULATES -->
-    <h2 id="postulates" class="reveal">Postulates (plain language)</h2>
-    <div class="divider"></div>
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="d2">★ Highlight</button>
-      <p id="d2" class="dropcap">
-        State: a physical system prepared the same way each time is represented by a vector in a complex inner-product space called a Hilbert space. The overall scale of the vector is unimportant because probabilities are computed from normalized states. Observable: a measurable quantity is represented by a Hermitian operator. Its possible sharp results are the operator’s eigenvalues, and the associated eigenvectors form useful bases. Probability rule: if a normalized state \( \ket{\psi} \) is expanded in an observable’s eigenbasis, the squared magnitudes of the expansion coefficients give the probabilities of each outcome. Update: after a sharp measurement that yields a particular eigenvalue, the state aligns with the corresponding eigenvector. Dynamics: when the system is isolated, the state evolves with a unitary rule generated by the Hamiltonian \( \H \).
+      <button class="hlbtn" data-target="q2">★ Highlight</button>
+      <p id="q2">
+        Keep a short checklist in the margin. What is the state and how is it written. Which operator or conservation idea matters here. What is the simplest limit where you expect the behavior. If your final line does not respect units or the easy limit, pause and repair before pushing on. These small habits are what make theory feel steady rather than fragile.
       </p>
     </div>
-    <div class="call reveal">
-      A compact version of the two most visible rules is
-      \[
-        P(x)=|\Psi(x,t)|^2, \qquad i\hbar\,\frac{\partial}{\partial t}\ket{\psi}=\H\ket{\psi}.
-      \]
-    </div>
 
-    <!-- HILBERT SPACE + DIRAC -->
-    <h2 id="hilbert" class="reveal">Hilbert space and Dirac notation</h2>
+    <!-- PROBABILITY BASICS -->
+    <h2 id="prob" class="reveal">Probability from the wave picture</h2>
     <div class="divider"></div>
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="d3">★ Highlight</button>
-      <p id="d3" class="dropcap">
-        The inner product \( \braket{\phi}{\psi} \) is the device that turns geometry into probability. Normalization means \( \braket{\psi}{\psi}=1 \). Orthogonality means the outcomes are mutually exclusive. Completeness says the identity operator can be written as a sum or integral over projectors onto a basis: in position space \( \int \lvert x\rangle\langle x\rvert\,dx=\mathbf{1} \). Switch bases and the story stays the same, which is why momentum space integrals use \( \lvert p\rangle \). The Dirac symbols look fancy, but they are just a tidy way to track vectors, dual vectors, and linear maps. Once the notation is comfortable, calculations become short sentences instead of long coordinates.
-      </p>
-    </div>
-    <div class="call reveal">
-      Expectation value as a single line:
-      \[
-        \langle A \rangle \;=\; \bra{\psi}\,\hat{A}\,\ket{\psi}.
-      \]
-    </div>
 
-    <!-- COMMUTATORS + UNCERTAINTY -->
-    <h2 id="comm" class="reveal">Commutators and limits on sharpness</h2>
-    <div class="divider"></div>
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="d4">★ Highlight</button>
-      <p id="d4" class="dropcap">
-        When two operations can be done in either order with the same result, they commute. Quantum mechanics keeps careful score of order. The commutator \( [\hat{A},\hat{B}]=\hat{A}\hat{B}-\hat{B}\hat{A} \) measures that failure to commute. For position and momentum, \( [\x,\p]=i\hbar \), and from this algebra alone one derives a limit on simultaneous sharpness,
+      <button class="hlbtn" data-target="q3">★ Highlight</button>
+      <p id="q3" class="dropcap">
+        The wave function \( \Psi(x,t) \) is the tool for predictions. The square of its size is a probability density and the total must be one:
         \[
-          \Delta x\,\Delta p \;\ge\; \frac{\hbar}{2}.
+          P(x,t)=|\Psi(x,t)|^2, \qquad \int_{-\infty}^{\infty} |\Psi(x,t)|^2\,dx = 1.
         \]
-        This is not about poor instruments. It is a structural statement about the way amplitude and phase combine in wavefunctions. Use it as a design tool: if a preparation needs a very narrow spread in position, the momentum spread must widen, which changes how the state fans out in time.
+        Read these as instructions. Compute the shape, square it, and normalize. If a result later seems odd, come back to this step first because many mistakes begin with a missing factor or a drifted normalization.
       </p>
     </div>
 
-    <!-- HARMONIC OSCILLATOR (LADDER OPS) -->
-    <h2 id="osc" class="reveal">Harmonic oscillator and ladder operators</h2>
+    <details class="reveal"><summary>Worked example — two overlapping bumps</summary>
+      <p>
+        Build a state from two narrow Gaussians centered at \(-a\) and \(+a\). If the relative phase is the same, the middle region brightens. If the phase is opposite, a notch appears between the peaks. If the phase wanders from trial to trial, the cross term averages away and you see a simple sum. One plot shows how phase is not decoration but the control knob for interference.
+      </p>
+    </details>
+
+    <!-- TIME EVOLUTION -->
+    <h2 id="time" class="reveal">Time evolution without panic</h2>
     <div class="divider"></div>
+
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="d5">★ Highlight</button>
-      <p id="d5" class="dropcap">
-        The oscillator is the textbook’s best teacher because many systems behave like it near a stable point. Define operators that lower and raise energy in single steps, \( \a \) and \( \adag \), chosen so that \( [\a,\adag]=1 \). The Hamiltonian becomes a simple counting device \( \H=\hbar\omega(\adag\a+\tfrac{1}{2}) \). Acting with \( \adag \) climbs the ladder of energies and \( \a \) steps down:
+      <button class="hlbtn" data-target="q4">★ Highlight</button>
+      <p id="q4" class="dropcap">
+        The time rule looks compact:
         \[
-          E_n=\hbar\omega\!\left(n+\tfrac{1}{2}\right),\qquad n=0,1,2,\dots
+          i\hbar\,\frac{\partial}{\partial t}\Psi(x,t) = \hat{H}\,\Psi(x,t).
         \]
-        Two ideas are hiding here. Quantization shows up naturally from boundary conditions, not because we forced it. And ground states are real things with nonzero energy, which later helps explain stability and fluctuations in fields and solids.
+        Many useful cases separate in time and space when the potential does not change in time. Try \(\Psi(x,t)=\phi(x)\,e^{-iEt/\hbar}\). The space function \(\phi(x)\) then satisfies a quieter standing-wave equation. You do not need a closed-form solution to learn something. Describe the boundary, sketch the likely nodes, and predict how energy shifts when a parameter grows or shrinks. The sign of each change often falls out before any long algebra.
       </p>
     </div>
 
-    <!-- ANGULAR MOMENTUM + SPIN ADDITION -->
-    <h2 id="angmom" class="reveal">Angular momentum, spin, and addition</h2>
-    <div class="divider"></div>
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="d6">★ Highlight</button>
-      <p id="d6" class="dropcap">
-        Components of angular momentum satisfy \( [\hat{J}_x,\hat{J}_y]=i\hbar\,\hat{J}_z \) and cyclic permutations. One can build ladder operators that shift the \( m \) quantum number in steps of one. For spin-\(\tfrac{1}{2}\) the outcomes along any axis are just two values, and the Bloch sphere gives an honest picture for how a qubit points between them. When two spins meet, the combined space is a tensor product. Adding angular momenta produces multiplets: two spin-\(\tfrac{1}{2}\) systems combine into a triplet and a singlet. This is the linear algebra heart of spectroscopy and selection rules in atoms.
-      </p>
-    </div>
-
-    <!-- DENSITY MATRICES + BLOCH -->
-    <h2 id="density" class="reveal">Density matrices and incomplete information</h2>
-    <div class="divider"></div>
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="d7">★ Highlight</button>
-      <p id="d7" class="dropcap">
-        Not every situation lets you write a single pure state. Sometimes you only know a statistical mixture or you care about a part of a larger system. The density operator \( \\rho \) records what can be predicted in either case. Averages use \( \\langle A \\rangle = \\mathrm{Tr}(\\rho\,\\hat{A}) \). For a qubit one can write \( \\rho = \\tfrac{1}{2}(\\mathbf{1}+\\vec{r}\\cdot\\vec{\\sigma}) \) with a Bloch vector \\(\\vec{r}\\) of length at most one. Pure states sit on the sphere; mixed states live inside it. This language is essential for open systems, thermodynamics, and quantum information.
-      </p>
-    </div>
-
-    <!-- ENTANGLEMENT + CHSH -->
-    <h2 id="bell" class="reveal">Entanglement and a single inequality</h2>
-    <div class="divider"></div>
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="d8">★ Highlight</button>
-      <p id="d8" class="dropcap">
-        Entangled states are not stories about parts; they are stories about wholes. A clean example is
+    <details class="reveal"><summary>Worked example — particle in a one-dimensional box</summary>
+      <p>
+        Inside the box the solutions are sines that fit an integer number of half-waves. The energies
         \[
-          \ket{\\Phi^+}=\frac{1}{\\sqrt{2}}(\ket{00}+\ket{11}).
+          E_n = \frac{n^2\pi^2\hbar^2}{2mL^2}, \quad n=1,2,\dots
         \]
-        Bell’s CHSH inequality captures a classical limit on correlations: \( \lvert S \\rvert \\le 2 \). Quantum mechanics predicts settings with \( \lvert S \\rvert \\le 2\\sqrt{2} \). Aspect-style experiments confirm the larger value when locality and detection loopholes are closed. For practice, write the four measurement settings and compute the expectation values with \\(\\ket{\\Phi^+}\\). The algebra is short and the lesson is durable: no shared list of hidden values can explain these outcomes if the measurements are truly free and space-like separated.
+        pass two quick checks. If you make the box longer, levels crowd closer, which matches the idea of a gentler standing wave. If you use a heavier particle, every level drops because heavier masses are harder to wiggle. When a formula respects these trends, trust grows.
       </p>
-    </div>
+    </details>
 
-    <!-- MEASUREMENT + POVMs + DECOHERENCE -->
-    <h2 id="measure" class="reveal">Measurement, POVMs, and decoherence</h2>
+    <!-- UNCERTAINTY -->
+    <h2 id="unc" class="reveal">Uncertainty as a design choice</h2>
     <div class="divider"></div>
+
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="d9">★ Highlight</button>
-      <p id="d9" class="dropcap">
-        Projective measurements are the sharp idealization: a set of orthogonal projectors that sum to the identity. Many labs use gentler devices. Positive-operator valued measures (POVMs) model those realities and still return honest probabilities that add to one. Meanwhile, decoherence explains why interference patterns fade in open systems: when a system leaks phase information to its environment, off-diagonal terms in the reduced density matrix shrink and the prediction becomes a classical mixture. No rules were broken, but the conditions for seeing phase relations were lost. The working lesson is simple: isolation, control, and speed are your best friends when building a quantum experiment.
+      <button class="hlbtn" data-target="q5">★ Highlight</button>
+      <p id="q5" class="dropcap">
+        The spread in position and momentum is structural, not an equipment flaw. The compact limit
+        \[
+          \Delta x\,\Delta p \ge \frac{\hbar}{2}
+        \]
+        tells you how one knob widens when you narrow the other. A tight beam spot implies a wide momentum spread and faster spreading as time passes. A colder cloud has a narrower momentum spread and drifts more slowly. Use the relation to plan, not to worry.
       </p>
     </div>
 
-    <!-- PICTURES OF DYNAMICS -->
-    <h2 id="pictures" class="reveal">Three pictures of dynamics</h2>
+    <!-- INTERFERENCE -->
+    <h2 id="phase" class="reveal">Interference and the role of phase</h2>
     <div class="divider"></div>
+
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="d10">★ Highlight</button>
-      <p id="d10" class="dropcap">
-        The Schrödinger picture makes states change and operators mostly fixed. The Heisenberg picture holds states fixed and moves time dependence into operators. The interaction picture splits the job, which is perfect for perturbation theory. All three give the same answers when used consistently, so choose the one that makes the algebra shorter. Switching viewpoints is a professional habit worth practicing on small models, because it teaches you to recognize what is essential and what is just a description choice.
+      <button class="hlbtn" data-target="q6">★ Highlight</button>
+      <p id="q6" class="dropcap">
+        When two paths remain undisturbed their amplitudes add before you square. The cross term carries the relative phase. Small changes in path length, refractive index, or potential add up to visible shifts in the pattern. This is why careful phase control is the key to precision interferometry and also why stray coupling to the environment washes patterns away. The idea is simple: keep what you do not want to measure from learning which way the system went.
       </p>
     </div>
 
-    <!-- PATH INTEGRALS -->
-    <h2 id="path" class="reveal">Path integrals in one paragraph</h2>
+    <!-- TUNNELING -->
+    <h2 id="tunnel" class="reveal">Barriers, leakage, and tunneling</h2>
     <div class="divider"></div>
+
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="d11">★ Highlight</button>
-      <p id="d11" class="dropcap">
-        Feynman’s idea is to compute amplitudes by adding contributions from every imaginable path, each weighted by a phase \( e^{iS/\\hbar} \) where \( S \) is the action. Classical motion appears when phases from nearby paths reinforce and distant ones cancel. The method is powerful for fields and for systems where constraints make the ordinary differential-equation route awkward. You do not need the heavy machinery to benefit from the viewpoint: whenever you see a sum over alternatives with phases, you are already thinking like a path integral.
+      <button class="hlbtn" data-target="q7">★ Highlight</button>
+      <p id="q7" class="dropcap">
+        Classically a wall that is higher than your energy is a hard stop. Quantum mechanics allows a small chance to appear beyond the wall, especially if the barrier is thin or the particle is light. Inside the wall the wave decays but survives. At the far edge a faint tail emerges. The trend is enough to understand tunneling diodes, scanning microscopes, and nuclear alpha emission without memorizing long formulas.
       </p>
     </div>
 
-    <!-- SCATTERING TASTE -->
-    <h2 id="scatter" class="reveal">A taste of scattering</h2>
+    <!-- SPIN -->
+    <h2 id="spin" class="reveal">Spin as a clean two-state system</h2>
     <div class="divider"></div>
+
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="d12">★ Highlight</button>
-      <p id="d12" class="dropcap">
-        Many experiments fire a simple state at a target and read the angular distribution of outcomes. The basic predictions come from asymptotic plane waves, an interaction region, and an outgoing pattern encoded by an amplitude \( f(\\theta) \). The differential cross section \( d\\sigma/d\\Omega = |f(\\theta)|^2 \) summarizes what a detector ring will count. Even without deriving the Born approximation, you can practice the logic: clean preparation, clear geometry, and one number that tells how strong the interaction is.
+      <button class="hlbtn" data-target="q8">★ Highlight</button>
+      <p id="q8" class="dropcap">
+        Spin is an intrinsic two-level structure that behaves like a vector of operators. The Stern–Gerlach chain teaches three repeatable facts. First, outcomes can be discrete even when inputs look smooth. Second, measuring along a new axis scrambles certainty from the old axis. Third, repeating the same axis restores predictability. Those three lines already let you reason about qubits and the Bloch sphere with confidence.
       </p>
     </div>
 
-    <!-- QUANTUM INFO -->
-    <h2 id="qi" class="reveal">Quantum information in working terms</h2>
+    <!-- EXPECTATION -->
+    <h2 id="expect" class="reveal">Expectation values in one line</h2>
     <div class="divider"></div>
+
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="d13">★ Highlight</button>
-      <p id="d13" class="dropcap">
-        A qubit is a two-dimensional state on the Bloch sphere. Gates are unitary rotations. Measurement picks an axis and returns one of two outcomes with probabilities set by the state’s projection. Two rules shape the landscape: no-cloning prevents perfect copying of unknown states, and entanglement allows correlations stronger than any classical shared randomness. With those ingredients you can outline teleportation, superdense coding, and the phase-kickback trick behind many quantum algorithms. None of this requires mysticism; it is linear algebra done with care and read out with real detectors.
+      <button class="hlbtn" data-target="q9">★ Highlight</button>
+      <p id="q9" class="dropcap">
+        The average result from many runs is
+        \[
+          \langle A \rangle = \int \Psi^*(x,t)\,\hat{A}\,\Psi(x,t)\,dx.
+        \]
+        In bra–ket language the same idea is \( \langle \psi | \hat{A} | \psi \rangle \). One advantage of the compact form is that units and symmetry are easier to inspect. If a proposed operator would make the units wrong, you catch it before a page of algebra.
       </p>
     </div>
 
-    <!-- PRACTICE -->
+    <!-- ENTANGLEMENT -->
+    <h2 id="ent" class="reveal">Entanglement without mystique</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="q10">★ Highlight</button>
+      <p id="q10" class="dropcap">
+        Some states resist separation. A simple two-qubit case is
+        \[
+          \frac{1}{\sqrt{2}}\big(|00\rangle + |11\rangle\big).
+        \]
+        No product of a state of A and a state of B can reproduce its perfect correlations. This is not a signal racing ahead of light. It is a structure set at preparation and revealed by which questions you ask. The safe habit is to think of the whole first, then describe parts by tracing over what you ignore.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="quantum-atom.jpg" alt="Quantum atom visual"/>
+      <figcaption class="figcap">Some predictions only make sense when you treat the pair as one system.</figcaption>
+    </figure>
+
+    <!-- MEASUREMENT + DECOHERENCE -->
+    <h2 id="meas" class="reveal">Measurement and why interference fades</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="q11">★ Highlight</button>
+      <p id="q11" class="dropcap">
+        Projective measurements are the sharp ideal: outcomes line up with the eigenvectors of an operator. Real setups often leak information to the surroundings. When the environment keeps a reliable record of which path was taken, the off-diagonal terms of the reduced density description shrink and the contrast of fringes falls. You did not break any rule. You changed the conditions for phases to add. The lesson for the lab is practical. Isolation and speed preserve interference. Coupling erases it.
+      </p>
+    </div>
+
+    <!-- APPLICATIONS -->
+    <h2 id="apps" class="reveal">From rules to devices</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="q12">★ Highlight</button>
+      <p id="q12" class="dropcap">
+        The same ideas drive real tools. Band structure in crystals is a standing wave story and explains semiconductors. Coherent emission between energy levels makes lasers. Resonant control of spin in fields makes MRI. Quantum sensors stretch uncertainty in one quantity while relaxing it in another to make tiny effects visible. None of this needs drama. It is careful use of a small kit: amplitude, phase, operators, and checks.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="work.jpeg" alt="Desk with notebooks and lamp"/>
+      <figcaption class="figcap">Write assumptions beside each result. Future you will know what to trust and what to revisit.</figcaption>
+    </figure>
+
+    <!-- PRACTICE PROMPTS -->
     <h2 id="practice" class="reveal">Practice prompts</h2>
     <div class="divider"></div>
+
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="d14">★ Highlight</button>
-      <p id="d14" class="dropcap">
-        Try one page answers. One: normalize a Gaussian, compute \( \\langle x \\rangle \), \( \\langle x^2 \\rangle \), and the width, then evolve it briefly with a free-particle Hamiltonian. Two: build the oscillator ladder algebra for one step and show why the energy cannot drop below the ground state. Three: for the singlet state, predict the correlation when detectors are misaligned by an angle, then compare with the CHSH bound. Four: write a two-element POVM and show that the outcomes add to the identity. Five: take a pure two-qubit state, trace out one qubit, and plot the Bloch vector length of the remainder. Six: switch a short calculation from Schrödinger to Heisenberg picture and confirm the same expectation value.
+      <button class="hlbtn" data-target="q13">★ Highlight</button>
+      <p id="q13" class="dropcap">
+        One page each. Normalize a Gaussian and compute its width, then predict how the width evolves for free motion. Sketch the first three standing waves in a box and explain why the second has a node at the center. Estimate how tunneling chance changes when you double barrier thickness while keeping mass and kinetic energy fixed. Model a Stern–Gerlach chain with the middle magnet rotated and predict the three output spots. Compute an expectation value two ways to confirm comfort with both integral and bra–ket forms.
       </p>
     </div>
+
+    <!-- QUIZ -->
+    <h2 id="quiz" class="reveal">Short quiz</h2>
+    <div class="divider"></div>
+
+    <section class="quiz reveal" id="quizSection">
+      <div class="qitem">
+        <h4>1) The meaning of \( |\Psi(x,t)|^2 \) is</h4>
+        <div class="qchoices" data-answer="b" data-explain="It is a probability density; integrate over a region to get the chance to find the particle there.">
+          <button data-choice="a">Energy density at x</button>
+          <button data-choice="b">Probability density at x</button>
+          <button data-choice="c">Momentum distribution</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>2) With a time-independent potential a good first move is</h4>
+        <div class="qchoices" data-answer="a" data-explain="Try a separable form, which turns time evolution into a simple phase.">
+          <button data-choice="a">\(\Psi(x,t)=\phi(x)e^{-iEt/\hbar}\)</button>
+          <button data-choice="b">Assume energy grows with time</button>
+          <button data-choice="c">Ignore boundary conditions</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>3) The uncertainty relation teaches that</h4>
+        <div class="qchoices" data-answer="c" data-explain="Tight position control forces a wider momentum spread.">
+          <button data-choice="a">Better tools remove all spread</button>
+          <button data-choice="b">Only momentum is uncertain</button>
+          <button data-choice="c">Narrowing Δx widens Δp</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>4) A fast check on box energies is</h4>
+        <div class="qchoices" data-answer="b" data-explain="As L grows, levels compress. If your expression misses that, recheck your algebra.">
+          <button data-choice="a">Make mass smaller to lower energies</button>
+          <button data-choice="b">Let L grow and see levels move closer</button>
+          <button data-choice="c">Ignore units and compare shapes</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>5) An entangled two-qubit state is one that</h4>
+        <div class="qchoices" data-answer="a" data-explain="It cannot be written as a simple product of a state of A and a state of B.">
+          <button data-choice="a">Does not factor into product states</button>
+          <button data-choice="b">Always yields equal outcomes</button>
+          <button data-choice="c">Has zero probability everywhere</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div style="margin-top:.8rem">
+        <button id="gradeBtn" style="border:1px solid rgba(255,255,255,.3); background:rgba(255,255,255,.08); color:var(--ink); padding:.6rem 1rem; border-radius:.6rem; cursor:pointer">Grade quiz</button>
+        <span id="scoreLine" style="margin-left:.8rem; color:var(--ink2)"></span>
+      </div>
+    </section>
 
     <div class="nextrow reveal">
       <a href="quantum_toolkit.html">← Back to Quantum Toolkit</a>
@@ -299,6 +385,12 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
       <button id="clearAll" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Clear all</button>
     </div>
     <p style="color:var(--muted); font-size:.9rem; margin-top:.4rem">Notes are saved in this browser.</p>
+
+    <hr class="sep"/>
+    <figure class="figure">
+      <img src="work.jpeg" alt="Desk with notebooks and lamp"/>
+      <figcaption class="figcap">Keep a compact log of assumptions and units next to each result.</figcaption>
+    </figure>
   </aside>
 </div>
 
@@ -307,54 +399,109 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
 <script>
 /* progress bar */
 const bar=document.getElementById('progress');
-function onScroll(){const h=document.documentElement,st=h.scrollTop||document.body.scrollTop,sh=h.scrollHeight-h.clientHeight;bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';}
+function onScroll(){
+  const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
+}
 addEventListener('scroll', onScroll); onScroll();
 
 /* reveal */
-const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); obs.unobserve(e.target);}})},{threshold:.18});
-document.querySelectorAll('.reveal').forEach(el=>{if(!el.classList.contains('in')) obs.observe(el);});
+const obs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} }); },{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{ if(!el.classList.contains('in')) obs.observe(el); });
 
 /* TOC */
 const toc=document.getElementById('toc');
 const heads=[...document.querySelectorAll('#article h2')];
-heads.forEach(h=>{const a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent; toc.appendChild(a);});
-function spy(){const y=scrollY+140; let idx=-1; heads.forEach((s,i)=>{if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i;}); [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));}
+heads.forEach(h=>{ const a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent; toc.appendChild(a); });
+function spy(){
+  const y=scrollY+140; let idx=-1;
+  heads.forEach((s,i)=>{ if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i; });
+  [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));
+}
 addEventListener('scroll', spy); spy();
 
-/* Notebook store for this page */
-const KEY='qpx_notes_quantum_deep_dive_v1';
+/* notebook store - unique key for this page */
+const KEY='qpx_notes_quantum_next_v1';
 const listEl=document.getElementById('nbList');
-function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];}}
-function save(data){localStorage.setItem(KEY, JSON.stringify(data));}
-function render(){const notes=load(); listEl.innerHTML=''; if(notes.length===0){listEl.innerHTML='<p style="color:var(--muted)">No notes yet.</p>'; return;}
-  notes.forEach(n=>{const div=document.createElement('div'); div.className='note'; div.dataset.id=n.id;
-    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`; listEl.appendChild(div);});}
+function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];} }
+function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+function render(){
+  const notes=load(); listEl.innerHTML='';
+  if(notes.length===0){ listEl.innerHTML='<p style="color:var(--muted)">No notes yet.</p>'; return; }
+  notes.forEach(n=>{
+    const div=document.createElement('div'); div.className='note'; div.dataset.id=n.id;
+    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time>
+      <p>${n.text}</p>
+      <button class="del">Remove</button>`;
+    listEl.appendChild(div);
+  });
+}
 render();
 
-/* highlight buttons save paragraph text */
+/* paragraph highlight save */
 document.querySelectorAll('.hlbtn').forEach(btn=>{
   btn.addEventListener('click',()=>{
-    const id=btn.dataset.target, p=document.getElementById(id); if(!p) return;
+    const id=btn.dataset.target, p=document.getElementById(id);
+    if(!p) return;
     p.classList.add('mark');
     const notes=load(); notes.push({id:'n'+Date.now(), text:p.textContent.trim(), time:Date.now(), para:id});
     save(notes); render();
   });
 });
 
-/* free note save/clear */
+/* free note save & clear */
 document.getElementById('saveFree').addEventListener('click',()=>{
   const box=document.getElementById('freeNote'); const t=box.value.trim(); if(!t) return;
-  const notes=load(); notes.push({id:'n'+Date.now(), text:t, time:Date.now(), para:null}); save(notes); render(); box.value='';
+  const notes=load(); notes.push({id:'n'+Date.now(), text:t, time:Date.now(), para:null});
+  save(notes); render(); box.value='';
 });
 listEl.addEventListener('click',e=>{
   if(!e.target.classList.contains('del')) return;
-  const id=e.target.closest('.note').dataset.id; const notes=load().filter(x=>x.id!==id); save(notes); render();
+  const item=e.target.closest('.note'); const id=item.dataset.id;
+  const notes=load().filter(x=>x.id!==id); save(notes); render();
 });
 document.getElementById('clearAll').addEventListener('click',()=>{
   if(!confirm('Clear all saved notes for this page')) return;
   localStorage.removeItem(KEY); render();
   document.querySelectorAll('.mark').forEach(m=>m.classList.remove('mark'));
 });
+
+/* quiz grading */
+const gradeBtn=document.getElementById('gradeBtn');
+if(gradeBtn){
+  document.querySelectorAll('.qchoices button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const group=btn.closest('.qchoices');
+      group.querySelectorAll('button').forEach(b=>{ b.dataset.pressed='0'; b.classList.remove('correct','wrong'); });
+      btn.dataset.pressed='1';
+      const fb=group.parentElement.querySelector('.qfeedback');
+      fb.textContent='Selection saved. Press Grade quiz when ready.';
+      fb.style.color='#d1d1d1';
+    });
+  });
+  gradeBtn.addEventListener('click',()=>{
+    let score=0, total=0;
+    document.querySelectorAll('.qchoices').forEach(group=>{
+      total++;
+      const ans=group.dataset.answer;
+      const explain=group.dataset.explain||'';
+      const fb=group.parentElement.querySelector('.qfeedback');
+      const choice=[...group.querySelectorAll('button')].find(b=>b.dataset.pressed==='1');
+      if(!choice){
+        fb.textContent='Select an option to see feedback.'; fb.style.color='#f0d28a'; return;
+      }
+      if(choice.dataset.choice===ans){
+        score++; choice.classList.add('correct'); fb.textContent='Correct — ' + explain; fb.style.color='#8fe0a8';
+      }else{
+        choice.classList.add('wrong'); fb.textContent='Not quite — ' + explain; fb.style.color='#f29b9b';
+        const corr=[...group.querySelectorAll('button')].find(b=>b.dataset.choice===ans);
+        if(corr) corr.classList.add('correct');
+      }
+    });
+    const scoreLine=document.getElementById('scoreLine');
+    if(scoreLine) scoreLine.textContent='Score: ' + score + ' / ' + total;
+  });
+}
 </script>
 </body>
 </html>
