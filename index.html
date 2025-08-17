@@ -1,201 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>QParadox</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height:100%; }
     body {
-      background:#0e0e0e; color:#e0e0e0; font-family:Georgia,serif;
-      overflow-x:hidden; opacity:0; animation:fadeIn 0.8s forwards;
+      background:#0e0e0e; color:#e0e0e0; font-family:Georgia, serif;
+      overflow-x:hidden; opacity:0; animation:fadeIn .8s forwards;
     }
-    @keyframes fadeIn { to{ opacity:1; } }
+    @keyframes fadeIn { to { opacity:1; } }
+
+    /* NAV */
     nav {
-      display:flex; justify-content:space-between; align-items:center;
-      padding:1rem 2rem; background:#101010; position:sticky; top:0;
-      z-index:100; border-bottom:1px solid #333;
+      position:sticky; top:0; z-index:100;
+      background:#101010; border-bottom:1px solid #333;
     }
-    .nav-left, .nav-right { display:flex; gap:1.8rem; }
-    .nav-center { font-size:1.5rem; font-weight:bold; letter-spacing:2px; }
-    a { color:inherit; text-decoration:none; font-size:1rem; transition:color .3s; }
-    a:hover { color:#fff; }
-    .icon-btn { font-size:1.2rem; cursor:pointer; color:#ccc; transition:color .3s; }
+    .nav-inner {
+      max-width:1100px; margin:0 auto; padding:1rem 1rem;
+      display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:1rem;
+    }
+    .nav-left, .nav-right { display:flex; align-items:center; gap:1.2rem; }
+    .nav-left a, .nav-right a { font-size:1rem; text-decoration:none; color:#e0e0e0; transition:color .25s; }
+    .nav-left a:hover, .nav-right a:hover { color:#fff; }
+    .nav-center { text-align:center; font-size:1.6rem; font-weight:bold; letter-spacing:2px; }
+    .search-bar { display:flex; align-items:center; gap:.4rem; }
+    .search-bar input { padding:.35rem .6rem; border:1px solid #333; background:#151515; color:#ddd; border-radius:4px; }
+    .search-bar button { padding:.35rem .6rem; border:1px solid #333; background:#1e1e1e; color:#ddd; border-radius:4px; cursor:pointer; }
+
+    .icon-btn { font-size:1.4rem; cursor:pointer; color:#ccc; transition:color .25s; line-height:1; }
     .icon-btn:hover { color:#fff; }
-    /* SIDE PANEL STYLES */
+    .hamburger { display:inline-flex; width:28px; height:22px; position:relative; border:none; background:transparent; cursor:pointer; }
+    .hamburger span { position:absolute; left:0; width:100%; height:2px; background:#ccc; transition:transform .25s, opacity .25s, top .25s; }
+    .hamburger span:nth-child(1){ top:2px; }
+    .hamburger span:nth-child(2){ top:10px; }
+    .hamburger span:nth-child(3){ top:18px; }
+    .hamburger[aria-expanded="true"] span:nth-child(1){ top:10px; transform:rotate(45deg); }
+    .hamburger[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+    .hamburger[aria-expanded="true"] span:nth-child(3){ top:10px; transform:rotate(-45deg); }
+
+    /* SIDE PANEL */
+    #overlay { position:fixed; inset:0; background:rgba(0,0,0,.5); opacity:0; pointer-events:none; transition:opacity .25s; z-index:140; }
     #side-panel {
-      position:fixed; top:0; right:-250px; width:250px; height:100vh;
-      background:#1a1a1a; box-shadow:-2px 0 6px rgba(0,0,0,0.7);
-      transition:right .3s ease; z-index:150;
-      display:flex; flex-direction:column; padding:2rem;
+      position:fixed; top:0; right:0; width:260px; height:100vh; z-index:150;
+      background:#1a1a1a; box-shadow:-2px 0 10px rgba(0,0,0,.6);
+      transform:translateX(100%); transition:transform .25s ease;
+      display:flex; flex-direction:column; padding:2rem 1.25rem; gap:1rem;
     }
-    #side-panel a {
-      color:#ccc; text-decoration:none; margin-bottom:1.5rem;
-      font-size:1.1rem; transition:color .3s;
-    }
+    #side-panel a { color:#ccc; text-decoration:none; font-size:1.1rem; }
     #side-panel a:hover { color:#fff; }
-    /* Header & Particles */
+
+    body.menu-open #side-panel { transform:translateX(0%); }
+    body.menu-open { overflow:hidden; }
+    body.menu-open #overlay { opacity:1; pointer-events:auto; }
+
+    /* HEADER */
     header { position:relative; text-align:center; padding:4rem 1rem; overflow:hidden; }
-    #particles { position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; }
+    #particles { position:absolute; inset:0; z-index:1; }
     header h1 { font-size:3rem; color:#fff; margin-bottom:1rem; position:relative; z-index:2; }
-    header p { max-width:700px; margin:0 auto; font-size:1.1rem; line-height:1.6; color:#ccc; margin-bottom:1.5rem; position:relative; z-index:2; }
-    .see-more { position:relative; z-index:2; display:inline-block; padding:.8rem 1.6rem; background:#555; color:#fff; border-radius:5px; transition:background .3s; }
+    header p { max-width:720px; margin:0 auto 1.5rem; font-size:1.1rem; line-height:1.65; color:#ccc; position:relative; z-index:2; }
+    .see-more { position:relative; z-index:2; display:inline-block; padding:.8rem 1.6rem; background:#555; color:#fff; border-radius:6px; text-decoration:none; transition:background .25s; }
     .see-more:hover { background:#777; }
-    .brand-block { text-align:center; margin-bottom:3rem; }
-    .brand-block h2 { font-size:4rem; margin:0; color:#fff; letter-spacing:3px; }
-    .notebook-cover { display:inline-block; vertical-align:middle; margin-right:2rem; cursor:pointer; transition:transform .2s; }
-    .notebook-cover img { width:120px; }
+
+    /* BRAND BLOCK */
+    .brand-block { text-align:center; margin:0 auto 3rem; max-width:1100px; padding:0 1rem; }
+    .brand-block h2 { font-size:4rem; margin:0 0 1rem; color:#fff; letter-spacing:3px; }
+    .brand-row { display:flex; align-items:center; justify-content:center; gap:1.5rem; flex-wrap:wrap; }
+    .notebook-cover { display:inline-block; vertical-align:middle; cursor:pointer; transition:transform .2s; }
+    .notebook-cover img { width:120px; height:auto; }
     .notebook-cover:hover { transform:scale(1.05); }
-    .schrodinger-box { max-width:160px; margin:0.5rem auto; cursor:pointer; display:inline-block; vertical-align:middle; transition:transform .2s; }
+    .schrodinger-box { max-width:160px; cursor:pointer; display:inline-block; vertical-align:middle; transition:transform .2s; text-align:center; }
     .schrodinger-box:hover { transform:scale(1.03); }
     .schrodinger-box img { width:100%; opacity:1; transition:opacity .4s; }
-    .schrodinger-status { font-size:0.9rem; color:#fff; margin-top:0.4rem; min-height:1.2em; transition:opacity .4s; }
-    .brand-links { display:inline-block; vertical-align:middle; text-align:left; margin-left:1rem; color:#fff; font-size:0.95rem; }
-    .brand-links p { margin:0.3rem 0; }
+    .schrodinger-status { font-size:.95rem; color:#fff; margin-top:.35rem; min-height:1.2em; transition:opacity .4s; }
+    .brand-links { display:flex; flex-direction:column; gap:.35rem; text-align:left; }
     .brand-links a { color:#fff; text-decoration:underline; }
+
+    /* GRID */
     #explore { text-align:center; padding:3rem 1rem; }
     #explore h2 { font-size:2.2rem; margin-bottom:1rem; }
-    .grid { display:flex; justify-content:center; flex-wrap:wrap; gap:2rem; }
-    .grid a { padding:1rem 2rem; border:2px solid #444; color:#ccc; font-size:1.05rem; border-radius:6px; transition:all .3s; }
+    .grid { display:flex; justify-content:center; flex-wrap:wrap; gap:1rem; }
+    .grid a { padding:1rem 1.5rem; border:2px solid #444; color:#ccc; font-size:1.05rem; border-radius:6px; text-decoration:none; transition:all .25s; }
     .grid a:hover { background:#222; border-color:#888; color:#fff; }
-    .theory-card { background:#222; padding:1.4rem; max-width:700px; margin:0 auto 3rem; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.5); }
-    .theory-card h2 { color:#e0e0e0; margin-bottom:.6rem; }
-    .theory-card p { color:#ddd; line-height:1.5; }
-    .add-note { margin-top:1rem; background:#444; padding:.5rem 1.2rem; border:none; border-radius:5px; color:#fff; font-size:1rem; cursor:pointer; transition:background .3s; }
+
+    /* THEORY CARD */
+    .theory-card { background:#222; padding:1.4rem; max-width:700px; margin:0 auto 3rem; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,.5); }
+    .theory-card h2 { color:#e0e0e0; margin-bottom:.6rem; font-size:1.4rem; }
+    .theory-card p { color:#ddd; line-height:1.55; }
+    .add-note { margin-top:1rem; background:#444; padding:.55rem 1.2rem; border:none; border-radius:6px; color:#fff; font-size:1rem; cursor:pointer; transition:background .25s; }
     .add-note:hover { background:#666; }
-    .about-preview { background:linear-gradient(to right,#121212,#1b1b1b); padding:4rem 2rem; text-align:center; margin-top:2rem; border-top:1px solid #222; border-bottom:1px solid #222; box-shadow:0 0 12px rgba(0,0,0,0.3); }
-    .about-preview h2 { font-size:2.2rem; margin-bottom:1.5rem; color:#ffffff; text-transform:uppercase; letter-spacing:1px; font-weight:600; }
-    .about-inner { max-width:750px; margin:0 auto; font-size:1.1rem; line-height:1.7; color:#cccccc; }
-    .about-inner p { margin-bottom:1.2rem; }
-    .see-more-btn { display:inline-block; margin-top:2rem; color:#fff; background-color:transparent; border:1px solid #888; padding:0.6rem 1.4rem; border-radius:5px; text-decoration:none; font-weight:bold; letter-spacing:0.5px; transition:all .3s ease; }
+
+    /* VIDEO */
+    #video-feature { text-align:center; padding:0 1rem; }
+    .video-wrap { position:relative; width:100%; max-width:720px; margin:0 auto; }
+    .video-wrap::before { content:""; display:block; padding-top:56.25%; }
+    .video-wrap iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+
+    /* ABOUT PREVIEW */
+    .about-preview { background:linear-gradient(to right, #121212, #1b1b1b); padding:4rem 1.25rem; text-align:center; margin-top:2rem; border-top:1px solid #222; border-bottom:1px solid #222; box-shadow:0 0 12px rgba(0,0,0,.3); }
+    .about-preview h2 { font-size:2.2rem; margin-bottom:1.25rem; color:#fff; text-transform:uppercase; letter-spacing:1px; font-weight:600; }
+    .about-inner { max-width:760px; margin:0 auto; font-size:1.08rem; line-height:1.7; color:#ccc; }
+    .see-more-btn { display:inline-block; margin-top:2rem; color:#fff; background-color:transparent; border:1px solid #888; padding:.6rem 1.2rem; border-radius:6px; text-decoration:none; font-weight:600; letter-spacing:.5px; transition:all .25s; }
     .see-more-btn:hover { background-color:#222; border-color:#fff; color:#fff; }
-    #notebook-modal { display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:1000; }
-    #notebook-content { background:#fff; border-radius:8px; padding:2rem; position:relative; width:90%; max-width:800px; height:90%; overflow:auto; }
+
+    /* NOTEBOOK MODAL */
+    #notebook-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); justify-content:center; align-items:center; z-index:1000; }
+    #notebook-content { background:#fff; border-radius:10px; padding:2rem; position:relative; width:92%; max-width:860px; height:90%; overflow:auto; }
     #notebook-content img { display:block; width:100%; pointer-events:none; }
-    #notebook-content textarea { position:absolute; top:7%; left:7%; width:86%; height:85%; background:transparent; border:none; color:#333; font-family:Georgia,serif; font-size:1rem; line-height:1.5; resize:none; outline:none; }
-    #notebook-close { position:absolute; top:15px; right:20px; background:#444; color:#fff; border:none; padding:0.5rem 1rem; cursor:pointer; }
+    #notebook-content textarea { position:absolute; top:7%; left:7%; width:86%; height:85%; background:transparent; border:none; color:#333; font-family:Georgia, serif; font-size:1rem; line-height:1.5; resize:none; outline:none; }
+    #notebook-close { position:absolute; top:12px; right:16px; background:#444; color:#fff; border:none; padding:.5rem 1rem; border-radius:6px; cursor:pointer; }
     #notebook-close:hover { background:#222; }
-    iframe { border:none; margin-top:1.5rem; }
-    @media(max-width:768px){ nav .nav-right .search-bar { display:none; } nav .nav-center { justify-content:flex-start; padding:0 1rem; } .grid a{min-width:160px;} header h1{font-size:2.4rem;} .brand-block h2{font-size:3rem;} iframe{width:90%;height:auto;} }
+
+    footer { padding:2rem 1rem; text-align:center; color:#888; font-size:.95rem; }
+
+    /* MOBILE FIRST FIXES */
+    @media (max-width: 900px) {
+      .nav-left { display:none; }
+      .search-bar { display:none; }
+      .nav-inner { grid-template-columns:auto 1fr auto; }
+    }
+
+    @media (max-width: 768px) {
+      header { padding:3.2rem 1rem; }
+      header h1 { font-size:2.2rem; }
+      .brand-block h2 { font-size:2.6rem; letter-spacing:2px; }
+      .brand-row { flex-direction:column; align-items:center; }
+      .brand-links { text-align:center; }
+      .grid a { min-width:160px; }
+    }
   </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-left">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="projects.html">Projects</a>
-    <a href="contact.html">Contact</a>
-    <a onclick="openNotebook()" style="cursor:pointer;">Notebook</a>
+  <nav aria-label="Main">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+        <a href="#" onclick="openNotebook(); return false;">Notebook</a>
+      </div>
+
+      <div class="nav-center">QParadox</div>
+
+      <div class="nav-right">
+        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-controls="side-panel" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div id="overlay" tabindex="-1" aria-hidden="true"></div>
+
+  <aside id="side-panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <a href="index.html" class="sp-link">Home</a>
+    <a href="about.html" class="sp-link">About</a>
+    <a href="projects.html" class="sp-link">Projects</a>
+    <a href="contact.html" class="sp-link">Contact</a>
+    <a href="#" onclick="openNotebook(); return false;" class="sp-link">Notebook</a>
+  </aside>
+
+  <header>
+    <div id="particles" aria-hidden="true"></div>
+    <h1>A Prelude to the Unknown</h1>
+    <p>
+      QParadox is a digital space where the boundaries of science and thought begin to blur. It explores the language of quantum physics through ideas like wave particle duality, quantum entanglement, and the uncertainty that shapes reality. It also reflects on what these ideas mean and how they challenge our understanding of logic, causality, and truth. This is not just theory. It is a space where physics meets philosophy and curiosity becomes the only constant.
+    </p>
+    <a href="prelude.html" class="see-more">See More →</a>
+  </header>
+
+  <section class="brand-block">
+    <h2>QParadox</h2>
+    <div class="brand-row">
+      <span class="notebook-cover" onclick="openNotebook()">
+        <img src="cover.png" alt="Notebook Cover" />
+      </span>
+      <span class="schrodinger-box" onclick="toggleCatState()">
+        <img id="schrodinger-img" src="box.png" alt="Quantum box" />
+        <div id="schrodinger-status" class="schrodinger-status">Click to observe cat</div>
+      </span>
+      <span class="brand-links">
+        <a href="introduction.html">New to QParadox? Start here →</a>
+        <a href="concepts.html">Want to learn more? Click here →</a>
+        <a href="timeline.html">Confused about the history? Look at our timeline →</a>
+      </span>
+    </div>
+  </section>
+
+  <section id="explore">
+    <h2>Explore the Contents</h2>
+    <div class="grid">
+      <a href="introduction.html">Introduction</a>
+      <a href="history.html">History</a>
+      <a href="concepts.html">Concepts</a>
+      <a href="theory.html">Theory</a>
+    </div>
+  </section>
+
+  <section class="theory-card" id="theory-card">
+    <h2>Theory of the Week</h2>
+    <p id="theory-text">Quantum entanglement explores how particles remain correlated across distance, defying classical intuition, and reshaping our understanding of locality and causality.</p>
+    <button class="add-note" onclick="openNotebook()">Add to Notebook</button>
+  </section>
+
+  <section id="video-feature">
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/QkhBcLk_8f0" title="Richard Feynman on The Beauty of Not Knowing" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <section id="about-preview" class="about-preview">
+    <h2>About QParadox</h2>
+    <div class="about-inner">
+      <p>QParadox is a personal website curated by a student with a deep interest in quantum physics, theoretical science, and the questions that arise at the edge of understanding.</p>
+      <p>A space where complex ideas are broken down and explored through research and reflection. The goal is not just to explain, but to think, to create a quiet place where science and philosophy can meet and expand.</p>
+    </div>
+    <a href="about.html" class="see-more-btn">Read Full Bio →</a>
+  </section>
+
+  <div id="notebook-modal">
+    <div id="notebook-content">
+      <button id="notebook-close" onclick="closeNotebook()">Close</button>
+      <img src="notebooks.jpg" alt="Notebook Background" />
+      <textarea placeholder="Write your thoughts..."></textarea>
+    </div>
   </div>
-  <div class="nav-center">QParadox</div>
-  <div class="nav-right">
-    <span class="search-bar"><input type="text" placeholder="Search..."><button>🔍</button></span>
-    <span class="icon-btn" onclick="toggleSide()">☰</span>
-  </div>
-</nav>
 
-<div id="side-panel">
-  <a href="index.html">Home</a>
-  <a href="about.html">About</a>
-  <a href="projects.html">Projects</a>
-  <a href="contact.html">Contact</a>
-  <a onclick="openNotebook()" style="cursor:pointer; color:#ccc;">Notebook</a>
-</div>
+  <footer>© 2025 QParadox. All rights reserved.</footer>
 
-<header>
-  <div id="particles"></div>
-  <h1>A Prelude to the Unknown</h1>
-  <p>
-    QParadox is a digital space where the boundaries of science and thought begin to blur. It explores the language of quantum physics through ideas like wave particle duality, quantum entanglement, and the uncertainty that shapes reality. It also reflects on what these ideas mean and how they challenge our understanding of logic, causality, and truth. This is not just theory. It is a space where physics meets philosophy and curiosity becomes the only constant.
-  </p>
-  <a href="prelude.html" class="see-more">See More →</a>
-</header>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    // particles
+    particlesJS('particles', {
+      particles: {
+        number: { value: 60 }, color: { value: '#fff' }, shape: { type: 'circle' }, opacity: { value: .3 }, size: { value: 2 },
+        line_linked: { enable: true, distance: 140, color: '#fff', opacity: .2, width: 1 },
+        move: { enable: true, speed: 1 }
+      },
+      interactivity: { events: { onhover: { enable: true, mode: 'grab' } }, modes: { grab: { distance: 120, line_linked: { opacity: .4 } } } },
+      retina_detect: true
+    });
 
-<div class="brand-block">
-  <h2>QParadox</h2>
-  <div>
-    <span class="notebook-cover" onclick="openNotebook()">
-      <img src="cover.png" alt="Notebook Cover">
-    </span>
-    <span class="schrodinger-box" onclick="toggleCatState()">
-      <img id="schrodinger-img" src="box.png" alt="Quantum box">
-      <div id="schrodinger-status" class="schrodinger-status">Click to observe cat</div>
-    </span>
-    <span class="brand-links">
-      <p><a href="introduction.html">New to QParadox? Start here →</a></p>
-      <p><a href="concepts.html">Want to learn more? Click here →</a></p>
-      <p><a href="timeline.html">Confused about the history? Look at our timeline →</a></p>
-    </span>
-  </div>
-</div>
+    // hamburger and side panel
+    const body = document.body;
+    const hamburger = document.getElementById('hamburger');
+    const overlay = document.getElementById('overlay');
+    const sidePanel = document.getElementById('side-panel');
 
-<section id="explore">
-  <h2>Explore the Contents</h2>
-  <div class="grid">
-    <a href="introduction.html">Introduction</a>
-    <a href="history.html">History</a>
-    <a href="concepts.html">Concepts</a>
-    <a href="theory.html">Theory</a>
-  </div>
-</section>
+    function openMenu() {
+      body.classList.add('menu-open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      hamburger.setAttribute('aria-label', 'Close menu');
+      sidePanel.focus();
+    }
+    function closeMenu() {
+      body.classList.remove('menu-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-label', 'Open menu');
+      hamburger.focus();
+    }
+    function toggleMenu() {
+      if (body.classList.contains('menu-open')) closeMenu(); else openMenu();
+    }
 
-<section class="theory-card" id="theory-card">
-  <h2>Theory of the Week</h2>
-  <p id="theory-text">
-    Quantum entanglement explores how particles remain correlated across distance, defying classical intuition, and reshaping our understanding of locality and causality.
-  </p>
-  <button class="add-note" onclick="openNotebook()">Add to Notebook</button>
-</section>
+    hamburger.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+    sidePanel.addEventListener('click', (e) => { if (e.target.matches('.sp-link')) closeMenu(); });
 
-<!-- YouTube video embedded below Theory of the Week -->
-<section id="video-feature" style="text-align:center;">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/QkhBcLk_8f0" title="Richard Feynman on The Beauty of Not Knowing" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</section>
+    // old right slide toggle kept for reference safety if called elsewhere
+    function toggleSide(){ toggleMenu(); }
 
-<section id="about-preview" class="about-preview">
-  <h2>About QParadox</h2>
-  <div class="about-inner">
-    <p>QParadox is a personal website curated by a student with a deep interest in quantum physics, theoretical science, and the questions that arise at the edge of understanding.</p>
-    <p>A space where complex ideas are broken down and explored through research and reflection. The goal is not just to explain, but to think — to create a quiet place where science and philosophy can meet and expand.</p>
-  </div>
-  <a href="about.html" class="see-more-btn">Read Full Bio →</a>
-</section>
+    // cat box
+    function toggleCatState(){
+      const img = document.getElementById('schrodinger-img');
+      const status = document.getElementById('schrodinger-status');
+      const alive = Math.random() > 0.5;
+      img.style.opacity = 0; status.style.opacity = 0;
+      setTimeout(() => {
+        img.src = alive ? 'cat-alive.png' : 'cat-dead.png';
+        status.textContent = alive ? '😺 Alive' : '💀 Dead';
+        img.style.opacity = 1; status.style.opacity = 1;
+      }, 400);
+    }
 
-<div id="notebook-modal">
-  <div id="notebook-content">
-    <button id="notebook-close" onclick="closeNotebook()">Close</button>
-    <img src="notebooks.jpg" alt="Notebook Background">
-    <textarea placeholder="Write your thoughts..."></textarea>
-  </div>
-</div>
-
-<footer>© 2025 QParadox. All rights reserved.</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<script>
-  particlesJS('particles',{particles:{number:{value:60},color:{value:"#fff"},shape:{type:"circle"},opacity:{value:0.3},size:{value:2},line_linked:{enable:true,distance:140,color:"#fff",opacity:0.2,width:1},move:{enable:true,speed:1}},interactivity:{events:{onhover:{enable:true,mode:"grab"}},modes:{grab:{distance:120,line_linked:{opacity:0.4}}}},retina_detect:true});
-  function toggleSide(){
-    const panel=document.getElementById('side-panel');
-    panel.style.right=(panel.style.right==='0px'?'-250px':'0px');
-  }
-  function toggleCatState(){
-    const img=document.getElementById('schrodinger-img'),status=document.getElementById('schrodinger-status');
-    const alive=Math.random()>0.5;
-    img.style.opacity=0;status.style.opacity=0;
-    setTimeout(()=>{
-      img.src=alive?'cat-alive.png':'cat-dead.png';
-      status.textContent=alive?"😺 Alive":"💀 Dead";
-      img.style.opacity=1;status.style.opacity=1;
-    },400);
-  }
-  function openNotebook(){
-    document.getElementById('notebook-modal').style.display='flex';
-  }
-  function closeNotebook(){
-    document.getElementById('notebook-modal').style.display='none';
-  }
-</script>
+    // notebook modal
+    function openNotebook(){ document.getElementById('notebook-modal').style.display='flex'; }
+    function closeNotebook(){ document.getElementById('notebook-modal').style.display='none'; }
+    window.openNotebook = openNotebook; window.closeNotebook = closeNotebook; window.toggleCatState = toggleCatState; window.toggleSide = toggleSide;
+  </script>
 </body>
 </html>
