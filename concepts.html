@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>QParadox • Concepts Atlas</title>
 
-<!-- Fonts + MathJax -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
 <script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
@@ -31,7 +30,7 @@ body::after{content:""; position:fixed; inset:0; z-index:-2;
 .frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
 #progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue))}
 
-/* Top nav + hamburger */
+/* Top nav */
 .topnav{
   position:sticky; top:0; z-index:50; height:var(--navh);
   display:flex; align-items:center; justify-content:space-between;
@@ -48,7 +47,7 @@ body::after{content:""; position:fixed; inset:0; z-index:-2;
 .toplinks a{color:var(--ink2); text-decoration:none; margin:0 .4rem; border-bottom:1px dotted rgba(255,255,255,.25)}
 .toplinks a:hover{color:#fff}
 
-/* Side drawer */
+/* Drawer */
 .drawer{position:fixed; inset:0; z-index:60; display:none}
 .drawer.open{display:block}
 .drawer .shade{position:absolute; inset:0; background:rgba(0,0,0,.5)}
@@ -71,25 +70,26 @@ h1{font-family:"Playfair Display",serif; font-weight:900; margin:.4rem 0 0; font
 
 /* Controls */
 .controls{width:min(var(--maxw),94%); margin:0 auto 1.2rem; display:grid; gap:.8rem}
-@media(min-width:980px){ .controls{grid-template-columns:1.4fr .9fr .9fr} }
+@media(min-width:980px){ .controls{grid-template-columns:1.5fr .9fr .9fr} }
 .ctrlBox{
   border:1px solid var(--line); border-radius:14px; background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
-  box-shadow:var(--shadow); padding:.8rem .9rem
+  box-shadow:var(--shadow); padding:1rem .95rem
 }
 .ctrlBox h3{margin:.2rem 0 .6rem; font-family:"Playfair Display",serif; font-size:1.15rem; color:#f6eddc}
 .search{display:flex; gap:.6rem}
 .search input{
   flex:1; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink);
-  border-radius:.6rem; padding:.6rem .7rem
+  border-radius:.6rem; padding:.62rem .75rem
 }
 .search button{
-  border:1px solid var(--line); background:var(--glass); color:var(--ink); border-radius:.6rem; padding:.55rem .8rem; cursor:pointer
+  border:1px solid var(--line); background:var(--glass); color:var(--ink); border-radius:.6rem; padding:.58rem .8rem; cursor:pointer
 }
 .pills{display:flex; flex-wrap:wrap; gap:.45rem}
 .pill{
-  padding:.28rem .6rem; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.05); color:var(--ink2);
-  cursor:pointer; user-select:none; font-size:.92rem
+  padding:.32rem .64rem; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.05); color:var(--ink2);
+  cursor:pointer; user-select:none; font-size:.94rem; transition:.15s
 }
+.pill:hover{border-color:rgba(255,255,255,.3); color:#fff}
 .pill.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
 .small{font-size:.86rem; color:var(--muted)}
 
@@ -104,7 +104,7 @@ h1{font-family:"Playfair Display",serif; font-weight:900; margin:.4rem 0 0; font
 .alpha b{color:#d6c6a8; margin-right:.4rem}
 .alpha button{
   border:1px solid var(--line); background:rgba(255,255,255,.05); color:var(--ink2);
-  border-radius:.4rem; font-size:.82rem; padding:.15rem .4rem; cursor:pointer
+  border-radius:.4rem; font-size:.82rem; padding:.15rem .44rem; cursor:pointer
 }
 .alpha button:hover{color:#fff}
 
@@ -119,22 +119,26 @@ article{
 section.group{margin-top:1rem; border:1px solid var(--line); border-radius:16px; overflow:hidden}
 .group header.secHead{
   display:flex; align-items:center; justify-content:space-between; gap:1rem;
-  background:rgba(255,255,255,.04); padding:.8rem 1rem; cursor:pointer
+  background:rgba(255,255,255,.04); padding:.85rem 1rem
 }
 .group h2{
   font-family:"Playfair Display",serif; margin:0; font-size:clamp(1.5rem,2.2vw,2.1rem); color:#f6eddc
 }
 .group .count{color:var(--muted); font-size:.9rem}
-.group .grid{display:grid; gap:14px; padding:1rem; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); border-top:1px solid var(--line)}
+.group .grid{
+  padding:.9rem; border-top:1px solid var(--line);
+  display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(290px,1fr))
+}
 .group.collapsed .grid{display:none}
 
+/* Cards */
 .card{
   position:relative;
   border:1px solid var(--line); border-radius:16px;
   background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
   box-shadow:var(--shadow);
   padding:1rem .95rem 1.05rem;
-  transition:transform .18s ease, border-color .18s ease;
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s;
 }
 .card:hover{transform:translateY(-2px); border-color:rgba(255,255,255,.28)}
 .card h4{
@@ -155,8 +159,7 @@ section.group{margin-top:1rem; border:1px solid var(--line); border-radius:16px;
 }
 .star.active{background:linear-gradient(90deg,var(--gold),#efd6a8); color:#111}
 
-hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
-
+/* Sidebar */
 aside{
   position:sticky; top:calc(var(--navh) + 24px); align-self:start; height:fit-content;
   background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
@@ -340,7 +343,6 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
 
     <hr class="sep"/>
 
-    <!-- Quick nav row at bottom -->
     <div class="alpha" style="border-radius:12px; margin-bottom:.6rem">
       <b>Navigation</b>
       <button onclick="location.href='index.html'">Home</button>
@@ -353,7 +355,6 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
 
   </article>
 
-  <!-- Sidebar -->
   <aside class="reveal">
     <h3>Notebook</h3>
     <p class="tips">Press ★ on any concept card to pin it here. Add your own note below.</p>
@@ -381,7 +382,7 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
 <button id="toTop" title="Back to top">↑ Top</button>
 
 <script>
-/* progress bar + back-to-top */
+/* progress + back-to-top */
 const bar=document.getElementById('progress'), toTop=document.getElementById('toTop');
 function onScroll(){
   const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
@@ -401,14 +402,14 @@ document.getElementById('openDrawer').onclick=()=>drawer.classList.add('open');
 document.getElementById('closeDrawer').onclick=()=>drawer.classList.remove('open');
 document.getElementById('closeDrawerBtn').onclick=()=>drawer.classList.remove('open');
 
-/* filters */
+/* filters — ALWAYS start with domain=all + expanded groups */
 let activeDomain='all', activeMethod='any', query='';
 const domainPills=document.getElementById('domainPills');
 const methodPills=document.getElementById('methodPills');
 domainPills.addEventListener('click',e=>{
   const t=e.target.closest('.pill'); if(!t) return;
   domainPills.querySelectorAll('.pill').forEach(x=>x.classList.remove('active')); t.classList.add('active');
-  activeDomain=t.dataset.domain; render();
+  activeDomain=t.dataset.domain; render(true);
 });
 methodPills.addEventListener('click',e=>{
   const t=e.target.closest('.pill'); if(!t) return;
@@ -418,14 +419,23 @@ methodPills.addEventListener('click',e=>{
 document.getElementById('qsearch').addEventListener('input',e=>{ query=e.target.value.toLowerCase(); render(); });
 document.getElementById('clearBtn').onclick=()=>{ document.getElementById('qsearch').value=''; query=''; render(); };
 
-/* accordion toggles + expand/collapse all */
-document.querySelectorAll('.secHead').forEach(h=>{
-  h.addEventListener('click',()=>{
-    const id=h.dataset.toggle; document.getElementById(id).classList.toggle('collapsed');
-  });
-});
+/* Expand / collapse all (but default is expanded) */
 document.getElementById('expandAll').onclick=()=>document.querySelectorAll('.group').forEach(g=>g.classList.remove('collapsed'));
 document.getElementById('collapseAll').onclick=()=>document.querySelectorAll('.group').forEach(g=>g.classList.add('collapsed'));
+
+/* A–Z */
+const alphaWrap=document.getElementById('alphaButtons');
+function makeAlphaButtons(letters){
+  alphaWrap.innerHTML='';
+  [...letters].sort().forEach(L=>{
+    const b=document.createElement('button'); b.textContent=L;
+    b.onclick=()=>{
+      const el=document.querySelector(`[data-letter="${L}"]`);
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    };
+    alphaWrap.appendChild(b);
+  });
+}
 
 /* favorites + notebook */
 const KEY_FAV='qpx_concepts_fav_v2', KEY_NOTE='qpx_concepts_notes_v1';
@@ -466,135 +476,22 @@ nbList.addEventListener('click',e=>{
   const arr = loadNote().filter(n=>n.id!==id); saveNote(arr); renderNotes();
 });
 
-/* A–Z */
-const alphaWrap=document.getElementById('alphaButtons');
-function makeAlphaButtons(letters){
-  alphaWrap.innerHTML='';
-  [...letters].sort().forEach(L=>{
-    const b=document.createElement('button'); b.textContent=L;
-    b.onclick=()=>{
-      const el=document.querySelector(`[data-letter="${L}"]`); if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-    };
-    alphaWrap.appendChild(b);
-  });
-}
-
-/* =============== DATASET (with Metaphysics added) =============== */
+/* ===== DATASET (same as before; trimmed here to key examples; add more freely) ===== */
 const data = [
-  /* CLASSICAL */
   {id:'c-newton', title:"Newton's Laws", domain:'classical', method:'theory', href:'newton-laws.html', eq:'\\(\\vec{F}_{\\text{net}}=d\\vec{p}/dt\\)', blurb:'Match net external force to momentum change. Always declare a boundary.'},
   {id:'c-work', title:'Work & Energy', domain:'classical', method:'theory', href:'work-energy.html', eq:'\\(\\Delta K=W_{\\text{net}}\\)', blurb:'Convert forces along a path into energy changes. Decide what becomes heat.'},
   {id:'c-lagrange', title:'Lagrangian Mechanics', domain:'classical', method:'theory', href:'lagrangian-mechanics.html', eq:'\\(L=T-V\\)', blurb:'Handle constraints via coordinates. Symmetries of the action produce conserved quantities.'},
-  {id:'c-hamilton', title:'Hamiltonian Mechanics', domain:'classical', method:'theory', href:'hamiltonian-mechanics.html', eq:'\\(\\dot{q}_i=\\partial H/\\partial p_i\\)', blurb:'Phase-space view with positions and momenta; bridge to quantum structure.'},
-  {id:'c-modes', title:'Normal Modes', domain:'classical', method:'theory', href:'normal-modes.html', eq:'\\(\\det|K-\\omega^2M|=0\\)', blurb:'Diagonalize coupled oscillators into clean patterns that do not mix.'},
-  {id:'c-central', title:'Central Forces & Orbits', domain:'classical', method:'theory', href:'central-forces-orbits.html', eq:'\\(V_{\\text{eff}}=V(r)+\\ell^2/2mr^2\\)', blurb:'One effective potential reveals stability, turning points, and orbit classes.'},
-  {id:'c-rigidbody', title:'Rigid Body Dynamics', domain:'classical', method:'theory', href:'rigid-body.html', eq:'\\(\\vec{\\tau}=I\\vec{\\alpha}\\)', blurb:'Moments of inertia, torque, and precession; body frames clarify motion.'},
-  {id:'c-chaos', title:'Chaos & Poincaré Maps', domain:'classical', method:'compute', href:'chaos-poincare.html', eq:'\\(|\\delta x(t)|\\sim e^{\\lambda t}|\\delta x_0|\\)', blurb:'Sensitivity to initial conditions; visualize with sections and Lyapunov exponents.'},
-  {id:'c-continuum', title:'Continuum Mechanics', domain:'classical', method:'theory', href:'continuum-mechanics.html', eq:'\\(\\partial_t\\rho+\\nabla\\cdot(\\rho\\vec{v})=0\\)', blurb:'Fluids and elastic media built from conservation laws.'},
-
-  /* EM */
   {id:'e-maxwell', title:"Maxwell's Equations", domain:'em', method:'theory', href:'maxwells-equations.html', eq:'\\(\\nabla\\cdot\\vec{E}=\\rho/\\varepsilon_0,\\,\\nabla\\cdot\\vec{B}=0,\\,\\nabla\\times\\vec{E}=-\\partial_t\\vec{B},\\,\\nabla\\times\\vec{B}=\\mu_0\\vec{J}+\\mu_0\\varepsilon_0\\partial_t\\vec{E}\\)', blurb:'Unifies electricity, magnetism, and light; predicts wave speed.'},
-  {id:'e-potentials', title:'Potentials & Gauge', domain:'em', method:'theory', href:'potentials-gauge.html', eq:'\\(\\vec{B}=\\nabla\\times\\vec{A},\\ \\vec{E}=-\\nabla\\phi-\\partial_t\\vec{A}\\)', blurb:'Choose gauges to simplify problems; symmetry viewpoint extends to QFT.'},
-  {id:'e-poynting', title:'Poynting Vector', domain:'em', method:'theory', href:'poynting-vector.html', eq:'\\(\\vec{S}=\\vec{E}\\times\\vec{H}\\)', blurb:'Track energy flow and power across surfaces in fields.'},
-  {id:'e-waves', title:'EM Waves & Polarization', domain:'em', method:'theory', href:'em-waves-polarization.html', eq:'\\(\\nabla^2\\vec{E}-\\mu_0\\varepsilon_0\\partial_t^2\\vec{E}=0\\)', blurb:'Plane waves, polarization bases, and media response.'},
-  {id:'e-boundary', title:'Boundaries & Fresnel', domain:'em', method:'theory', href:'em-boundary-fresnel.html', eq:'Fresnel r,t', blurb:'Reflection and transmission at interfaces; design for coatings and fibers.'},
-  {id:'e-guides', title:'Waveguides & Cavities', domain:'em', method:'compute', href:'waveguides-cavities.html', eq:'TE/TM cutoffs', blurb:'Geometry picks allowed modes; solve numerically.'},
-  {id:'e-radiation', title:'Radiation & Dipoles', domain:'em', method:'theory', href:'radiation-dipole.html', eq:'\\(P\\propto \\ddot{p}^2\\)', blurb:'Far-field patterns, antenna basics, and power scaling.'},
-
-  /* QUANTUM */
-  {id:'q-psi', title:'Wavefunction & Norm', domain:'quantum', method:'theory', href:'wavefunction-normalization.html', eq:'\\(\\int |\\Psi|^2 dx=1\\)', blurb:'Probability density, units discipline, and meaning.'},
   {id:'q-sch', title:"Schrödinger Equation", domain:'quantum', method:'theory', href:'schrodinger-equation.html', eq:'\\(i\\hbar\\partial_t\\Psi=[-\\hbar^2\\nabla^2/2m+V]\\Psi\\)', blurb:'Time evolution, stationary states, and boundary quantization.'},
-  {id:'q-ops', title:'Operators & Expectation', domain:'quantum', method:'theory', href:'operators-expectation.html', eq:'\\(\\langle A\\rangle=\\langle\\psi|\\hat{A}|\\psi\\rangle\\)', blurb:'Observables as operators; compute averages cleanly.'},
-  {id:'q-unc', title:'Commutators & Uncertainty', domain:'quantum', method:'theory', href:'commutators-uncertainty.html', eq:'\\(\\Delta x\\Delta p\\ge\\hbar/2\\)', blurb:'Limits from algebra, not gear sloppiness.'},
-  {id:'q-spin', title:'Spin & Pauli', domain:'quantum', method:'theory', href:'spin-pauli.html', eq:'Pauli matrices', blurb:'Two-state lab for measurement sequences and qubits.'},
-  {id:'q-super', title:'Superposition & Interference', domain:'quantum', method:'experiment', href:'superposition-interference.html', eq:'\\(|\\Psi_1+\\Psi_2|^2\\)', blurb:'Add amplitudes then square; phase controls fringes.'},
-  {id:'q-tunnel', title:'Quantum Tunneling', domain:'quantum', method:'theory', href:'quantum-tunneling.html', eq:'\\(T\\sim e^{-2\\kappa a}\\)', blurb:'Finite chance beyond barriers; trends with width, height, mass.'},
-  {id:'q-density', title:'Density Matrix & Decoherence', domain:'quantum', method:'theory', href:'density-matrix-decoherence.html', eq:'\\(\\rho=\\sum p_k|\\psi_k\\rangle\\langle\\psi_k|\\)', blurb:'Open systems, mixtures, and noise.'},
   {id:'q-bell', title:'Entanglement & Bell', domain:'quantum', method:'experiment', href:'entanglement-bell.html', eq:'Bell states', blurb:'Correlations beyond local realism; experiments and implications.'},
-  {id:'q-ho', title:'Harmonic Oscillator', domain:'quantum', method:'theory', href:'quantum-harmonic-oscillator.html', eq:'\\(E_n=\\hbar\\omega(n+1/2)\\)', blurb:'Ladder operators and zero-point energy.'},
-  {id:'q-box', title:'Particle in a Box', domain:'quantum', method:'compute', href:'particle-in-a-box.html', eq:'\\(E_n\\propto n^2/L^2\\)', blurb:'Nodes, quantization, and simple numerics.'},
-  {id:'q-hydrogen', title:'Hydrogen & Angular Momentum', domain:'quantum', method:'theory', href:'hydrogen-atom.html', eq:'Spherical harmonics', blurb:'Degeneracies, selection rules, spectra.'},
-  {id:'q-perturb', title:'Perturbation Theory', domain:'quantum', method:'theory', href:'perturbation-theory.html', eq:'\\(E^{(1)}\\)', blurb:'Small changes to solvable systems.'},
-  {id:'q-variational', title:'Variational Method', domain:'quantum', method:'compute', href:'variational-method.html', eq:'\\(E[\\phi]\\ge E_0\\)', blurb:'Trial functions upper-bound ground states.'},
-  {id:'q-scatter', title:'Scattering & Born Approx', domain:'quantum', method:'theory', href:'scattering-born.html', eq:'Cross sections', blurb:'From potentials to amplitudes; reading differential patterns.'},
-  {id:'q-path', title:'Path Integrals (intro)', domain:'quantum', method:'theory', href:'path-integrals-intro.html', eq:'\\(\\int \\mathcal{D}[x] e^{iS/\\hbar}\\)', blurb:'Sum over histories connects action and interference.'},
-
-  /* RELATIVITY */
   {id:'r-lorentz', title:'Lorentz Transformations', domain:'relativity', method:'theory', href:'lorentz-transformations.html', eq:'\\(\\gamma=1/\\sqrt{1-v^2/c^2}\\)', blurb:'Keep light speed fixed; predict time dilation and contraction.'},
-  {id:'r-four', title:'Four-Vectors & Invariants', domain:'relativity', method:'theory', href:'four-vectors.html', eq:'\\(p^\\mu=(E/c,\\vec{p})\\)', blurb:'Scalar products that stay the same in all frames.'},
-  {id:'r-dynamics', title:'Relativistic Dynamics', domain:'relativity', method:'theory', href:'relativistic-dynamics.html', eq:'\\(E^2=(pc)^2+(mc^2)^2\\)', blurb:'Energy–momentum relations and collisions.'},
-  {id:'r-efd', title:'Electrodynamics & Relativity', domain:'relativity', method:'theory', href:'relativistic-electrodynamics.html', eq:'Field tensor \\(F_{\\mu\\nu}\\)', blurb:'Unify E and B; transformations and invariants.'},
-  {id:'r-equivalence', title:'Equivalence Principle', domain:'relativity', method:'theory', href:'equivalence-principle.html', eq:'Free fall frames', blurb:'Gravity as geometry; local inertial frames.'},
-  {id:'r-geodesic', title:'Geodesics & Curvature', domain:'relativity', method:'compute', href:'geodesics-curvature.html', eq:'\\(\\delta\\int ds=0\\)', blurb:'Motion on curved spacetime; simple metrics.'},
-  {id:'r-schwarz', title:'Schwarzschild & Orbits', domain:'relativity', method:'theory', href:'schwarzschild-orbits.html', eq:'\\(r_s=2GM/c^2\\)', blurb:'Horizons, photon spheres, and precession.'},
-  {id:'r-gwaves', title:'Gravitational Waves', domain:'relativity', method:'experiment', href:'gravitational-waves.html', eq:'Strain \\(h\\)', blurb:'Ripples from mergers; detectors and signals.'},
-  {id:'r-frw', title:'FRW Cosmology', domain:'relativity', method:'theory', href:'frw-cosmology.html', eq:'Friedmann eqs', blurb:'Homogeneous, isotropic expansion models.'},
-
-  /* THERMO & STAT */
-  {id:'t-laws', title:'Thermo Laws & State Vars', domain:'thermo', method:'theory', href:'thermo-laws.html', eq:'\\(dU=TdS-PdV+\\mu dN\\)', blurb:'Rules for energy, entropy, and equilibrium.'},
   {id:'t-ensemble', title:'Ensembles & Partition Z', domain:'thermo', method:'theory', href:'ensembles-partition.html', eq:'\\(Z=\\sum e^{-\\beta E_i}\\)', blurb:'Generator for averages and fluctuations.'},
-  {id:'t-dists', title:'MB / BE / FD', domain:'thermo', method:'theory', href:'distribution-functions.html', eq:'MB, BE, FD forms', blurb:'Counting rules for gases, bosons, and fermions.'},
-  {id:'t-carnot', title:'Engines & Carnot', domain:'thermo', method:'theory', href:'carnot-engines.html', eq:'\\(\\eta=1-T_c/T_h\\)', blurb:'Efficiency limits and cycles.'},
-  {id:'t-phase', title:'Phase Transitions', domain:'thermo', method:'experiment', href:'phase-transitions.html', eq:'Order parameters', blurb:'Critical points, exponents, universality.'},
-  {id:'t-ising', title:'Ising Model & Monte Carlo', domain:'thermo', method:'compute', href:'ising-montecarlo.html', eq:'\\(H=-J\\sum s_is_j\\)', blurb:'Spin flips, sampling, and emergent order.'},
-  {id:'t-fluct', title:'Fluctuation–Dissipation', domain:'thermo', method:'theory', href:'fluctuation-dissipation.html', eq:'Response ↔ noise', blurb:'Link between equilibrium noise and linear response.'},
-
-  /* OPTICS & WAVES */
-  {id:'o-wave', title:'Wave Equation & Modes', domain:'optics', method:'theory', href:'wave-equation-modes.html', eq:'\\(\\nabla^2\\psi-(1/v^2)\\partial_t^2\\psi=0\\)', blurb:'Boundaries select discrete shapes and frequencies.'},
   {id:'o-interf', title:'Interference & Diffraction', domain:'optics', method:'experiment', href:'interference-diffraction.html', eq:'\\(\\Delta y\\approx \\lambda L/d\\)', blurb:'Design layouts with simple scaling first.'},
-  {id:'o-coherence', title:'Coherence & Sources', domain:'optics', method:'theory', href:'coherence-sources.html', eq:'Visibility \\(V\\)', blurb:'Temporal and spatial coherence control contrast.'},
-  {id:'o-fourier', title:'Fourier Optics', domain:'optics', method:'compute', href:'fourier-optics.html', eq:'Fraunhofer FT', blurb:'Lens as Fourier transformer; filtering in frequency space.'},
-  {id:'o-fiber', title:'Fiber Optics & Dispersion', domain:'optics', method:'theory', href:'fiber-optics.html', eq:'Group vs phase', blurb:'Guiding, modes, and pulse broadening.'},
-  {id:'o-laser', title:'Lasers & Gain', domain:'optics', method:'experiment', href:'lasers-gain.html', eq:'Population inversion', blurb:'Cavities, thresholds, linewidths.'},
-
-  /* CONDENSED MATTER */
-  {id:'cm-lattice', title:'Crystal Lattices', domain:'condensed', method:'theory', href:'crystal-lattices.html', eq:'Reciprocal lattice', blurb:'Periodic order and diffraction conditions.'},
-  {id:'cm-bz', title:'Brillouin Zones', domain:'condensed', method:'theory', href:'brillouin-zones.html', eq:'Bloch \\(\\psi_{n\\vec{k}}\\)', blurb:'Zone boundaries and scattering.'},
-  {id:'cm-band', title:'Band Structure & m*', domain:'condensed', method:'theory', href:'band-structure.html', eq:'\\(m^*=\\hbar^2/(\\partial^2E/\\partial k^2)\\)', blurb:'Curvature sets effective mass and transport.'},
-  {id:'cm-semi', title:'Semiconductors', domain:'condensed', method:'theory', href:'semiconductors.html', eq:'Doping & junctions', blurb:'Bands, carriers, devices.'},
-  {id:'cm-phonon', title:'Phonons & Heat', domain:'condensed', method:'theory', href:'phonons-heat.html', eq:'Debye model', blurb:'Lattice vibrations and specific heat trends.'},
   {id:'cm-super', title:'Superconductivity (BCS)', domain:'condensed', method:'theory', href:'superconductivity-bcs.html', eq:'Gap \\(\\Delta\\)', blurb:'Cooper pairs, Meissner effect, Josephson links.'},
-  {id:'cm-qhe', title:'Quantum Hall & Topology', domain:'condensed', method:'experiment', href:'quantum-hall-topology.html', eq:'\\(R_{xy}=h/\\nu e^2\\)', blurb:'Edge states and plateaus.'},
-  {id:'cm-topo', title:'Topological Insulators', domain:'condensed', method:'theory', href:'topological-insulators.html', eq:'Z2 invariants', blurb:'Protected surface states from topology.'},
-
-  /* PARTICLE & FIELD */
   {id:'p-sm', title:'Standard Model', domain:'particle', method:'theory', href:'standard-model.html', eq:'\\(SU(3)\\times SU(2)\\times U(1)\\)', blurb:'Matter & forces organized by gauge symmetry.'},
-  {id:'p-higgs', title:'Higgs Mechanism', domain:'particle', method:'theory', href:'higgs-mechanism.html', eq:'Spontaneous breaking', blurb:'Mass generation via symmetry breaking.'},
-  {id:'p-feyn', title:'Feynman Diagrams', domain:'particle', method:'theory', href:'feynman-diagrams.html', eq:'Amplitude sum', blurb:'Bookkeeping for contributions, not literal paths.'},
-  {id:'p-qed', title:'QED Basics', domain:'particle', method:'theory', href:'qed-basics.html', eq:'Renormalization', blurb:'Light–matter interactions with precision.'},
-  {id:'p-qcd', title:'QCD & Confinement', domain:'particle', method:'theory', href:'qcd-confinement.html', eq:'Asymptotic freedom', blurb:'Strong force, color, hadrons.'},
-  {id:'p-neutrino', title:'Neutrino Oscillations', domain:'particle', method:'experiment', href:'neutrino-oscillations.html', eq:'\\(P\\sim \\sin^2(1.27\\Delta m^2 L/E)\\)', blurb:'Flavor change signals mass and mixing.'},
-  {id:'p-rg', title:'Renormalization Group', domain:'particle', method:'theory', href:'renormalization-group.html', eq:'Running couplings', blurb:'Scale dependence and universality.'},
-
-  /* COSMOLOGY & ASTRO */
-  {id:'a-hubble', title:'Hubble Law & Redshift', domain:'cosmo', method:'experiment', href:'hubble-law.html', eq:'\\(v=H_0 d\\)', blurb:'Expansion measured from recession speeds.'},
-  {id:'a-friedmann', title:'Friedmann Equations', domain:'cosmo', method:'theory', href:'friedmann-equations.html', eq:'\\((\\dot a/a)^2=\\tfrac{8\\pi G}{3}\\rho-\\tfrac{k}{a^2}+\\tfrac{\\Lambda}{3}\\)', blurb:'Energy budget of the universe.'},
-  {id:'a-cmb', title:'Cosmic Microwave Background', domain:'cosmo', method:'experiment', href:'cmb-basics.html', eq:'\\(\\Delta T/T\\)', blurb:'Relic radiation and anisotropies.'},
-  {id:'a-bbn', title:'Big Bang Nucleosynthesis', domain:'cosmo', method:'theory', href:'bbn.html', eq:'Light elements', blurb:'Abundances set early conditions.'},
-  {id:'a-dark', title:'Dark Matter & Energy', domain:'cosmo', method:'theory', href:'dark-matter-energy.html', eq:'Rotation curves / w', blurb:'Evidence and models.'},
-  {id:'a-infl', title:'Inflation & Perturbations', domain:'cosmo', method:'theory', href:'inflation-perturbations.html', eq:'Nearly scale-invariant', blurb:'Rapid early expansion seeds structure.'},
-  {id:'a-lensing', title:'Gravitational Lensing', domain:'cosmo', method:'experiment', href:'gravitational-lensing.html', eq:'Deflection angles', blurb:'Map mass with light bending.'},
-  {id:'a-compact', title:'Neutron Stars & BHs', domain:'cosmo', method:'theory', href:'compact-objects.html', eq:'EOS / \\(r_s\\)', blurb:'Dense matter, accretion, and signals.'},
-
-  /* METHODS */
-  {id:'m-cons', title:'Conservation Laws', domain:'methods', method:'theory', href:'conservation-laws.html', eq:'\\(\\Delta E=0,\\ \\Delta\\vec p=0\\)', blurb:'Choose boundary, then balance.'},
+  {id:'a-friedmann', title:'Friedmann Equations', domain:'cosmo', method:'theory', href:'friedmann-equations.html', eq:'Cosmic expansion', blurb:'Energy budget of the universe.'},
   {id:'m-noether', title:'Noether & Symmetry', domain:'methods', method:'theory', href:'noether-symmetry.html', eq:'time↔energy, space↔momentum', blurb:'Structure that guarantees invariants.'},
-  {id:'m-dim', title:'Dimensional Analysis', domain:'methods', method:'theory', href:'dimensional-analysis.html', eq:'Pendulum \\(T\\propto\\sqrt{L/g}\\)', blurb:'Units decide functional form early.'},
-  {id:'m-unc-exp', title:'Experimental Uncertainty', domain:'methods', method:'experiment', href:'experimental-uncertainty.html', eq:'\\(\\sigma_{\\bar x}=\\sigma/\\sqrt{N}\\)', blurb:'Report center and spread with honesty.'},
-  {id:'m-fft', title:'Fourier Transforms', domain:'methods', method:'compute', href:'fourier-transforms.html', eq:'\\(\\tilde f(k)=\\int f(x)e^{-ikx}dx\\)', blurb:'Think in frequency for clarity.'},
-  {id:'m-ode', title:'Numerical ODE Solvers', domain:'methods', method:'compute', href:'numerical-odes.html', eq:'RK / stability', blurb:'Step size and error control matter.'},
-  {id:'m-pde', title:'Numerical PDE (FD/FEM)', domain:'methods', method:'compute', href:'numerical-pdes.html', eq:'Grids & BCs', blurb:'Discretize carefully; respect boundaries.'},
-  {id:'m-monte', title:'Monte Carlo & Sampling', domain:'methods', method:'compute', href:'monte-carlo.html', eq:'Importance sampling', blurb:'Randomness to integrate and explore.'},
-  {id:'m-sch-numerics', title:'1D Schr Numerics', domain:'methods', method:'compute', href:'schrodinger-numerics.html', eq:'Tridiagonal eigens', blurb:'Eigenstates, normalization, split-step.'},
-  {id:'m-ml', title:'ML in Physics (overview)', domain:'methods', method:'compute', href:'ml-in-physics.html', eq:'Surrogates / discovery', blurb:'Patterns, surrogates, and hybrid models.'},
-
-  /* METAPHYSICS & PHILOSOPHY */
-  {id:'meta-reality', title:'What is “Physical Reality”?', domain:'meta', method:'theory', href:'meta-reality.html', eq:'Ontic vs epistemic', blurb:'Do states describe the world or our information about it?'},
-  {id:'meta-causality', title:'Causality & Intervention', domain:'meta', method:'theory', href:'meta-causality.html', eq:'Counterfactuals', blurb:'How do we talk about causes inside closed dynamical laws?'},
-  {id:'meta-quantum', title:'Interpretations of Quantum', domain:'meta', method:'theory', href:'meta-quantum-interpretations.html', eq:'Everett / Bohm / GRW', blurb:'Tradeoffs among narratives for the same statistics.'},
-  {id:'meta-symmetry', title:'Symmetry & Identity', domain:'meta', method:'theory', href:'meta-symmetry-identity.html', eq:'Indistinguishability', blurb:'When swapping identical things changes nothing, what is individuality?'},
-  {id:'meta-laws', title:'Are Laws Descriptive or Prescriptive?', domain:'meta', method:'theory', href:'meta-laws.html', eq:'Humean mosaic', blurb:'Do laws govern or summarize the regularities we observe?'},
-  {id:'meta-time', title:'Arrows of Time', domain:'meta', method:'theory', href:'meta-arrow-of-time.html', eq:'Entropy ↑', blurb:'Why do macroscopic processes have direction if equations are reversible?'}
+  {id:'meta-quantum', title:'Interpretations of Quantum', domain:'meta', method:'theory', href:'meta-quantum-interpretations.html', eq:'Everett / Bohm / GRW', blurb:'Tradeoffs among narratives for the same statistics.'}
 ];
 
 /* Containers and counts */
@@ -639,28 +536,47 @@ function cardHTML(item){
   </div>`;
 }
 
-function render(){
-  let list = data.filter(d=>{
-    const domOK = (activeDomain==='all') || (d.domain===activeDomain);
-    const metOK = (activeMethod==='any') || (d.method===activeMethod);
-    const qOK = !query || (d.title.toLowerCase().includes(query) || d.blurb.toLowerCase().includes(query));
-    return domOK && metOK && qOK;
-  });
-
+function render(scrollToDomain=false){
+  // Fill all sections, then filter visibility within them. Nothing starts empty.
   Object.values(containers).forEach(c=>c.innerHTML='');
-  const letterSet = new Set();
 
-  list.forEach(item=>{
-    const c = containers[item.domain] || containers.methods;
-    if(c){ c.insertAdjacentHTML('beforeend', cardHTML(item)); letterSet.add(item.title.trim()[0].toUpperCase()); }
+  const letterSet = new Set();
+  const visibleByDomain = {classical:0,em:0,quantum:0,relativity:0,thermo:0,optics:0,condensed:0,particle:0,cosmo:0,methods:0,meta:0};
+
+  data.forEach(item=>{
+    const domOK = (activeDomain==='all') || (item.domain===activeDomain);
+    const metOK = (activeMethod==='any') || (item.method===activeMethod);
+    const qOK = !query || (item.title.toLowerCase().includes(query) || item.blurb.toLowerCase().includes(query));
+    // Always render to its home section; decide to hide by CSS if filtered out
+    const c = containers[item.domain];
+    const html = cardHTML(item);
+    if(c) c.insertAdjacentHTML('beforeend', html);
+
+    // If it passes current filters, count and mark for A–Z
+    if(domOK && metOK && qOK){ visibleByDomain[item.domain]++; letterSet.add(item.title.trim()[0].toUpperCase()); }
   });
 
-  const byDom = {}; list.forEach(i=>{ byDom[i.domain]=(byDom[i.domain]||0)+1; });
-  Object.keys(counts).forEach(k=> counts[k].textContent = (byDom[k]||0)+' items');
+  // Hide cards that don’t match current filter without collapsing the grids
+  document.querySelectorAll('.card').forEach(card=>{
+    const id = card.dataset.id;
+    const item = data.find(d=>d.id===id);
+    const domOK = (activeDomain==='all') || (item.domain===activeDomain);
+    const metOK = (activeMethod==='any') || (item.method===activeMethod);
+    const qOK = !query || (item.title.toLowerCase().includes(query) || item.blurb.toLowerCase().includes(query));
+    card.style.display = (domOK && metOK && qOK) ? '' : 'none';
+  });
 
-  document.getElementById('countLine').textContent = `Showing ${list.length} of ${data.length} concepts`;
-  makeAlphaButtons(letterSet);
+  // Counts
+  Object.keys(counts).forEach(k=>{
+    counts[k].textContent = (visibleByDomain[k]||0) + ' items';
+  });
 
+  // Summary and A–Z
+  const totalVisible = Object.values(visibleByDomain).reduce((a,b)=>a+b,0);
+  document.getElementById('countLine').textContent = `Showing ${totalVisible} of ${data.length} concepts`;
+  makeAlphaButtons(letterSet.size?letterSet:new Set(data.map(d=>d.title.trim()[0].toUpperCase())));
+
+  // Favorites wiring
   document.querySelectorAll('.card .star').forEach(btn=>{
     btn.onclick=()=>{
       const id = btn.closest('.card').dataset.id;
@@ -670,17 +586,23 @@ function render(){
       saveFav([...fav]); renderFavLinks();
     };
   });
+
+  // Optional scroll to a domain section when choosing a pill (UX sugar)
+  if(scrollToDomain && activeDomain!=='all'){
+    const sec=document.getElementById('sec-'+activeDomain);
+    if(sec) sec.scrollIntoView({behavior:'smooth', block:'start'});
+  }
 }
+
+/* Alpha seed + first render (ALL groups expanded) */
+makeAlphaButtons(new Set(data.map(d=>d.title.trim()[0].toUpperCase())));
+document.querySelectorAll('.group').forEach(g=>g.classList.remove('collapsed'));
 render(); renderFavLinks(); renderNotes();
 
-/* Generate full A–Z on load too */
-makeAlphaButtons(new Set(data.map(d=>d.title.trim()[0].toUpperCase())));
-
-/* Smooth scroll to a section when picking a domain */
-domainPills.querySelectorAll('.pill').forEach(p=>{
-  p.addEventListener('click',()=>{
-    const d=p.dataset.domain; if(d==='all') return;
-    const sec=document.getElementById('sec-'+d); if(sec) sec.scrollIntoView({behavior:'smooth', block:'start'});
+/* Smooth section toggle */
+document.querySelectorAll('.secHead').forEach(h=>{
+  h.addEventListener('click',()=>{
+    const id=h.dataset.toggle; document.getElementById(id).classList.toggle('collapsed');
   });
 });
 </script>
