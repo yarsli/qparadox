@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • Concepts Index</title>
+
+<!-- Fonts + MathJax (for any inline symbols in blurbs) -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+<style>
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --max:1180px; --side:360px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
+}
+body::before{content:""; position:fixed; inset:0; z-index:-4; opacity:.06;
+  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-3;
+  background:
+    radial-gradient(900px 520px at 8% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 92% 10%, rgba(140,160,255,.07), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue))}
+
+header{padding:6.2rem 1.2rem 2.0rem; text-align:center}
+h1{font-family:"Playfair Display",serif; font-weight:900; margin:0; font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+
+.main{width:min(1250px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1160px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
+
+section.domain{
+  background:linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:1.4rem 1.1rem 1.6rem;
+}
+section.domain h2{
+  font-family:"Playfair Display",serif; margin:.2rem 0 1rem;
+  font-size:clamp(1.8rem,2.4vw,2.4rem); color:#f6eddc; display:flex; align-items:center; gap:.6rem
+}
+.domicon{font-size:1.3rem; opacity:.9}
+.grid{
+  display:grid; gap:14px;
+  grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
+}
+.card{
+  position:relative; padding:1rem .95rem 1rem; border-radius:14px;
+  border:1px solid rgba(255,255,255,.18);
+  background:
+    radial-gradient(900px 300px at -10% -10%, rgba(202,163,107,.15), transparent 50%),
+    radial-gradient(900px 300px at 110% -10%, rgba(122,160,255,.12), transparent 50%),
+    rgba(255,255,255,.04);
+  color:var(--ink); text-decoration:none; min-height:130px; overflow:hidden;
+  box-shadow:0 18px 40px rgba(0,0,0,.5);
+  transition:.18s transform, .18s border-color, .18s box-shadow;
+}
+.card:hover{transform:translateY(-2px); border-color:rgba(255,255,255,.32); box-shadow:0 24px 60px rgba(0,0,0,.6)}
+.card .title{font-weight:600; color:#fff; margin:0 0 .25rem; font-size:1.1rem; line-height:1.35}
+.card .blurb{color:var(--ink2); font-size:.98rem; margin:.25rem 0 .7rem; text-align:justify}
+.badges{display:flex; gap:.35rem; flex-wrap:wrap}
+.badge{font-size:.75rem; padding:.18rem .45rem; border:1px solid rgba(255,255,255,.24); border-radius:.5rem; background:rgba(255,255,255,.06); color:#e9e1d7}
+.badge.method{border-color:#88a2ff77}
+.badge.domain{border-color:#d9b07a77}
+.badge.lvl-begin{border-color:#8fe0a877}
+.badge.lvl-core{border-color:#d8d1c877}
+.badge.lvl-deep{border-color:#f19ca977}
+.badge.status-soon{border-color:#e0cf8b77; background:rgba(255,228,160,.12); color:#f0dfb5}
+.badge.status-draft{border-color:#9fd0ff77; background:rgba(160,205,255,.12); color:#d8ecff}
+
+aside{
+  position:sticky; top:88px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem
+}
+aside h3{margin:.2rem 0 .6rem; font-family:"Playfair Display",serif}
+.controls label{display:block; margin:.45rem 0 .25rem; color:var(--ink2)}
+input[type="search"], select{
+  width:100%; background:rgba(255,255,255,.05); color:#efeae2;
+  border:1px solid rgba(255,255,255,.18); border-radius:.5rem; padding:.55rem .6rem
+}
+.filterchips{display:flex; gap:.35rem; flex-wrap:wrap; margin:.55rem 0}
+.chip{font-size:.85rem; padding:.28rem .55rem; border:1px solid rgba(255,255,255,.22); border-radius:.7rem; background:rgba(255,255,255,.05); cursor:pointer; color:#e8e0d5}
+.chip.active{background:linear-gradient(90deg,rgba(202,163,107,.32),rgba(122,160,255,.28)); border-color:rgba(255,255,255,.35)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.small{color:var(--muted); font-size:.92rem}
+
+.topbar{width:min(1250px,94%); margin:-.6rem auto 1.0rem; display:flex; gap:.6rem; flex-wrap:wrap; justify-content:center}
+.topbar a{color:#e8dfd3; text-decoration:none; border:1px solid rgba(255,255,255,.18); padding:.35rem .65rem; border-radius:.6rem; background:rgba(255,255,255,.05)}
+.topbar a:hover{border-color:rgba(255,255,255,.32)}
+.anchor{scroll-margin-top:95px}
+
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
+
+/* reveal */
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+</style>
+</head>
+<body>
+
+<div class="frame" aria-hidden="true"></div>
+<div id="progress"></div>
+
+<header class="reveal in">
+  <h1>Concepts Library</h1>
+  <p class="subtitle">One page. Every idea. Use the filters at right or jump by domain below. No hunting—just click and go.</p>
+</header>
+
+<!-- Quick jump bar -->
+<div class="topbar reveal">
+  <a href="#foundations" class="tlink">Foundations & Theoretical Craft</a>
+  <a href="#classical" class="tlink">Classical Mechanics</a>
+  <a href="#em" class="tlink">Electromagnetism</a>
+  <a href="#quantum" class="tlink">Quantum Mechanics</a>
+  <a href="#relativity" class="tlink">Relativity</a>
+  <a href="#thermo" class="tlink">Thermo & Stat Mech</a>
+  <a href="#optics" class="tlink">Optics & Waves</a>
+  <a href="#condensed" class="tlink">Condensed Matter</a>
+  <a href="#particle" class="tlink">Particle/Field</a>
+  <a href="#cosmo" class="tlink">Cosmology & Astrophysics</a>
+  <a href="#experimental" class="tlink">Experimental Methods</a>
+  <a href="#computational" class="tlink">Computational Methods</a>
+</div>
+
+<div class="main">
+  <article id="content">
+
+    <!-- Sections render here -->
+    <section id="foundations" class="domain reveal anchor">
+      <h2><span class="domicon">📜</span>Foundations & Theoretical Craft</h2>
+      <div class="grid" data-domain="Foundations"></div>
+    </section>
+
+    <section id="classical" class="domain reveal anchor">
+      <h2><span class="domicon">⚙️</span>Classical Mechanics</h2>
+      <div class="grid" data-domain="Classical Mechanics"></div>
+    </section>
+
+    <section id="em" class="domain reveal anchor">
+      <h2><span class="domicon">🧲</span>Electromagnetism</h2>
+      <div class="grid" data-domain="Electromagnetism"></div>
+    </section>
+
+    <section id="quantum" class="domain reveal anchor">
+      <h2><span class="domicon">🧪</span>Quantum Mechanics</h2>
+      <div class="grid" data-domain="Quantum Mechanics"></div>
+    </section>
+
+    <section id="relativity" class="domain reveal anchor">
+      <h2><span class="domicon">⏱️</span>Relativity</h2>
+      <div class="grid" data-domain="Relativity"></div>
+    </section>
+
+    <section id="thermo" class="domain reveal anchor">
+      <h2><span class="domicon">🔥</span>Thermodynamics & Statistical Mechanics</h2>
+      <div class="grid" data-domain="Thermo & Stat Mech"></div>
+    </section>
+
+    <section id="optics" class="domain reveal anchor">
+      <h2><span class="domicon">🔦</span>Optics & Waves</h2>
+      <div class="grid" data-domain="Optics & Waves"></div>
+    </section>
+
+    <section id="condensed" class="domain reveal anchor">
+      <h2><span class="domicon">🧱</span>Condensed Matter</h2>
+      <div class="grid" data-domain="Condensed Matter"></div>
+    </section>
+
+    <section id="particle" class="domain reveal anchor">
+      <h2><span class="domicon">🧩</span>Particle / Field</h2>
+      <div class="grid" data-domain="Particle/Field"></div>
+    </section>
+
+    <section id="cosmo" class="domain reveal anchor">
+      <h2><span class="domicon">🌌</span>Cosmology & Astrophysics</h2>
+      <div class="grid" data-domain="Cosmology & Astrophysics"></div>
+    </section>
+
+    <section id="experimental" class="domain reveal anchor">
+      <h2><span class="domicon">🔬</span>Experimental Methods</h2>
+      <div class="grid" data-domain="Experimental"></div>
+    </section>
+
+    <section id="computational" class="domain reveal anchor">
+      <h2><span class="domicon">💻</span>Computational Methods</h2>
+      <div class="grid" data-domain="Computational"></div>
+    </section>
+
+    <div class="reveal" style="margin-top:1.2rem; display:flex; gap:.6rem; flex-wrap:wrap">
+      <a class="card" href="introduction.html" style="min-height:auto">
+        <div class="title">← Back to Introduction</div>
+        <div class="blurb">Return to the orientation page.</div>
+      </a>
+      <a class="card" href="theoretical.html" style="min-height:auto">
+        <div class="title">Theoretical Hub</div>
+        <div class="blurb">Browse by method.</div>
+      </a>
+      <a class="card" href="experimental.html" style="min-height:auto">
+        <div class="title">Experimental Hub</div>
+        <div class="blurb">Classic & modern experiments.</div>
+      </a>
+      <a class="card" href="computational.html" style="min-height:auto">
+        <div class="title">Computational Hub</div>
+        <div class="blurb">Numerics and simulations.</div>
+      </a>
+    </div>
+
+  </article>
+
+  <aside class="reveal">
+    <h3>Find concepts fast</h3>
+    <div class="controls">
+      <label for="searchBox">Search titles & blurbs</label>
+      <input type="search" id="searchBox" placeholder="e.g. tunneling, Maxwell, uncertainty…"/>
+
+      <label style="margin-top:.7rem">Filter by method</label>
+      <div class="filterchips" id="methodChips">
+        <div class="chip" data-chip="Theory">Theory</div>
+        <div class="chip" data-chip="Experiment">Experiment</div>
+        <div class="chip" data-chip="Computation">Computation</div>
+        <div class="chip" data-chip="Math">Math</div>
+      </div>
+
+      <label>Filter by level</label>
+      <div class="filterchips" id="levelChips">
+        <div class="chip" data-chip="Beginner">Beginner</div>
+        <div class="chip" data-chip="Core">Core</div>
+        <div class="chip" data-chip="Deep Dive">Deep Dive</div>
+      </div>
+
+      <hr class="sep"/>
+      <p class="small">Tip: You can open multiple concepts in new tabs and use your browser’s back/forward to compare.</p>
+    </div>
+  </aside>
+</div>
+
+<footer>© 2025 QParadox • Concepts Index</footer>
+
+<script>
+/* progress bar */
+const bar=document.getElementById('progress');
+function onScroll(){
+  const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
+}
+addEventListener('scroll', onScroll); onScroll();
+
+/* reveal */
+const obs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} }); },{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>{ if(!el.classList.contains('in')) obs.observe(el); });
+
+/* ====== DATA: ALL CONCEPTS ======
+Each item:
+{ title, url, domain, methods:[], level:'Beginner|Core|Deep Dive', status:'Ready|Draft|Soon', blurb }
+*/
+const ITEMS = [
+  /* FOUNDATIONS & THEORETICAL CRAFT (links into your existing sections) */
+  {title:'What is Theoretical Physics', url:'what_is_theoretical.html', domain:'Foundations', methods:['Theory'], level:'Beginner', status:'Ready', blurb:'What counts as a “theory,” how models earn trust, and the habit of writing assumptions first.'},
+  {title:'Conservation Laws', url:'theoretical_foundations.html#conservation', domain:'Foundations', methods:['Theory'], level:'Core', status:'Ready', blurb:'Energy, momentum, angular momentum—powerful because they ignore the messy path and track flows across boundaries.'},
+  {title:'Symmetry & Noether’s Idea', url:'theoretical_foundations.html#symmetry', domain:'Foundations', methods:['Theory','Math'], level:'Core', status:'Ready', blurb:'Time/space/rotation symmetries link directly to conserved quantities; spot symmetry to get shortcuts.'},
+  {title:'Reference Frames & Invariance', url:'theoretical_foundations.html#frames', domain:'Foundations', methods:['Theory'], level:'Beginner', status:'Ready', blurb:'Galilean → Special relativity mindset: statements should not depend on who rides the train.'},
+  {title:'Units, Scales, Dimensional Analysis', url:'theoretical_foundations.html#scales', domain:'Foundations', methods:['Theory','Math'], level:'Beginner', status:'Ready', blurb:'Before computing, check what kind of number the answer must be; identify the controlling dimensionless parameters.'},
+  {title:'Approximation Menu', url:'theoretical_foundations.html#approx', domain:'Foundations', methods:['Theory','Math'], level:'Core', status:'Ready', blurb:'Small-angle, series expansions, separation of scales—state when they apply and what they throw away.'},
+  {title:'Principle of Least Action', url:'theoretical_foundations.html#action', domain:'Foundations', methods:['Theory','Math'], level:'Deep Dive', status:'Ready', blurb:'Lagrangians, Euler–Lagrange, constraints—equations fall out and symmetries yield conservation laws cleanly.'},
+  {title:'Fields & Waves', url:'theoretical_foundations.html#fields', domain:'Foundations', methods:['Theory'], level:'Core', status:'Ready', blurb:'From temperature to EM—fields assign values everywhere; boundaries choose which wave shapes survive.'},
+  {title:'Oscillations & Normal Modes', url:'theoretical_foundations.html#osc', domain:'Foundations', methods:['Theory'], level:'Core', status:'Ready', blurb:'The harmonic oscillator as template; modes don’t mix in linear systems—analysis gets simple.'},
+  {title:'Fourier Thinking', url:'theoretical_foundations.html#fourier', domain:'Foundations', methods:['Theory','Math'], level:'Core', status:'Ready', blurb:'Switch between time and frequency to reveal structure; filters and diffraction become obvious.'},
+  {title:'Probability for Physics', url:'theoretical_foundations.html#prob', domain:'Foundations', methods:['Theory','Experiment'], level:'Beginner', status:'Ready', blurb:'Averages, variance, standard error, residual plots—report spread honestly, learn from patterns.'},
+  {title:'Quantum Basics (Foundations view)', url:'theoretical_foundations.html#quantum', domain:'Foundations', methods:['Theory'], level:'Beginner', status:'Ready', blurb:'States, amplitudes, interference, entanglement—what changes and what doesn’t from classical thinking.'},
+  {title:'Thermo ↔ Statistical Bridge', url:'theoretical_foundations.html#thermo', domain:'Foundations', methods:['Theory'], level:'Core', status:'Ready', blurb:'Entropy as counting, temperature as response; many stable laws arise from many microstates.'},
+  {title:'Problem-Solving Toolkit', url:'theoretical_foundations.html#toolkit', domain:'Foundations', methods:['Theory'], level:'Beginner', status:'Ready', blurb:'Boundary, assumptions, units, symmetry, small/large parameters, limit checks—write one plain final sentence.'},
+
+  /* CLASSICAL MECHANICS */
+  {title:'Kinematics & Newton’s Laws', url:'classical_domain.html#kinematics', domain:'Classical Mechanics', methods:['Theory'], level:'Beginner', status:'Soon', blurb:'Describing motion, free-body diagrams, and when forces give a faster route than energy.'},
+  {title:'Energy & Work', url:'classical_domain.html#energy', domain:'Classical Mechanics', methods:['Theory'], level:'Beginner', status:'Soon', blurb:'Potential ↔ kinetic, conservative vs non-conservative forces, power, and common pitfalls.'},
+  {title:'Momentum & Collisions', url:'classical_domain.html#momentum', domain:'Classical Mechanics', methods:['Theory','Experiment'], level:'Beginner', status:'Soon', blurb:'1D/2D collisions, sticky vs elastic, center-of-mass tricks that cut algebra.'},
+  {title:'Angular Momentum & Torque', url:'classical_domain.html#angmom', domain:'Classical Mechanics', methods:['Theory'], level:'Core', status:'Soon', blurb:'Rotation symmetry, precession, and when energy isn’t enough to predict outcomes.'},
+  {title:'Lagrange & Hamilton', url:'classical_domain.html#lagham', domain:'Classical Mechanics', methods:['Theory','Math'], level:'Deep Dive', status:'Soon', blurb:'Generalized coordinates, constraints, canonical momentum—why this language scales.'},
+  {title:'Central Forces & Orbits', url:'classical_domain.html#orbits', domain:'Classical Mechanics', methods:['Theory','Computation'], level:'Core', status:'Soon', blurb:'Kepler laws from effective potentials; quick numerics to visualize trajectories.'},
+  {title:'Chaos & Nonlinear Dynamics', url:'classical_domain.html#chaos', domain:'Classical Mechanics', methods:['Theory','Computation'], level:'Deep Dive', status:'Soon', blurb:'Sensitivity to initial conditions; logistic map, double pendulum intuition.'},
+
+  /* ELECTROMAGNETISM */
+  {title:'Maxwell’s Equations (overview)', url:'em_domain.html#maxwell', domain:'Electromagnetism', methods:['Theory','Math'], level:'Core', status:'Soon', blurb:'Gauss, Faraday, Ampère–Maxwell; what each says physically and the wave result in vacuum.'},
+  {title:'Fields, Flux & Gauss’s Law', url:'em_domain.html#gauss', domain:'Electromagnetism', methods:['Theory'], level:'Beginner', status:'Soon', blurb:'Symmetry + Gaussian surfaces = fast field results for common charge shapes.'},
+  {title:'Induction & Faraday’s Law', url:'em_domain.html#faraday', domain:'Electromagnetism', methods:['Theory','Experiment'], level:'Core', status:'Soon', blurb:'Changing flux drives emf; Lenz’s sign rule and energy accounting.'},
+  {title:'Waves, Polarization, Cavities', url:'em_domain.html#waves', domain:'Electromagnetism', methods:['Theory','Experiment'], level:'Core', status:'Soon', blurb:'Standing modes, boundary conditions, and what a resonator “selects.”'},
+
+  /* QUANTUM MECHANICS (link to your finished pages) */
+  {title:'Quantum Toolkit (overview)', url:'quantum_toolkit.html', domain:'Quantum Mechanics', methods:['Theory','Math'], level:'Core', status:'Ready', blurb:'States, operators, expectation, uncertainty—rules you reuse everywhere.'},
+  {title:'Quantum Next (deep concepts)', url:'quantum_next.html', domain:'Quantum Mechanics', methods:['Theory'], level:'Deep Dive', status:'Ready', blurb:'Amplitude→probability, time evolution, superposition, tunneling, spin, entanglement, measurement.'},
+  {title:'Wavefunction & Normalization', url:'quantum_next.html#prob', domain:'Quantum Mechanics', methods:['Theory','Math'], level:'Beginner', status:'Ready', blurb:'\(P=|\Psi|^2\), integral to one, cross terms create fringes—phase matters.'},
+  {title:'Time Evolution & Hamiltonian', url:'quantum_next.html#time', domain:'Quantum Mechanics', methods:['Theory','Math'], level:'Core', status:'Ready', blurb:'\(i\hbar \partial_t \Psi = \hat H \Psi\); separable forms and boundary-driven modes.'},
+  {title:'Superposition & Interference', url:'quantum_next.html#super', domain:'Quantum Mechanics', methods:['Theory'], level:'Beginner', status:'Ready', blurb:'Add amplitudes then square; environment records kill the cross term.'},
+  {title:'Uncertainty & Packet Spread', url:'quantum_next.html#unc', domain:'Quantum Mechanics', methods:['Theory'], level:'Core', status:'Ready', blurb:'\(\Delta x \Delta p \ge \hbar/2\); design choice, not a flaw—how width evolves in time.'},
+  {title:'Tunneling', url:'quantum_next.html#tunnel', domain:'Quantum Mechanics', methods:['Theory','Experiment'], level:'Core', status:'Ready', blurb:'Exponentially decaying amplitude inside barriers; trends for mass, thickness, energy.'},
+  {title:'Spin & Stern–Gerlach logic', url:'quantum_next.html#spin', domain:'Quantum Mechanics', methods:['Theory','Experiment'], level:'Core', status:'Ready', blurb:'Two-state systems, rotations, and why a second analyzer can undo your certainty.'},
+  {title:'Expectation Values & Operators', url:'quantum_next.html#expect', domain:'Quantum Mechanics', methods:['Theory','Math'], level:'Core', status:'Ready', blurb:'Integral and bra–ket forms; unit and symmetry checks keep you safe.'},
+  {title:'Entanglement Basics', url:'quantum_next.html#ent', domain:'Quantum Mechanics', methods:['Theory'], level:'Core', status:'Ready', blurb:'States that don’t factor; predict each arm by tracing over what you ignore.'},
+  {title:'Measurement & Contrast', url:'quantum_next.html#meas', domain:'Quantum Mechanics', methods:['Theory','Experiment'], level:'Core', status:'Ready', blurb:'Why fringes fade when which-path records exist; planning with that in mind.'},
+
+  /* RELATIVITY */
+  {title:'Special Relativity Essentials', url:'relativity_domain.html#sr', domain:'Relativity', methods:['Theory'], level:'Beginner', status:'Soon', blurb:'Lorentz transforms, time dilation, length contraction, energy–momentum.'},
+  {title:'GR Intuition: Curvature & Geodesics', url:'relativity_domain.html#gr', domain:'Relativity', methods:['Theory','Computation'], level:'Deep Dive', status:'Soon', blurb:'From equivalence to simple metrics; geodesic motion as “straight lines” in curved space.'},
+
+  /* THERMO / STAT MECH */
+  {title:'Thermodynamic Laws', url:'thermo_domain.html#laws', domain:'Thermo & Stat Mech', methods:['Theory'], level:'Beginner', status:'Soon', blurb:'Energy bookkeeping, engines, and why the second law is statistical.'},
+  {title:'Partition Function & Ensembles', url:'thermo_domain.html#ensembles', domain:'Thermo & Stat Mech', methods:['Theory','Math'], level:'Deep Dive', status:'Soon', blurb:'Micro/canonical/grand-canonical views and how Z organizes predictions.'},
+  {title:'Fermi–Dirac & Bose–Einstein', url:'thermo_domain.html#quantumstats', domain:'Thermo & Stat Mech', methods:['Theory'], level:'Core', status:'Soon', blurb:'Quantum counting rules, degeneracy, and simple consequences.'},
+
+  /* OPTICS & WAVES */
+  {title:'Interference & Diffraction', url:'optics_domain.html#interference', domain:'Optics & Waves', methods:['Theory','Experiment'], level:'Beginner', status:'Soon', blurb:'Slits, gratings, path differences; pattern logic without heavy math.'},
+  {title:'Fourier Optics Snapshot', url:'optics_domain.html#fourier', domain:'Optics & Waves', methods:['Theory','Math'], level:'Deep Dive', status:'Soon', blurb:'Lenses as Fourier transformers; spatial filtering intuition.'},
+
+  /* CONDENSED MATTER */
+  {title:'Bands & Semiconductors', url:'condensed_domain.html#bands', domain:'Condensed Matter', methods:['Theory','Experiment'], level:'Core', status:'Soon', blurb:'Periodic potentials, gaps, doping, devices in one page.'},
+  {title:'Superconductivity & Josephson', url:'condensed_domain.html#josephson', domain:'Condensed Matter', methods:['Theory','Experiment'], level:'Deep Dive', status:'Soon', blurb:'Coherent pairs, tunneling across insulators—foundation for many qubits.'},
+
+  /* PARTICLE / FIELD */
+  {title:'Gauge Ideas (bird’s-eye)', url:'particle_domain.html#gauge', domain:'Particle/Field', methods:['Theory','Math'], level:'Deep Dive', status:'Soon', blurb:'Symmetry as a guide; conserved currents and interactions in one language.'},
+  {title:'Neutrino Oscillations (conceptual)', url:'particle_domain.html#neutrinos', domain:'Particle/Field', methods:['Theory','Experiment'], level:'Core', status:'Soon', blurb:'Mixing, baselines, why energy and distance matter for flavor change.'},
+
+  /* COSMOLOGY / ASTRO */
+  {title:'Expansion & FRW Picture', url:'cosmo_domain.html#frw', domain:'Cosmology & Astrophysics', methods:['Theory','Math'], level:'Core', status:'Soon', blurb:'Scale factor, curvature options, simple distance–redshift logic.'},
+  {title:'CMB & Early Universe Clues', url:'cosmo_domain.html#cmb', domain:'Cosmology & Astrophysics', methods:['Theory','Experiment'], level:'Deep Dive', status:'Soon', blurb:'Why a nearly-uniform glow encodes the initial conditions.'},
+
+  /* EXPERIMENTAL METHODS  (link to your quantum experiments set) */
+  {title:'Double-Slit (single-particle)', url:'quantum_experiments.html#double-slit', domain:'Experimental', methods:['Experiment','Theory'], level:'Beginner', status:'Draft', blurb:'Fringe spacing \( \Delta y \sim \lambda L/d \); why which-path records kill contrast.'},
+  {title:'Photoelectric Effect', url:'quantum_experiments.html#photoelectric', domain:'Experimental', methods:['Experiment','Theory'], level:'Beginner', status:'Draft', blurb:'Threshold frequency and \(K_{max}=hf-\phi\); intensity vs energy roles split cleanly.'},
+  {title:'Stern–Gerlach Chain', url:'quantum_experiments.html#sg', domain:'Experimental', methods:['Experiment','Theory'], level:'Core', status:'Draft', blurb:'Two spots only; rotated analyzer intensities follow \(\cos^2(\theta/2)\).'},
+  {title:'Mach–Zehnder Interferometer', url:'quantum_experiments.html#mzi', domain:'Experimental', methods:['Experiment'], level:'Core', status:'Draft', blurb:'Two arms, phase knob \(\phi\), outputs \(\cos^2(\phi/2)\) and \(\sin^2(\phi/2)\).'},
+  {title:'Bell & Loophole-free Tests', url:'measurement_and_reality.html', domain:'Experimental', methods:['Experiment','Theory'], level:'Deep Dive', status:'Soon', blurb:'From EPR to modern tests that rule out local realism.'},
+  {title:'Hong–Ou–Mandel Dip', url:'modern_platforms.html#hom', domain:'Experimental', methods:['Experiment'], level:'Deep Dive', status:'Soon', blurb:'Two identical photons bunch; a purely quantum interference effect.'},
+
+  /* COMPUTATIONAL METHODS (link to your comp pages) */
+  {title:'Math for QM (Dirac + Linear Algebra)', url:'math_for_qm.html', domain:'Computational', methods:['Math','Theory'], level:'Beginner', status:'Soon', blurb:'Vectors, bras/kets, eigen-stuff—the minimal toolkit.'},
+  {title:'Numerics for 1D Schrödinger', url:'numerics_for_qm.html', domain:'Computational', methods:['Computation'], level:'Core', status:'Soon', blurb:'Finite differences, split-step, stability, and normalization checks.'},
+  {title:'Simulations Gallery', url:'simulations_gallery.html', domain:'Computational', methods:['Computation'], level:'Core', status:'Soon', blurb:'Box states, tunneling, interference—screenshots and short notes.'},
+  {title:'Projects (guided)', url:'projects.html', domain:'Computational', methods:['Computation'], level:'Beginner', status:'Soon', blurb:'Small builds: packet spread app, simple MZI simulator, RC filter analyzer.'}
+];
+
+/* ====== RENDER ====== */
+const grids = [...document.querySelectorAll('.grid')];
+function renderAll(){
+  const q = (document.getElementById('searchBox').value||'').toLowerCase().trim();
+  const methodActive = [...document.querySelectorAll('#methodChips .chip.active')].map(x=>x.dataset.chip);
+  const levelActive  = [...document.querySelectorAll('#levelChips .chip.active')].map(x=>x.dataset.chip);
+
+  grids.forEach(g=>g.innerHTML='');
+
+  ITEMS.forEach(item=>{
+    // Filter
+    const matchesText = !q || (item.title.toLowerCase().includes(q) || (item.blurb||'').toLowerCase().includes(q));
+    const matchesMethod = methodActive.length===0 || item.methods.some(m=>methodActive.includes(m));
+    const matchesLevel = levelActive.length===0 || levelActive.includes(item.level);
+    if(!(matchesText && matchesMethod && matchesLevel)) return;
+
+    const target = grids.find(g => g.dataset.domain === item.domain);
+    if(!target) return;
+
+    const a = document.createElement('a');
+    a.className='card'; a.href=item.url;
+    a.innerHTML = `
+      <div class="title">${item.title}</div>
+      <div class="blurb">${item.blurb||''}</div>
+      <div class="badges">
+        ${item.methods.map(m=>`<span class="badge method">${m}</span>`).join('')}
+        <span class="badge domain">${item.domain}</span>
+        <span class="badge ${item.level==='Beginner'?'lvl-begin':item.level==='Core'?'lvl-core':'lvl-deep'}">${item.level}</span>
+        ${item.status && item.status!=='Ready' ? `<span class="badge ${item.status==='Draft'?'status-draft':'status-soon'}">${item.status}</span>`:''}
+      </div>`;
+    target.appendChild(a);
+  });
+
+  // If any grid ends up empty, show a gentle message
+  grids.forEach(g=>{
+    if(g.children.length===0){
+      const d=document.createElement('div');
+      d.className='small'; d.style.padding='0.3rem 0.2rem';
+      d.textContent='No matches in this section.';
+      g.appendChild(d);
+    }
+  });
+}
+renderAll();
+
+/* Search + chips */
+document.getElementById('searchBox').addEventListener('input', renderAll);
+document.querySelectorAll('.chip').forEach(ch=>{
+  ch.addEventListener('click', ()=>{ ch.classList.toggle('active'); renderAll(); });
+});
+
+/* Smooth jump */
+document.querySelectorAll('.tlink').forEach(a=>{
+  a.addEventListener('click', e=>{
+    const id=a.getAttribute('href');
+    const el=document.querySelector(id);
+    if(!el) return;
+    e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+</script>
+</body>
+</html>
