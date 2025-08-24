@@ -5,16 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>QParadox • Concepts Atlas</title>
 
+<!-- Type -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<!-- MathJax (for real symbols in cards and linked pages) -->
 <script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 <style>
 :root{
-  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --bg:#0b0b0d; --panel:#121215; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
   --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
   --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
-  --radius:18px; --side:360px; --maxw:1240px; --navh:64px;
+  --radius:18px; --max:1400px; --aside:340px; --nav:64px;
 }
+/* base */
 *{box-sizing:border-box} html,body{height:100%}
 body{
   margin:0; background:var(--bg); color:var(--ink);
@@ -24,179 +27,106 @@ body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
   background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
 body::after{content:""; position:fixed; inset:0; z-index:-2;
   background:
-    radial-gradient(1000px 620px at 12% -10%, rgba(255,222,180,.10), transparent 60%),
-    radial-gradient(1000px 620px at 88% 0%, rgba(140,160,255,.08), transparent 60%),
-    radial-gradient(1200px 720px at 50% 110%, rgba(202,163,107,.10), transparent 72%)}
+    radial-gradient(1200px 760px at 15% -10%, rgba(255,222,180,.10), transparent 60%),
+    radial-gradient(1200px 760px at 85% 0%, rgba(140,160,255,.08), transparent 60%),
+    radial-gradient(1400px 900px at 50% 110%, rgba(202,163,107,.10), transparent 72%)}
 .frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
 #progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue))}
 
-/* Top nav */
-.topnav{
-  position:sticky; top:0; z-index:50; height:var(--navh);
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0 12px;
-  background:linear-gradient(180deg, rgba(11,11,13,.96), rgba(11,11,13,.75));
-  border-bottom:1px solid var(--line); backdrop-filter:blur(6px)
-}
+/* top bar */
+.top{position:sticky; top:0; height:var(--nav); z-index:60; display:flex; align-items:center; gap:.8rem;
+  padding:0 12px; background:linear-gradient(180deg, rgba(11,11,13,.96), rgba(11,11,13,.78));
+  border-bottom:1px solid var(--line); backdrop-filter:blur(6px)}
 .brand{display:flex; align-items:center; gap:.6rem}
-.brand b{font-family:"Playfair Display",serif; font-size:1.2rem; color:#f5ead8}
-.brand small{color:var(--ink2)}
-.hamb{display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px;
-  border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
-.hamb:hover{border-color:rgba(255,255,255,.28)}
-.toplinks a{color:var(--ink2); text-decoration:none; margin:0 .4rem; border-bottom:1px dotted rgba(255,255,255,.25)}
-.toplinks a:hover{color:#fff}
+.logo{display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:12px;
+  border:1px solid var(--line); background:var(--glass)}
+.logo svg{color:var(--ink)}
+.brand b{font-family:"Playfair Display",serif; font-size:1.28rem; color:#f5ead8}
+.navlinks{margin-left:auto}
+.navlinks a{color:var(--ink2); text-decoration:none; margin:0 .55rem; border-bottom:1px dotted rgba(255,255,255,.25)}
+.navlinks a:hover{color:#fff}
 
-/* Drawer */
-.drawer{position:fixed; inset:0; z-index:60; display:none}
-.drawer.open{display:block}
-.drawer .shade{position:absolute; inset:0; background:rgba(0,0,0,.5)}
-.drawer .panel{
-  position:absolute; left:0; top:0; height:100%; width:min(86vw,420px);
-  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
-  border-right:1px solid var(--line); box-shadow:var(--shadow); padding:14px
-}
-.panel h3{margin:.2rem 0 .6rem; font-family:"Playfair Display",serif}
-.panel a{display:block; color:var(--ink); text-decoration:none; padding:.4rem .2rem; border-radius:.4rem}
-.panel a:hover{background:rgba(255,255,255,.06)}
-.panel .fav{margin-top:.6rem; border-top:1px solid var(--line); padding-top:.6rem}
-.closex{position:absolute; right:10px; top:10px; width:34px; height:34px; border:1px solid var(--line); border-radius:10px; background:var(--glass); color:var(--ink); cursor:pointer}
+/* hero */
+.hero{padding:1.7rem 1rem .6rem; text-align:center}
+h1{font-family:"Playfair Display",serif; font-weight:900; margin:0; font-size:clamp(2.7rem,4.2vw,5rem); line-height:1.06; color:#f6eddc}
+.sub{max-width:980px; margin:.7rem auto 0; color:var(--ink2)}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.1rem auto; width:min(980px,92%)}
 
-/* Header */
-header{padding:2.2rem 1.2rem 1.2rem; text-align:center}
-h1{font-family:"Playfair Display",serif; font-weight:900; margin:.4rem 0 0; font-size:clamp(2.4rem,4vw,4.5rem); line-height:1.1; color:#f5ead8}
-.subtitle{max-width:980px; margin:.6rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
-.badge{display:inline-block; font-size:.85rem; padding:.18rem .55rem; border:1px solid var(--line); border-radius:.5rem; background:rgba(255,255,255,.06); color:var(--ink2); margin:.2rem .2rem 0}
-
-/* Controls */
-.controls{width:min(var(--maxw),94%); margin:0 auto 1.2rem; display:grid; gap:.8rem}
-@media(min-width:980px){ .controls{grid-template-columns:1.5fr .9fr .9fr} }
-.ctrlBox{
-  border:1px solid var(--line); border-radius:14px; background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
-  box-shadow:var(--shadow); padding:1rem .95rem
-}
-.ctrlBox h3{margin:.2rem 0 .6rem; font-family:"Playfair Display",serif; font-size:1.15rem; color:#f6eddc}
-.search{display:flex; gap:.6rem}
-.search input{
-  flex:1; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink);
-  border-radius:.6rem; padding:.62rem .75rem
-}
-.search button{
-  border:1px solid var(--line); background:var(--glass); color:var(--ink); border-radius:.6rem; padding:.58rem .8rem; cursor:pointer
-}
-.pills{display:flex; flex-wrap:wrap; gap:.45rem}
-.pill{
-  padding:.32rem .64rem; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.05); color:var(--ink2);
-  cursor:pointer; user-select:none; font-size:.94rem; transition:.15s
-}
+/* search + tag bar */
+.controls{position:sticky; top:calc(var(--nav) - 1px); z-index:55; padding:.7rem .7rem;
+  border:1px solid var(--line); border-radius:14px; margin:0 auto 1rem; width:min(var(--max),94%);
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03)); backdrop-filter:blur(6px)}
+.controls .row{display:flex; align-items:center; gap:.6rem; flex-wrap:wrap}
+#search{flex:1; min-width:260px; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink);
+  border-radius:.7rem; padding:.65rem .8rem}
+.pill{padding:.32rem .64rem; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.05);
+  color:var(--ink2); cursor:pointer; user-select:none; font-size:.92rem}
 .pill:hover{border-color:rgba(255,255,255,.3); color:#fff}
 .pill.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
-.small{font-size:.86rem; color:var(--muted)}
+.count{color:var(--muted); font-size:.92rem}
 
-/* Alpha bar */
-.alpha{
-  position:sticky; top:var(--navh); z-index:5;
-  display:flex; flex-wrap:wrap; gap:.25rem .35rem; align-items:center;
-  background:linear-gradient(180deg,rgba(11,11,13,.92),rgba(11,11,13,.72));
-  border:1px solid var(--line); border-left:none; border-right:none;
-  padding:.35rem .6rem; backdrop-filter:blur(6px)
-}
-.alpha b{color:#d6c6a8; margin-right:.4rem}
-.alpha button{
-  border:1px solid var(--line); background:rgba(255,255,255,.05); color:var(--ink2);
-  border-radius:.4rem; font-size:.82rem; padding:.15rem .44rem; cursor:pointer
-}
-.alpha button:hover{color:#fff}
+/* layout */
+.container{width:min(var(--max),94%); margin:0 auto 2rem; display:grid; gap:18px; grid-template-columns:1fr}
+@media(min-width:1300px){ .container{grid-template-columns:minmax(0,1fr) var(--aside)} }
 
-/* Main layout */
-.main{width:min(var(--maxw),94%); margin:0 auto 3rem; display:grid; grid-template-columns:1fr; gap:26px}
-@media(min-width:1200px){ .main{grid-template-columns:minmax(0,1fr) var(--side)} }
-
-article{
-  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
-  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:1.2rem 1.1rem
-}
-section.group{margin-top:1rem; border:1px solid var(--line); border-radius:16px; overflow:hidden}
-.group header.secHead{
-  display:flex; align-items:center; justify-content:space-between; gap:1rem;
-  background:rgba(255,255,255,.04); padding:.85rem 1rem
-}
-.group h2{
-  font-family:"Playfair Display",serif; margin:0; font-size:clamp(1.5rem,2.2vw,2.1rem); color:#f6eddc
-}
-.group .count{color:var(--muted); font-size:.9rem}
-.group .grid{
-  padding:.9rem; border-top:1px solid var(--line);
-  display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(290px,1fr))
-}
-.group.collapsed .grid{display:none}
-
-/* Cards */
-.card{
-  position:relative;
-  border:1px solid var(--line); border-radius:16px;
-  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
-  box-shadow:var(--shadow);
-  padding:1rem .95rem 1.05rem;
-  transition:transform .18s ease, border-color .18s ease, box-shadow .18s;
-}
-.card:hover{transform:translateY(-2px); border-color:rgba(255,255,255,.28)}
-.card h4{
-  display:flex; align-items:center; gap:.5rem;
-  margin:.2rem 0 .45rem; font-size:1.15rem; color:#f7edde; font-family:"Playfair Display",serif
-}
-.card .meta{display:flex; gap:.45rem; flex-wrap:wrap; margin:.2rem 0 .55rem}
-.tag{font-size:.78rem; color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8); padding:.15rem .5rem; border-radius:.5rem}
-.tag.alt{background:linear-gradient(90deg,rgba(122,160,255,.75),rgba(202,163,107,.7)); color:#0c0c10}
-.card p{margin:.5rem 0}
-.card .eq{margin:.45rem 0 .2rem; color:#e9e1d6}
-.card .links{display:flex; gap:.45rem; flex-wrap:wrap; margin-top:.6rem}
-.card a{color:#d9d1c6; text-decoration:none; border-bottom:1px dotted rgba(255,255,255,.25)}
-.card a:hover{color:#fff}
-.star{
-  position:absolute; right:.5rem; top:.5rem; border:1px solid var(--line); border-radius:.6rem;
-  background:var(--glass); color:var(--ink); font-size:.9rem; padding:.2rem .5rem; cursor:pointer
-}
-.star.active{background:linear-gradient(90deg,var(--gold),#efd6a8); color:#111}
-
-/* Sidebar */
+/* right notebook */
 aside{
-  position:sticky; top:calc(var(--navh) + 24px); align-self:start; height:fit-content;
+  position:sticky; top:calc(var(--nav) + 18px); align-self:start; height:fit-content;
   background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
-  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:12px
 }
 aside h3{margin:.2rem 0 .6rem; font-family:"Playfair Display",serif}
-aside .note{border:1px solid var(--line); border-radius:12px; padding:.6rem .7rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
-aside time{display:block; color:var(--muted); font-size:.85rem}
-aside .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
-aside .tips{color:var(--ink2); font-size:.95rem}
+.note{border:1px solid var(--line); border-radius:12px; padding:.6rem .7rem; margin:.55rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+#free{width:100%; height:120px; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink); border-radius:.6rem; padding:.6rem .7rem}
 
-footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
+/* section */
+.section{margin:1.2rem 0 1.6rem}
+.section h2{font-family:"Playfair Display",serif; color:#f7edde; margin:0 0 .35rem; font-size:1.6rem}
+.section .subt{color:var(--ink2); margin:0 0 .7rem}
+
+/* grid of concept cards */
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:12px}
+.card{
+  position:relative; border:1px solid var(--line); border-radius:16px; background:
+  linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  box-shadow:var(--shadow); padding:12px 12px 14px; transition:transform .18s ease, border-color .18s ease
+}
+.card:hover{transform:translateY(-2px); border-color:rgba(255,255,255,.28)}
+.card h4{margin:.2rem 0 .35rem; font-size:1.15rem; color:#f7edde; font-family:"Playfair Display",serif}
+.meta{display:flex; gap:.45rem; flex-wrap:wrap; margin:.05rem 0 .45rem}
+.tag{font-size:.78rem; color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8); padding:.15rem .5rem; border-radius:.5rem}
+.tag.m{background:linear-gradient(90deg,rgba(122,160,255,.8),rgba(202,163,107,.8))}
+.card p{margin:.35rem 0 .3rem; color:var(--ink2); text-align:justify}
+.card .eq{margin:.3rem 0 .2rem; color:#e9e1d6}
+.links{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.55rem}
+.links a{color:#d9d1c6; text-decoration:none; border-bottom:1px dotted rgba(255,255,255,.25)}
+.links a:hover{color:#fff}
+.star{position:absolute; right:.55rem; top:.5rem; border:1px solid var(--line); border-radius:.6rem; background:var(--glass); color:var(--ink); font-size:.9rem; padding:.2rem .5rem; cursor:pointer}
+.star.active{background:linear-gradient(90deg,var(--gold),#efd6a8); color:#111}
+
+/* subtle reveal + back to top */
 .reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
 .reveal.in{opacity:1; transform:none}
-
-/* Back-to-top */
-#toTop{
-  position:fixed; right:18px; bottom:18px; z-index:40; display:none;
-  border:1px solid var(--line); background:var(--glass); color:var(--ink); border-radius:10px; padding:.55rem .8rem; cursor:pointer
-}
+#toTop{position:fixed; right:18px; bottom:18px; z-index:50; display:none; border:1px solid var(--line); background:var(--glass); color:var(--ink); border-radius:10px; padding:.55rem .8rem; cursor:pointer}
 #toTop.show{display:block}
+
+/* footer */
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
-
 <div class="frame" aria-hidden="true"></div>
 <div id="progress"></div>
 
-<!-- Top nav -->
-<div class="topnav">
-  <button class="hamb" id="openDrawer" aria-label="Open menu">
+<!-- Top bar -->
+<div class="top">
+  <div class="logo" title="Menu">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-  </button>
-  <div class="brand">
-    <b>QParadox</b><small>Concepts Atlas</small>
   </div>
-  <div class="toplinks">
+  <div class="brand"><b>QParadox</b></div>
+  <div class="navlinks">
     <a href="index.html">Home</a>
     <a href="introduction.html">Introduction</a>
     <a href="theoretical.html">Theoretical</a>
@@ -205,406 +135,389 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
   </div>
 </div>
 
-<!-- Drawer -->
-<div class="drawer" id="drawer">
-  <div class="shade" id="closeDrawer"></div>
-  <div class="panel">
-    <button class="closex" id="closeDrawerBtn" aria-label="Close menu">✕</button>
-    <h3>Navigate</h3>
-    <a href="index.html">Home</a>
-    <a href="introduction.html">New to QParadox</a>
-    <a href="domains.html">Domains Overview</a>
-    <a href="theoretical.html">Theoretical Hub</a>
-    <a href="experimental.html">Experimental Hub</a>
-    <a href="computational.html">Computational Hub</a>
-    <a href="concepts.html"><b>Concepts Atlas</b></a>
-    <div class="fav">
-      <h3>⭐ Pinned concepts</h3>
-      <div id="favLinks" class="small" style="color:var(--ink2)">No favorites yet. Click ★ on any card.</div>
-    </div>
-  </div>
-</div>
-
-<header class="reveal in">
+<!-- Hero -->
+<header class="hero reveal in">
   <h1>Concepts Atlas</h1>
-  <p class="subtitle">
-    Everything in one place — filter by field or method, search by name, or jump A–Z.
-    <span class="badge">Dark academia</span>
-    <span class="badge">Maximalist</span>
-    <span class="badge">MathJax ready</span>
-  </p>
+  <p class="sub">A single, organized library of physics and philosophy: mechanics, fields, quanta, spacetime, matter, cosmos, methods, and metaphysics. Search, filter, and dive.</p>
+  <div class="divider" aria-hidden="true"></div>
 </header>
 
 <!-- Controls -->
 <div class="controls reveal">
-  <div class="ctrlBox">
-    <h3>Search concepts</h3>
-    <div class="search">
-      <input id="qsearch" type="text" placeholder="Type a concept, formula, or keyword… e.g. Noether, tunneling, Maxwell, partition function"/>
-      <button id="clearBtn">Clear</button>
-    </div>
-    <div class="small" id="countLine" style="margin-top:.45rem">Showing all concepts</div>
+  <div class="row">
+    <input id="search" type="text" placeholder="Search concepts… e.g. Noether, tunneling, Maxwell, partition function"/>
+    <span class="pill active" data-domain="all">All</span>
+    <span class="pill" data-domain="classical">Classical</span>
+    <span class="pill" data-domain="em">EM</span>
+    <span class="pill" data-domain="quantum">Quantum</span>
+    <span class="pill" data-domain="relativity">Relativity</span>
+    <span class="pill" data-domain="thermo">Thermo</span>
+    <span class="pill" data-domain="optics">Optics</span>
+    <span class="pill" data-domain="condensed">Condensed</span>
+    <span class="pill" data-domain="particle">Particle</span>
+    <span class="pill" data-domain="cosmo">Cosmo</span>
+    <span class="pill" data-domain="methods">Methods</span>
+    <span class="pill" data-domain="meta">Metaphysics</span>
+    <span class="pill active" data-method="any" style="margin-left:auto">Any</span>
+    <span class="pill" data-method="theory">Theory</span>
+    <span class="pill" data-method="experiment">Experiment</span>
+    <span class="pill" data-method="compute">Computation</span>
   </div>
-
-  <div class="ctrlBox">
-    <h3>Filter by domain</h3>
-    <div class="pills" id="domainPills">
-      <span class="pill active" data-domain="all">All</span>
-      <span class="pill" data-domain="classical">Classical</span>
-      <span class="pill" data-domain="em">Electromagnetism</span>
-      <span class="pill" data-domain="quantum">Quantum</span>
-      <span class="pill" data-domain="relativity">Relativity</span>
-      <span class="pill" data-domain="thermo">Thermo & Stat</span>
-      <span class="pill" data-domain="optics">Optics & Waves</span>
-      <span class="pill" data-domain="condensed">Condensed</span>
-      <span class="pill" data-domain="particle">Particle & Field</span>
-      <span class="pill" data-domain="cosmo">Cosmology & Astro</span>
-      <span class="pill" data-domain="methods">Methods</span>
-      <span class="pill" data-domain="meta">Metaphysics & Philosophy</span>
-    </div>
-  </div>
-
-  <div class="ctrlBox">
-    <h3>Filter by method</h3>
-    <div class="pills" id="methodPills">
-      <span class="pill active" data-method="any">Any</span>
-      <span class="pill" data-method="theory">Theory</span>
-      <span class="pill" data-method="experiment">Experiment</span>
-      <span class="pill" data-method="compute">Computation</span>
-    </div>
-    <div class="small" style="margin-top:.55rem">
-      <button id="expandAll" style="border:1px solid var(--line); background:var(--glass); color:var(--ink); border-radius:.6rem; padding:.35rem .55rem; cursor:pointer">Expand all</button>
-      <button id="collapseAll" style="border:1px solid var(--line); background:var(--glass); color:var(--ink); border-radius:.6rem; padding:.35rem .55rem; cursor:pointer">Collapse all</button>
-    </div>
+  <div class="row" style="justify-content:space-between; margin-top:.35rem">
+    <span class="count" id="countLine">Showing all</span>
+    <span class="count">Favorites appear in the notebook.</span>
   </div>
 </div>
 
-<!-- Alphabet jumper -->
-<div class="alpha reveal"><b>A–Z</b><div id="alphaButtons"></div></div>
+<div class="container">
+  <!-- Main content -->
+  <main>
 
-<div class="main">
-  <article id="article" class="reveal">
-
-    <!-- Sections -->
-    <section class="group" id="sec-classical">
-      <header class="secHead" data-toggle="sec-classical"><h2>Classical Mechanics</h2><span class="count" id="cnt-classical"></span></header>
-      <div class="grid" data-domain="classical"></div>
+    <!-- Sections are auto-filled by JS using DATA -->
+    <section class="section reveal" id="sec-classical">
+      <h2>Classical Mechanics</h2>
+      <p class="subt">From Newton’s synthesis to variational principles, oscillations, and orbits.</p>
+      <div class="grid" id="grid-classical"></div>
     </section>
 
-    <section class="group" id="sec-em">
-      <header class="secHead" data-toggle="sec-em"><h2>Electromagnetism</h2><span class="count" id="cnt-em"></span></header>
-      <div class="grid" data-domain="em"></div>
+    <section class="section reveal" id="sec-em">
+      <h2>Electromagnetism</h2>
+      <p class="subt">Fields, waves, circuits, and the geometry behind E and B.</p>
+      <div class="grid" id="grid-em"></div>
     </section>
 
-    <section class="group" id="sec-quantum">
-      <header class="secHead" data-toggle="sec-quantum"><h2>Quantum Mechanics</h2><span class="count" id="cnt-quantum"></span></header>
-      <div class="grid" data-domain="quantum"></div>
+    <section class="section reveal" id="sec-quantum">
+      <h2>Quantum Mechanics</h2>
+      <p class="subt">States, operators, interference, measurement, and information.</p>
+      <div class="grid" id="grid-quantum"></div>
     </section>
 
-    <section class="group" id="sec-relativity">
-      <header class="secHead" data-toggle="sec-relativity"><h2>Relativity</h2><span class="count" id="cnt-relativity"></span></header>
-      <div class="grid" data-domain="relativity"></div>
+    <section class="section reveal" id="sec-relativity">
+      <h2>Relativity</h2>
+      <p class="subt">Spacetime structure from SR to GR, lenses and waves.</p>
+      <div class="grid" id="grid-relativity"></div>
     </section>
 
-    <section class="group" id="sec-thermo">
-      <header class="secHead" data-toggle="sec-thermo"><h2>Thermodynamics & Statistical Mechanics</h2><span class="count" id="cnt-thermo"></span></header>
-      <div class="grid" data-domain="thermo"></div>
+    <section class="section reveal" id="sec-thermo">
+      <h2>Thermodynamics & Statistical Mechanics</h2>
+      <p class="subt">Macroscopic laws from microscopic counting, fluctuations, and response.</p>
+      <div class="grid" id="grid-thermo"></div>
     </section>
 
-    <section class="group" id="sec-optics">
-      <header class="secHead" data-toggle="sec-optics"><h2>Optics & Waves</h2><span class="count" id="cnt-optics"></span></header>
-      <div class="grid" data-domain="optics"></div>
+    <section class="section reveal" id="sec-optics">
+      <h2>Optics & Waves</h2>
+      <p class="subt">Interference, diffraction, coherence, resonators, and photonics.</p>
+      <div class="grid" id="grid-optics"></div>
     </section>
 
-    <section class="group" id="sec-condensed">
-      <header class="secHead" data-toggle="sec-condensed"><h2>Condensed Matter</h2><span class="count" id="cnt-condensed"></span></header>
-      <div class="grid" data-domain="condensed"></div>
+    <section class="section reveal" id="sec-condensed">
+      <h2>Condensed Matter</h2>
+      <p class="subt">Crystals, bands, superconductivity, topology, and transport.</p>
+      <div class="grid" id="grid-condensed"></div>
     </section>
 
-    <section class="group" id="sec-particle">
-      <header class="secHead" data-toggle="sec-particle"><h2>Particle & Field Theory</h2><span class="count" id="cnt-particle"></span></header>
-      <div class="grid" data-domain="particle"></div>
+    <section class="section reveal" id="sec-particle">
+      <h2>Particle & Field Theory</h2>
+      <p class="subt">Symmetries, interactions, scattering, and effective theories.</p>
+      <div class="grid" id="grid-particle"></div>
     </section>
 
-    <section class="group" id="sec-cosmo">
-      <header class="secHead" data-toggle="sec-cosmo"><h2>Cosmology & Astrophysics</h2><span class="count" id="cnt-cosmo"></span></header>
-      <div class="grid" data-domain="cosmo"></div>
+    <section class="section reveal" id="sec-cosmo">
+      <h2>Cosmology & Astrophysics</h2>
+      <p class="subt">From the early universe to large-scale structure and compact objects.</p>
+      <div class="grid" id="grid-cosmo"></div>
     </section>
 
-    <section class="group" id="sec-methods">
-      <header class="secHead" data-toggle="sec-methods"><h2>Cross-Cutting Methods (Theory • Experiment • Computation)</h2><span class="count" id="cnt-methods"></span></header>
-      <div class="grid" data-domain="methods"></div>
+    <section class="section reveal" id="sec-methods">
+      <h2>Cross-Cutting Methods</h2>
+      <p class="subt">Math, computation, and inference tools shared by every domain.</p>
+      <div class="grid" id="grid-methods"></div>
     </section>
 
-    <section class="group" id="sec-meta">
-      <header class="secHead" data-toggle="sec-meta"><h2>Metaphysics & Philosophy of Physics</h2><span class="count" id="cnt-meta"></span></header>
-      <div class="grid" data-domain="meta"></div>
+    <section class="section reveal" id="sec-meta">
+      <h2>Metaphysics & Philosophy of Physics</h2>
+      <p class="subt">Interpretation, causation, emergence, and what counts as explanation.</p>
+      <div class="grid" id="grid-meta"></div>
     </section>
 
-    <hr class="sep"/>
+  </main>
 
-    <div class="alpha" style="border-radius:12px; margin-bottom:.6rem">
-      <b>Navigation</b>
-      <button onclick="location.href='index.html'">Home</button>
-      <button onclick="location.href='introduction.html'">Introduction</button>
-      <button onclick="location.href='theoretical.html'">Theoretical Hub</button>
-      <button onclick="location.href='experimental.html'">Experimental Hub</button>
-      <button onclick="location.href='computational.html'">Computational Hub</button>
-      <button onclick="location.href='domains.html'">Domains</button>
-    </div>
-
-  </article>
-
+  <!-- Notebook -->
   <aside class="reveal">
     <h3>Notebook</h3>
-    <p class="tips">Press ★ on any concept card to pin it here. Add your own note below.</p>
+    <p class="count">Pin ★ on any card, or jot your own thoughts below.</p>
     <div id="nbList"></div>
-    <textarea id="freeNote" placeholder="Write your own note. Press Save." style="width:100%; height:110px; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink); border-radius:.5rem; padding:.55rem .6rem; font-family:'Crimson Text',serif;"></textarea>
-    <div style="display:flex; gap:.5rem; margin-top:.4rem">
-      <button id="saveFree" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Save</button>
-      <button id="clearAll" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Clear all</button>
+    <textarea id="free" placeholder="Write a note…"></textarea>
+    <div style="display:flex; gap:.6rem; margin-top:.5rem">
+      <button id="saveFree" class="pill">Save</button>
+      <button id="clearAll" class="pill">Clear all</button>
     </div>
-    <p class="small" style="margin-top:.4rem">Notes are saved in this browser only.</p>
-
-    <h3 style="margin-top:1rem">Tips</h3>
-    <div class="note">
-      <time>Pro tip</time>
-      <p>Combine filters. Example: <em>Quantum</em> + <em>Experiment</em> shows Bell, HOM, Josephson, etc.</p>
-    </div>
-    <div class="note">
-      <time>Math</time>
-      <p>Inline math \(E=hf\) and blocks render with MathJax.</p>
-    </div>
+    <div class="divider" style="margin:1rem 0 .7rem"></div>
+    <h3>Quick Jumps</h3>
+    <div class="note"><a href="#sec-classical">Classical Mechanics</a></div>
+    <div class="note"><a href="#sec-quantum">Quantum Mechanics</a></div>
+    <div class="note"><a href="#sec-relativity">Relativity</a></div>
+    <div class="note"><a href="#sec-thermo">Thermo & Stat</a></div>
+    <div class="note"><a href="#sec-optics">Optics & Waves</a></div>
+    <div class="note"><a href="#sec-condensed">Condensed Matter</a></div>
+    <div class="note"><a href="#sec-particle">Particle & Field</a></div>
+    <div class="note"><a href="#sec-cosmo">Cosmology & Astro</a></div>
+    <div class="note"><a href="#sec-methods">Methods</a></div>
+    <div class="note"><a href="#sec-meta">Metaphysics</a></div>
   </aside>
 </div>
 
 <footer>© 2025 QParadox • Concepts Atlas</footer>
 <button id="toTop" title="Back to top">↑ Top</button>
 
-<script>
-/* progress + back-to-top */
-const bar=document.getElementById('progress'), toTop=document.getElementById('toTop');
-function onScroll(){
-  const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
-  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
-  toTop.classList.toggle('show', st>600);
-}
-addEventListener('scroll', onScroll); onScroll();
-toTop.addEventListener('click', ()=>scrollTo({top:0, behavior:'smooth'}));
+<!-- ================= DATA ================= -->
+<script type="application/json" id="conceptsData">
+[
+  /* Classical */
+  {"id":"c-newton","title":"Newton's Laws","domain":"classical","method":"theory","href":"newton-laws.html","eq":"\\(\\vec F_{\\text{net}} = d\\vec p/dt\\)","blurb":"Relate net external force to momentum change; always declare a system boundary."},
+  {"id":"c-work","title":"Work, Energy, Power","domain":"classical","method":"theory","href":"work-energy.html","eq":"\\(\\Delta K = W_{\\text{net}}\\)","blurb":"Convert forces along a path into energy change; separate mechanical from thermal transfer."},
+  {"id":"c-impulse","title":"Impulse–Momentum","domain":"classical","method":"theory","href":"impulse-momentum.html","eq":"\\(\\Delta\\vec p = \\int \\! \\vec F\\,dt\\)","blurb":"Short interactions summarized by area under the force–time curve."},
+  {"id":"c-ang","title":"Angular Momentum & Torque","domain":"classical","method":"theory","href":"angular-momentum.html","eq":"\\(\\tau = dL/dt\\)","blurb":"Choose an origin; rotational invariance explains conserved \\(L\\)."},
+  {"id":"c-com","title":"Center of Mass & Collisions","domain":"classical","method":"theory","href":"center-of-mass.html","eq":"\\(\\vec R=(\\sum m_i\\vec r_i)/M\\)","blurb":"Treat many-body motion via COM; elastic vs inelastic energy accounting."},
+  {"id":"c-lag","title":"Lagrangian Mechanics","domain":"classical","method":"theory","href":"lagrangian-mechanics.html","eq":"\\(L=T-V\\)","blurb":"Generalized coordinates handle constraints; Euler–Lagrange equations from stationary action."},
+  {"id":"c-ham","title":"Hamiltonian Mechanics","domain":"classical","method":"theory","href":"hamiltonian-mechanics.html","eq":"\\(\\dot q=\\partial H/\\partial p\\)","blurb":"Phase space flow and canonical structure; a bridge toward quantum."},
+  {"id":"c-normal","title":"Small Oscillations & Modes","domain":"classical","method":"theory","href":"normal-modes.html","eq":"\\(\\omega^2\\vec a=K\\vec a\\)","blurb":"Diagonalize coupled motion; modes evolve independently in linear systems."},
+  {"id":"c-res","title":"Damping & Resonance","domain":"classical","method":"theory","href":"damping-resonance.html","eq":"\\(Q\\) factor","blurb":"Quality factor, bandwidth, and response to periodic drive."},
+  {"id":"c-orbit","title":"Central Forces & Orbits","domain":"classical","method":"theory","href":"central-forces.html","eq":"\\(u''+u=GM/\\ell^2\\)","blurb":"Kepler laws from \\(1/r\\); effective potential shapes trajectories."},
+  {"id":"c-dim","title":"Dimensional Analysis & Scaling","domain":"classical","method":"theory","href":"dimensional-analysis.html","eq":"\\(\\Pi\\) groups","blurb":"Predict dependences and regimes before heavy algebra."},
+  {"id":"c-chaos","title":"Nonlinear Dynamics & Chaos","domain":"classical","method":"theory","href":"chaos.html","eq":"Lyapunov","blurb":"Sensitive dependence, attractors, Poincaré maps, and control ideas."},
 
-/* reveal */
+  /* EM */
+  {"id":"e-maxwell","title":"Maxwell’s Equations","domain":"em","method":"theory","href":"maxwells-equations.html","eq":"\\(\\nabla\\cdot\\vec E=\\rho/\\varepsilon_0,\\;\\nabla\\times\\vec B=\\mu_0\\vec J+\\mu_0\\varepsilon_0\\partial_t\\vec E\\)","blurb":"Unify E, B, and light; boundary conditions and wave speed."},
+  {"id":"e-pot","title":"Scalar & Vector Potentials","domain":"em","method":"theory","href":"em-potentials.html","eq":"\\(\\vec B=\\nabla\\times\\vec A\\)","blurb":"Gauge choices (Coulomb/Lorenz), physical content, Aharonov–Bohm context."},
+  {"id":"e-bc","title":"Boundary Conditions & Images","domain":"em","method":"theory","href":"em-boundaries-images.html","eq":"\\(E_\\perp, E_\\parallel\\) rules","blurb":"Solve conductors and dielectrics by images and separation."},
+  {"id":"e-waves","title":"EM Waves & Polarization","domain":"em","method":"theory","href":"em-waves.html","eq":"\\(\\nabla^2\\vec E=\\mu_0\\varepsilon_0\\partial_t^2\\vec E\\)","blurb":"Plane waves, Poynting vector, Fresnel coefficients, birefringence."},
+  {"id":"e-circ","title":"Circuits & Impedance","domain":"em","method":"theory","href":"circuits-impedance.html","eq":"\\(Z_R=R,\\; Z_C=1/i\\omega C\\)","blurb":"Phasors, filters, resonance, Bode intuition."},
+  {"id":"e-rad","title":"Radiation & Antennas","domain":"em","method":"theory","href":"radiation-antennas.html","eq":"Larmor power","blurb":"Dipole fields, angular patterns, near/far zones."},
+  {"id":"e-skin","title":"Skin Depth & Waveguides","domain":"em","method":"theory","href":"skin-waveguides.html","eq":"\\(\\delta=\\sqrt{2/\\mu\\sigma\\omega}\\)","blurb":"Conductors at high frequency; TE/TM modes and cutoffs."},
+  {"id":"e-joseph","title":"Josephson Effect","domain":"em","method":"experiment","href":"josephson-effect.html","eq":"\\(I=I_c\\sin\\phi\\)","blurb":"Phase-coherent tunneling; voltage–frequency relation and qubit tech."},
+
+  /* Quantum */
+  {"id":"q-tdse","title":"Time-Dependent Schrödinger","domain":"quantum","method":"theory","href":"schrodinger-equation.html","eq":"\\(i\\hbar\\partial_t\\Psi=\\hat H\\Psi\\)","blurb":"Evolution, unitarity, and stationary states."},
+  {"id":"q-1d","title":"1D Potentials & Bound States","domain":"quantum","method":"theory","href":"1d-potentials.html","eq":"wells/barriers","blurb":"Quantization from boundaries; tunneling estimates."},
+  {"id":"q-ops","title":"Operators & Eigenstates","domain":"quantum","method":"theory","href":"operators-eigen.html","eq":"\\(\\hat A |a\\rangle=a|a\\rangle\\)","blurb":"Spectra, completeness, and measurement statistics."},
+  {"id":"q-unc","title":"Uncertainty & Non-commuting","domain":"quantum","method":"theory","href":"uncertainty.html","eq":"\\(\\Delta x\\,\\Delta p\\ge\\hbar/2\\)","blurb":"Limits from order dependence; not about sloppy instruments."},
+  {"id":"q-spin","title":"Spin & Stern–Gerlach","domain":"quantum","method":"experiment","href":"spin-stern-gerlach.html","eq":"Pauli matrices","blurb":"Two-state physics, rotations, sequential analyzers."},
+  {"id":"q-rabi","title":"Two-Level Systems & Rabi","domain":"quantum","method":"theory","href":"two-level-rabi.html","eq":"\\(\\Omega_R\\)","blurb":"Driven qubits, resonance, Bloch vector picture."},
+  {"id":"q-path","title":"Path Integrals (intro)","domain":"quantum","method":"theory","href":"path-integrals.html","eq":"\\(\\int\\!\\mathcal D[x]\,e^{iS/\\hbar}\\)","blurb":"Sum over histories; classical path from stationary action."},
+  {"id":"q-bell","title":"Entanglement & Bell Tests","domain":"quantum","method":"experiment","href":"bell-inequalities.html","eq":"CHSH","blurb":"Correlations beyond local realism; loopholes and info flow."},
+  {"id":"q-density","title":"Density Matrices & Mixed States","domain":"quantum","method":"theory","href":"density-matrix.html","eq":"\\(\\rho=\\sum p_i|\\psi_i\\rangle\\langle\\psi_i|\\)","blurb":"Partial trace, decoherence, open systems."},
+  {"id":"q-pert","title":"Perturbation Theory","domain":"quantum","method":"theory","href":"perturbation.html","eq":"\\(E^{(1)}=\\langle n|V|n\\rangle\\)","blurb":"Small corrections to spectra and states."},
+  {"id":"q-adiab","title":"Adiabatic & Berry Phase","domain":"quantum","method":"theory","href":"berry-phase.html","eq":"\\(\\gamma=\\oint\\! \\langle n|i\\nabla|n\\rangle\\cdot d\\vec R\\)","blurb":"Geometric phases and robust effects."},
+  {"id":"q-stm","title":"Tunneling & STM","domain":"quantum","method":"experiment","href":"stm-tunneling.html","eq":"\\(T\\sim e^{-2\\kappa a}\\)","blurb":"Exponential sensitivity enables atomic-scale imaging."},
+  {"id":"q-open","title":"Open Quantum Systems","domain":"quantum","method":"theory","href":"open-quantum.html","eq":"Lindblad","blurb":"Noise channels, decoherence, control."},
+  {"id":"q-tele","title":"Quantum Teleportation","domain":"quantum","method":"experiment","href":"teleportation.html","eq":"Bell pair + 2 classical bits","blurb":"State transfer via entanglement and classical comms."},
+  {"id":"q-hom","title":"Hong–Ou–Mandel Dip","domain":"quantum","method":"experiment","href":"hom-dip.html","eq":"two-photon","blurb":"Coalescence at a beamsplitter diagnoses indistinguishability."},
+  {"id":"q-qft","title":"Second Quantization (QM→QFT)","domain":"quantum","method":"theory","href":"second-quantization.html","eq":"creation/annihilation","blurb":"Many-body states as excitations of fields."},
+
+  /* Relativity */
+  {"id":"r-post","title":"Postulates of SR","domain":"relativity","method":"theory","href":"sr-postulates.html","eq":"invariance of \\(c\\)","blurb":"All inertial frames share laws; light speed is constant."},
+  {"id":"r-lorentz","title":"Lorentz Transformations","domain":"relativity","method":"theory","href":"lorentz-transformations.html","eq":"\\(\\gamma=1/\\sqrt{1-v^2/c^2}\\)","blurb":"Time dilation, length contraction, simultaneity."},
+  {"id":"r-4vec","title":"4-Vectors & Minkowski","domain":"relativity","method":"theory","href":"minkowski.html","eq":"\\(s^2=c^2 t^2-\\vec x^2\\)","blurb":"Invariant intervals, energy–momentum 4-vector."},
+  {"id":"r-tensors","title":"Tensors & Curvature","domain":"relativity","method":"theory","href":"tensors-gr.html","eq":"\\(g_{\\mu\\nu}\\)","blurb":"Covariant derivatives, geodesics, curvature tensors."},
+  {"id":"r-schwarz","title":"Schwarzschild Metric","domain":"relativity","method":"theory","href":"schwarzschild.html","eq":"\\(ds^2=(1-\\frac{2GM}{rc^2})c^2dt^2-…\\)","blurb":"Orbits, precession, redshift, horizons."},
+  {"id":"r-gw","title":"Gravitational Waves","domain":"relativity","method":"experiment","href":"gravitational-waves.html","eq":"strain \\(h(t)\\)","blurb":"Quadrupole radiation; interferometers and sources."},
+  {"id":"r-lensing","title":"Gravitational Lensing","domain":"relativity","method":"experiment","href":"lensing.html","eq":"deflection","blurb":"Mass bends light; map dark matter and cosmology."},
+
+  /* Thermo/StatMech */
+  {"id":"t-laws","title":"Laws of Thermodynamics","domain":"thermo","method":"theory","href":"thermo-laws.html","eq":"\\(dU=\\delta Q-\\delta W\\)","blurb":"State variables, processes, and efficiencies."},
+  {"id":"t-entropy","title":"Entropy & Information","domain":"thermo","method":"theory","href":"entropy-info.html","eq":"\\(S=k\\ln\\Omega\\)","blurb":"Counting microstates; link to data compression."},
+  {"id":"t-ensembles","title":"Ensembles & Partition Function","domain":"thermo","method":"theory","href":"ensembles-partition.html","eq":"\\(Z=\\sum e^{-\\beta E_i}\\)","blurb":"Average any quantity; fluctuations and response."},
+  {"id":"t-canon","title":"Canonical Tools","domain":"thermo","method":"theory","href":"canonical-tools.html","eq":"\\(F=-kT\\ln Z\\)","blurb":"Free energy, specific heats, Legendre ideas."},
+  {"id":"t-grand","title":"Grand Canonical & \\(\\mu\\)","domain":"thermo","method":"theory","href":"grand-canonical.html","eq":"\\(\\Xi=\\sum e^{-\\beta(E-\\mu N)}\\)","blurb":"Open particle reservoirs; Bose/Fermi stats."},
+  {"id":"t-kb","title":"Boltzmann Equation (intro)","domain":"thermo","method":"theory","href":"boltzmann-equation.html","eq":"\\(\\partial_t f+\\vec v\\cdot\\nabla f=C[f]\\)","blurb":"Transport and relaxation to equilibrium."},
+  {"id":"t-fdt","title":"Fluctuation–Dissipation","domain":"thermo","method":"theory","href":"fluctuation-dissipation.html","eq":"Kubo","blurb":"Noise–response links; Brownian motion."},
+  {"id":"t-ising","title":"Ising Model & Phase Transitions","domain":"thermo","method":"theory","href":"ising.html","eq":"critical exponents","blurb":"Order parameters, universality, scaling."},
+
+  /* Optics */
+  {"id":"o-int","title":"Interference & Diffraction","domain":"optics","method":"experiment","href":"interference-diffraction.html","eq":"\\(\\Delta y\\approx\\lambda L/d\\)","blurb":"Slits, gratings, and scaling strategies."},
+  {"id":"o-fourier","title":"Fourier Optics","domain":"optics","method":"theory","href":"fourier-optics.html","eq":"FT lenses","blurb":"Spatial frequencies; imaging and filtering."},
+  {"id":"o-cav","title":"Optical Cavities & Q","domain":"optics","method":"theory","href":"optical-cavities.html","eq":"FSR, finesse","blurb":"Resonance shapes, mirrors, stability."},
+  {"id":"o-nonlin","title":"Nonlinear Optics (intro)","domain":"optics","method":"theory","href":"nonlinear-optics.html","eq":"\\(\\chi^{(2)},\\chi^{(3)}\\)","blurb":"SHG, mixing, and phase matching."},
+  {"id":"o-fiber","title":"Waveguides & Fiber","domain":"optics","method":"theory","href":"fiber-waveguides.html","eq":"modes","blurb":"Confinement, dispersion, numerical aperture."},
+
+  /* Condensed Matter */
+  {"id":"cm-crystal","title":"Crystals & Brillouin Zones","domain":"condensed","method":"theory","href":"crystals-brillouin.html","eq":"reciprocal lattice","blurb":"Bloch’s theorem and band structure."},
+  {"id":"cm-band","title":"Bands, Gaps, Effective Mass","domain":"condensed","method":"theory","href":"bands-gaps.html","eq":"dispersion","blurb":"Why semiconductors act as they do."},
+  {"id":"cm-sc","title":"Superconductivity (BCS)","domain":"condensed","method":"theory","href":"superconductivity-bcs.html","eq":"gap \\(\\Delta\\)","blurb":"Cooper pairing, Meissner, Josephson."},
+  {"id":"cm-qhe","title":"Quantum Hall (intro)","domain":"condensed","method":"experiment","href":"quantum-hall.html","eq":"\\(\\nu\\)","blurb":"Plateaus, edge currents, topology fingerprints."},
+  {"id":"cm-topo","title":"Topological Insulators","domain":"condensed","method":"theory","href":"topological-insulators.html","eq":"Berry phase","blurb":"Protected edge modes, spin–orbit coupling."},
+  {"id":"cm-phonon","title":"Phonons & Heat Capacity","domain":"condensed","method":"theory","href":"phonons.html","eq":"Debye","blurb":"Lattice vibrations and low-T power laws."},
+  {"id":"cm-transport","title":"Electronic Transport","domain":"condensed","method":"theory","href":"electronic-transport.html","eq":"Drude/Landauer","blurb":"From scattering to ballistic channels."},
+
+  /* Particle & Field */
+  {"id":"p-sm","title":"Standard Model","domain":"particle","method":"theory","href":"standard-model.html","eq":"\\(SU(3)\\times SU(2)\\times U(1)\\)","blurb":"Gauge fields, fermions, Higgs mechanism."},
+  {"id":"p-ew","title":"Electroweak Theory","domain":"particle","method":"theory","href":"electroweak.html","eq":"\\(W,Z,\\gamma\\)","blurb":"Unification theme and symmetry structure."},
+  {"id":"p-qcd","title":"QCD & Confinement","domain":"particle","method":"theory","href":"qcd-confinement.html","eq":"running \\(\\alpha_s\\)","blurb":"Asymptotic freedom vs hadron binding."},
+  {"id":"p-ckm","title":"CKM & PMNS Mixing","domain":"particle","method":"theory","href":"ckm-pmns.html","eq":"unitary matrices","blurb":"Flavour change and CP violation."},
+  {"id":"p-neutrino","title":"Neutrino Oscillations","domain":"particle","method":"experiment","href":"neutrino-oscillations.html","eq":"\\(P_{\\alpha\\to\\beta}\\)","blurb":"Baseline, energy, and mass splitting."},
+  {"id":"p-collider","title":"Collider Signatures","domain":"particle","method":"experiment","href":"colliders.html","eq":"invariant mass","blurb":"Resonances, missing energy, jets."},
+  {"id":"p-eft","title":"Effective Field Theory","domain":"particle","method":"theory","href":"eft.html","eq":"power counting","blurb":"Low-energy predictions without full UV detail."},
+
+  /* Cosmo & Astro */
+  {"id":"a-frw","title":"FLRW & Friedmann","domain":"cosmo","method":"theory","href":"flrw-friedmann.html","eq":"scale factor","blurb":"Expansion from energy density and curvature."},
+  {"id":"a-cmb","title":"CMB & Acoustic Peaks","domain":"cosmo","method":"experiment","href":"cmb.html","eq":"\\(C_\\ell\\)","blurb":"Early-universe snapshot and parameters."},
+  {"id":"a-bbn","title":"Big-Bang Nucleosynthesis","domain":"cosmo","method":"theory","href":"bbn.html","eq":"light elements","blurb":"Timing, expansion, and baryon density."},
+  {"id":"a-infl","title":"Inflation (intro)","domain":"cosmo","method":"theory","href":"inflation.html","eq":"slow-roll","blurb":"Stretch fluctuations; flatness and horizon."},
+  {"id":"a-structure","title":"Structure Formation","domain":"cosmo","method":"theory","href":"structure-formation.html","eq":"growth factor","blurb":"From tiny seeds to galaxies."},
+  {"id":"a-dark","title":"Dark Matter & Dark Energy","domain":"cosmo","method":"theory","href":"dark-sector.html","eq":"\\(\\Omega_m,\\Omega_\\Lambda\\)","blurb":"Evidence channels and open puzzles."},
+  {"id":"a-compact","title":"Compact Objects","domain":"cosmo","method":"theory","href":"compact-objects.html","eq":"NS/BH/WD","blurb":"Equation of state and extreme physics."},
+
+  /* Methods */
+  {"id":"m-noether","title":"Noether’s Theorem","domain":"methods","method":"theory","href":"noether-symmetry.html","eq":"symmetry ↔ conservation","blurb":"Time→energy, space→momentum, rotation→angular momentum."},
+  {"id":"m-action","title":"Least Action & Variational","domain":"methods","method":"theory","href":"least-action.html","eq":"\\(\\delta S=0\\)","blurb":"Pick coordinates, get equations, read symmetries."},
+  {"id":"m-la","title":"Linear Algebra for Models","domain":"methods","method":"compute","href":"linear-algebra.html","eq":"SVD/diag","blurb":"Modes, fits, and stability diagnostics."},
+  {"id":"m-fft","title":"Fourier / Spectral Methods","domain":"methods","method":"compute","href":"fourier-methods.html","eq":"FFT","blurb":"Time–frequency perspective and filtering."},
+  {"id":"m-ode","title":"ODE/PDE Solvers","domain":"methods","method":"compute","href":"ode-pde.html","eq":"stability","blurb":"Stiffness, steps, boundary strategies."},
+  {"id":"m-stats","title":"Uncertainty & Fitting","domain":"methods","method":"compute","href":"uncertainty-fitting.html","eq":"\\(\\chi^2\\) & posteriors","blurb":"Report errors honestly; residual plots first."},
+  {"id":"m-mc","title":"Monte Carlo","domain":"methods","method":"compute","href":"monte-carlo.html","eq":"random sampling","blurb":"Integrals, inference, transport; variance control."},
+  {"id":"m-md","title":"Molecular Dynamics (intro)","domain":"methods","method":"compute","href":"molecular-dynamics.html","eq":"time-stepping","blurb":"Potentials, thermostats, observables."},
+  {"id":"m-dimless","title":"Dimensionless Numbers","domain":"methods","method":"theory","href":"dimensionless-numbers.html","eq":"Re, Ma, Pe, \\(Q\\)","blurb":"Regimes pop out when scales are separated."},
+  {"id":"m-order","title":"Order-of-Magnitude","domain":"methods","method":"theory","href":"order-of-magnitude.html","eq":"~","blurb":"Guard against nonsense before deep work."},
+  {"id":"m-info","title":"Information Theory in Physics","domain":"methods","method":"theory","href":"info-theory-physics.html","eq":"mutual info","blurb":"Compare models, quantify surprise."},
+  {"id":"m-group","title":"Group Theory (very intro)","domain":"methods","method":"theory","href":"group-theory.html","eq":"irreps","blurb":"Why certain patterns must recur."},
+
+  /* Metaphysics & PoP */
+  {"id":"meta-interp","title":"Interpretations of Quantum","domain":"meta","method":"theory","href":"meta-quantum-interpretations.html","eq":"Everett/Bohm/GRW","blurb":"Same stats, different stories; tradeoffs and tests."},
+  {"id":"meta-cause","title":"Causality & Intervention","domain":"meta","method":"theory","href":"causality-physics.html","eq":"interventions","blurb":"What it means to change a setup and predict outcomes."},
+  {"id":"meta-reduce","title":"Reduction vs Emergence","domain":"meta","method":"theory","href":"reduction-emergence.html","eq":"scales","blurb":"When micro rules do and don’t dictate macro behavior."},
+  {"id":"meta-law","title":"What is a Physical Law?","domain":"meta","method":"theory","href":"what-is-law.html","eq":"models","blurb":"Regularities, symmetries, and limits of explanation."},
+  {"id":"meta-time","title":"Arrows of Time","domain":"meta","method":"theory","href":"arrows-of-time.html","eq":"entropy/information","blurb":"Microscopic reversibility vs macroscopic irreversibility."},
+  {"id":"meta-object","title":"Measurement & Objectivity","domain":"meta","method":"theory","href":"measurement-objectivity.html","eq":"records","blurb":"Why shared records matter for science."}
+]
+</script>
+
+<!-- ================ JS ================ -->
+<script>
+/* progress & top button */
+const bar=document.getElementById('progress'), topBtn=document.getElementById('toTop');
+function onScroll(){ const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%'; topBtn.classList.toggle('show', st>600); }
+addEventListener('scroll', onScroll); onScroll();
+topBtn.onclick=()=>scrollTo({top:0,behavior:'smooth'});
+
+/* subtle reveal */
 const obs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} }); },{threshold:.18});
 document.querySelectorAll('.reveal').forEach(el=>{ if(!el.classList.contains('in')) obs.observe(el); });
 
-/* drawer */
-const drawer=document.getElementById('drawer');
-document.getElementById('openDrawer').onclick=()=>drawer.classList.add('open');
-document.getElementById('closeDrawer').onclick=()=>drawer.classList.remove('open');
-document.getElementById('closeDrawerBtn').onclick=()=>drawer.classList.remove('open');
+/* dataset & walls */
+const DATA = JSON.parse(document.getElementById('conceptsData').textContent);
+const walls = {
+  classical:  document.getElementById('grid-classical'),
+  em:         document.getElementById('grid-em'),
+  quantum:    document.getElementById('grid-quantum'),
+  relativity: document.getElementById('grid-relativity'),
+  thermo:     document.getElementById('grid-thermo'),
+  optics:     document.getElementById('grid-optics'),
+  condensed:  document.getElementById('grid-condensed'),
+  particle:   document.getElementById('grid-particle'),
+  cosmo:      document.getElementById('grid-cosmo'),
+  methods:    document.getElementById('grid-methods'),
+  meta:       document.getElementById('grid-meta')
+};
 
-/* filters — ALWAYS start with domain=all + expanded groups */
-let activeDomain='all', activeMethod='any', query='';
-const domainPills=document.getElementById('domainPills');
-const methodPills=document.getElementById('methodPills');
-domainPills.addEventListener('click',e=>{
-  const t=e.target.closest('.pill'); if(!t) return;
-  domainPills.querySelectorAll('.pill').forEach(x=>x.classList.remove('active')); t.classList.add('active');
-  activeDomain=t.dataset.domain; render(true);
-});
-methodPills.addEventListener('click',e=>{
-  const t=e.target.closest('.pill'); if(!t) return;
-  methodPills.querySelectorAll('.pill').forEach(x=>x.classList.remove('active')); t.classList.add('active');
-  activeMethod=t.dataset.method; render();
-});
-document.getElementById('qsearch').addEventListener('input',e=>{ query=e.target.value.toLowerCase(); render(); });
-document.getElementById('clearBtn').onclick=()=>{ document.getElementById('qsearch').value=''; query=''; render(); };
-
-/* Expand / collapse all (but default is expanded) */
-document.getElementById('expandAll').onclick=()=>document.querySelectorAll('.group').forEach(g=>g.classList.remove('collapsed'));
-document.getElementById('collapseAll').onclick=()=>document.querySelectorAll('.group').forEach(g=>g.classList.add('collapsed'));
-
-/* A–Z */
-const alphaWrap=document.getElementById('alphaButtons');
-function makeAlphaButtons(letters){
-  alphaWrap.innerHTML='';
-  [...letters].sort().forEach(L=>{
-    const b=document.createElement('button'); b.textContent=L;
-    b.onclick=()=>{
-      const el=document.querySelector(`[data-letter="${L}"]`);
-      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-    };
-    alphaWrap.appendChild(b);
-  });
-}
-
-/* favorites + notebook */
-const KEY_FAV='qpx_concepts_fav_v2', KEY_NOTE='qpx_concepts_notes_v1';
+/* favorites + notes */
+const KEY_FAV='qpx_concepts_fav_v5', KEY_NOTE='qpx_concepts_notes_v3';
 function loadFav(){ try{return JSON.parse(localStorage.getItem(KEY_FAV)||'[]');}catch(e){return [];} }
-function saveFav(arr){ localStorage.setItem(KEY_FAV, JSON.stringify(arr)); }
-function loadNote(){ try{return JSON.parse(localStorage.getItem(KEY_NOTE)||'[]');}catch(e){return [];} }
-function saveNote(arr){ localStorage.setItem(KEY_NOTE, JSON.stringify(arr)); }
-function renderFavLinks(){
-  const fav=loadFav(); const box=document.getElementById('favLinks');
-  if(fav.length===0){ box.textContent='No favorites yet. Click ★ on any card.'; return; }
-  box.innerHTML=''; fav.forEach(id=>{
-    const item=data.find(d=>d.id===id); if(!item) return;
-    const a=document.createElement('a'); a.href=item.href; a.textContent=item.title; a.style.display='block';
-    box.appendChild(a);
-  });
-}
+function saveFav(a){ localStorage.setItem(KEY_FAV, JSON.stringify(a)); }
+function loadNotes(){ try{return JSON.parse(localStorage.getItem(KEY_NOTE)||'[]');}catch(e){return [];} }
+function saveNotes(a){ localStorage.setItem(KEY_NOTE, JSON.stringify(a)); }
 const nbList=document.getElementById('nbList');
 function renderNotes(){
-  const notes=loadNote(); nbList.innerHTML='';
-  if(notes.length===0){ nbList.innerHTML='<p class="small" style="color:var(--muted)">No notes yet.</p>'; return; }
+  const notes=loadNotes(); nbList.innerHTML='';
+  if(!notes.length){ nbList.innerHTML='<p class="count" style="color:var(--muted)">No notes yet.</p>'; return; }
   notes.forEach(n=>{
     const div=document.createElement('div'); div.className='note'; div.dataset.id=n.id;
     div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`;
     nbList.appendChild(div);
   });
 }
+renderNotes();
 document.getElementById('saveFree').onclick=()=>{
-  const box=document.getElementById('freeNote'); const t=box.value.trim(); if(!t) return;
-  const arr=loadNote(); arr.push({id:'n'+Date.now(), text:t, time:Date.now()}); saveNote(arr); renderNotes(); box.value='';
+  const box=document.getElementById('free'); const t=box.value.trim(); if(!t) return;
+  const arr=loadNotes(); arr.push({id:'n'+Date.now(), text:t, time:Date.now()}); saveNotes(arr); renderNotes(); box.value='';
 };
-document.getElementById('clearAll').onclick=()=>{
-  if(!confirm('Clear all saved notes for this page')) return;
-  localStorage.removeItem(KEY_NOTE); renderNotes();
-};
+document.getElementById('clearAll').onclick=()=>{ if(!confirm('Clear all saved notes?')) return; localStorage.removeItem(KEY_NOTE); renderNotes(); };
 nbList.addEventListener('click',e=>{
   if(!e.target.classList.contains('del')) return;
-  const id = e.target.closest('.note').dataset.id;
-  const arr = loadNote().filter(n=>n.id!==id); saveNote(arr); renderNotes();
+  const id=e.target.closest('.note').dataset.id;
+  const arr=loadNotes().filter(n=>n.id!==id); saveNotes(arr); renderNotes();
 });
 
-/* ===== DATASET (same as before; trimmed here to key examples; add more freely) ===== */
-const data = [
-  {id:'c-newton', title:"Newton's Laws", domain:'classical', method:'theory', href:'newton-laws.html', eq:'\\(\\vec{F}_{\\text{net}}=d\\vec{p}/dt\\)', blurb:'Match net external force to momentum change. Always declare a boundary.'},
-  {id:'c-work', title:'Work & Energy', domain:'classical', method:'theory', href:'work-energy.html', eq:'\\(\\Delta K=W_{\\text{net}}\\)', blurb:'Convert forces along a path into energy changes. Decide what becomes heat.'},
-  {id:'c-lagrange', title:'Lagrangian Mechanics', domain:'classical', method:'theory', href:'lagrangian-mechanics.html', eq:'\\(L=T-V\\)', blurb:'Handle constraints via coordinates. Symmetries of the action produce conserved quantities.'},
-  {id:'e-maxwell', title:"Maxwell's Equations", domain:'em', method:'theory', href:'maxwells-equations.html', eq:'\\(\\nabla\\cdot\\vec{E}=\\rho/\\varepsilon_0,\\,\\nabla\\cdot\\vec{B}=0,\\,\\nabla\\times\\vec{E}=-\\partial_t\\vec{B},\\,\\nabla\\times\\vec{B}=\\mu_0\\vec{J}+\\mu_0\\varepsilon_0\\partial_t\\vec{E}\\)', blurb:'Unifies electricity, magnetism, and light; predicts wave speed.'},
-  {id:'q-sch', title:"Schrödinger Equation", domain:'quantum', method:'theory', href:'schrodinger-equation.html', eq:'\\(i\\hbar\\partial_t\\Psi=[-\\hbar^2\\nabla^2/2m+V]\\Psi\\)', blurb:'Time evolution, stationary states, and boundary quantization.'},
-  {id:'q-bell', title:'Entanglement & Bell', domain:'quantum', method:'experiment', href:'entanglement-bell.html', eq:'Bell states', blurb:'Correlations beyond local realism; experiments and implications.'},
-  {id:'r-lorentz', title:'Lorentz Transformations', domain:'relativity', method:'theory', href:'lorentz-transformations.html', eq:'\\(\\gamma=1/\\sqrt{1-v^2/c^2}\\)', blurb:'Keep light speed fixed; predict time dilation and contraction.'},
-  {id:'t-ensemble', title:'Ensembles & Partition Z', domain:'thermo', method:'theory', href:'ensembles-partition.html', eq:'\\(Z=\\sum e^{-\\beta E_i}\\)', blurb:'Generator for averages and fluctuations.'},
-  {id:'o-interf', title:'Interference & Diffraction', domain:'optics', method:'experiment', href:'interference-diffraction.html', eq:'\\(\\Delta y\\approx \\lambda L/d\\)', blurb:'Design layouts with simple scaling first.'},
-  {id:'cm-super', title:'Superconductivity (BCS)', domain:'condensed', method:'theory', href:'superconductivity-bcs.html', eq:'Gap \\(\\Delta\\)', blurb:'Cooper pairs, Meissner effect, Josephson links.'},
-  {id:'p-sm', title:'Standard Model', domain:'particle', method:'theory', href:'standard-model.html', eq:'\\(SU(3)\\times SU(2)\\times U(1)\\)', blurb:'Matter & forces organized by gauge symmetry.'},
-  {id:'a-friedmann', title:'Friedmann Equations', domain:'cosmo', method:'theory', href:'friedmann-equations.html', eq:'Cosmic expansion', blurb:'Energy budget of the universe.'},
-  {id:'m-noether', title:'Noether & Symmetry', domain:'methods', method:'theory', href:'noether-symmetry.html', eq:'time↔energy, space↔momentum', blurb:'Structure that guarantees invariants.'},
-  {id:'meta-quantum', title:'Interpretations of Quantum', domain:'meta', method:'theory', href:'meta-quantum-interpretations.html', eq:'Everett / Bohm / GRW', blurb:'Tradeoffs among narratives for the same statistics.'}
-];
+/* build a card */
+function makeCard(item){
+  const div=document.createElement('div');
+  div.className='card';
+  div.dataset.domain=item.domain;
+  div.dataset.method=item.method;
+  div.dataset.title=item.title.toLowerCase();
 
-/* Containers and counts */
-const containers = {
-  classical: document.querySelector('#sec-classical .grid'),
-  em:        document.querySelector('#sec-em .grid'),
-  quantum:   document.querySelector('#sec-quantum .grid'),
-  relativity:document.querySelector('#sec-relativity .grid'),
-  thermo:    document.querySelector('#sec-thermo .grid'),
-  optics:    document.querySelector('#sec-optics .grid'),
-  condensed: document.querySelector('#sec-condensed .grid'),
-  particle:  document.querySelector('#sec-particle .grid'),
-  cosmo:     document.querySelector('#sec-cosmo .grid'),
-  methods:   document.querySelector('#sec-methods .grid'),
-  meta:      document.querySelector('#sec-meta .grid')
-};
-const counts = {
-  classical: document.getElementById('cnt-classical'),
-  em:        document.getElementById('cnt-em'),
-  quantum:   document.getElementById('cnt-quantum'),
-  relativity:document.getElementById('cnt-relativity'),
-  thermo:    document.getElementById('cnt-thermo'),
-  optics:    document.getElementById('cnt-optics'),
-  condensed: document.getElementById('cnt-condensed'),
-  particle:  document.getElementById('cnt-particle'),
-  cosmo:     document.getElementById('cnt-cosmo'),
-  methods:   document.getElementById('cnt-methods'),
-  meta:      document.getElementById('cnt-meta')
-};
-
-function cardHTML(item){
-  const fav = new Set(loadFav());
-  const methodTag = item.method==='theory' ? 'Theory' : item.method==='experiment' ? 'Experiment' : 'Computation';
-  return `
-  <div class="card" data-letter="${item.title.trim()[0].toUpperCase()}" data-id="${item.id}">
+  const fav=new Set(loadFav());
+  div.innerHTML = `
     <button class="star ${fav.has(item.id)?'active':''}" title="Pin">★</button>
     <h4>${item.title}</h4>
-    <div class="meta"><span class="tag">${methodTag}</span>${item.domain==='methods'?'<span class="tag alt">Cross-cutting</span>':''}</div>
+    <div class="meta">
+      <span class="tag">${item.method==='theory'?'Theory':item.method==='experiment'?'Experiment':'Computation'}</span>
+      ${item.domain==='methods'?'<span class="tag m">Cross-cutting</span>':''}
+    </div>
     <p>${item.blurb}</p>
-    <div class="eq">${item.eq}</div>
+    <div class="eq">${item.eq||''}</div>
     <div class="links"><a href="${item.href}">Open article →</a></div>
-  </div>`;
+  `;
+
+  div.querySelector('.star').onclick=()=>{
+    const set=new Set(loadFav());
+    const id=item.id;
+    if(set.has(id)){ set.delete(id); div.querySelector('.star').classList.remove('active'); }
+    else { set.add(id); div.querySelector('.star').classList.add('active'); }
+    saveFav([...set]);
+  };
+  return div;
 }
 
-function render(scrollToDomain=false){
-  // Fill all sections, then filter visibility within them. Nothing starts empty.
-  Object.values(containers).forEach(c=>c.innerHTML='');
-
-  const letterSet = new Set();
-  const visibleByDomain = {classical:0,em:0,quantum:0,relativity:0,thermo:0,optics:0,condensed:0,particle:0,cosmo:0,methods:0,meta:0};
-
-  data.forEach(item=>{
-    const domOK = (activeDomain==='all') || (item.domain===activeDomain);
-    const metOK = (activeMethod==='any') || (item.method===activeMethod);
-    const qOK = !query || (item.title.toLowerCase().includes(query) || item.blurb.toLowerCase().includes(query));
-    // Always render to its home section; decide to hide by CSS if filtered out
-    const c = containers[item.domain];
-    const html = cardHTML(item);
-    if(c) c.insertAdjacentHTML('beforeend', html);
-
-    // If it passes current filters, count and mark for A–Z
-    if(domOK && metOK && qOK){ visibleByDomain[item.domain]++; letterSet.add(item.title.trim()[0].toUpperCase()); }
-  });
-
-  // Hide cards that don’t match current filter without collapsing the grids
-  document.querySelectorAll('.card').forEach(card=>{
-    const id = card.dataset.id;
-    const item = data.find(d=>d.id===id);
-    const domOK = (activeDomain==='all') || (item.domain===activeDomain);
-    const metOK = (activeMethod==='any') || (item.method===activeMethod);
-    const qOK = !query || (item.title.toLowerCase().includes(query) || item.blurb.toLowerCase().includes(query));
-    card.style.display = (domOK && metOK && qOK) ? '' : 'none';
-  });
-
-  // Counts
-  Object.keys(counts).forEach(k=>{
-    counts[k].textContent = (visibleByDomain[k]||0) + ' items';
-  });
-
-  // Summary and A–Z
-  const totalVisible = Object.values(visibleByDomain).reduce((a,b)=>a+b,0);
-  document.getElementById('countLine').textContent = `Showing ${totalVisible} of ${data.length} concepts`;
-  makeAlphaButtons(letterSet.size?letterSet:new Set(data.map(d=>d.title.trim()[0].toUpperCase())));
-
-  // Favorites wiring
-  document.querySelectorAll('.card .star').forEach(btn=>{
-    btn.onclick=()=>{
-      const id = btn.closest('.card').dataset.id;
-      const fav = new Set(loadFav());
-      if(fav.has(id)){ fav.delete(id); btn.classList.remove('active'); }
-      else { fav.add(id); btn.classList.add('active'); }
-      saveFav([...fav]); renderFavLinks();
-    };
-  });
-
-  // Optional scroll to a domain section when choosing a pill (UX sugar)
-  if(scrollToDomain && activeDomain!=='all'){
-    const sec=document.getElementById('sec-'+activeDomain);
-    if(sec) sec.scrollIntoView({behavior:'smooth', block:'start'});
-  }
+/* seed sections */
+function seed(){
+  Object.values(walls).forEach(w=>w.innerHTML='');
+  DATA.forEach(it=>{ const w=walls[it.domain]; if(w) w.appendChild(makeCard(it)); });
+  document.getElementById('countLine').textContent=`Showing ${DATA.length} of ${DATA.length}`;
 }
+seed();
 
-/* Alpha seed + first render (ALL groups expanded) */
-makeAlphaButtons(new Set(data.map(d=>d.title.trim()[0].toUpperCase())));
-document.querySelectorAll('.group').forEach(g=>g.classList.remove('collapsed'));
-render(); renderFavLinks(); renderNotes();
-
-/* Smooth section toggle */
-document.querySelectorAll('.secHead').forEach(h=>{
-  h.addEventListener('click',()=>{
-    const id=h.dataset.toggle; document.getElementById(id).classList.toggle('collapsed');
+/* filtering */
+let FDOMAIN='all', FMETHOD='any', Q='';
+const pills=[...document.querySelectorAll('.pill')];
+pills.forEach(p=>{
+  p.addEventListener('click',()=>{
+    const d=p.dataset.domain, m=p.dataset.method;
+    if(d){ FDOMAIN=d; pills.filter(x=>x.dataset.domain).forEach(x=>x.classList.toggle('active',x===p)); }
+    if(m){ FMETHOD=m; pills.filter(x=>x.dataset.method).forEach(x=>x.classList.toggle('active',x===p)); }
+    apply();
+    if(d && d!=='all'){ document.querySelector(`#sec-${d==='em'?'em':d}`).scrollIntoView({behavior:'smooth',block:'start'}); }
   });
 });
+document.getElementById('search').addEventListener('input',e=>{ Q=e.target.value.toLowerCase(); apply(); });
+
+function apply(){
+  let total=0, shown=0;
+  document.querySelectorAll('.card').forEach(c=>{
+    total++;
+    const okD=(FDOMAIN==='all')||(c.dataset.domain===FDOMAIN);
+    const okM=(FMETHOD==='any')||(c.dataset.method===FMETHOD);
+    const okQ=!Q||c.dataset.title.includes(Q);
+    const vis=okD&&okM&&okQ;
+    c.style.display=vis?'':'none';
+    if(vis) shown++;
+  });
+  document.getElementById('countLine').textContent=`Showing ${shown} of ${total}`;
+}
+
+/* reveal on load for new sections */
+document.querySelectorAll('.section').forEach(s=>{ if(!s.classList.contains('in')) obs.observe(s); });
 </script>
 </body>
 </html>
