@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • Quantum Experiments</title>
+
+<!-- Type -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!-- MathJax (render actual symbols) -->
+<script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+<style>
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --max:1180px; --side:330px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
+}
+body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-2;
+  background:
+    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue))}
+
+header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
+h1{font-family:"Playfair Display",serif; font-weight:900; margin:0; font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+
+.main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
+
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
+
+/* paragraph highlight button */
+.pwrap{position:relative; padding-right:2.5rem}
+.hlbtn{
+  position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+  background:var(--glass); color:var(--ink); border:1px solid var(--line);
+  font-size:.85rem; cursor:pointer; opacity:0; transition:.2s
+}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+
+/* details */
+details{border:1px solid var(--line); border-radius:12px; padding:.7rem .9rem; background:rgba(255,255,255,.04); margin:1rem 0}
+details summary{cursor:pointer; font-family:"Playfair Display",serif; font-size:1.15rem; outline:none}
+
+/* sidebar */
+aside{
+  position:sticky; top:90px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem
+}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+
+/* quiz */
+.quiz{margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.04)}
+.qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
+.qchoices{display:grid; gap:.45rem}
+.qchoices button{text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05); color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer}
+.qchoices button.correct{border-color:#46d17d}
+.qchoices button.wrong{border-color:#e07070}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
+
+/* nav links */
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem; background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem}
+
+/* reveal + footer */
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<div class="frame" aria-hidden="true"></div>
+<div id="progress"></div>
+
+<header class="reveal in">
+  <h1>Quantum Experiments</h1>
+  <p class="subtitle">The laboratory record that forced physics to change its mind. Each section starts gently, then pushes into deeper ideas, equations, and what the data really rule out.</p>
+</header>
+
+<div class="main">
+  <article id="article">
+
+    <!-- ORIENTATION -->
+    <h2 id="orientation" class="reveal">Orientation</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="o1">★ Highlight</button>
+      <p id="o1" class="dropcap">
+        Theory gives us clean stories; experiments decide which stories survive. In quantum physics, the decisive tests are not only the famous ones you hear in class. Beyond the double slit and Schrödinger’s cat are quieter experiments that closed loopholes, measured phases you cannot see, and showed how information itself changes outcomes. Read slowly. Each experiment below is written for a careful first pass and then extends into the harder questions researchers argue about. Try to explain each result in one sentence to your future self: what was measured, what changed, and what that change tells us about nature.
+      </p>
+    </div>
+
+    <!-- 1. DOUBLE SLIT -->
+    <h2 id="double-slit" class="reveal">1) Double-slit and single-particle interference</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="ds1">★ Highlight</button>
+      <p id="ds1" class="dropcap">
+        Fire one electron at a time toward two narrow slits. On the screen you still get a fringe pattern, not two simple piles. The pattern is set by the de Broglie wavelength \( \lambda = h/p \) and by geometry:
+        \[
+          I(\theta) = I_0 \cos^2\!\left(\frac{\pi d \sin\theta}{\lambda}\right),
+        \]
+        where \( d \) is slit separation. The lesson is not “electrons are waves.” It is sharper: <em>amplitudes</em> add; probabilities appear only after you square the total amplitude. If a reliable record of the path exists, amplitudes from different paths stop adding coherently and fringes wash out.
+      </p>
+    </div>
+    <p class="reveal">
+      A practical lab version uses photons with neutral-density filters so only one photon is in the apparatus at a time. A long exposure builds the same fringes dot by dot. This is the cleanest way to separate “what travels” (amplitudes) from “what we finally register” (clicks). Add a tiny piece of glass to one slit to shift phase by \( \phi \). The bright fringes slide by the angle that makes \( \frac{\pi d \sin\theta}{\lambda} \to \frac{\pi d \sin\theta}{\lambda} + \phi/2 \). Phase is invisible by itself; interference makes it visible.
+    </p>
+    <details class="reveal"><summary>Lab sketch</summary>
+      <p>Use a diode laser, spatial filter, and adjustable slits. With a CCD at distance \(L\), measure fringe spacing \( \Delta y \approx \lambda L/d \). Insert a polarizer in front of one slit to mark the path; fringes vanish. Place a second polarizer at \(45^\circ\) after the slits to erase which-path marks; fringes return. The “eraser” does not go back in time—it erases <em>distinguishability</em>.</p>
+    </details>
+
+    <!-- 2. MACH-ZEHNDER -->
+    <h2 id="mz" class="reveal">2) Mach–Zehnder interferometer: phase control without slits</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Two beam splitters replace the slits and screen. A single photon meets the first splitter, takes a superposition of paths, and recombines at the second. Tuning a phase plate by \( \phi \) in one arm controls which output port clicks:
+      \[
+        P_{\text{bright}} = \cos^2\!\left(\frac{\phi}{2}\right),\quad
+        P_{\text{dark}}   = \sin^2\!\left(\frac{\phi}{2}\right).
+      \]
+      Remove the second splitter and the outputs act like which-path detectors; interference disappears. This makes the role of the <em>measurement context</em> explicit and removes geometry clutter from the double slit.
+    </p>
+    <details class="reveal"><summary>What it teaches</summary>
+      <p>Interference is about relative phase, not about slits. A balanced interferometer is the backbone of precision metrology (LIGO, atom interferometers) and of many quantum information experiments (phase encoding, feed-forward control).</p>
+    </details>
+
+    <!-- 3. PHOTOELECTRIC + 4. COMPTON -->
+    <h2 id="photo" class="reveal">3) Photoelectric effect: light as quanta</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Classical waves predict that higher intensity light should eject more energetic electrons. Instead the kinetic energy depended on <em>frequency</em>, not intensity:
+      \[
+        E_k = h\nu - \phi.
+      \]
+      No electron is ejected below a threshold frequency \( \nu_0 = \phi/h \), however bright the light. This forced the photon picture and gave a practical way to measure Planck’s constant from the slope of stopping potential vs frequency.
+    </p>
+
+    <h2 id="compton" class="reveal">4) Compton scattering: photons carry momentum</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Scatter X-rays from carbon and measure the wavelength shift:
+      \[
+        \Delta \lambda = \lambda' - \lambda = \frac{h}{m_e c}(1-\cos\theta).
+      \]
+      The electron recoil demands that light carries particle-like momentum \( p=h/\lambda \). Together, the photoelectric and Compton effects closed the door on a purely wave picture of light.
+    </p>
+
+    <!-- 5. FRANCK–HERTZ -->
+    <h2 id="franck" class="reveal">5) Franck–Hertz: discrete atomic levels</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Accelerate electrons through mercury vapor and record current vs accelerating voltage. The current rises smoothly then dips sharply at specific voltages. Those dips are electrons losing a fixed chunk of energy to excite atoms. The spacing gives excitation energies and thus the first direct evidence for quantized levels in matter.
+    </p>
+
+    <!-- 6. STERN–GERLACH -->
+    <h2 id="sg" class="reveal">6) Stern–Gerlach and sequential measurement</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Silver atoms crossing a magnetic gradient split into two discrete beams, \( m_s=\pm \tfrac{1}{2} \). Place a second analyzer aligned with the first: one beam passes. Rotate the second by \(90^\circ\): the beam splits again equally. Now reinsert a third analyzer aligned with the first after the \(90^\circ\) stage: you do <em>not</em> recover a single beam—you get two again. This is the cleanest tabletop demo that non-commuting measurements change the state and that “having values for all directions at once” is not a sensible classical idea.
+    </p>
+
+    <!-- 7. BELL -->
+    <h2 id="bell" class="reveal">7) Bell tests and the fall of local realism</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      John Bell derived inequalities that any local hidden-variable model must satisfy. The CHSH form bounds a correlation parameter by \( S\le 2 \). Quantum mechanics predicts \( S\le 2\sqrt{2} \) and achieves this with entangled pairs measured at angle settings \( (a,a',b,b') \). Experiments beginning with Aspect and culminating in loophole-free tests (space-like separation, high efficiency) consistently find \( S \gt 2 \). The conclusion is not “instantaneous signals”—it is stronger: the joint outcomes cannot be reduced to pre-existing local values.
+    </p>
+    <details class="reveal"><summary>Reading a Bell data run</summary>
+      <p>What matters are time-tagged coincident detections and random, independent setting choices. Plot the four correlations \(E(a,b)\) etc., form \(S\), and compare to statistical bounds including finite-sample effects. A clean analysis also reports no-signaling checks (marginals independent of remote settings).</p>
+    </details>
+
+    <!-- 8. KOCHEN–SPECKER -->
+    <h2 id="ks" class="reveal">8) Kochen–Specker contextuality: values depend on the question set</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Contextuality tests go beyond locality. They show that assigning definite values to all observables at once, independent of which compatible set you choose to measure, conflicts with quantum predictions. Modern photonic and trapped-ion experiments implement Peres–Mermin-type tests and violate non-contextual inequalities. The moral: outcomes depend not only on the system but on the <em>measurement context</em>.
+    </p>
+
+    <!-- 9. LEGGETT–GARG -->
+    <h2 id="lg" class="reveal">9) Leggett–Garg: macrorealism under pressure</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Instead of spacelike-separated pairs, test correlations of a <em>single</em> system at different times. Macrorealism says the system has definite properties at all times and can be measured without disturbance. Inequalities built from temporal correlations \(K \le 1\) are violated in superconducting circuits, nuclear spins, and photons with invasive-measurement controls. This pushes quantum strangeness from “microscopic pairs” into everyday-scale devices.
+    </p>
+
+    <!-- 10. ZENO -->
+    <h2 id="zeno" class="reveal">10) Quantum Zeno and anti-Zeno effects</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      For short times the survival probability of a state is quadratic:
+      \[
+        P(t) \approx 1 - \frac{(\Delta H)^2}{\hbar^2} t^2.
+      \]
+      If you measure repeatedly at intervals \( \tau \), after \(N=t/\tau\) checks the survival probability becomes
+      \[
+        P_N(t)\approx \left(1 - \frac{(\Delta H)^2}{\hbar^2}\tau^2\right)^N \!\to 1
+      \]
+      as \( \tau \to 0 \). Real experiments with trapped ions and superconducting qubits freeze or accelerate decay by tuning the measurement rate, demonstrating control over evolution via information flow.
+    </p>
+
+    <!-- 11. DELAYED-CHOICE ERASER -->
+    <h2 id="eraser" class="reveal">11) Delayed-choice quantum eraser</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Create entangled photons; send one through a double-path interferometer to a screen and the partner to a device that either keeps or erases which-path information. Sort the screen hits by the partner’s later outcome. When which-path is erased, fringes reappear <em>in the subset</em>. Nothing travels backward in time—the full, unsorted screen still looks classical. What is delayed is the <em>inference</em> you are allowed to make from joint data.
+    </p>
+
+    <!-- 12. HONG–OU–MANDEL -->
+    <h2 id="hom" class="reveal">12) Hong–Ou–Mandel dip: two-photon indistinguishability</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Send two identical photons into the two inputs of a 50/50 beam splitter. If they are truly indistinguishable, they “bunch” and exit the same port, giving a dip in coincidences as the relative delay \( \tau \) is scanned:
+      \[
+        C(\tau) \propto 1 - V\, e^{-(\tau/\tau_c)^2}.
+      \]
+      This is interference of <em>probability amplitudes for two-photon processes</em>, not of classical waves. The HOM dip is a workhorse check in photonic quantum computing.
+    </p>
+
+    <!-- 13. AHARONOV–BOHM -->
+    <h2 id="ab" class="reveal">13) Aharonov–Bohm phase: potentials matter</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Electrons travel around a region with magnetic field confined to a solenoid so \( \vec B=0 \) along their paths. The interference fringes shift by a phase
+      \[
+        \Delta \phi = \frac{q}{\hbar}\oint \vec A\!\cdot d\vec \ell = \frac{q\Phi_B}{\hbar},
+      \]
+      where \( \Phi_B \) is magnetic flux. The shift happens even though no magnetic force acts on the electrons. Potentials are not mere conveniences; they encode physical phase.
+    </p>
+
+    <!-- 14. NEUTRON INTERFEROMETRY -->
+    <h2 id="neutron" class="reveal">14) Neutron interferometry and gravity (COW experiment)</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Perfect-crystal interferometers split and recombine neutron matter waves. Rotate the device in Earth’s gravity and the phase shifts by approximately
+      \[
+        \Delta \phi \approx \frac{m g A}{\hbar v},
+      \]
+      where \(A\) is the interferometer area and \(v\) the neutron speed. This puts gravitational potential directly into a quantum phase in a tabletop experiment.
+    </p>
+
+    <!-- 15. TUNNELING & STM -->
+    <h2 id="tunnel" class="reveal">15) Tunneling and the scanning tunneling microscope</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Quantum tunneling probability through a barrier of width \(L\) and height \(V\) (for energy \(E\lt V\)) scales like
+      \[
+        T \sim e^{-2\kappa L},\quad \kappa=\frac{\sqrt{2m(V-E)}}{\hbar}.
+      \]
+      The STM turns that exponential sensitivity into a nanoscale height probe: the tunneling current \( I \propto e^{-2\kappa s} \) depends on tip–sample separation \( s \) by fractions of a nanometer. You are literally “feeling” atomic orbitals through a quantum leak.
+    </p>
+
+    <!-- 16. JOSEPHSON & SQUIDS -->
+    <h2 id="josephson" class="reveal">16) Josephson junctions and SQUID interferometry</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Two superconductors separated by a thin barrier support a supercurrent
+      \[
+        I_s = I_c \sin\phi,\qquad V=\frac{\hbar}{2e}\frac{d\phi}{dt}.
+      \]
+      A SQUID uses two junctions in a loop; its critical current oscillates with magnetic flux by \( \Phi_0 = h/2e \). These are macroscopic phase devices—quantum interference on a chip—and the backbone of many qubits and ultrasensitive magnetometers.
+    </p>
+
+    <!-- 17. CAVITY QED -->
+    <h2 id="cqed" class="reveal">17) Cavity QED and photon number without destruction</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      In cavity QED, atoms cross a high-Q microwave cavity and pick up phase shifts that depend on photon number \(n\). By reading out the atom you can infer \(n\) without absorbing the photon (a quantum nondemolition measurement). Watching the cavity perform quantum jumps of light—\(n\to n\pm1\)—made “photon as a countable entity” more than a slogan.
+    </p>
+
+    <!-- 18. BEC -->
+    <h2 id="bec" class="reveal">18) Bose–Einstein condensates and matter-wave interference</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Laser cooling and evaporative cooling bring dilute gases to nanokelvin temperatures. Many atoms occupy a single ground state described by a macroscopic wavefunction. Release two condensates and let them overlap: you see fringes just like light. The Gross–Pitaevskii equation governs the dynamics and reveals superfluid behavior, vortices, and sound modes in quantum fluids.
+    </p>
+
+    <!-- 19. TRAPPED-ION & RAMSEY -->
+    <h2 id="ramsey" class="reveal">19) Rabi oscillations, Ramsey fringes, and coherence time</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      In trapped ions and superconducting qubits, a resonant drive rotates a two-level system on the Bloch sphere with Rabi frequency \( \Omega \). Two short pulses separated by time \(T\) create Ramsey fringes whose contrast decays with dephasing time \(T_2\). These simple curves are the workhorse evidence of controlled quantum coherence in the lab.
+    </p>
+
+    <!-- 20. RYDBERG BLOCKADE -->
+    <h2 id="rydberg" class="reveal">20) Rydberg blockade and controlled interactions</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Highly excited atoms interact so strongly that exciting one prevents its neighbor from being excited—the blockade. Arrays of such atoms implement fast two-qubit gates and analog quantum simulators. Measuring the blockade radius and correlated excitation patterns turns abstract interactions into precise, programmable quantum dynamics.
+    </p>
+
+    <!-- 21. MOLECULE INTERFERENCE -->
+    <h2 id="c60" class="reveal">21) Interference of large molecules (C\(_{60}\) and beyond)</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Send fullerene molecules through a grating and record fringes after a flight path and oven control. These objects are thousands of times heavier than electrons and still show wave behavior. Results place strong limits on collapse models that try to force macroscopic classicality.
+    </p>
+
+    <!-- 22. TELEPORTATION -->
+    <h2 id="tele" class="reveal">22) Quantum teleportation (lab reality, not sci-fi)</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Prepare an entangled pair \(AB\). Interfere an unknown state \(X\) with \(A\) and perform a joint Bell-state measurement. Send the two classical bits to the holder of \(B\), who applies a conditional unitary. The state of \(X\) appears on \(B\) without moving the particle. Experiments now perform this over kilometers of fiber and satellite links. Teleportation is the operational proof that quantum information is physical but <em>not</em> a copyable commodity.
+    </p>
+
+    <!-- 23. WEAK MEASUREMENT -->
+    <h2 id="weak" class="reveal">23) Weak measurement and “weak values”</h2>
+    <div class="divider"></div>
+    <p class="dropcap">
+      Couple a system gently to a pointer so the back-action is small; pre-select \(|i\rangle\) and post-select \(|f\rangle\). The pointer shift is proportional to the “weak value”
+      \[
+        A_w=\frac{\langle f|\hat A|i\rangle}{\langle f|i\rangle}.
+      \]
+      In the lab these allow ultra-sensitive phase estimation and offer a controlled window on measurement disturbance. They also spark debate: are weak values properties or just calibrated signal processing? Knowing the argument is part of being fluent in modern experiments.
+    </p>
+
+    <!-- GLOSSARY -->
+    <h2 id="glossary" class="reveal">Glossary (experiment-side terms)</h2>
+    <div class="divider"></div>
+    <p><b>Coincidence counter</b> — Electronics that only records events when two detectors click within a short time window.</p>
+    <p><b>Visibility</b> — Contrast of an interference pattern \( V=(I_{\max}-I_{\min})/(I_{\max}+I_{\min}) \).</p>
+    <p><b>QND measurement</b> — Quantum nondemolition: read an observable without absorbing the system (e.g., photon number in cavity QED).</p>
+    <p><b>Contextuality</b> — Dependence of outcomes on which compatible set of observables is measured together.</p>
+    <p><b>Dephasing vs relaxation</b> — \(T_2\) describes loss of phase coherence; \(T_1\) energy relaxation to equilibrium.</p>
+
+    <!-- QUIZ -->
+    <h2 id="quiz" class="reveal">Quiz — check your understanding</h2>
+    <div class="divider"></div>
+    <section class="quiz reveal" id="quizSection">
+      <div class="qitem">
+        <h4>1) In the single-particle double slit, what actually interferes?</h4>
+        <div class="qchoices" data-answer="b" data-explain="Amplitudes add and only after squaring do you get probabilities.">
+          <button data-choice="a">Probabilities from each slit</button>
+          <button data-choice="b">Probability amplitudes from each path</button>
+          <button data-choice="c">Classical waves in the slits</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>2) In a Mach–Zehnder with phase \( \phi \), \(P_{\text{bright}}\) equals</h4>
+        <div class="qchoices" data-answer="a" data-explain="Balanced MZI gives cos²(φ/2) and sin²(φ/2).">
+          <button data-choice="a">\( \cos^2(\phi/2) \)</button>
+          <button data-choice="b">\( \cos(\phi) \)</button>
+          <button data-choice="c">\( 1/2 \)</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>3) Photoelectric effect shows electron energy depends primarily on</h4>
+        <div class="qchoices" data-answer="c" data-explain="Kinetic energy \(E_k=h\nu-\phi\) depends on frequency, not intensity.">
+          <button data-choice="a">Light intensity</button>
+          <button data-choice="b">Light polarization</button>
+          <button data-choice="c">Light frequency</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>4) Compton scattering demonstrated that light has</h4>
+        <div class="qchoices" data-answer="b" data-explain="The wavelength shift follows momentum conservation with particle-like photons.">
+          <button data-choice="a">Only wave properties</button>
+          <button data-choice="b">Particle-like momentum</button>
+          <button data-choice="c">No energy quantization</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>5) Sequential Stern–Gerlach analyzers at 0°, 90°, 0° yield</h4>
+        <div class="qchoices" data-answer="a" data-explain="The middle analyzer changes the state; the final 0° splits again.">
+          <button data-choice="a">Two beams at the end</button>
+          <button data-choice="b">One beam at the end</button>
+          <button data-choice="c">No beam at the end</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>6) Violating CHSH with \(S>2\) rules out</h4>
+        <div class="qchoices" data-answer="b" data-explain="Local hidden variables cannot explain the correlations.">
+          <button data-choice="a">Energy conservation</button>
+          <button data-choice="b">Local hidden-variable models</button>
+          <button data-choice="c">All realism of any kind</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>7) The Zeno effect relies on the short-time behavior \(P(t)\approx\)</h4>
+        <div class="qchoices" data-answer="c" data-explain="Survival is quadratic to leading order; frequent checks inhibit change.">
+          <button data-choice="a">\( e^{-t/T_1} \)</button>
+          <button data-choice="b">\( 1 - t/T_2 \)</button>
+          <button data-choice="c">\( 1 - (\Delta H)^2 t^2/\hbar^2 \)</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>8) In the quantum eraser the full, unsorted screen</h4>
+        <div class="qchoices" data-answer="a" data-explain="Interference appears only in subsets conditioned on erasing info.">
+          <button data-choice="a">Shows no fringes</button>
+          <button data-choice="b">Shows clear fringes</button>
+          <button data-choice="c">Disappears entirely</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>9) The HOM dip is evidence for</h4>
+        <div class="qchoices" data-answer="c" data-explain="Indistinguishable two-photon amplitudes interfere so photons bunch.">
+          <button data-choice="a">Photon absorption</button>
+          <button data-choice="b">Stimulated emission</button>
+          <button data-choice="c">Two-photon indistinguishability</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>10) Aharonov–Bohm shows phase depends on</h4>
+        <div class="qchoices" data-answer="b" data-explain="The line integral of the vector potential equals flux \(q\Phi/\hbar\).">
+          <button data-choice="a">Local magnetic force on electrons</button>
+          <button data-choice="b">Magnetic flux enclosed by the paths</button>
+          <button data-choice="c">Electric potential alone</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>11) Tunneling current in STM scales roughly as</h4>
+        <div class="qchoices" data-answer="a" data-explain="Exponential in tip–sample separation is what enables atomic resolution.">
+          <button data-choice="a">\( I \propto e^{-2\kappa s} \)</button>
+          <button data-choice="b">\( I \propto s \)</button>
+          <button data-choice="c">\( I \propto s^2 \)</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>12) A SQUID’s critical current modulates with period</h4>
+        <div class="qchoices" data-answer="c" data-explain="Flux quantum \( \Phi_0=h/2e \) sets the interference period.">
+          <button data-choice="a">\( h/e \)</button>
+          <button data-choice="b">\( 2h/e \)</button>
+          <button data-choice="c">\( h/2e \)</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>13) Neutron interferometry phase shift in gravity is roughly</h4>
+        <div class="qchoices" data-answer="b" data-explain="COW result: \( \Delta\phi \approx mgA/(\hbar v) \).">
+          <button data-choice="a">\( q\Phi/\hbar \)</button>
+          <button data-choice="b">\( mgA/(\hbar v) \)</button>
+          <button data-choice="c">\( \gamma mc^2 t/\hbar \)</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>14) Ramsey fringes mainly probe</h4>
+        <div class="qchoices" data-answer="a" data-explain="Phase coherence between two levels; contrast decays with \(T_2\).">
+          <button data-choice="a">Dephasing time \(T_2\)</button>
+          <button data-choice="b">Energy relaxation \(T_1\)</button>
+          <button data-choice="c">Thermal equilibrium</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>15) Contextuality tests (Kochen–Specker) target</h4>
+        <div class="qchoices" data-answer="c" data-explain="They rule out noncontextual value assignments—values independent of the measurement context.">
+          <button data-choice="a">Only locality</button>
+          <button data-choice="b">Energy conservation</button>
+          <button data-choice="c">Noncontextual hidden variables</button>
+        </div><div class="qfeedback"></div>
+      </div>
+
+      <div style="margin-top:.8rem">
+        <button id="gradeBtn" style="border:1px solid rgba(255,255,255,.3); background:rgba(255,255,255,.08); color:var(--ink); padding:.6rem 1rem; border-radius:.6rem; cursor:pointer">Grade quiz</button>
+        <span id="scoreLine" style="margin-left:.8rem; color:var(--ink2)"></span>
+      </div>
+    </section>
+
+    <!-- NAV -->
+    <div class="nextrow reveal">
+      <a href="quantum_next.html">← Back to Quantum Deep Dive</a>
+      <a href="computational.html">Next → Computational Quantum Physics</a>
+      <a href="theoretical.html">Back to Theoretical Hub</a>
+    </div>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ next to any paragraph to save it here. Add your own note below.</p>
+    <div id="nbList"></div>
+    <textarea id="freeNote" placeholder="Write your own note. Press Save to store it." style="margin-top:.6rem; height:100px; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink); border-radius:.5rem; padding:.55rem .6rem; font-family:'Crimson Text',serif;"></textarea>
+    <div style="display:flex; gap:.5rem; margin-top:.4rem">
+      <button id="saveFree" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Save</button>
+      <button id="clearAll" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Clear all</button>
+    </div>
+    <p style="color:var(--muted); font-size:.9rem; margin-top:.4rem">Notes are saved in this browser.</p>
+  </aside>
+</div>
+
+<footer>© 2025 QParadox</footer>
+
+<script>
+/* progress bar */
+const bar=document.getElementById('progress');
+function onScroll(){
+  const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
+}
+addEventListener('scroll', onScroll); onScroll();
+
+/* reveal */
+const obs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} }); },{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{ if(!el.classList.contains('in')) obs.observe(el); });
+
+/* TOC active link */
+const toc=document.getElementById('toc');
+const heads=[...document.querySelectorAll('#article h2')];
+heads.forEach(h=>{ const a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent; toc.appendChild(a); });
+function spy(){
+  const y=scrollY+140; let idx=-1;
+  heads.forEach((s,i)=>{ if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i; });
+  [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));
+}
+addEventListener('scroll', spy); spy();
+
+/* notebook store */
+const KEY='qpx_notes_quantum_experiments_v1';
+const listEl=document.getElementById('nbList');
+function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];} }
+function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+function render(){
+  const notes=load(); listEl.innerHTML='';
+  if(notes.length===0){ listEl.innerHTML='<p style="color:var(--muted)">No notes yet.</p>'; return; }
+  notes.forEach(n=>{
+    const div=document.createElement('div'); div.className='note'; div.dataset.id=n.id;
+    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time>
+      <p>${n.text}</p>
+      <button class="del">Remove</button>`;
+    listEl.appendChild(div);
+  });
+}
+render();
+
+/* highlight save */
+document.querySelectorAll('.hlbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id=btn.dataset.target, p=document.getElementById(id);
+    if(!p) return;
+    p.classList.add('mark');
+    const notes=load(); notes.push({id:'n'+Date.now(), text:p.textContent.trim(), time:Date.now(), para:id});
+    save(notes); render();
+  });
+});
+
+/* free note */
+document.getElementById('saveFree').addEventListener('click',()=>{
+  const box=document.getElementById('freeNote'); const t=box.value.trim(); if(!t) return;
+  const notes=load(); notes.push({id:'n'+Date.now(), text:t, time:Date.now(), para:null});
+  save(notes); render(); box.value='';
+});
+
+/* remove & clear */
+listEl.addEventListener('click',e=>{
+  if(!e.target.classList.contains('del')) return;
+  const item=e.target.closest('.note'); const id=item.dataset.id;
+  const notes=load().filter(x=>x.id!==id); save(notes); render();
+});
+document.getElementById('clearAll').addEventListener('click',()=>{
+  if(!confirm('Clear all saved notes for this page')) return;
+  localStorage.removeItem(KEY); render();
+  document.querySelectorAll('.mark').forEach(m=>m.classList.remove('mark'));
+});
+
+/* quiz grading */
+const gradeBtn=document.getElementById('gradeBtn');
+if(gradeBtn){
+  gradeBtn.addEventListener('click',()=>{
+    let score=0, total=0;
+    document.querySelectorAll('.qchoices').forEach(group=>{
+      total++;
+      const ans=group.dataset.answer;
+      const feedback=group.parentElement.querySelector('.qfeedback');
+      const explain=group.dataset.explain || '';
+      const pressed=[...group.querySelectorAll('button')].find(b=>b.dataset.pressed==='1');
+      if(!pressed){
+        feedback.textContent='Select an option to see feedback.';
+        feedback.style.color='#f0d28a';
+        return;
+      }
+      if(pressed.dataset.choice===ans){
+        score++;
+        pressed.classList.add('correct');
+        feedback.textContent='Correct — ' + explain;
+        feedback.style.color='#8fe0a8';
+      }else{
+        pressed.classList.add('wrong');
+        feedback.textContent='Not quite — ' + explain;
+        feedback.style.color='#f29b9b';
+        const c=[...group.querySelectorAll('button')].find(b=>b.dataset.choice===ans);
+        if(c) c.classList.add('correct');
+      }
+    });
+    const scoreLine=document.getElementById('scoreLine');
+    if(scoreLine) scoreLine.textContent='Score: ' + score + ' / ' + total;
+  });
+
+  document.querySelectorAll('.qchoices button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const group=btn.closest('.qchoices');
+      group.querySelectorAll('button').forEach(b=>{ b.dataset.pressed='0'; b.classList.remove('correct','wrong'); });
+      btn.dataset.pressed='1';
+      const fb=group.parentElement.querySelector('.qfeedback');
+      fb.textContent='Selection saved. Press Grade quiz when ready.';
+      fb.style.color='#d1d1d1';
+    });
+  });
+}
+</script>
+</body>
+</html>
