@@ -1,397 +1,576 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>QParadox • Concepts</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Concepts • qparadox</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0e0e10;          /* page */
+      --bg-soft:#141416;     /* panels */
+      --ink:#e8e5df;         /* text */
+      --muted:#b8b1a9;       /* secondary */
+      --accent:#c7b99f;      /* subtle gold */
+      --line:rgba(255,255,255,0.08);
+      --focus:#d7ccaf;       /* focus ring */
+      --shadow: 0 8px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:"Playfair Display",serif; color:var(--ink);
+      background:radial-gradient(1200px 600px at 50% -10%, rgba(255,255,255,.05), transparent 60%), var(--bg);
+      overflow-x:hidden;
+    }
+    /* Background FX */
+    .fx{position:fixed; inset:0; pointer-events:none; z-index:0}
+    .fx .vignette{position:absolute; inset:-10%; background:radial-gradient(120% 90% at 50% 30%, transparent 55%, rgba(0,0,0,.5) 100%)}
+    .fx .grid{position:absolute; inset:0; opacity:.04; background:
+      linear-gradient(transparent 95%, rgba(255,255,255,.3) 96%),
+      linear-gradient(90deg, transparent 95%, rgba(255,255,255,.3) 96%);
+      background-size: 28px 28px, 28px 28px; mix-blend-mode:screen; filter: blur(.2px);
+    }
+    .fx .blob{position:absolute; width:46vw; height:46vw; border-radius:50%; filter:blur(60px);
+      background:radial-gradient(circle at 30% 30%, rgba(199,185,159,.15), transparent 60%);} 
+    .fx .b1{top:-10vh; left:-10vw; animation:float 32s ease-in-out infinite alternate}
+    .fx .b2{bottom:-20vh; right:-15vw; animation:float 38s ease-in-out infinite alternate-reverse}
+    .fx .grain{position:absolute; inset:0; opacity:.06; mix-blend-mode:soft-light;
+      background:repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 3px);
+      animation:grainMove 12s linear infinite;
+    }
+    #constellation{position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.35;}
+    @media (prefers-reduced-motion: reduce){ #constellation{display:none} }
+    @keyframes float{to{transform:translate(6vw,5vh) scale(1.06)}}
+    @keyframes grainMove{to{transform:translateY(-8px)}}
 
-<!-- Type -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-<!-- MathJax (for small equations in card subtitles) -->
-<script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    a{color:var(--ink);text-decoration:none}
+    a:hover{color:var(--accent)}
+    a:focus, button:focus, summary:focus { outline: 2px solid var(--focus); outline-offset: 2px; border-radius:10px }
 
-<style>
-:root{
-  --bg:#0c0c0f; --panel:#141418; --panel2:#1b1b21;
-  --ink:#ece7de; --ink2:#cfc8bb; --muted:#a39d92;
-  --brand:#d7b77a; --line:rgba(255,255,255,.12);
-  --link:#e8dfcf;
-  --radius:14px; --radius-lg:18px;
-  --max:1200px; --nav:64px;
-}
+    /* Header */
+    .header{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:18px;padding:14px 18px;border-bottom:1px solid var(--line);background:linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.15));backdrop-filter:blur(6px)}
+    .brand{font-size:24px;margin:0}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .jump{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .jump a{font-size:13px;color:var(--muted)}
+    .jump a:hover{color:var(--accent)}
 
-/* Base */
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0; background:var(--bg); color:var(--ink);
-  font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-  line-height:1.75; letter-spacing:.2px;
-}
+    /* Layout */
+    .wrap{position:relative; z-index:1; display:grid;grid-template-columns:320px 1fr;gap:18px;max-width:1300px;margin:20px auto;padding:0 18px}
+    @media(max-width:980px){.wrap{grid-template-columns:1fr}}
 
-/* Header */
-.header{
-  position:sticky; top:0; z-index:50;
-  height:var(--nav); display:flex; align-items:center; gap:.8rem;
-  padding:0 12px;
-  background:rgba(12,12,15,.9); backdrop-filter:blur(6px);
-  border-bottom:1px solid var(--line);
-}
-.brand{
-  display:flex; align-items:center; gap:.7rem;
-}
-.brand .badge{
-  width:36px; height:36px; border-radius:9px; display:grid; place-items:center;
-  background:var(--panel2); border:1px solid var(--line); color:var(--ink);
-  font-family:"Playfair Display",serif; font-weight:900; font-size:18px;
-}
-.brand .name{
-  font-family:"Playfair Display",serif; font-weight:900; color:#f5ead8; font-size:1.2rem;
-}
-.nav{
-  margin-left:auto; display:flex; align-items:center; gap:.8rem;
-}
-.nav a{
-  color:var(--ink2); text-decoration:none; padding:.4rem .6rem; border-radius:.5rem;
-}
-.nav a:hover{ color:#fff; background:rgba(255,255,255,.05) }
+    /* Sidebar */
+    .side{position:sticky; top:76px; align-self:start; border:1px solid var(--line);border-radius:14px;background:var(--bg-soft);padding:14px; box-shadow: var(--shadow)}
+    .side h3{margin:8px 6px 12px;font-size:18px;color:var(--muted)}
+    .field{display:grid;gap:8px;margin-bottom:14px}
+    .label{font-size:13px;color:var(--muted)}
+    .search{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:#0f0f11;color:var(--ink)}
+    .checks{display:grid;gap:6px}
+    .check{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
+    .check input{accent-color:var(--accent)}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{padding:6px 10px;border:1px solid var(--line);border-radius:999px;font-size:12px;color:var(--muted);cursor:pointer;background:rgba(255,255,255,.02)}
+    .chip.active{color:var(--ink);border-color:rgba(255,255,255,.2)}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{padding:6px 10px;border:1px solid var(--line);background:rgba(255,255,255,.02);color:var(--muted);border-radius:10px;cursor:pointer}
+    .btn:hover{color:var(--ink);border-color:rgba(255,255,255,.18)}
 
-/* Hamburger (mobile) */
-.hamb{
-  display:none; margin-left:auto; border:1px solid var(--line);
-  background:var(--panel2); color:var(--ink); border-radius:.6rem; padding:.35rem .55rem;
-}
-@media (max-width:860px){
-  .nav{ display:none }
-  .hamb{ display:inline-flex }
-}
+    /* Clusters (Accordion) */
+    .clusters{display:grid;gap:12px}
+    details.cluster{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02); box-shadow: var(--shadow); overflow:hidden}
+    summary.cluster-hd{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px}
+    summary.cluster-hd::-webkit-details-marker{display:none}
+    .cluster-title{font-size:18px}
+    .count{margin-left:auto;font-size:12px;color:var(--muted)}
+    .cluster-body{padding:0 14px 14px}
+    details.cluster > summary .chev{transition:transform .2s ease}
+    details.cluster[open] > summary .chev{transform:rotate(90deg)}
 
-/* Drawer */
-.drawer{
-  position:fixed; inset:var(--nav) 0 auto 0; height:auto; max-height:70vh; overflow:auto;
-  background:var(--panel); border-bottom:1px solid var(--line);
-  transform:translateY(-110%); transition:transform .25s ease;
-  padding:12px; z-index:60;
-}
-.drawer.open{ transform:none }
-.drawer a{
-  display:block; text-decoration:none; color:var(--ink2);
-  padding:.55rem .6rem; border-radius:.5rem;
-}
-.drawer a:hover{ color:#fff; background:rgba(255,255,255,.05) }
-
-/* Hero */
-.hero{
-  padding:1.6rem 1rem .6rem; text-align:center;
-}
-h1{
-  font-family:"Playfair Display",serif; font-weight:900; margin:0;
-  font-size:clamp(2.2rem,4vw,3.6rem); color:#f6eddc; line-height:1.08;
-}
-.sub{max-width:900px; margin:.6rem auto 0; color:var(--ink2)}
-.rule{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); width:min(var(--max),92%); margin:1rem auto}
-
-/* Controls */
-.controls{
-  margin:0 auto 1.1rem; width:min(var(--max),92%);
-  background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-lg);
-  padding:.9rem; display:flex; flex-wrap:wrap; gap:.6rem; align-items:center;
-}
-#q{
-  flex:1 1 260px; background:var(--panel2); border:1px solid var(--line); color:var(--ink);
-  padding:.6rem .7rem; border-radius:.6rem;
-}
-.sel, .chip{
-  background:var(--panel2); border:1px solid var(--line); color:var(--ink);
-  padding:.5rem .6rem; border-radius:.5rem; cursor:pointer; font-size:.95rem;
-}
-.sel{ appearance:none }
-.chip.active{ background:#e9d7b0; color:#171512; border-color:#e9d7b0 }
-.count{ color:var(--muted); font-size:.92rem; margin-left:auto }
-
-/* Grid */
-.wrap{ width:min(var(--max),92%); margin:0 auto 2.4rem }
-.grid{
-  display:grid; gap:12px;
-  grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
-}
-
-/* Card (anchor wraps whole card) */
-.card{
-  display:block; text-decoration:none; color:inherit;
-  background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
-  padding:14px; transition:transform .12s ease, border-color .12s ease, background .12s ease;
-  outline:none;
-}
-.card:hover{ transform:translateY(-2px); border-color:rgba(255,255,255,.26) }
-.card:focus-visible{ box-shadow:0 0 0 3px #e9d7b080; border-color:#e9d7b0 }
-
-.card h3{
-  margin:.15rem 0 .35rem; font-family:"Playfair Display",serif; font-weight:900; font-size:1.1rem; color:#f6eddc
-}
-.meta{
-  display:flex; flex-wrap:wrap; gap:.3rem; margin-bottom:.45rem
-}
-.badge{
-  font-size:.75rem; color:#15130f; background:#e9d7b0;
-  padding:.15rem .45rem; border-radius:.45rem;
-}
-.badge.dim{ background:#c7c1b6; color:#161513 }
-.desc{ color:var(--ink2); margin:.35rem 0 .2rem; text-wrap:pretty; text-align:justify }
-.eq{ color:#e9e1d6; font-size:.95rem; margin-top:.25rem }
-
-/* Footer */
-footer{
-  padding:1.8rem 1rem; text-align:center; color:var(--muted);
-  border-top:1px solid var(--line);
-}
-
-/* Progress bar */
-#progress{position:fixed; top:0; left:0; height:3px; width:0; z-index:100; background:#e9d7b0}
-
-/* Utility */
-.hidden{display:none}
-</style>
+    /* Content cards */
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    @media(min-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}}
+    .card{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02);padding:14px;display:grid;gap:6px;transition:transform .12s ease, box-shadow .12s ease; perspective:800px}
+    .card h4{margin:0;font-size:16px}
+    .card p{margin:0;color:var(--muted);font-size:13px}
+    .mini{display:flex;gap:6px;flex-wrap:wrap}
+    .mini span{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:3px 7px;border-radius:999px}
+    .card.reveal{animation:fadeUp .35s ease both}
+    @keyframes fadeUp{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)}}
+  </style>
 </head>
 <body>
-<div id="progress"></div>
-
-<!-- Header -->
-<header class="header">
-  <div class="brand">
-    <div class="badge">Q</div>
-    <div class="name">QParadox</div>
+  <canvas id="constellation" aria-hidden="true"></canvas>
+  <div class="fx" aria-hidden="true">
+    <div class="vignette"></div>
+    <div class="grid"></div>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="grain"></div>
   </div>
-  <nav class="nav" aria-label="Primary">
-    <a href="index.html">Home</a>
-    <a href="introduction.html">Introduction</a>
-    <a href="theoretical.html">Theoretical</a>
-    <a href="experimental.html">Experimental</a>
-    <a href="computational.html">Computational</a>
-  </nav>
-  <button class="hamb" id="hamb" aria-expanded="false" aria-controls="drawer">Menu</button>
-</header>
 
-<!-- Drawer (mobile) -->
-<nav id="drawer" class="drawer" aria-label="Mobile">
-  <a href="index.html">Home</a>
-  <a href="introduction.html">Introduction</a>
-  <a href="theoretical.html">Theoretical</a>
-  <a href="experimental.html">Experimental</a>
-  <a href="computational.html">Computational</a>
-  <a href="#filters">Filters</a>
-</nav>
+  <header class="header">
+    <h1 class="brand">qparadox</h1>
+    <div class="crumbs">Home ▸ Concepts</div>
+    <nav class="jump" aria-label="Quick jump">
+      <a href="#classical">Classical Mechanics</a>
+      <a href="#em">Electromagnetism</a>
+      <a href="#relativity">Relativity</a>
+      <a href="#thermo">Thermodynamics</a>
+      <a href="#statmech">Statistical Mech</a>
+      <a href="#qm">Quantum</a>
+      <a href="#qft">QFT</a>
+      <a href="#cosmo">Cosmology</a>
+      <a href="#beyond">Beyond Textbook</a>
+      <a href="#philosophy">Physics & Philosophy</a>
+      <a href="#experiments">Experiments</a>
+      <a href="#computational">Computational</a>
+      <a href="#problems">Problem Gallery</a>
+      <a href="../theory/index.html">Theory hub →</a>
+      <a href="../index.html">Home →</a>
+    </nav>
+  </header>
 
-<!-- Hero -->
-<section class="hero">
-  <h1>Concepts</h1>
-  <p class="sub">Browse every article across classical mechanics, EM, quantum, relativity, thermo/stat mech, optics, condensed matter, particles, cosmology, methods, and metaphysics. Use search and filters to jump straight in.</p>
-  <div class="rule" aria-hidden="true"></div>
-</section>
-
-<!-- Controls -->
-<section id="filters" class="controls">
-  <input id="q" type="search" placeholder="Search… e.g. Noether, tunneling, Maxwell, partition function"/>
-  <select id="domain" class="sel" title="Domain">
-    <option value="all">All domains</option>
-    <option value="classical">Classical</option>
-    <option value="em">EM</option>
-    <option value="quantum">Quantum</option>
-    <option value="relativity">Relativity</option>
-    <option value="thermo">Thermo</option>
-    <option value="optics">Optics</option>
-    <option value="condensed">Condensed</option>
-    <option value="particle">Particle</option>
-    <option value="cosmo">Cosmo</option>
-    <option value="methods">Methods</option>
-    <option value="meta">Metaphysics</option>
-  </select>
-  <select id="method" class="sel" title="Method">
-    <option value="any">Any method</option>
-    <option value="theory">Theory</option>
-    <option value="experiment">Experiment</option>
-    <option value="compute">Computation</option>
-  </select>
-  <select id="level" class="sel" title="Level">
-    <option value="any">Any level</option>
-    <option value="intro">Intro</option>
-    <option value="core">Core</option>
-    <option value="adv">Advanced</option>
-  </select>
-  <select id="sort" class="sel" title="Sort">
-    <option value="az">A → Z</option>
-    <option value="za">Z → A</option>
-    <option value="domain">By domain</option>
-    <option value="level">By level</option>
-  </select>
-  <span id="count" class="count">Showing all</span>
-</section>
-
-<!-- Grid -->
-<main class="wrap">
-  <div id="grid" class="grid" role="list"></div>
-</main>
-
-<footer>© 2025 QParadox</footer>
-
-<!-- ================= Data ================= -->
-<script type="application/json" id="concepts-data">
-[
-  /* Classical */
-  {"id":"c-newton","title":"Newton’s Laws","domain":"classical","method":"theory","level":"intro","href":"newton-laws.html","eq":"\\(\\vec F_{\\text{net}}=d\\vec p/dt\\)","desc":"Relate net external force to momentum change; define a system boundary and note interactions."},
-  {"id":"c-energy","title":"Work–Energy–Power","domain":"classical","method":"theory","level":"intro","href":"work-energy.html","eq":"\\(\\Delta K=W_{\\text{net}}\\)","desc":"Translate forces along a path into energy change; track heat vs. mechanical transfer."},
-  {"id":"c-impulse","title":"Impulse & Momentum","domain":"classical","method":"theory","level":"intro","href":"impulse-momentum.html","eq":"\\(\\Delta p=\\int F\\,dt\\)","desc":"Short interactions can be summarized by area under the force–time curve."},
-  {"id":"c-lagrange","title":"Lagrangian Mechanics","domain":"classical","method":"theory","level":"core","href":"lagrangian-mechanics.html","eq":"\\(L=T-V\\)","desc":"Generalized coordinates and stationary action unify many problems."},
-  {"id":"c-hamilton","title":"Hamiltonian Mechanics","domain":"classical","method":"theory","level":"adv","href":"hamiltonian-mechanics.html","eq":"\\(\\dot q=\\partial H/\\partial p\\)","desc":"Phase space flow; canonical structure; a bridge to quantum."},
-  {"id":"c-modes","title":"Small Oscillations & Modes","domain":"classical","method":"theory","level":"core","href":"normal-modes.html","eq":"\\(\\omega^2\\mathbf a=K\\mathbf a\\)","desc":"Diagonalize coupled motion; modes evolve independently in linear systems."},
-  {"id":"c-chaos","title":"Nonlinear Dynamics & Chaos","domain":"classical","method":"theory","level":"adv","href":"chaos.html","eq":"Lyapunov exponents","desc":"Sensitivity to initial conditions, attractors, maps."},
-
-  /* EM */
-  {"id":"e-maxwell","title":"Maxwell’s Equations","domain":"em","method":"theory","level":"core","href":"maxwells-equations.html","eq":"\\(\\nabla\\cdot\\vec E=\\rho/\\varepsilon_0\\)","desc":"Unify E, B, and light; boundary conditions and wave speed."},
-  {"id":"e-potentials","title":"Potentials & Gauge","domain":"em","method":"theory","level":"adv","href":"em-potentials.html","eq":"\\(\\vec B=\\nabla\\times\\vec A\\)","desc":"Coulomb vs. Lorenz gauge; Aharonov–Bohm context."},
-  {"id":"e-waves","title":"EM Waves & Polarization","domain":"em","method":"theory","level":"core","href":"em-waves.html","eq":"\\(\\nabla^2\\vec E=\\mu_0\\varepsilon_0\\partial_t^2\\vec E\\)","desc":"Plane waves, Poynting vector, Fresnel coefficients."},
-  {"id":"e-circuits","title":"Circuits & Impedance","domain":"em","method":"theory","level":"intro","href":"circuits-impedance.html","eq":"\\(Z_C=1/(i\\omega C)\\)","desc":"Phasors, filters, resonance, Bode intuition."},
-
-  /* Quantum */
-  {"id":"q-tdse","title":"Time-Dependent Schrödinger Eq.","domain":"quantum","method":"theory","level":"intro","href":"schrodinger-equation.html","eq":"\\(i\\hbar\\partial_t\\Psi=\\hat H\\Psi\\)","desc":"State evolution, unitarity, and stationary states."},
-  {"id":"q-operators","title":"Operators & Eigenstates","domain":"quantum","method":"theory","level":"core","href":"operators-eigen.html","eq":"\\(\\hat A|a\\rangle=a|a\\rangle\\)","desc":"Spectra, projectors, and measurement statistics."},
-  {"id":"q-unc","title":"Uncertainty Relations","domain":"quantum","method":"theory","level":"core","href":"uncertainty.html","eq":"\\(\\Delta x\\,\\Delta p\\ge\\hbar/2\\)","desc":"Limits from non-commuting observables; not about sloppy instruments."},
-  {"id":"q-1d","title":"1D Wells & Tunneling","domain":"quantum","method":"theory","level":"intro","href":"1d-potentials.html","eq":"\\(T\\sim e^{-2\\kappa a}\\)","desc":"Quantization from boundaries; simple tunneling estimates."},
-  {"id":"q-bell","title":"Entanglement & Bell Tests","domain":"quantum","method":"experiment","level":"core","href":"bell-inequalities.html","eq":"CHSH","desc":"Correlations beyond local realism; loophole-free tests."},
-  {"id":"q-tele","title":"Quantum Teleportation","domain":"quantum","method":"experiment","level":"core","href":"teleportation.html","eq":"Bell pair + 2 cbits","desc":"State transfer via entanglement and classical comms."},
-
-  /* Relativity */
-  {"id":"r-post","title":"Special Relativity Postulates","domain":"relativity","method":"theory","level":"intro","href":"sr-postulates.html","eq":"invariance of \\(c\\)","desc":"Same laws in all inertial frames; constant light speed."},
-  {"id":"r-lorentz","title":"Lorentz Transformations","domain":"relativity","method":"theory","level":"core","href":"lorentz-transformations.html","eq":"\\(\\gamma=1/\\sqrt{1-v^2/c^2}\\)","desc":"Time dilation, length contraction, simultaneity."},
-  {"id":"r-mink","title":"4-Vectors & Minkowski Geometry","domain":"relativity","method":"theory","level":"core","href":"minkowski.html","eq":"\\(s^2=c^2t^2-\\vec x^2\\)","desc":"Invariant intervals; energy-momentum 4-vector."},
-
-  /* Thermo/StatMech */
-  {"id":"t-laws","title":"Thermodynamic Laws","domain":"thermo","method":"theory","level":"intro","href":"thermo-laws.html","eq":"\\(dU=\\delta Q-\\delta W\\)","desc":"State variables, processes, efficiencies."},
-  {"id":"t-entropy","title":"Entropy & Information","domain":"thermo","method":"theory","level":"core","href":"entropy-info.html","eq":"\\(S=k\\ln\\Omega\\)","desc":"Counting microstates; info-theory links."},
-  {"id":"t-ensembles","title":"Ensembles & Partition Function","domain":"thermo","method":"theory","level":"core","href":"ensembles-partition.html","eq":"\\(Z=\\sum e^{-\\beta E_i}\\)","desc":"Average any quantity; fluctuations and response."},
-
-  /* Optics */
-  {"id":"o-interf","title":"Interference & Diffraction","domain":"optics","method":"experiment","level":"intro","href":"interference-diffraction.html","eq":"\\(\\Delta y\\approx\\lambda L/d\\)","desc":"Slits, gratings, limits and scaling."},
-  {"id":"o-cavity","title":"Optical Cavities & Q","domain":"optics","method":"theory","level":"core","href":"optical-cavities.html","eq":"finesse","desc":"Resonance shapes, losses, stability."},
-
-  /* Condensed Matter */
-  {"id":"cm-bands","title":"Bands, Gaps, Effective Mass","domain":"condensed","method":"theory","level":"core","href":"bands-gaps.html","eq":"dispersion","desc":"Why semiconductors act as they do."},
-  {"id":"cm-sc","title":"Superconductivity (BCS)","domain":"condensed","method":"theory","level":"adv","href":"superconductivity-bcs.html","eq":"gap \\(\\Delta\\)","desc":"Cooper pairing, Meissner effect, Josephson."},
-
-  /* Particle & Cosmo */
-  {"id":"p-sm","title":"The Standard Model","domain":"particle","method":"theory","level":"core","href":"standard-model.html","eq":"\\(SU(3)\\times SU(2)\\times U(1)\\)","desc":"Gauge fields, fermions, Higgs mechanism."},
-  {"id":"a-frw","title":"FLRW & Friedmann Equations","domain":"cosmo","method":"theory","level":"core","href":"flrw-friedmann.html","eq":"scale factor","desc":"Expansion from energy density and curvature."},
-
-  /* Methods & Metaphysics */
-  {"id":"m-noether","title":"Noether’s Theorem","domain":"methods","method":"theory","level":"core","href":"noether-symmetry.html","eq":"symmetry ↔ conservation","desc":"Time→energy, space→momentum, rotation→angular momentum."},
-  {"id":"m-uncert","title":"Uncertainty & Fitting","domain":"methods","method":"compute","level":"intro","href":"uncertainty-fitting.html","eq":"\\(\\chi^2\\)","desc":"Report errors honestly; residual plots first."},
-  {"id":"meta-interp","title":"Interpretations of Quantum Theory","domain":"meta","method":"theory","level":"intro","href":"meta-quantum-interpretations.html","eq":"Everett/Bohm/GRW","desc":"Same stats, different stories; trade-offs and tests."}
-]
-</script>
-
-<!-- ================= Script ================= -->
-<script>
-/* Progress bar */
-const bar=document.getElementById('progress');
-function onScroll(){
-  const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
-  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
-}
-addEventListener('scroll', onScroll); onScroll();
-
-/* Drawer */
-const hamb=document.getElementById('hamb'), drawer=document.getElementById('drawer');
-hamb.addEventListener('click',()=>{
-  const open=!drawer.classList.contains('open');
-  drawer.classList.toggle('open', open);
-  hamb.setAttribute('aria-expanded', String(open));
-});
-
-/* Build cards */
-const DATA = JSON.parse(document.getElementById('concepts-data').textContent);
-const grid = document.getElementById('grid');
-
-function cardTemplate(item){
-  // whole card is an anchor -> fully clickable
-  return `
-    <a class="card" role="listitem" href="${item.href}" data-domain="${item.domain}"
-       data-method="${item.method}" data-level="${item.level}" data-title="${item.title.toLowerCase()}">
-      <h3>${item.title}</h3>
-      <div class="meta">
-        <span class="badge">${domainName(item.domain)}</span>
-        <span class="badge dim">${methodName(item.method)}</span>
-        <span class="badge dim">${levelName(item.level)}</span>
+  <main class="wrap">
+    <aside class="side" aria-label="Filters">
+      <h3>Browse</h3>
+      <div class="field">
+        <label class="label" for="search">Search titles</label>
+        <input id="search" class="search" type="text" placeholder="Type to filter (try: Berry, Wigner…)" aria-describedby="searchHelp" />
+        <small id="searchHelp" class="label">Keyboard: press / to focus search</small>
       </div>
-      <p class="desc">${item.desc}</p>
-      ${item.eq ? `<div class="eq">${item.eq}</div>` : ``}
-    </a>
-  `;
-}
-function seed(list){
-  grid.innerHTML = list.map(cardTemplate).join("");
-  document.getElementById('count').textContent = `Showing ${list.length} of ${DATA.length}`;
-}
-seed(DATA);
 
-/* Names */
-function domainName(k){
-  return {classical:'Classical', em:'EM', quantum:'Quantum', relativity:'Relativity', thermo:'Thermo',
-          optics:'Optics', condensed:'Condensed', particle:'Particle', cosmo:'Cosmo',
-          methods:'Methods', meta:'Metaphysics'}[k]||k;
-}
-function methodName(k){
-  return {theory:'Theory', experiment:'Experiment', compute:'Computation'}[k]||k;
-}
-function levelName(k){
-  return {intro:'Intro', core:'Core', adv:'Advanced'}[k]||k;
-}
+      <div class="field">
+        <div class="label">Pillars</div>
+        <div class="checks">
+          <label class="check"><input type="checkbox" class="f-pillar" value="theoretical" checked /> Theoretical</label>
+          <label class="check"><input type="checkbox" class="f-pillar" value="experimental" checked /> Experimental</label>
+          <label class="check"><input type="checkbox" class="f-pillar" value="computational" checked /> Computational</label>
+          <label class="check"><input type="checkbox" class="f-pillar" value="philosophy" checked /> Philosophy</label>
+        </div>
+      </div>
 
-/* Filters + search + sort */
-let F = {domain:'all', method:'any', level:'any', q:'', sort:'az'};
-const els = {
-  q: document.getElementById('q'),
-  domain: document.getElementById('domain'),
-  method: document.getElementById('method'),
-  level: document.getElementById('level'),
-  sort: document.getElementById('sort')
-};
-Object.values(els).forEach(el=>el.addEventListener('input', apply));
+      <div class="field">
+        <div class="label">Show types</div>
+        <div class="checks">
+          <label class="check"><input type="checkbox" class="f-type" value="concept" checked /> Concept</label>
+          <label class="check"><input type="checkbox" class="f-type" value="experiment" checked /> Experiment</label>
+          <label class="check"><input type="checkbox" class="f-type" value="math" checked /> Math</label>
+          <label class="check"><input type="checkbox" class="f-type" value="problem" checked /> Problem</label>
+        </div>
+      </div>
 
-function apply(){
-  F.q = els.q.value.toLowerCase().trim();
-  F.domain = els.domain.value;
-  F.method = els.method.value;
-  F.level = els.level.value;
-  F.sort = els.sort.value;
+      <div class="field">
+        <div class="label">Level</div>
+        <div class="chips" id="levels">
+          <button class="chip" data-level="intro">Intro</button>
+          <button class="chip" data-level="core">Core</button>
+          <button class="chip" data-level="advanced">Advanced</button>
+        </div>
+      </div>
 
-  let list = DATA.filter(it=>{
-    const okQ = !F.q || it.title.toLowerCase().includes(F.q) || (it.desc && it.desc.toLowerCase().includes(F.q));
-    const okD = (F.domain==='all') || it.domain===F.domain;
-    const okM = (F.method==='any') || it.method===F.method;
-    const okL = (F.level==='any') || it.level===F.level;
-    return okQ && okD && okM && okL;
-  });
+      <div class="actions">
+        <button class="btn" id="expandAll" aria-controls="clusters">Expand all</button>
+        <button class="btn" id="collapseAll" aria-controls="clusters">Collapse all</button>
+        <button class="btn" id="clearFilters">Clear filters</button>
+        <button class="btn" id="toggleFx" aria-pressed="true">Toggle background FX</button>
+      </div>
 
-  list = sortList(list, F.sort);
-  seed(list);
-  // Re-typeset equations after DOM update
-  if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
-}
-function sortList(list, how){
-  const name=a=>a.title.toLowerCase();
-  if(how==='az') return list.slice().sort((a,b)=>name(a).localeCompare(name(b)));
-  if(how==='za') return list.slice().sort((a,b)=>name(b).localeCompare(name(a)));
-  if(how==='domain') return list.slice().sort((a,b)=>domainName(a.domain).localeCompare(domainName(b.domain))||name(a).localeCompare(name(b)));
-  if(how==='level'){
-    const order={intro:0, core:1, adv:2};
-    return list.slice().sort((a,b)=>order[a.level]-order[b.level]||name(a).localeCompare(name(b)));
-  }
-  return list;
-}
+      <div class="field">
+        <div class="label">Navigate</div>
+        <div class="checks">
+          <a class="check" href="../theory/index.html">Go to Theory hub</a>
+          <a class="check" href="../index.html">Back to Home</a>
+        </div>
+      </div>
+    </aside>
 
-/* Initial MathJax typeset once loaded */
-if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
+    <section class="clusters" id="clusters">
+      <!-- CLASSICAL MECHANICS -->
+      <details class="cluster" id="classical" open>
+        <summary class="cluster-hd" role="button" aria-controls="classical-body">
+          <span class="chev">▸</span><span class="cluster-title">Classical Mechanics</span>
+          <span class="count" data-count="classical"></span>
+        </summary>
+        <div class="cluster-body" id="classical-body">
+          <div class="grid">
+            <a class="card" href="classical-newtonian-mechanics.html" data-pillar="theoretical" data-type="concept" data-level="intro core" data-tags="classical" data-title="newtonian mechanics"><h4>Newtonian Mechanics</h4><p>Laws of motion & conservation.</p><div class="mini"><span>Theoretical</span><span>Intro</span></div></a>
+            <a class="card" href="classical-lagrangian.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="classical" data-title="lagrangian mechanics"><h4>Lagrangian Mechanics</h4><p>Action & Euler–Lagrange.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="classical-hamiltonian.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="classical" data-title="hamiltonian mechanics"><h4>Hamiltonian Mechanics</h4><p>Phase space & canonical structure.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="classical-oscillations-waves.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="classical" data-title="oscillations and waves"><h4>Oscillations & Waves</h4><p>Normal modes & wave eqs.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="classical-central-force.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="classical" data-title="central force motion"><h4>Central Force Motion</h4><p>Orbits & effective potentials.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="classical-rigid-body.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="classical" data-title="rigid body rotation"><h4>Rigid Body Rotation</h4><p>Euler angles & inertia tensor.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="classical-non-inertial.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="classical" data-title="non inertial frames"><h4>Non‑Inertial Frames</h4><p>Fictitious forces: Coriolis, centrifugal.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="classical-constraints.html" data-pillar="theoretical" data-type="math" data-level="advanced" data-tags="classical niche" data-title="constraints and multipliers"><h4>Constraints & Multipliers</h4><p>Holonomic, non‑holonomic, λ tricks.</p><div class="mini"><span>Math</span><span>Advanced</span></div></a>
+            <a class="card" href="classical-chaos.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="classical niche" data-title="chaos and nonlinear dynamics"><h4>Chaos & Nonlinear</h4><p>Strange attractors & sensitivity.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+          </div>
+        </div>
+      </details>
 
-</script>
+      <!-- ELECTROMAGNETISM -->
+      <details class="cluster" id="em">
+        <summary class="cluster-hd" role="button" aria-controls="em-body">
+          <span class="chev">▸</span><span class="cluster-title">Electromagnetism</span>
+          <span class="count" data-count="em"></span>
+        </summary>
+        <div class="cluster-body" id="em-body">
+          <div class="grid">
+            <a class="card" href="em-electrostatics.html" data-pillar="theoretical" data-type="concept" data-level="intro" data-tags="em" data-title="electrostatics gauss law"><h4>Electrostatics</h4><p>Gauss's law & potentials.</p><div class="mini"><span>Theoretical</span><span>Intro</span></div></a>
+            <a class="card" href="em-magnetostatics.html" data-pillar="theoretical" data-type="concept" data-level="intro" data-tags="em" data-title="magnetostatics ampere law"><h4>Magnetostatics</h4><p>Ampère's law & Biot–Savart.</p><div class="mini"><span>Theoretical</span><span>Intro</span></div></a>
+            <a class="card" href="em-maxwell-equations.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="em" data-title="maxwell equations"><h4>Maxwell Equations</h4><p>Unification of E & B.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="em-boundary-conditions.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="em" data-title="boundary conditions"><h4>Boundary Conditions</h4><p>Interface rules for fields.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="em-em-waves.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="em" data-title="electromagnetic waves"><h4>Electromagnetic Waves</h4><p>Propagation, polarization, dispersion.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="em-radiation.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="em niche" data-title="radiation dipole"><h4>Radiation & Dipoles</h4><p>Power, patterns, Larmor.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+            <a class="card" href="em-poynting.html" data-pillar="theoretical" data-type="concept" data-level="intro core" data-tags="em" data-title="poynting vector"><h4>Poynting Vector</h4><p>Energy flow in fields.</p><div class="mini"><span>Theoretical</span><span>Intro</span></div></a>
+            <a class="card" href="em-gauge-potentials.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="em niche" data-title="gauge potentials"><h4>Gauge Potentials</h4><p>Gauge freedom & A, φ.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+            <a class="card" href="em-waveguides.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="em niche" data-title="waveguides and cavities"><h4>Waveguides & Cavities</h4><p>Modes & resonators.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+          </div>
+        </div>
+      </details>
+
+      <!-- RELATIVITY -->
+      <details class="cluster" id="relativity">
+        <summary class="cluster-hd" role="button" aria-controls="relativity-body">
+          <span class="chev">▸</span><span class="cluster-title">Relativity</span>
+          <span class="count" data-count="relativity"></span>
+        </summary>
+        <div class="cluster-body" id="relativity-body">
+          <div class="grid">
+            <a class="card" href="relativity-special.html" data-pillar="theoretical" data-type="concept" data-level="intro" data-tags="relativity" data-title="special relativity"><h4>Special Relativity</h4><p>Postulates, simultaneity, 4‑vectors.</p><div class="mini"><span>Theoretical</span><span>Intro</span></div></a>
+            <a class="card" href="relativity-time-dilation.html" data-pillar="theoretical" data-type="concept" data-level="intro" data-tags="relativity" data-title="time dilation and length contraction"><h4>Time Dilation & Length Contraction</h4><p>Relativistic kinematics in action.</p><div class="mini"><span>Theoretical</span><span>Intro</span></div></a>
+            <a class="card" href="relativity-general.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="relativity" data-title="general relativity"><h4>General Relativity</h4><p>Curvature & geodesics.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="relativity-black-holes.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="relativity" data-title="black holes"><h4>Black Holes</h4><p>Horizons & thermodynamic hints.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="relativity-gravitational-waves.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="relativity" data-title="gravitational waves"><h4>Gravitational Waves</h4><p>Ripples in spacetime.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="relativity-lensing.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="relativity" data-title="gravitational lensing"><h4>Gravitational Lensing</h4><p>Light deflection as a probe.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+          </div>
+        </div>
+      </details>
+
+      <!-- THERMODYNAMICS -->
+      <details class="cluster" id="thermo">
+        <summary class="cluster-hd" role="button" aria-controls="thermo-body">
+          <span class="chev">▸</span><span class="cluster-title">Thermodynamics</span>
+          <span class="count" data-count="thermo"></span>
+        </summary>
+        <div class="cluster-body" id="thermo-body">
+          <div class="grid">
+            <a class="card" href="thermo-laws.html" data-pillar="theoretical" data-type="concept" data-level="intro" data-tags="thermo" data-title="laws of thermodynamics"><h4>Laws of Thermodynamics</h4><p>Zeroth to third.</p><div class="mini"><span>Theoretical</span><span>Intro</span></div></a>
+            <a class="card" href="thermo-entropy.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="thermo" data-title="entropy"><h4>Entropy</h4><p>Clausius ↔ Boltzmann ↔ Shannon.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="thermo-heat-engines.html" data-pillar="theoretical" data-type="concept" data-level="intro" data-tags="thermo" data-title="heat engines and efficiency"><h4>Heat Engines & Efficiency</h4><p>Work, heat, and limits.</p><div class="mini"><span>Theoretical</span><span>Intro</span></div></a>
+            <a class="card" href="thermo-carnot-cycle.html" data-pillar="theoretical" data-type="concept" data-level="intro" data-tags="thermo" data-title="carnot cycle"><h4>Carnot Cycle</h4><p>Ideal engine & efficiency bound.</p><div class="mini"><span>Theoretical</span><span>Intro</span></div></a>
+          </div>
+        </div>
+      </details>
+
+      <!-- STATISTICAL MECHANICS -->
+      <details class="cluster" id="statmech">
+        <summary class="cluster-hd" role="button" aria-controls="statmech-body">
+          <span class="chev">▸</span><span class="cluster-title">Statistical Mechanics</span>
+          <span class="count" data-count="stat"></span>
+        </summary>
+        <div class="cluster-body" id="statmech-body">
+          <div class="grid">
+            <a class="card" href="stat-ensembles.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="stat" data-title="statistical ensembles"><h4>Statistical Ensembles</h4><p>Microcanonical / canonical / grand.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="stat-boltzmann-distribution.html" data-pillar="theoretical" data-type="math" data-level="core" data-tags="stat" data-title="boltzmann distribution"><h4>Boltzmann Distribution</h4><p>Probabilities at equilibrium.</p><div class="mini"><span>Math</span><span>Core</span></div></a>
+            <a class="card" href="stat-partition-function.html" data-pillar="theoretical" data-type="math" data-level="core" data-tags="stat" data-title="partition function"><h4>Partition Function</h4><p>Key to averages & response.</p><div class="mini"><span>Math</span><span>Core</span></div></a>
+            <a class="card" href="stat-fluctuations.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="stat niche" data-title="fluctuations and response"><h4>Fluctuations & Response</h4><p>Susceptibilities & FDT.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+            <a class="card" href="stat-phase-transitions.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="stat" data-title="phase transitions"><h4>Phase Transitions</h4><p>Criticality & order parameters.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+          </div>
+        </div>
+      </details>
+
+      <!-- QUANTUM MECHANICS -->
+      <details class="cluster" id="qm">
+        <summary class="cluster-hd" role="button" aria-controls="qm-body">
+          <span class="chev">▸</span><span class="cluster-title">Quantum Mechanics</span>
+          <span class="count" data-count="qm"></span>
+        </summary>
+        <div class="cluster-body" id="qm-body">
+          <div class="grid">
+            <a class="card" href="qm-particle-in-box.html" data-pillar="theoretical" data-type="concept" data-level="intro" data-tags="qm" data-title="particle in a box"><h4>Particle in a Box</h4><p>Quantization from boundaries.</p><div class="mini"><span>Theoretical</span><span>Intro</span></div></a>
+            <a class="card" href="qm-uncertainty.html" data-pillar="theoretical" data-type="concept" data-level="intro" data-tags="qm" data-title="uncertainty principle"><h4>Uncertainty Principle</h4><p>Limits on simultaneous knowledge.</p><div class="mini"><span>Theoretical</span><span>Intro</span></div></a>
+            <a class="card" href="qm-schrodinger-equation.html" data-pillar="theoretical" data-type="math" data-level="core" data-tags="qm" data-title="schrodinger equation"><h4>Schrödinger Equation</h4><p>Time evolution for amplitudes.</p><div class="mini"><span>Math</span><span>Core</span></div></a>
+            <a class="card" href="qm-harmonic-oscillator.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="qm" data-title="harmonic oscillator"><h4>Harmonic Oscillator</h4><p>Ladder operators & Gaussians.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="qm-angular-momentum.html" data-pillar="theoretical" data-type="math" data-level="core" data-tags="qm" data-title="angular momentum and spin"><h4>Angular Momentum & Spin</h4><p>Algebra & addition.</p><div class="mini"><span>Math</span><span>Core</span></div></a>
+            <a class="card" href="qm-hydrogen-atom.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="qm" data-title="hydrogen atom"><h4>Hydrogen Atom</h4><p>Quantized Coulomb bound states.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="qm-superposition.html" data-pillar="theoretical" data-type="concept" data-level="intro" data-tags="qm" data-title="superposition"><h4>Superposition</h4><p>Linear combinations of states.</p><div class="mini"><span>Theoretical</span><span>Intro</span></div></a>
+            <a class="card" href="qm-tunneling.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="qm" data-title="quantum tunneling"><h4>Quantum Tunneling</h4><p>Barrier penetration by waves.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="qm-decoherence.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="qm" data-title="decoherence"><h4>Decoherence</h4><p>Environment‑induced robustness.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+            <a class="card" href="qm-interpretations.html" data-pillar="philosophy" data-type="concept" data-level="advanced" data-tags="qm" data-title="interpretations"><h4>Interpretations</h4><p>Copenhagen, Many Worlds, GRW, Bohm.</p><div class="mini"><span>Philosophy</span><span>Advanced</span></div></a>
+          </div>
+        </div>
+      </details>
+
+      <!-- QUANTUM FIELD THEORY -->
+      <details class="cluster" id="qft">
+        <summary class="cluster-hd" role="button" aria-controls="qft-body">
+          <span class="chev">▸</span><span class="cluster-title">Quantum Field Theory</span>
+          <span class="count" data-count="qft"></span>
+        </summary>
+        <div class="cluster-body" id="qft-body">
+          <div class="grid">
+            <a class="card" href="qft-path-integral.html" data-pillar="theoretical" data-type="math" data-level="advanced" data-tags="qft" data-title="path integrals"><h4>Path Integrals</h4><p>Sum over histories.</p><div class="mini"><span>Math</span><span>Advanced</span></div></a>
+            <a class="card" href="qft-feynman-diagrams.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="qft" data-title="feynman diagrams"><h4>Feynman Diagrams</h4><p>Perturbation calculus.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+            <a class="card" href="qft-symmetry-noether.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="qft" data-title="symmetry and noether"><h4>Symmetry & Noether</h4><p>Currents from invariance.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="qft-spinor-fields.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="qft" data-title="spinor fields"><h4>Spinor Fields</h4><p>Dirac equation & γ matrices.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+            <a class="card" href="qft-renormalization.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="qft" data-title="renormalization"><h4>Renormalization</h4><p>Scales, running, counterterms.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+          </div>
+        </div>
+      </details>
+
+      <!-- COSMOLOGY -->
+      <details class="cluster" id="cosmo">
+        <summary class="cluster-hd" role="button" aria-controls="cosmo-body">
+          <span class="chev">▸</span><span class="cluster-title">Cosmology & Astrophysics</span>
+          <span class="count" data-count="cosmology astro"></span>
+        </summary>
+        <div class="cluster-body" id="cosmo-body">
+          <div class="grid">
+            <a class="card" href="cosmo-big-bang.html" data-pillar="theoretical" data-type="concept" data-level="intro" data-tags="cosmology" data-title="big bang and inflation"><h4>Big Bang & Inflation</h4><p>Early hot era & rapid expansion.</p><div class="mini"><span>Theoretical</span><span>Intro</span></div></a>
+            <a class="card" href="cosmo-hubble-law.html" data-pillar="theoretical" data-type="concept" data-level="intro" data-tags="cosmology" data-title="hubble lemaitre law"><h4>Hubble–Lemaître Law</h4><p>Redshift–distance relation.</p><div class="mini"><span>Theoretical</span><span>Intro</span></div></a>
+            <a class="card" href="cosmo-cmb.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="cosmology" data-title="cosmic microwave background"><h4>Cosmic Microwave Background</h4><p>Relic radiation maps.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="cosmo-dark-matter.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="cosmology" data-title="dark matter"><h4>Dark Matter</h4><p>Rotation curves & lensing.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="cosmo-dark-energy.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="cosmology" data-title="dark energy"><h4>Dark Energy</h4><p>Accelerated expansion.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="cosmo-flrw.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="cosmology" data-title="flrw metric"><h4>FLRW Metric</h4><p>Homogeneous, isotropic geometry.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+            <a class="card" href="cosmo-structure-formation.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="cosmology" data-title="structure formation"><h4>Structure Formation</h4><p>From seeds to galaxies.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+            <a class="card" href="cosmo-nucleosynthesis.html" data-pillar="theoretical" data-type="concept" data-level="core" data-tags="cosmology" data-title="primordial nucleosynthesis"><h4>Primordial Nucleosynthesis</h4><p>Light element abundances.</p><div class="mini"><span>Theoretical</span><span>Core</span></div></a>
+          </div>
+        </div>
+      </details>
+
+      <!-- BEYOND THE TEXTBOOK -->
+      <details class="cluster" id="beyond">
+        <summary class="cluster-hd" role="button" aria-controls="beyond-body">
+          <span class="chev">▸</span><span class="cluster-title">Beyond the Textbook</span>
+          <span class="count" data-count="topology niche qm"></span>
+        </summary>
+        <div class="cluster-body" id="beyond-body">
+          <div class="grid">
+            <a class="card" href="topo-topological-phases.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="topology" data-title="topological phases"><h4>Topological Phases</h4><p>Robust order beyond symmetry‑breaking.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+            <a class="card" href="qm-berry-phase.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="qm topology" data-title="berry phase"><h4>Berry Phase</h4><p>Geometric phases & holonomy.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+            <a class="card" href="qm-decoherence.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="qm" data-title="decoherence"><h4>Decoherence</h4><p>Classicality from entanglement.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+            <a class="card" href="topo-topological-insulators.html" data-pillar="theoretical" data-type="concept" data-level="advanced" data-tags="topology" data-title="topological insulators"><h4>Topological Insulators</h4><p>Protected edge states.</p><div class="mini"><span>Theoretical</span><span>Advanced</span></div></a>
+            <a class="card" href="topo-quantum-hall.html" data-pillar="experimental" data-type="experiment" data-level="core" data-tags="topology" data-title="quantum hall effect"><h4>Quantum Hall Effect</h4><p>Quantized plateaus.</p><div class="mini"><span>Experimental</span><span>Core</span></div></a>
+          </div>
+        </div>
+      </details>
+
+      <!-- PHYSICS & PHILOSOPHY -->
+      <details class="cluster" id="philosophy">
+        <summary class="cluster-hd" role="button" aria-controls="philosophy-body">
+          <span class="chev">▸</span><span class="cluster-title">Physics & Philosophy</span>
+          <span class="count" data-count="philosophy qm"></span>
+        </summary>
+        <div class="cluster-body" id="philosophy-body">
+          <div class="grid">
+            <a class="card" href="phil-wigners-friend.html" data-pillar="philosophy" data-type="concept" data-level="advanced" data-tags="philosophy qm" data-title="wigners friend"><h4>Wigner's Friend</h4><p>Observer relative facts?</p><div class="mini"><span>Philosophy</span><span>Advanced</span></div></a>
+            <a class="card" href="phil-qbism.html" data-pillar="philosophy" data-type="concept" data-level="advanced" data-tags="philosophy qm" data-title="qbism"><h4>QBism (Quantum Bayesianism)</h4><p>Probabilities as personal degrees of belief.</p><div class="mini"><span>Philosophy</span><span>Advanced</span></div></a>
+            <a class="card" href="phil-relational-qm.html" data-pillar="philosophy" data-type="concept" data-level="advanced" data-tags="philosophy qm" data-title="relational quantum mechanics"><h4>Relational Quantum Mechanics</h4><p>States relative to observers.</p><div class="mini"><span>Philosophy</span><span>Advanced</span></div></a>
+            <a class="card" href="phil-reality-locality.html" data-pillar="philosophy" data-type="concept" data-level="advanced" data-tags="philosophy" data-title="realism locality"><h4>Realism vs Locality</h4><p>Bell, nonlocality, and options.</p><div class="mini"><span>Philosophy</span><span>Advanced</span></div></a>
+            <a class="card" href="phil-explanation-symmetry.html" data-pillar="philosophy" data-type="concept" data-level="core" data-tags="philosophy" data-title="symmetry and explanation"><h4>Symmetry & Explanation</h4><p>What counts as an explanation?</p><div class="mini"><span>Philosophy</span><span>Core</span></div></a>
+          </div>
+        </div>
+      </details>
+
+      <!-- EXPERIMENTS -->
+      <details class="cluster" id="experiments">
+        <summary class="cluster-hd" role="button" aria-controls="experiments-body">
+          <span class="chev">▸</span><span class="cluster-title">Experiments (Landmarks & Demos)</span>
+          <span class="count" data-count="experiments"></span>
+        </summary>
+        <div class="cluster-body" id="experiments-body">
+          <div class="grid">
+            <a class="card" href="exp-young-double-slit.html" data-pillar="experimental" data-type="experiment" data-level="intro" data-tags="experiments qm" data-title="young double slit"><h4>Young Double Slit</h4><p>Interference for light & matter.</p><div class="mini"><span>Experimental</span><span>Intro</span></div></a>
+            <a class="card" href="exp-photoelectric.html" data-pillar="experimental" data-type="experiment" data-level="intro" data-tags="experiments qm" data-title="photoelectric effect"><h4>Photoelectric Effect</h4><p>Photons & threshold frequency.</p><div class="mini"><span>Experimental</span><span>Intro</span></div></a>
+            <a class="card" href="exp-stern-gerlach.html" data-pillar="experimental" data-type="experiment" data-level="core" data-tags="experiments qm" data-title="stern gerlach"><h4>Stern–Gerlach</h4><p>Spin quantization.</p><div class="mini"><span>Experimental</span><span>Core</span></div></a>
+            <a class="card" href="exp-michelson-morley.html" data-pillar="experimental" data-type="experiment" data-level="intro" data-tags="experiments relativity" data-title="michelson morley"><h4>Michelson–Morley</h4><p>Ether wind ruled out.</p><div class="mini"><span>Experimental</span><span>Intro</span></div></a>
+            <a class="card" href="exp-rutherford-gold-foil.html" data-pillar="experimental" data-type="experiment" data-level="core" data-tags="experiments classical" data-title="rutherford gold foil"><h4>Rutherford Gold Foil</h4><p>Nucleus revealed.</p><div class="mini"><span>Experimental</span><span>Core</span></div></a>
+            <a class="card" href="exp-ligo.html" data-pillar="experimental" data-type="experiment" data-level="advanced" data-tags="experiments relativity" data-title="ligo gravitational waves"><h4>LIGO Observation</h4><p>Direct detection of waves.</p><div class="mini"><span>Experimental</span><span>Advanced</span></div></a>
+            <a class="card" href="exp-davisson-germer.html" data-pillar="experimental" data-type="experiment" data-level="core" data-tags="experiments qm" data-title="davisson germer"><h4>Davisson–Germer</h4><p>Electron diffraction.</p><div class="mini"><span>Experimental</span><span>Core</span></div></a>
+            <a class="card" href="exp-franck-hertz.html" data-pillar="experimental" data-type="experiment" data-level="core" data-tags="experiments qm" data-title="franck hertz"><h4>Franck–Hertz</h4><p>Discrete energy in gases.</p><div class="mini"><span>Experimental</span><span>Core</span></div></a>
+            <a class="card" href="exp-millikan-oil-drop.html" data-pillar="experimental" data-type="experiment" data-level="core" data-tags="experiments classical" data-title="millikan oil drop"><h4>Millikan Oil Drop</h4><p>Charge quantization.</p><div class="mini"><span>Experimental</span><span>Core</span></div></a>
+            <a class="card" href="exp-josephson.html" data-pillar="experimental" data-type="experiment" data-level="core" data-tags="experiments condensed" data-title="josephson effect"><h4>Josephson Effect</h4><p>Supercurrents & standards.</p><div class="mini"><span>Experimental</span><span>Core</span></div></a>
+          </div>
+        </div>
+      </details>
+
+      <!-- COMPUTATIONAL -->
+      <details class="cluster" id="computational">
+        <summary class="cluster-hd" role="button" aria-controls="computational-body">
+          <span class="chev">▸</span><span class="cluster-title">Computational Physics</span>
+          <span class="count" data-count="comp"></span>
+        </summary>
+        <div class="cluster-body" id="computational-body">
+          <div class="grid">
+            <a class="card" href="comp-numerical-odes.html" data-pillar="computational" data-type="concept" data-level="core" data-tags="comp" data-title="numerical ode solvers"><h4>Numerical ODE Solvers</h4><p>Euler, RK4, stability.</p><div class="mini"><span>Computational</span><span>Core</span></div></a>
+            <a class="card" href="comp-pde-fdm.html" data-pillar="computational" data-type="concept" data-level="advanced" data-tags="comp" data-title="finite difference pdes"><h4>Finite Difference PDEs</h4><p>Heat, wave, Poisson.</p><div class="mini"><span>Computational</span><span>Advanced</span></div></a>
+            <a class="card" href="comp-monte-carlo.html" data-pillar="computational" data-type="concept" data-level="core" data-tags="comp" data-title="monte carlo"><h4>Monte Carlo</h4><p>Sampling, Metropolis, errors.</p><div class="mini"><span>Computational</span><span>Core</span></div></a>
+            <a class="card" href="comp-data-analysis.html" data-pillar="computational" data-type="concept" data-level="intro" data-tags="comp" data-title="data analysis & fitting"><h4>Data Analysis & Fitting</h4><p>Least squares, χ², uncertainty.</p><div class="mini"><span>Computational</span><span>Intro</span></div></a>
+            <a class="card" href="comp-simulation-pipelines.html" data-pillar="computational" data-type="concept" data-level="core" data-tags="comp" data-title="simulation pipelines"><h4>Simulation Pipelines</h4><p>Design, validation, reproducibility.</p><div class="mini"><span>Computational</span><span>Core</span></div></a>
+            <a class="card" href="comp-visualization.html" data-pillar="computational" data-type="concept" data-level="intro" data-tags="comp" data-title="scientific visualization"><h4>Scientific Visualization</h4><p>Good plots, color, perception.</p><div class="mini"><span>Computational</span><span>Intro</span></div></a>
+          </div>
+        </div>
+      </details>
+
+      <!-- PROBLEM GALLERY -->
+      <details class="cluster" id="problems">
+        <summary class="cluster-hd" role="button" aria-controls="problems-body">
+          <span class="chev">▸</span><span class="cluster-title">Problem Gallery</span>
+          <span class="count" data-count="problem"></span>
+        </summary>
+        <div class="cluster-body" id="problems-body">
+          <div class="grid">
+            <a class="card" href="prob-classical-brachistochrone.html" data-pillar="theoretical" data-type="problem" data-level="advanced" data-tags="classical" data-title="brachistochrone"><h4>Brachistochrone</h4><p>Shortest‑time curve via calculus of variations.</p><div class="mini"><span>Problem</span><span>Advanced</span></div></a>
+            <a class="card" href="prob-em-image-charges.html" data-pillar="theoretical" data-type="problem" data-level="core" data-tags="em" data-title="method of images"><h4>Method of Images</h4><p>Point charge near a conducting plane.</p><div class="mini"><span>Problem</span><span>Core</span></div></a>
+            <a class="card" href="prob-qm-infinite-well.html" data-pillar="theoretical" data-type="problem" data-level="intro" data-tags="qm" data-title="infinite well"><h4>Infinite Well</h4><p>Eigenstates, energies, parity.</p><div class="mini"><span>Problem</span><span>Intro</span></div></a>
+            <a class="card" href="prob-stat-ising-mean-field.html" data-pillar="theoretical" data-type="problem" data-level="advanced" data-tags="stat" data-title="ising mean field"><h4>Ising Mean‑Field</h4><p>Self‑consistency & Tc estimate.</p><div class="mini"><span>Problem</span><span>Advanced</span></div></a>
+            <a class="card" href="prob-cosmo-distance-ladder.html" data-pillar="theoretical" data-type="problem" data-level="core" data-tags="cosmology" data-title="cosmic distance ladder"><h4>Distance Ladder</h4><p>Standard candles & H0 sketch.</p><div class="mini"><span>Problem</span><span>Core</span></div></a>
+            <a class="card" href="prob-comp-monte-carlo-pi.html" data-pillar="computational" data-type="problem" data-level="intro" data-tags="comp" data-title="monte carlo pi"><h4>Monte Carlo π</h4><p>Estimate π & analyze error bars.</p><div class="mini"><span>Problem</span><span>Intro</span></div></a>
+          </div>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <script>
+    // Keyboard shortcut to focus search
+    window.addEventListener('keydown', (e)=>{ if(e.key === '/' && document.activeElement.tagName !== 'INPUT'){ e.preventDefault(); document.getElementById('search').focus(); }});
+
+    const search = document.getElementById('search');
+    const typeChecks = Array.from(document.querySelectorAll('.f-type'));
+    const pillarChecks = Array.from(document.querySelectorAll('.f-pillar'));
+    const levelChips = document.getElementById('levels');
+    const btnExpand = document.getElementById('expandAll');
+    const btnCollapse = document.getElementById('collapseAll');
+    const btnClear = document.getElementById('clearFilters');
+    const btnFx = document.getElementById('toggleFx');
+
+    function updateCounts(){
+      document.querySelectorAll('.count').forEach(span=>{
+        const cluster = span.closest('details');
+        const cards = cluster.querySelectorAll('.card');
+        let visible = 0; cards.forEach(c=>{ if(c.style.display !== 'none') visible++; });
+        span.textContent = visible + ' items';
+      });
+    }
+
+    function allowedTypes(){ return typeChecks.filter(x=>x.checked).map(x=>x.value); }
+    function allowedPillars(){ return pillarChecks.filter(x=>x.checked).map(x=>x.value); }
+
+    function checkType(card){ return allowedTypes().includes(card.dataset.type); }
+    function checkPillar(card){ return allowedPillars().includes(card.dataset.pillar); }
+    function checkLevel(card){
+      const active = Array.from(levelChips.querySelectorAll('.chip.active')).map(b=>b.dataset.level);
+      if(active.length===0) return true;
+      const levels = card.dataset.level ? card.dataset.level.split(' ') : [];
+      return active.some(l=>levels.includes(l));
+    }
+    function checkSearch(card){
+      const q = search.value.trim().toLowerCase();
+      if(!q) return true;
+      const t = (card.dataset.title||'') + ' ' + card.querySelector('h4').innerText.toLowerCase();
+      return t.includes(q);
+    }
+
+    function applyFilters(){
+      const cards = Array.from(document.querySelectorAll('.card'));
+      cards.forEach(card=>{
+        const ok = checkType(card) && checkPillar(card) && checkLevel(card) && checkSearch(card);
+        card.style.display = ok ? '' : 'none';
+      });
+      updateCounts();
+    }
+
+    // Listeners
+    search.addEventListener('input', applyFilters);
+    levelChips.addEventListener('click', (e)=>{ if(e.target.classList.contains('chip')) { e.target.classList.toggle('active'); applyFilters(); }});
+    typeChecks.forEach(ch=> ch.addEventListener('change', applyFilters));
+    pillarChecks.forEach(ch=> ch.addEventListener('change', applyFilters));
+
+    btnExpand.addEventListener('click', ()=>{ document.querySelectorAll('details.cluster').forEach(d=> d.open = true); });
+    btnCollapse.addEventListener('click', ()=>{ document.querySelectorAll('details.cluster').forEach(d=> d.open = false); });
+    btnClear.addEventListener('click', ()=>{
+      search.value = '';
+      document.querySelectorAll('.chip.active').forEach(c=> c.classList.remove('active'));
+      typeChecks.forEach(ch=> ch.checked = true);
+      pillarChecks.forEach(ch=> ch.checked = true);
+      applyFilters();
+    });
+
+    // Fancy card tilt (respect reduced motion)
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function tiltOn(e){
+      const card = e.currentTarget; const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width - .5;
+      const y = (e.clientY - r.top)/r.height - .5;
+      card.style.transform = `rotateX(${-y*6}deg) rotateY(${x*6}deg) translateY(-2px)`;
+      card.style.boxShadow = '0 10px 30px rgba(0,0,0,.35)';
+    }
+    function tiltOff(e){ const card = e.currentTarget; card.style.transform=''; card.style.boxShadow=''; }
+    if(!prefersReduced && window.matchMedia('(pointer:fine)').matches){
+      document.querySelectorAll('.card').forEach(c=>{
+        c.addEventListener('mousemove', tiltOn);
+        c.addEventListener('mouseleave', tiltOff);
+      });
+    }
+
+    // Reveal animation when opening clusters
+    document.querySelectorAll('details.cluster').forEach(d=>{
+      d.addEventListener('toggle', ()=>{
+        if(d.open){ d.querySelectorAll('.card').forEach((c,i)=>{ c.classList.remove('reveal'); setTimeout(()=>c.classList.add('reveal'), i*20); }); }
+      });
+    });
+
+    // Constellation canvas background
+    const canvas = document.getElementById('constellation');
+    const ctx = canvas.getContext('2d');
+    let W, H, points = [], mouse = {x:null,y:null};
+    function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    function rand(min,max){ return Math.random()*(max-min)+min; }
+    function initPoints(n=80){
+      points = Array.from({length:n},()=>({x:rand(0,W), y:rand(0,H), vx:rand(-.3,.3), vy:rand(-.3,.3)}));
+    }
+    function step(){
+      ctx.clearRect(0,0,W,H);
+      ctx.globalAlpha = 0.8;
+      for(const p of points){
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>W) p.vx*=-1; if(p.y<0||p.y>H) p.vy*=-1;
+        ctx.fillStyle = 'rgba(215,204,175,.85)';
+        ctx.beginPath(); ctx.arc(p.x,p.y,1.1,0,Math.PI*2); ctx.fill();
+      }
+      // lines
+      for(let i=0;i<points.length;i++){
+        for(let j=i+1;j<points.length;j++){
+          const a=points[i], b=points[j];
+          const dx=a.x-b.x, dy=a.y-b.y; const d= Math.hypot(dx,dy);
+          if(d<110){ ctx.strokeStyle = 'rgba(215,204,175,'+(1-d/110)*0.25+')'; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+        }
+      }
+      // mouse attract
+      if(mouse.x!==null){
+        for(const p of points){
+          const dx=p.x-mouse.x, dy=p.y-mouse.y, d=Math.hypot(dx,dy);
+          if(d<140){ p.vx += dx/d*0.005; p.vy += dy/d*0.005; }
+        }
+      }
+      anim = requestAnimationFrame(step);
+    }
+    let anim;
+    function startFx(){ if(prefersReduced) return; resize(); initPoints(70); cancelAnimationFrame(anim); step(); }
+    function stopFx(){ cancelAnimationFrame(anim); ctx.clearRect(0,0,W,H); }
+    window.addEventListener('resize', resize);
+    canvas.addEventListener('mousemove', e=>{ const r=canvas.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; });
+    canvas.addEventListener('mouseleave', ()=>{ mouse.x=mouse.y=null; });
+    startFx();
+    btnFx.addEventListener('click', ()=>{
+      const pressed = btnFx.getAttribute('aria-pressed') === 'true';
+      btnFx.setAttribute('aria-pressed', String(!pressed));
+      if(pressed) stopFx(); else startFx();
+    });
+
+    // Initial render
+    applyFilters();
+  </script>
 </body>
 </html>
