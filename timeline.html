@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Timeline • qparadox</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0e0e10; --ink:#e8e5df; --muted:#b8b1a9; --accent:#c7b99f; --line:rgba(255,255,255,.12); }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:"Playfair Display",serif; color:var(--ink); background:var(--bg); overflow-x:hidden}
+    a{color:var(--ink); text-decoration:none} a:hover{color:var(--accent)}
+
+    .header{position:sticky; top:0; z-index:40; display:flex; align-items:center; gap:14px; padding:12px 16px; border-bottom:1px solid var(--line); background:rgba(0,0,0,.7); backdrop-filter:blur(6px)}
+    .brand{margin:0; font-size:22px}
+    .crumbs{color:var(--muted); font-size:14px}
+
+    .back-fab{position:fixed; left:12px; bottom:12px; z-index:60; border:1px solid var(--line); background:rgba(255,255,255,.06); color:var(--ink); border-radius:999px; padding:10px 14px; font-size:13px; backdrop-filter:blur(6px)}
+    .back-fab:hover{background:rgba(255,255,255,.1)}
+
+    .wrap{max-width:1200px; margin:10px auto 120px; padding:0 18px}
+    .timeline{position:relative; margin:0 auto; padding:20px 0}
+    .timeline::before{content:""; position:absolute; left:50%; top:0; bottom:0; width:3px; background:linear-gradient(var(--line), transparent); box-shadow:0 0 12px rgba(199,185,159,.3); transform:translateX(-50%)}
+
+    .event{position:relative; display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:24px 0; opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease}
+    .event.in{opacity:1; transform:none}
+    .event .spine{position:absolute; left:50%; top:24px; width:14px; height:14px; border-radius:50%; background:var(--accent); transform:translate(-50%,-50%)}
+    .card{border:1px solid var(--line); background:rgba(255,255,255,.05); border-radius:18px; padding:18px; display:flex; gap:14px; align-items:flex-start; box-shadow:0 8px 24px rgba(0,0,0,.4)}
+    .left .card{grid-column:1} .right .card{grid-column:2}
+    .thumb{width:80px; height:80px; border-radius:14px; background:#1a1a1c center/cover no-repeat; flex:0 0 80px}
+    .content{min-width:0}
+    .eyebrow{font-size:13px; color:var(--muted)}
+    h3{margin:6px 0 10px; font-size:20px}
+    p{margin:0; color:var(--muted); font-size:15px; line-height:1.55}
+    .meta{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .meta .tag{border:1px solid var(--line); border-radius:999px; padding:4px 10px; font-size:12px; color:var(--muted)}
+    .more{margin-top:12px; border:1px solid var(--line); background:rgba(255,255,255,.04); color:var(--ink); border-radius:10px; padding:8px 12px; font-size:13px; cursor:pointer}
+
+    .drama{margin:60px auto; max-width:1200px}
+    .drama h2{font-size:22px; color:var(--muted); margin:0 0 14px}
+    .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:20px}
+    .dcard{border:1px solid var(--line); background:rgba(255,255,255,.07); border-radius:22px; padding:22px; cursor:pointer; transition:transform .2s ease, background .2s ease, box-shadow .2s ease; box-shadow:0 8px 28px rgba(0,0,0,.3)}
+    .dcard:hover{transform:translateY(-4px); background:rgba(255,255,255,.1)}
+    .dtitle{font-size:17px; font-weight:600; margin-bottom:6px; color:var(--ink)}
+    .dmeta{font-size:14px; color:var(--muted); margin-bottom:6px}
+    .dtext{font-size:15px; color:var(--muted)}
+
+    .sheet{position:fixed; inset:auto 50% 18px 50%; transform:translate(-50%,120%); width:min(960px,96vw); border:1px solid var(--line); border-radius:20px; background:#111113; padding:22px; z-index:70; transition:transform .3s ease}
+    .sheet.show{transform:translate(-50%,0)}
+    .sheet h4{margin:0 0 12px; font-size:24px}
+    .sheet .bio{color:var(--muted); font-size:16px; line-height:1.6}
+
+    #stars{position:fixed; inset:0; z-index:-1}
+
+    @media (max-width: 800px){
+      .event{grid-template-columns:1fr}
+      .timeline::before{left:30px}
+      .event .spine{left:30px}
+      .left .card,.right .card{grid-column:1}
+    }
+  </style>
+</head>
+<body>
+  <canvas id="stars" aria-hidden="true"></canvas>
+
+  <header class="header">
+    <h1 class="brand"><a href="index.html">qparadox</a></h1>
+    <div class="crumbs">▸ Timeline</div>
+  </header>
+
+  <a class="back-fab" href="index.html" aria-label="Back to Home">↤ Back to Home</a>
+
+  <main class="wrap">
+    <section id="timeline" class="timeline"></section>
+  </main>
+
+  <section id="rivalries" class="drama wrap">
+    <h2>Rivalries & Debates</h2>
+    <div class="grid" id="dramaGrid"></div>
+  </section>
+
+  <div class="sheet" id="sheet" role="dialog" aria-live="polite"></div>
+
+  <!-- ========= PARTS 2–5: paste <script> blocks below this line, in order ========= -->
+
+  <script>
+    // helper: simple starfield
+    (function initStars(){
+      const c=document.getElementById('stars'); const ctx=c.getContext('2d'); let W,H;
+      function resize(){ W=c.width=innerWidth; H=c.height=innerHeight; }
+      addEventListener('resize',resize); resize();
+      const pts=Array.from({length:130},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1,v:(Math.random()-.5)*.12}));
+      (function step(){
+        ctx.clearRect(0,0,W,H); ctx.globalAlpha=.85; ctx.fillStyle='rgba(215,204,175,.9)';
+        for(const p of pts){ p.x+=p.v; if(p.x<0)p.x=W; if(p.x>W)p.x=0; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.283); ctx.fill(); }
+        requestAnimationFrame(step);
+      })();
+    })();
+
+    // engine + API for chunked data
+    window._chunks = [];
+    function addData(arr){ window._chunks = window._chunks.concat(arr); }
+    function addRivalries(arr){ window._rivals = (window._rivals||[]).concat(arr); }
+
+    const ERAS = [
+      {id:'antiquity', label:'Antiquity (−600 → 500)', from:-600, to:500},
+      {id:'islamic',   label:'Islamic Golden Age (800 → 1400)', from:800, to:1400},
+      {id:'renaissance',label:'Renaissance (1400 → 1600)', from:1400, to:1600},
+      {id:'c17',       label:'17th Century (1600s)', from:1600, to:1699},
+      {id:'c18',       label:'18th Century (1700s)', from:1700, to:1799},
+      {id:'c19',       label:'19th Century (1800s)', from:1800, to:1899},
+      {id:'c20a',      label:'1900–1949', from:1900, to:1949},
+      {id:'c20b',      label:'1950–1999', from:1950, to:1999},
+      {id:'c21',       label:'2000–2025', from:2000, to:2025}
+    ];
+
+    const T=document.getElementById('timeline');
+    const DR=document.getElementById('dramaGrid');
+    const SHEET=document.getElementById('sheet');
+
+    function svgMonogram(text, tone){
+      const initials=(text||'·').split(/[\s;,]/).filter(Boolean).map(w=>w[0].toUpperCase()).slice(0,2).join('');
+      const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'>
+        <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+          <stop offset='0' stop-color='${tone}' stop-opacity='.25'/><stop offset='1' stop-color='#222' stop-opacity='.8'/>
+        </linearGradient></defs>
+        <rect width='100%' height='100%' rx='14' fill='url(#g)'/>
+        <text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='56' fill='white' font-family='Playfair Display'>${initials}</text>
+      </svg>`;
+      return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+    }
+    function tryExtensions(base){ return ['.jpg','.jpeg','.png','.webp'].map(e=>`images/${base}${e}`); }
+    function setThumb(div, d){
+      if(!d.img){ div.style.backgroundImage=svgMonogram(d.people||d.label,'#3b3b3f'); return; }
+      const list=tryExtensions(d.img);
+      (function go(i){
+        if(i>=list.length){ div.style.backgroundImage=svgMonogram(d.people||d.label,'#3b3b3f'); return; }
+        const u=list[i], im=new Image();
+        im.onload=()=>{div.style.backgroundImage=`url('${u}')`;};
+        im.onerror=()=>go(i+1); im.src=u;
+      })(0);
+    }
+
+    function eraForYear(y){ return ERAS.find(e=>y>=e.from && y<=e.to)?.id; }
+    function groupByEra(data){ const g={}; for(const d of data){ const id=eraForYear(d.year)||'misc'; (g[id] ||= []).push(d); } for(const k in g){ g[k].sort((a,b)=>a.year-b.year); } return g; }
+
+    function makeEvent(d, side){
+      const wrap=document.createElement('div'); wrap.className=`event ${side}`; wrap.innerHTML=`<span class="spine" aria-hidden="true"></span>`;
+      const card=document.createElement('div'); card.className='card';
+      const thumb=document.createElement('div'); thumb.className='thumb'; setThumb(thumb,d);
+      const cont=document.createElement('div'); cont.className='content';
+      const eye=document.createElement('div'); eye.className='eyebrow'; eye.textContent=`${d.year<0?Math.abs(d.year)+' BCE':d.year} • ${d.pillar} • ${d.type}`;
+      const h=document.createElement('h3'); h.textContent=d.label;
+      const p=document.createElement('p'); p.textContent=d.desc||'';
+      const meta=document.createElement('div'); meta.className='meta';
+      if(d.people) meta.innerHTML+=`<span class="tag">${d.people}</span>`;
+      if(d.tags) meta.innerHTML+=`<span class="tag">${d.tags}</span>`;
+      const btn=document.createElement('button'); btn.className='more'; btn.textContent='Read bio →';
+      btn.addEventListener('click',()=>openSheet(d));
+      cont.append(eye,h,p,meta,btn); card.append(thumb,cont); wrap.append(card);
+      return wrap;
+    }
+
+    function openSheet(d){
+      const bio=(d.bio||d.bioLong||'').replace(/\n/g,'<br>');
+      SHEET.innerHTML = `<h4>${d.label}</h4><div class="bio"><p>${bio}</p>${d.wrong||d.corrected_by?`<p><b>Contested:</b> ${d.wrong||''}${d.corrected_by?`<br><b>Correction:</b> ${d.corrected_by}`:''}</p>`:''}</div>`;
+      SHEET.classList.add('show');
+    }
+    addEventListener('keydown',e=>{ if(e.key==='Escape') SHEET.classList.remove('show'); });
+    addEventListener('click',e=>{ if(SHEET.classList.contains('show') && !SHEET.contains(e.target) && !e.target.classList.contains('more')) SHEET.classList.remove('show'); });
+
+    function revealOnScroll(){
+      const els=document.querySelectorAll('.event');
+      const io=new IntersectionObserver((entries)=>{
+        entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} });
+      },{threshold:.15});
+      els.forEach(el=>io.observe(el));
+    }
+
+    function renderTimeline(list){
+      const groups=groupByEra(list); T.innerHTML='';
+      ERAS.forEach(era=>{
+        const arr=groups[era.id]||[]; if(!arr.length) return;
+        const section=document.createElement('section'); section.id=`era-${era.id}`;
+        const label=document.createElement('div'); label.className='sticky-era'; label.innerHTML=`<span class="meta tag">${era.label}</span>`;
+        section.append(label);
+        arr.forEach((d,i)=> section.append(makeEvent(d, (i%2===0?'left':'right'))));
+        T.append(section);
+      });
+      revealOnScroll();
+    }
+
+    function renderDrama(list){
+      const DR=document.getElementById('dramaGrid'); DR.innerHTML='';
+      (list||[]).forEach(d=>{
+        const el=document.createElement('div'); el.className='dcard'; el.setAttribute('role','button'); el.setAttribute('tabindex','0');
+        el.innerHTML=`<div class="dtitle">${d.title}</div><div class="dmeta">${d.years}</div><div class="dtext">${d.blurb}</div>`;
+        el.addEventListener('click',()=>{ SHEET.innerHTML=`<h4>${d.title}</h4><div class="bio"><p>${d.blurb}</p><p>Background: method and credit were key. Later data settled most points.</p></div>`; SHEET.classList.add('show'); });
+        el.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault(); el.click(); }});
+        DR.append(el);
+      });
+    }
+
+    function boot(){
+      const DATA = window._chunks;
+      const RIVALS = window._rivals||[];
+      renderTimeline(DATA);
+      renderDrama(RIVALS);
+    }
+  </script>
+<script>
+addData([
+  {year:-585,label:"Solar eclipse prediction",people:"Thales of Miletus",pillar:"philosophy",type:"publication",tags:"antiquity",img:"thales",
+   desc:"Forecasted an eclipse. The point was order, not omen.",
+   bio:"Thales is remembered for pulling sky events into the world of rules. The eclipse story shows how a simple pattern can explain a striking sight."},
+  {year:-530,label:"Atomism",people:"Leucippus; Democritus",pillar:"philosophy",type:"theory",tags:"matter",img:"democritus",
+   desc:"Matter as tiny atoms moving in empty space.",
+   bio:"They pictured nature as atoms in a void. It was a guess, but later matched chemistry and kinetic theory."},
+  {year:-260,label:"Heliocentric hints and sizes",people:"Aristarchus",pillar:"theoretical",type:"theory",tags:"astronomy",img:"aristarchus",
+   desc:"Sun larger than Earth, early Sun-center idea.",
+   bio:"He used geometry to compare the Sun and Moon and argued that the Sun sits at the center. The tools of the time could not settle it."},
+  {year:-240,label:"Earth’s circumference",people:"Eratosthenes",pillar:"experimental",type:"experiment",tags:"geometry",img:"eratosthenes",
+   desc:"Measured Earth with noon shadows in two cities.",
+   bio:"A gnomon, two places, and a good idea. From angles at noon he inferred Earth’s size to fair accuracy."},
+  {year:-250,label:"Archimedes’ principle",people:"Archimedes",pillar:"theoretical",type:"theory",tags:"fluids",img:"archimedes",
+   desc:"Buoyancy equals weight of displaced water.",
+   bio:"Work on levers, centers, and fluids tied math to craft. The buoyancy rule explains why things float."},
+  {year:-150,label:"Almagest",people:"Ptolemy",pillar:"philosophy",type:"publication",tags:"astronomy",img:"ptolemy",
+   desc:"Geocentric model with circles on circles.",
+   bio:"The book organized planetary motion with epicycles. It fit data but did not give causes."}
+]);
+
+addData([
+  {year:984,label:"Law of refraction precursor",people:"Ibn Sahl",pillar:"theoretical",type:"publication",tags:"optics",img:"ibn_sahl",
+   desc:"Lens rule for bending of light, before Snell.",
+   bio:"He related sines to how light bends for a focus. It linked geometry to lens making."},
+  {year:1021,label:"Book of Optics",people:"Ibn al-Haytham",pillar:"theoretical",type:"publication",tags:"optics",img:"ibn_al_haytham",
+   desc:"Camera obscura. Light enters the eye.",
+   bio:"He tested ideas with careful devices. He argued that light travels to the eye, not from it."},
+  {year:1250,label:"Tusi couple",people:"Nasir al-Din al-Tusi",pillar:"theoretical",type:"theory",tags:"astronomy",img:"al_tusi",
+   desc:"Two circles make a line motion.",
+   bio:"A neat kinematic trick that later showed up in European models. Ideas move even when worldviews change."}
+]);
+</script>
+<script>
+addData([
+  {year:1543,label:"Heliocentrism",people:"Nicolaus Copernicus",pillar:"theoretical",type:"publication",tags:"astronomy",img:"copernicus",
+   desc:"Sun at the center. Cleaner order of planets.",
+   bio:"Moving the Sun to the center cut clutter and raised new questions about force and motion."},
+  {year:1572,label:"New star",people:"Tycho Brahe",pillar:"experimental",type:"discovery",tags:"supernova",img:"tycho",
+   desc:"No parallax. The heavens can change.",
+   bio:"Careful angles put the object beyond the Moon. The sky was not fixed after all."},
+  {year:1600,label:"De Magnete",people:"William Gilbert",pillar:"theoretical",type:"publication",tags:"magnetism",img:"gilbert",
+   desc:"Earth behaves like a big magnet.",
+   bio:"From lodestones and a small model Earth he argued that compass behavior has a global cause."},
+  {year:1609,label:"Kepler’s laws",people:"Johannes Kepler",pillar:"theoretical",type:"theory",tags:"orbits",img:"kepler",
+   desc:"Ellipses, equal areas, period to radius rule.",
+   bio:"He read simple rules from Mars data. Orbits did not need crystal spheres."},
+  {year:1610,label:"Sidereus Nuncius",people:"Galileo Galilei",pillar:"experimental",type:"publication",tags:"telescope",img:"galileo",
+   desc:"Moons of Jupiter. Phases of Venus.",
+   bio:"A small tube revealed mountains on the Moon and moons around Jupiter. One tool changed the case for heliocentrism."},
+  {year:1687,label:"Principia",people:"Isaac Newton",pillar:"theoretical",type:"publication",tags:"mechanics gravity",img:"newton",
+   desc:"Three laws and inverse square pull.",
+   bio:"From those ideas he united sky and ground. Orbits are conics. Tides make sense."}
+]);
+
+addData([
+  {year:1738,label:"Hydrodynamica",people:"Daniel Bernoulli",pillar:"theoretical",type:"publication",tags:"fluids",img:"bernoulli",
+   desc:"Pressure falls as speed rises.",
+   bio:"It tied flow to energy ideas and fed later fluid practice."},
+  {year:1745,label:"Leyden jar",people:"Kleist; Musschenbroek",pillar:"instrumentation",type:"instrument",tags:"electricity",img:"leyden_jar",
+   desc:"Early capacitor for static charge.",
+   bio:"A glass jar with foil stored charge and made repeatable tests possible."}
+]);
+</script>
+<script>
+addData([
+  {year:1801,label:"Double slit",people:"Thomas Young",pillar:"experimental",type:"experiment",tags:"optics",img:"young",
+   desc:"Fringes show wave addition.",
+   bio:"Two narrow paths give bright and dark bands. A clear sign of wave behavior."},
+  {year:1831,label:"Induction",people:"Michael Faraday",pillar:"experimental",type:"experiment",tags:"emf",img:"faraday",
+   desc:"Changing flux drives a current.",
+   bio:"Move a magnet near a loop and a current flows. This is the seed of generators and transformers."},
+  {year:1865,label:"Field equations",people:"James Clerk Maxwell",pillar:"theoretical",type:"publication",tags:"electromagnetism",img:"maxwell",
+   desc:"Light is an electromagnetic wave.",
+   bio:"He joined electricity and magnetism and found waves that move at light speed. Optics became part of EM theory."},
+  {year:1887,label:"Michelson–Morley",people:"A. A. Michelson; E. W. Morley",pillar:"experimental",type:"experiment",tags:"aether",img:"michelson_morley",
+   desc:"No ether wind found.",
+   bio:"If Earth moved through ether, light should drift. The interferometer saw nothing. This pushed toward relativity."},
+  {year:1895,label:"X-rays",people:"Wilhelm Röntgen",pillar:"experimental",type:"discovery",tags:"radiation",img:"rontgen",
+   desc:"New rays pass through flesh.",
+   bio:"Crookes tubes gave off rays that fogged plates and showed bones. Clinics had a new tool within months."}
+]);
+
+addData([
+  {year:1900,label:"Energy quanta",people:"Max Planck",pillar:"theoretical",type:"theory",tags:"quantum",img:"planck",
+   desc:"Blackbody fit needs steps of energy.",
+   bio:"He let energy trade hands in steps. He wanted a fit. The idea grew into quantum theory."},
+  {year:1905,label:"Special relativity",people:"Albert Einstein",pillar:"theoretical",type:"theory",tags:"relativity",img:"einstein_sr",
+   desc:"Same laws for all inertial frames.",
+   bio:"Set light speed as the same for everyone and the rest follows. Time and length depend on motion."},
+  {year:1909,label:"Oil drop charge",people:"Robert Millikan",pillar:"experimental",type:"experiment",tags:"electron",img:"millikan",
+   desc:"Measured the unit of charge.",
+   bio:"Tiny charged drops sit between plates. Step by step he read the electron charge."},
+  {year:1911,label:"Superconductivity",people:"H. Kamerlingh Onnes",pillar:"experimental",type:"discovery",tags:"condensed",img:"onnes",
+   desc:"Zero resistance at low temperature.",
+   bio:"At 4.2 K mercury lost resistance. Later work showed flux expulsion and large scale quantum order."},
+  {year:1913,label:"Bohr model",people:"Niels Bohr",pillar:"theoretical",type:"theory",tags:"atomic",img:"bohr",
+   desc:"Quantized orbits explain lines.",
+   bio:"Angular momentum in whole steps kept electrons from falling in. The pattern of hydrogen lines fit."},
+  {year:1915,label:"General relativity",people:"Albert Einstein",pillar:"theoretical",type:"theory",tags:"gravity",img:"einstein_gr",
+   desc:"Gravity is spacetime geometry.",
+   bio:"Mass and energy curve spacetime. Motion follows curves. Mercury and bending of light are natural outcomes."},
+  {year:1919,label:"Light bending test",people:"Arthur Eddington",pillar:"experimental",type:"experiment",tags:"eclipse",img:"eddington",
+   desc:"Measured starlight near the Sun.",
+   bio:"A solar eclipse let him see stars close to the Sun. Their shift matched the new theory."},
+  {year:1926,label:"Wave mechanics",people:"Erwin Schrödinger",pillar:"theoretical",type:"theory",tags:"quantum",img:"schrodinger",
+   desc:"Psi equation for change in time.",
+   bio:"He wrote an equation for a wave that lives in a space of possibilities. Spectra and bonds fell in line."},
+  {year:1927,label:"Uncertainty",people:"Werner Heisenberg",pillar:"theoretical",type:"theory",tags:"quantum",img:"heisenberg",
+   desc:"Limits on joint knowledge.",
+   bio:"Some pairs do not share exact values at once. The limit is not about tools. It is built in."},
+  {year:1928,label:"Dirac equation",people:"Paul Dirac",pillar:"theoretical",type:"theory",tags:"spinor",img:"dirac",
+   desc:"Relativistic electron needs a partner.",
+   bio:"A linear equation in space and time that gives spin and calls for an opposite charge twin."},
+  {year:1933,label:"Dark matter (clusters)",people:"Fritz Zwicky",pillar:"experimental",type:"discovery",tags:"cosmology",img:"zwicky",
+   desc:"Too much speed for visible mass.",
+   bio:"Galaxies in Coma moved too fast. He argued for unseen mass. The idea grew with rotation curves and lensing."},
+  {year:1938,label:"Fission explained",people:"Lise Meitner; Otto Frisch",pillar:"theoretical",type:"theory",tags:"nuclear",img:"meitner",
+   desc:"Explained split of uranium.",
+   bio:"They read barium in the debris and saw a split. The binding energy gap told the scale of release."},
+  {year:1947,label:"Transistor",people:"Bardeen; Brattain; Shockley",pillar:"instrumentation",type:"instrument",tags:"solid state",img:"transistor",
+   desc:"Small junction boosts a signal.",
+   bio:"A tiny device could amplify and switch. It started the age of chips."}
+]);
+</script>
+<script>
+addData([
+  {year:1957,label:"Parity violation",people:"Chien-Shiung Wu",pillar:"experimental",type:"experiment",tags:"weak",img:"wu",
+   desc:"Mirror symmetry fails in beta decay.",
+   bio:"Aligned cobalt nuclei gave a one sided spray. The weak force picks a hand."},
+  {year:1965,label:"Cosmic microwave background",people:"A. Penzias; R. Wilson",pillar:"experimental",type:"discovery",tags:"cosmology",img:"penzias_wilson",
+   desc:"Relic radio glow from early universe.",
+   bio:"A hiss that would not go away matched a warm sky left from the early fireball."},
+  {year:1967,label:"Electroweak theory",people:"S. Glashow; A. Salam; S. Weinberg",pillar:"theoretical",type:"theory",tags:"standard model",img:"weinberg_salam",
+   desc:"One model for EM and weak forces.",
+   bio:"A gauge framework with symmetry breaking predicted heavy carriers later found at CERN."},
+  {year:1980,label:"Integer quantum Hall",people:"Klaus von Klitzing",pillar:"experimental",type:"experiment",tags:"topology",img:"klitzing",
+   desc:"Exact plateaus in Hall resistance.",
+   bio:"In a 2D gas and strong field the Hall value locks to steps in e squared over h."},
+  {year:1982,label:"Fractional quantum Hall",people:"D. Tsui; H. Störmer; A. Gossard",pillar:"experimental",type:"experiment",tags:"topology",img:"tsui",
+   desc:"Anyons from strong correlation.",
+   bio:"Interactions made new particles with fraction charge and special swap rules."},
+  {year:1987,label:"SN1987A neutrinos",people:"Kamiokande; IMB; Baksan",pillar:"experimental",type:"experiment",tags:"astrophysics",img:"SN1987A",
+   desc:"First burst seen from a supernova.",
+   bio:"A small set of early neutrinos arrived before the light. The timing fit core collapse."}
+]);
+
+addData([
+  {year:2012,label:"Higgs boson",people:"ATLAS; CMS",pillar:"experimental",type:"discovery",tags:"particle",img:"higgs",
+   desc:"New scalar near 125 GeV.",
+   bio:"Proton smashups showed a new bump near 125 GeV. It matches the field that gives mass to carriers."},
+  {year:2015,label:"Gravitational waves",people:"LIGO",pillar:"experimental",type:"discovery",tags:"relativity",img:"ligo",
+   desc:"Signal from black hole merger.",
+   bio:"Kilometer arms read tiny strain from far black holes. A new kind of astronomy started."},
+  {year:2019,label:"Black hole image (M87*)",people:"Event Horizon Telescope",pillar:"experimental",type:"experiment",tags:"astrophysics",img:"black_hole",
+   desc:"Ring and shadow at horizon scale.",
+   bio:"A world wide dish mapped a bright ring with a dark center. The size matched mass from orbits."},
+  {year:2022,label:"JWST begins science",people:"NASA/ESA/CSA",pillar:"instrumentation",type:"instrument",tags:"telescope",img:"jwst",
+   desc:"Infrared telescope unfolds and works.",
+   bio:"The mirror opened in space. Early spectra and images pushed back the ages we can probe."}
+]);
+
+addRivalries([
+  {title:"Newton vs Hooke",years:"1670s–1700s",blurb:"Disputes over optics, gravity, and credit in letters and meetings."},
+  {title:"Newton vs Leibniz",years:"1690s–1710s",blurb:"Priority fight on calculus. Parallel paths with sharp claims."},
+  {title:"Huygens vs Newton",years:"1670s–1690s",blurb:"Wave view against corpuscle view for light. Later data backed waves."},
+  {title:"Bohr vs Einstein",years:"1927–1935",blurb:"Arguments on completeness of quantum theory. Thought tests met real tests."},
+  {title:"Schrödinger vs Copenhagen",years:"1930s",blurb:"Debate on states and measurement. The cat story was a critique."},
+  {title:"Zwicky vs the establishment",years:"1930s–1970s",blurb:"Dark matter idea took decades to gain support."},
+  {title:"Millikan vs Ehrenhaft",years:"1909–1916",blurb:"How to read the oil drop data and what to cut was argued."},
+  {title:"Hubble vs Lemaître (naming)",years:"1920s–2018",blurb:"Who found the law first. Translation and credit discussed."},
+  {title:"BICEP2 vs Planck",years:"2014",blurb:"Dust versus primordial waves in CMB polarization. Planck data resolved it."},
+  {title:"Cold fusion claims",years:"1989",blurb:"Reports of fusion at room temperature failed to reproduce."}
+]);
+
+// finally render everything
+boot();
+</script>
+</body>
+</html>
