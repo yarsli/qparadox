@@ -15,7 +15,11 @@
       --font-title: 'Playfair Display', serif;
       --font-body: 'EB Garamond', serif;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     html, body {
       height: 100%;
       font-family: var(--font-body);
@@ -23,7 +27,8 @@
       color: var(--text);
       overflow-x: hidden;
       scroll-behavior: smooth;
-      background-image: radial-gradient(circle at top left, #101324, transparent 70%), radial-gradient(circle at bottom right, #0a0c18, transparent 70%);
+      background-image: radial-gradient(circle at top left, #101324, transparent 70%),
+                        radial-gradient(circle at bottom right, #0a0c18, transparent 70%);
     }
     body::after {
       content: '';
@@ -109,6 +114,22 @@
       color: #ccc;
       margin-top: 5px;
     }
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    .search-bar input {
+      padding: 12px 20px;
+      font-size: 1em;
+      width: 60%;
+      max-width: 500px;
+      border: 1px solid var(--border);
+      background-color: #0f111a;
+      color: var(--text);
+      border-radius: 8px;
+      outline: none;
+    }
     .pillar {
       margin-bottom: 60px;
     }
@@ -188,108 +209,190 @@
     </ul>
     <footer>© 2025 — In the library of spacetime.</footer>
   </nav>
+
   <div class="breadcrumb">
     <a href="index.html">Home</a> › <a href="#">Concepts</a>
   </div>
+
   <main>
     <div class="header">
       <h2>Concepts</h2>
       <p>Mapping the philosophical and experimental realms of Q Paradox.</p>
     </div>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search concepts...">
+    </div>
+
     <section id="theoretical" class="pillar">
       <h3>Theoretical</h3>
       <div class="concept-grid">
-        <a class="concept-card" href="theoretical-foundations.html"><h4>Theoretical Foundations</h4><p>What lies at the core of theory? Logic, axioms, and mathematics.</p></a>
-        <a class="concept-card" href="quantum-toolkit.html"><h4>Quantum Toolkit</h4><p>Operators, Hilbert spaces, measurement postulates, and notation.</p></a>
-        <a class="concept-card" href="quantum-deep-dive.html"><h4>Quantum Deep Dive</h4><p>Bell inequalities, EPR paradox, Many Worlds, and decoherence.</p></a>
-        <a class="concept-card" href="cosmology.html"><h4>Cosmology</h4><p>Entropy, inflation, cosmic horizon, holographic principle.</p></a>
-        <a class="concept-card" href="classical-mechanics.html"><h4>Classical Mechanics</h4><p>Newton’s laws to Lagrangian and Hamiltonian reformulations.</p></a>
-        <a class="concept-card" href="relativity.html"><h4>Relativity</h4><p>Special relativity, general relativity, spacetime curvature.</p></a>
-        <a class="concept-card" href="electromagnetism.html"><h4>Electromagnetism</h4><p>Field equations, vector potential, gauge theory connections.</p></a>
-        <a class="concept-card" href="statistical-mechanics.html"><h4>Statistical Mechanics</h4><p>Entropy, ensembles, fluctuations, and emergent order.</p></a>
-        <a class="concept-card" href="quantum-field-theory.html"><h4>Quantum Field Theory</h4><p>Quantized fields, particles, Lagrangians, Feynman diagrams.</p></a>
-        <a class="concept-card" href="topological-phases.html"><h4>Beyond the Textbook</h4><p>Berry phase, topology in quantum systems, geometric phases.</p></a>
-        <a class="concept-card" href="physics-philosophy.html"><h4>Physics & Philosophy</h4><p>Wigner’s Friend, QBism, metaphysics of observation.</p></a>
-        <a class="concept-card" href="metaphysics.html"><h4>Metaphysics</h4><p>The nature of reality, consciousness and observation in physics.</p></a>
-        <a class="concept-card" href="information-theory.html"><h4>Information Theory</h4><p>Entropy, Shannon, and the bridge between physics and computation.</p></a>
-        <a class="concept-card" href="symmetry-breaking.html"><h4>Symmetry Breaking</h4><p>Spontaneous symmetry, phase transitions, Higgs mechanism.</p></a>
-        <a class="concept-card" href="vacuum-energy.html"><h4>Vacuum Energy</h4><p>Zero-point fields, cosmological constant, and dark energy.</p></a>
+        <a class="concept-card" href="concept_pages/theoretical-foundations.html">
+          <h4>Theoretical Foundations</h4>
+          <p>What lies at the core of theory? Logic, axioms, and mathematics.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/quantum-toolkit.html">
+          <h4>Quantum Toolkit</h4>
+          <p>Operators, Hilbert spaces, measurement postulates, and notation.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/quantum-deep-dive.html">
+          <h4>Quantum Deep Dive</h4>
+          <p>Bell inequalities, EPR paradox, Many Worlds, and decoherence.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/classical-mechanics.html">
+          <h4>Classical Mechanics</h4>
+          <p>Newton to Lagrangian and Hamiltonian reformulations.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/relativity.html">
+          <h4>Relativity</h4>
+          <p>Special and general relativity, spacetime curvature.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/electromagnetism.html">
+          <h4>Electromagnetism</h4>
+          <p>Field equations, vector potentials, gauge theories.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/statistical-mechanics.html">
+          <h4>Statistical Mechanics</h4>
+          <p>Entropy, ensembles, fluctuations, and emergent order.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/quantum-field-theory.html">
+          <h4>Quantum Field Theory</h4>
+          <p>Quantized fields, particles, Lagrangians, Feynman diagrams.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/topological-phases.html">
+          <h4>Topological Phases</h4>
+          <p>Berry phase, topology in quantum systems, geometric phases.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/decoherence.html">
+          <h4>Decoherence</h4>
+          <p>How quantum systems become classical through environment interaction.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/wigners-friend.html">
+          <h4>Wigner’s Friend</h4>
+          <p>A paradox at the boundary between observer and measurement.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/qbism.html">
+          <h4>QBism</h4>
+          <p>Quantum Bayesianism: probability, belief, and information in QM.</p>
+        </a>
       </div>
     </section>
     <section id="computational" class="pillar">
       <h3>Computational</h3>
       <div class="concept-grid">
-        <a class="concept-card" href="quantum-simulators.html"><h4>Quantum Simulators</h4><p>Qiskit, Cirq, tensor networks, and open-source toolkits.</p></a>
-        <a class="concept-card" href="numerical-methods.html"><h4>Numerical Methods</h4><p>ODE/PDE solvers, iterative methods, matrix decompositions.</p></a>
-        <a class="concept-card" href="computational-physics.html"><h4>Computational Physics</h4><p>Simulations of chaos, turbulence, spin chains.</p></a>
-        <a class="concept-card" href="visualization-tools.html"><h4>Visualization Tools</h4><p>Complex amplitudes, wave packets, field plots.</p></a>
-        <a class="concept-card" href="quantum-algorithms.html"><h4>Quantum Algorithms</h4><p>Shor’s, Grover’s, QAOA, Variational Quantum Eigensolver.</p></a>
-        <a class="concept-card" href="tensor-networks.html"><h4>Tensor Networks</h4><p>Matrix product states, area law, entanglement scaling.</p></a>
-        <a class="concept-card" href="quantum-complexity.html"><h4>Quantum Complexity</h4><p>BQP, QMA, time-space tradeoffs in circuits.</p></a>
-        <a class="concept-card" href="data-driven-physics.html"><h4>Data-Driven Physics</h4><p>Machine learning models for predicting quantum states.</p></a>
-        <a class="concept-card" href="monte-carlo-methods.html"><h4>Monte Carlo Methods</h4><p>Stochastic sampling techniques in high-dimensional problems.</p></a>
-        <a class="concept-card" href="cellular-automata.html"><h4>Cellular Automata</h4><p>Complexity and emergent behavior from simple rules.</p></a>
-        <a class="concept-card" href="computational-cosmology.html"><h4>Computational Cosmology</h4><p>Simulating large-scale structure of the universe.</p></a>
-        <a class="concept-card" href="finite-elements.html"><h4>Finite Elements</h4><p>Discretization methods for solving field equations.</p></a>
+        <a class="concept-card" href="concept_pages/quantum-simulators.html">
+          <h4>Quantum Simulators</h4>
+          <p>Qiskit, Cirq, tensor networks, and open-source toolkits.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/numerical-methods.html">
+          <h4>Numerical Methods</h4>
+          <p>ODE/PDE solvers, matrix decompositions, stability analysis.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/quantum-algorithms.html">
+          <h4>Quantum Algorithms</h4>
+          <p>Shor’s, Grover’s, QAOA, Variational Quantum Eigensolver.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/tensor-networks.html">
+          <h4>Tensors & Networks</h4>
+          <p>Matrix product states, entanglement entropy, area law.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/data-driven-physics.html">
+          <h4>Data-Driven Physics</h4>
+          <p>Machine learning meets theory: generative and predictive physics.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/computational-cosmology.html">
+          <h4>Computational Cosmology</h4>
+          <p>Simulations of inflation, CMB, dark matter & energy.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/monte-carlo-methods.html">
+          <h4>Monte Carlo Methods</h4>
+          <p>Probabilistic methods in high-dimensional quantum systems.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/quantum-complexity.html">
+          <h4>Quantum Complexity</h4>
+          <p>Classes like BQP, QMA, and time-space resource bounds.</p>
+        </a>
       </div>
     </section>
+
     <section id="experiments" class="pillar">
       <h3>Experiments</h3>
       <div class="concept-grid">
-        <a class="concept-card" href="double-slit.html"><h4>Double Slit</h4><p>Foundational quantum interference experiment.</p></a>
-        <a class="concept-card" href="photon-entanglement.html"><h4>Photon Entanglement</h4><p>Tests of nonlocality via polarization states.</p></a>
-        <a class="concept-card" href="quantum-eraser.html"><h4>Quantum Eraser</h4><p>Erasing information to restore interference.</p></a>
-        <a class="concept-card" href="weak-measurement.html"><h4>Weak Measurement</h4><p>Measurement without collapse; post-selection magic.</p></a>
-        <a class="concept-card" href="monte-carlo-intuition.html"><h4>Monte Carlo Intuition</h4><p>Random sampling to model chaotic systems.</p></a>
-        <a class="concept-card" href="rabi-oscillations.html"><h4>2-Level Rabi Story</h4><p>Coherent driving and qubit oscillations.</p></a>
-        <a class="concept-card" href="interference-visibility.html"><h4>Interference Visibility</h4><p>Quantifying coherence in multi-path systems.</p></a>
-        <a class="concept-card" href="light-as-messenger.html"><h4>Light as a Messenger</h4><p>Photons carrying quantum information.</p></a>
-        <a class="concept-card" href="rydberg-atoms.html"><h4>Rydberg Atoms</h4><p>Giant atoms for quantum gates and simulation.</p></a>
-        <a class="concept-card" href="neutron-interferometry.html"><h4>Neutron Interferometry</h4><p>Neutrons in gravitational and magnetic fields.</p></a>
-        <a class="concept-card" href="superconducting-qubits.html"><h4>Superconducting Qubits</h4><p>Josephson junctions and circuit QED experiments.</p></a>
-        <a class="concept-card" href="ion-trap-experiments.html"><h4>Ion Trap Experiments</h4><p>Laser-cooled ions for high-fidelity quantum gates.</p></a>
-        <a class="concept-card" href="quantum-optics.html"><h4>Quantum Optics</h4><p>Controlling light at the quantum level.</p></a>
-        <a class="concept-card" href="ultracold-gases.html"><h4>Ultracold Gases</h4><p>Bose-Einstein condensates and quantum degeneracy.</p></a>
+        <a class="concept-card" href="concept_pages/double-slit.html">
+          <h4>Double Slit</h4>
+          <p>Wave-particle duality observed via interference.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/photon-entanglement.html">
+          <h4>Photon Entanglement</h4>
+          <p>Tests of nonlocality with entangled polarization states.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/quantum-eraser.html">
+          <h4>Quantum Eraser</h4>
+          <p>Erasure of path information restores interference.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/weak-measurement.html">
+          <h4>Weak Measurement</h4>
+          <p>Observation without collapse; surreal trajectories.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/monte-carlo-intuition.html">
+          <h4>Monte Carlo Intuition</h4>
+          <p>Stochastic methods in experimental simulation.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/rabi-oscillations.html">
+          <h4>2-Level Rabi Story</h4>
+          <p>Driving transitions in two-state quantum systems.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/interference-visibility.html">
+          <h4>Interference Visibility</h4>
+          <p>Quantitative coherence and visibility in multi-path interference.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/light-as-messenger.html">
+          <h4>Light as a Messenger</h4>
+          <p>Photons carrying quantum state information across space.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/rydberg-atoms.html">
+          <h4>Rydberg Atoms</h4>
+          <p>Giant atoms enabling highly tunable interactions for quantum control.</p>
+        </a>
+        <a class="concept-card" href="concept_pages/ultracold-gases.html">
+          <h4>Ultracold Gases</h4>
+          <p>Degenerate gases and Bose-Einstein condensates in the lab.</p>
+        </a>
       </div>
     </section>
-    <!-- Cosmic Quote Section -->
+
     <section class="pillar">
       <h3>Words in the Void</h3>
       <div class="concept-grid">
         <div class="concept-card">
-          <h4>“The universe is not only stranger than we imagine, it is stranger than we can imagine.”</h4>
-          <p>— J.B.S. Haldane</p>
+          <h4>"The universe is not only stranger than we imagine, it is stranger than we can imagine."</h4>
+          <p>– J.B.S. Haldane</p>
         </div>
         <div class="concept-card">
-          <h4>“What we observe is not nature itself, but nature exposed to our method of questioning.”</h4>
-          <p>— Werner Heisenberg</p>
+          <h4>"What we observe is not nature itself, but nature exposed to our method of questioning."</h4>
+          <p>– Werner Heisenberg</p>
         </div>
         <div class="concept-card">
-          <h4>“Time is an illusion. Lunchtime doubly so.”</h4>
-          <p>— Douglas Adams</p>
+          <h4>"Time is an illusion. Lunchtime doubly so."</h4>
+          <p>– Douglas Adams</p>
         </div>
         <div class="concept-card">
-          <h4>“Reality is merely an illusion, albeit a very persistent one.”</h4>
-          <p>— Albert Einstein</p>
+          <h4>"Reality is merely an illusion, albeit a very persistent one."</h4>
+          <p>– Albert Einstein</p>
         </div>
       </div>
     </section>
 
-    <!-- Filler Block for Depth -->
-    <section class="pillar">
-      <h3>Library Scroll</h3>
-      <div style="max-width: 900px; margin: 0 auto; line-height: 1.8; font-size: 1.1em; color: #ccc;">
-        <p>
-          Deep within the thought-temple of quantum minds, ideas flow like spin networks in a gravity-less manifold. The quantum field stretches its tendrils into metaphysics, entangling cause with probability, observation with reality. The symphony of partial differentials plays an ode to the vacuum.
-        </p>
-        <p>
-          Cosmology dreams in fluctuations, statistical shadows on the fabric of time. Decoherence is the language of emergence. In this infinite architecture of logic and uncertainty, Q Paradox invites you to ask not only “What is?” but “Why must it be so?” and “What remains when the measurement ends?”
-        </p>
-      </div>
-    </section>
-
-    <!-- JavaScript: Fade-in Cards on Scroll -->
     <script>
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase();
+        document.querySelectorAll('.concept-card').forEach(card => {
+          const text = card.textContent.toLowerCase();
+          card.style.display = text.includes(query) ? 'block' : 'none';
+        });
+      });
+
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -303,7 +406,6 @@
         observer.observe(card);
       });
     </script>
-
   </main>
 </body>
 </html>
