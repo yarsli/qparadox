@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • Classical Mechanics</title>
+
+<!-- Fonts (same as your other article) -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!--
+Required image files (place next to this HTML file, exact lowercase names):
+  - cm-header.jpeg
+  - cm-diagrams.jpeg
+  - cm-phase-space.jpeg
+  (Use your own images; names can be changed if you prefer—then update src below.)
+-->
+
+<style>
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --max:1180px; --side:330px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
+}
+body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+
+/* chrome */
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
+
+/* header */
+header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
+h1{
+  font-family:"Playfair Display",serif; font-weight:900; margin:0;
+  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)
+}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+
+/* layout */
+.main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
+
+/* article card */
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
+
+/* figures */
+.figure{
+  margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden;
+  background:#0e0f12; box-shadow:var(--shadow); max-width:820px
+}
+.figure img{display:block; width:100%; height:auto}
+.figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
+
+/* paragraph highlight button */
+.pwrap{position:relative; padding-right:2.5rem}
+.hlbtn{
+  position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+  background:var(--glass); color:var(--ink); border:1px solid var(--line);
+  font-size:.85rem; cursor:pointer; opacity:0; transition:.2s
+}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+
+/* sidebar */
+aside{
+  position:sticky; top:90px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem
+}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+
+/* quiz */
+.quiz{
+  margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px;
+  background:rgba(255,255,255,.04)
+}
+.qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
+.qchoices{display:grid; gap:.45rem}
+.qchoices button{
+  text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05);
+  color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer
+}
+.qchoices button.correct{border-color:#46d17d}
+.qchoices button.wrong{border-color:#e07070}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
+
+/* nav links */
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
+  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem}
+
+/* reveal + footer */
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<div class="frame" aria-hidden="true"></div>
+<div id="progress"></div>
+
+<header class="reveal in">
+  <h1>Classical Mechanics</h1>
+  <p class="subtitle">From Newton’s forces to Lagrange’s action and Hamilton’s phase space. Start with intuition, then climb to the formal structure that powers modern physics.</p>
+</header>
+
+<div class="main">
+  <!-- ARTICLE -->
+  <article id="article">
+
+    <figure class="figure reveal">
+      <img src="cm-header.jpeg" alt="Classical diagrams and orbits"/>
+      <figcaption class="figcap">Classical mechanics is a language for motion: first with forces, then with principles, and finally with geometry.</figcaption>
+    </figure>
+
+    <h2 id="overview" class="reveal">What this page gives you</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p0">★ Highlight</button>
+      <p id="p0" class="dropcap">
+        We begin with the Newtonian picture: particles, forces, and laws. We practice energy and momentum methods and learn when each is more efficient than summing forces. Then we translate problems into the Lagrangian approach, where dynamics come from a single scalar called the action and constraints are handled cleanly. Finally, we enter Hamiltonian mechanics and phase space, where symmetries and conserved quantities appear as geometry. You will see the same system solved three ways. Start simple, then grow the vocabulary as the problems demand it.
+      </p>
+    </div>
+
+    <!-- NEWTONIAN -->
+    <h2 id="newton" class="reveal">Newtonian Mechanics — forces and laws</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        Newton’s second law relates acceleration to force: <em>F = ma</em>. The content is deeper than the compact form suggests. It assumes a choice of inertial frame (no extra accelerations built into the coordinates) and a mass that does not change during the motion. Forces can be contact (springs, constraints, friction) or at-a-distance (gravity, electrostatics in appropriate regimes). The goal is to translate a physical situation into <em>F</em> as a function of position, velocity, and time, then integrate to obtain motion.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2">
+        Two shortcuts dominate in practice: the work–energy theorem and momentum methods. The work–energy theorem trades the vector equation for a scalar: the net work done equals the change in kinetic energy. It shines when forces are parallel to motion or when you can express forces as gradients of a potential. Momentum methods remove details of internal forces and let you track the motion of a whole system under external impulses. Use energy when forces are conservative and direction changes complicate the vector sum; use momentum when interactions are brief or internal and symmetry makes the vector story simple.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="cm-diagrams.jpeg" alt="Free-body sketches and energy curves"/>
+      <figcaption class="figcap">Choose your tool: free-body diagrams for force balance, or energy curves for turning points and accessible regions.</figcaption>
+    </figure>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3">
+        A small catalog helps. Springs: <em>F = −kx</em>. Drag at low speed: <em>F = −bv</em>. Gravity near Earth: <em>F = −mg \hat{y}</em>. Planetary gravity: <em>F = −GMm r̂ / r^2</em>. Normal forces enforce constraints by canceling motion into a surface; they do no work when the surface is rigid and frictionless. Static friction adjusts up to a maximum; kinetic friction has near-constant magnitude opposite motion. Constraint reactions are best found from kinematics first: describe what motion is allowed, then let unspecified forces enforce that motion.
+      </p>
+    </div>
+
+    <h2 id="lagrange" class="reveal">Lagrangian Mechanics — principles and coordinates</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4" class="dropcap">
+        The Lagrangian method begins with a single scalar function <em>L(q, \dot{q}, t) = T - V</em>, kinetic minus potential energy, in a set of generalized coordinates <em>q</em> that encode only the real degrees of freedom. The equations of motion follow from the Euler–Lagrange equation: <em>d/dt(∂L/∂\dot{q}_i) − ∂L/∂q_i = 0</em>. This is not a trick; it is a compressed way to state Newton’s second law for any coordinate system and any holonomic constraints. It is powerful because choosing <em>q</em> well can make the physics obvious.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p5">★ Highlight</button>
+      <p id="p5">
+        Constraints reduce the number of independent variables. For a bead sliding on a rigid wire in space, a single parameter like the arc length along the curve may be the only coordinate you need. Forces of constraint never appear explicitly; the geometry handles them. Symmetries of <em>L</em> imply conserved quantities: if <em>L</em> has no explicit time dependence, the energy is conserved; if it has no dependence on a coordinate (cyclic coordinate), the corresponding momentum is conserved. These are early glimpses of Noether’s theorem.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p6">★ Highlight</button>
+      <p id="p6">
+        Example: the simple pendulum of length <em>ℓ</em> with angle <em>θ</em>. The kinetic energy is <em>T = (1/2)m(ℓ^2 \dot{θ}^2)</em>, and potential energy is <em>V = mgℓ(1 − \cos θ)</em>. Thus <em>L = T − V</em>. The Euler–Lagrange equation gives <em>ℓ \ddot{θ} + g \sin θ = 0</em>. In the small-angle limit, <em>\sin θ ≈ θ</em>, we recover simple harmonic motion with period <em>2π\sqrt{ℓ/g}</em>. The method required no tension force; the constraint was built into the coordinate choice.
+      </p>
+    </div>
+
+    <h2 id="hamilton" class="reveal">Hamiltonian Mechanics — phase space and structure</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p7">★ Highlight</button>
+      <p id="p7" class="dropcap">
+        Hamiltonian mechanics lifts the description to phase space: coordinates <em>q</em> and conjugate momenta <em>p = ∂L/∂\dot{q}</em>. The Hamiltonian <em>H(q,p,t)</em> is usually the total energy in familiar systems. Time evolution is given by Hamilton’s equations: <em>\dot{q}_i = ∂H/∂p_i</em> and <em>\dot{p}_i = −∂H/∂q_i</em>. These equations express motion as a flow that preserves volume in phase space (Liouville’s theorem). The geometry makes symmetries and conserved quantities appear as functions that commute with <em>H</em> under the Poisson bracket.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p8">★ Highlight</button>
+      <p id="p8">
+        The Poisson bracket for functions <em>F(q,p)</em> and <em>G(q,p)</em> is <em>{F,G} = Σ_i (∂F/∂q_i ∂G/∂p_i − ∂F/∂p_i ∂G/∂q_i)</em>. A quantity <em>C</em> is conserved if <em>{C,H} + ∂C/∂t = 0</em>. Canonical transformations are changes of variables that preserve the bracket. They let you simplify problems by moving to action–angle coordinates in integrable systems, turning motion into uniform rotation on tori. This is the gateway to perturbation theory and to understanding how integrability breaks and chaos appears.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="cm-phase-space.jpeg" alt="Phase-space orbits and energy contours"/>
+      <figcaption class="figcap">Energy contours are streamlines of Hamilton’s flow. Closed curves correspond to bounded periodic motion; separatrices mark qualitative change.</figcaption>
+    </figure>
+
+    <h2 id="catalog" class="reveal">Problem patterns you should master</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p9">★ Highlight</button>
+      <p id="p9" class="dropcap">
+        <strong>Small oscillations.</strong> Expand the potential around equilibrium, keep quadratic terms, and diagonalize the mass and stiffness matrices to find normal modes. <strong>Central forces.</strong> Reduce to an effective one-dimensional radial problem with an effective potential that includes the angular momentum barrier. <strong>Driven/ damped motion.</strong> Use linear response and complex impedance methods for steady-state amplitudes and phases. <strong>Constrained systems.</strong> Choose generalized coordinates so constraints are identities; if needed, add Lagrange multipliers to handle non-integrable constraints.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p10">★ Highlight</button>
+      <p id="p10">
+        <strong>Noether in practice.</strong> If your Lagrangian is unchanged by a continuous transformation, there is a conserved quantity. Spatial translation → linear momentum; rotation → angular momentum; time translation → energy. Write the transformation, compute the variation of <em>L</em>, and read off the current. When stuck, look for a hidden symmetry (e.g., the Laplace–Runge–Lenz vector in the Kepler problem) that explains special degeneracies and closed orbits.
+      </p>
+    </div>
+
+    <h2 id="worked" class="reveal">Worked examples (three viewpoints)</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p11">★ Highlight</button>
+      <p id="p11" class="dropcap">
+        <strong>Mass–spring–dashpot (m, k, b).</strong> Newton: <em>m\ddot{x}+b\dot{x}+kx = F_0 \cos ωt</em>. Solve via trial solution or complex impedance; resonance near <em>ω≈√(k/m)</em> with width set by <em>b</em>. Lagrange: <em>L = ½m\dot{x}^2 − ½kx^2</em>, include Rayleigh dissipation <em>R = ½b\dot{x}^2</em> to model damping; Euler–Lagrange with damping term yields the same ODE. Hamilton: define <em>p = m\dot{x}</em>, <em>H = p^2/2m + ½kx^2</em>; for driving/damping you treat nonconservative effects as external.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p12">★ Highlight</button>
+      <p id="p12">
+        <strong>Central force orbit.</strong> Lagrange in polar coordinates gives conservation of angular momentum <em>ℓ = m r^2 \dot{θ}</em>; reduce to radial equation in an effective potential <em>V_eff(r)=V(r)+ℓ^2/(2mr^2)</em>. For inverse-square, bounded motion is an ellipse with one focus at the center. Hamilton’s equations show the closed orbits correspond to an extra conserved quantity beyond energy and angular momentum (the Runge–Lenz vector), revealing the problem’s integrability.
+      </p>
+    </div>
+
+    <h2 id="deep" class="reveal">Deeper structure you’ll meet later</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p13">★ Highlight</button>
+      <p id="p13" class="dropcap">
+        <strong>Symplectic geometry.</strong> Phase space is not just a set of axes; it carries a two-form that Hamiltonian flow preserves. Symplectic integrators respect this structure numerically and dramatically reduce long-time drift in energy. <strong>Action–angle variables.</strong> For integrable systems, you can label tori by actions and evolve angles linearly in time—an almost trivial motion in a curved coordinate system. <strong>From classical to quantum.</strong> Many quantum commutators mirror classical Poisson brackets; path integrals mirror actions. Learning the classical structures pays dividends later.
+      </p>
+    </div>
+
+    <!-- QUIZ -->
+    <h2 id="quiz" class="reveal">Quick Quiz — Classical Mechanics</h2>
+    <div class="divider"></div>
+
+    <section class="quiz reveal" id="quizSection">
+      <!-- Q1 -->
+      <div class="qitem">
+        <h4>1) When is the work–energy method typically better than summing forces directly?</h4>
+        <div class="qchoices" data-answer="b" data-explain="When forces are conservative or motion is along a line so work accumulates cleanly—turning points and accessible regions pop out.">
+          <button data-choice="a">When friction dominates in arbitrary directions</button>
+          <button data-choice="b">When forces derive from a potential and you need speeds or turning points</button>
+          <button data-choice="c">Only when velocity is constant</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="qitem">
+        <h4>2) In the Lagrangian approach, what do generalized coordinates do for you?</h4>
+        <div class="qchoices" data-answer="a" data-explain="They encode just the true degrees of freedom; constraints are built-in so reaction forces need not be solved explicitly.">
+          <button data-choice="a">They eliminate redundant motion by encoding constraints directly</button>
+          <button data-choice="b">They maximize algebra regardless of constraints</button>
+          <button data-choice="c">They replace energy conservation</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="qitem">
+        <h4>3) Which statement about Hamiltonian flow is correct?</h4>
+        <div class="qchoices" data-answer="c" data-explain="Hamiltonian evolution preserves phase-space volume (Liouville) and expresses motion via Poisson brackets.">
+          <button data-choice="a">It always reduces to one dimension</button>
+          <button data-choice="b">It changes phase-space volume over time</button>
+          <button data-choice="c">It preserves phase-space volume and can be written with Poisson brackets</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="qitem">
+        <h4>4) What indicates a cyclic coordinate in the Lagrangian?</h4>
+        <div class="qchoices" data-answer="b" data-explain="If L has no dependence on a coordinate q, the conjugate momentum p = ∂L/∂\dot{q} is conserved.">
+          <button data-choice="a">L depends only on time</button>
+          <button data-choice="b">L does not depend explicitly on that coordinate</button>
+          <button data-choice="c">The coordinate is angular</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="qitem">
+        <h4>5) Why are symplectic integrators valuable for long simulations?</h4>
+        <div class="qchoices" data-answer="a" data-explain="They preserve the symplectic structure, preventing secular energy drift and keeping qualitative behavior correct.">
+          <button data-choice="a">They preserve the system’s symplectic structure</button>
+          <button data-choice="b">They minimize CPU usage in all cases</button>
+          <button data-choice="c">They avoid the need for time steps</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <div style="margin-top:.8rem">
+        <button id="gradeBtn" style="border:1px solid rgba(255,255,255,.3); background:rgba(255,255,255,.08); color:var(--ink); padding:.6rem 1rem; border-radius:.6rem; cursor:pointer">Grade quiz</button>
+        <span id="scoreLine" style="margin-left:.8rem; color:var(--ink2)"></span>
+      </div>
+    </section>
+
+    <h2 id="next" class="reveal">Next steps</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p14">★ Highlight</button>
+      <p id="p14" class="dropcap">
+        Ready to branch. For a deeper Newtonian toolkit, practice multi-body constraints and collision problems with momentum and energy together. For Lagrangian fluency, work small oscillation problems and bead-on-wire constraints in multiple coordinates. For Hamiltonian insight, sketch phase portraits, compute Poisson brackets, and try action–angle variables for the harmonic oscillator and the planar pendulum (below separatrix). Each lens is the same system told in a different grammar.
+      </p>
+    </div>
+
+    <div class="nextrow reveal">
+      <a href="theoretical.html">← Back to Theoretical Hub</a>
+      <a href="classical-newtonian.html">Continue → Newtonian page</a>
+      <a href="classical-lagrangian.html">Continue → Lagrangian page</a>
+      <a href="classical-hamiltonian.html">Continue → Hamiltonian page</a>
+    </div>
+
+  </article>
+
+  <!-- SIDEBAR: TOC + NOTEBOOK -->
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ next to any paragraph to save it here. You can also add your own note below.</p>
+    <div id="nbList"></div>
+
+    <textarea id="freeNote" placeholder="Write your own note. Press Save to store it." style="margin-top:.6rem; height:100px; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink); border-radius:.5rem; padding:.55rem .6rem; font-family:'Crimson Text',serif;"></textarea>
+    <div style="display:flex; gap:.5rem; margin-top:.4rem">
+      <button id="saveFree" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Save</button>
+      <button id="clearAll" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Clear all</button>
+    </div>
+    <p style="color:var(--muted); font-size:.9rem; margin-top:.4rem">Highlights and notes are saved in this browser.</p>
+  </aside>
+</div>
+
+<footer>© 2025 QParadox</footer>
+
+<script>
+/* progress bar */
+const bar=document.getElementById('progress');
+function onScroll(){
+  const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
+}
+addEventListener('scroll', onScroll); onScroll();
+
+/* reveal on scroll */
+const obs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} }); },{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{ if(!el.classList.contains('in')) obs.observe(el); });
+
+/* build TOC */
+const toc=document.getElementById('toc');
+const heads=[...document.querySelectorAll('#article h2')];
+heads.forEach(h=>{ const a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent; toc.appendChild(a); });
+function spy(){
+  const y=scrollY+140; let idx=-1;
+  heads.forEach((s,i)=>{ if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i; });
+  [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));
+}
+addEventListener('scroll', spy); spy();
+
+/* notebook store (unique key for this page) */
+const KEY='qpx_notes_classical_mechanics_v1';
+const listEl=document.getElementById('nbList');
+function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];}}
+function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+function render(){
+  const notes=load(); listEl.innerHTML='';
+  if(notes.length===0){ listEl.innerHTML='<p style="color:var(--muted)">No highlights yet.</p>'; return; }
+  notes.forEach(n=>{
+    const div=document.createElement('div'); div.className='note'; div.dataset.id=n.id;
+    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time>
+      <p>${n.text}</p>
+      <button class="del">Remove</button>`;
+    listEl.appendChild(div);
+  });
+}
+render();
+
+/* save paragraph to notebook */
+document.querySelectorAll('.hlbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id=btn.dataset.target, p=document.getElementById(id);
+    if(!p) return;
+    p.classList.add('mark');
+    const notes=load(); notes.push({id:'n'+Date.now(), text:p.textContent.trim(), time:Date.now(), para:id});
+    save(notes); render();
+  });
+});
+
+/* free note */
+document.getElementById('saveFree').addEventListener('click',()=>{
+  const box=document.getElementById('freeNote'); const t=box.value.trim(); if(!t) return;
+  const notes=load(); notes.push({id:'n'+Date.now(), text:t, time:Date.now(), para:null});
+  save(notes); render(); box.value='';
+});
+
+/* remove & clear */
+listEl.addEventListener('click',e=>{
+  if(!e.target.classList.contains('del')) return;
+  const item=e.target.closest('.note'); const id=item.dataset.id;
+  const notes=load().filter(x=>x.id!==id); save(notes); render();
+});
+document.getElementById('clearAll').addEventListener('click',()=>{
+  if(!confirm('Clear all saved notes for this page')) return;
+  localStorage.removeItem(KEY); render();
+  document.querySelectorAll('.mark').forEach(m=>m.classList.remove('mark'));
+});
+
+/* quiz grading */
+const gradeBtn=document.getElementById('gradeBtn');
+if(gradeBtn){
+  gradeBtn.addEventListener('click',()=>{
+    let score=0, total=0;
+    document.querySelectorAll('.qchoices').forEach(group=>{
+      total++;
+      const ans=group.dataset.answer;
+      const feedback=group.parentElement.querySelector('.qfeedback');
+      const explain=group.dataset.explain || '';
+      const pressed=[...group.querySelectorAll('button')].find(b=>b.dataset.pressed==='1');
+      if(!pressed){
+        feedback.textContent='Select an option to see feedback.';
+        feedback.style.color='#f0d28a';
+        return;
+      }
+      if(pressed.dataset.choice===ans){
+        score++;
+        pressed.classList.add('correct');
+        feedback.textContent='Correct — ' + explain;
+        feedback.style.color='#8fe0a8';
+      }else{
+        pressed.classList.add('wrong');
+        feedback.textContent='Not quite — ' + explain;
+        feedback.style.color='#f29b9b';
+        const c=[...group.querySelectorAll('button')].find(b=>b.dataset.choice===ans);
+        if(c) c.classList.add('correct');
+      }
+    });
+    const scoreLine=document.getElementById('scoreLine');
+    if(scoreLine) scoreLine.textContent='Score: ' + score + ' / ' + total;
+  });
+
+  // capture selection
+  document.querySelectorAll('.qchoices button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const group=btn.closest('.qchoices');
+      group.querySelectorAll('button').forEach(b=>{ b.dataset.pressed='0'; b.classList.remove('correct','wrong'); });
+      btn.dataset.pressed='1';
+      const fb=group.parentElement.querySelector('.qfeedback');
+      fb.textContent='Selection saved — press Grade quiz when ready.';
+      fb.style.color='#d1d1d1';
+    });
+  });
+}
+</script>
+</body>
+</html>
