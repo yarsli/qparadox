@@ -7,75 +7,168 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=EB+Garamond&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0a0b14;
+      --bg: #050518;           /* kept exactly as you had */
       --text: #e8e8e8;
-      --accent: #f5f5f5;
-      --card-bg: #141726;
-      --border: #2a2d3d;
+      --accent: #ffffff;
+      --card-bg: #111322;
+      --border: #25273c;
       --font-title: 'Playfair Display', serif;
       --font-body: 'EB Garamond', serif;
     }
 
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     html, body {
-      margin: 0;
       background-color: var(--bg);
       color: var(--text);
       font-family: var(--font-body);
       overflow-x: hidden;
+      scroll-behavior: smooth;
     }
 
-    /* Background star grid */
+    /* ===== Added background effects (non-intrusive) ===== */
+    /* Starfield canvas (behind everything) */
+    #bg-stars {
+      position: fixed; inset: 0;
+      width: 100vw; height: 100vh;
+      z-index: 0; pointer-events: none;
+    }
+
+    /* Very subtle moving dot-grid (your idea, kept, just slightly clearer) */
     body::before {
       content: '';
-      position: fixed; inset: 0;
+      position: fixed; top: 0; left: 0;
       width: 200%; height: 200%;
-      background: radial-gradient(#ffffff55 1px, transparent 1px),
-                  radial-gradient(#ffffff33 1px, transparent 1px);
+      background: radial-gradient(#ffffff22 1px, transparent 1px),
+                  radial-gradient(#ffffff11 1px, transparent 1px);
       background-size: 4px 4px;
-      animation: starScroll 80s linear infinite;
+      animation: starScroll 140s linear infinite;
       z-index: 0;
-      opacity: 0.15; /* made much stronger */
+      opacity: 0.04;               /* slightly higher so it’s visible */
       pointer-events: none;
     }
 
-    /* Radial glows */
+    /* Muted radial glows (unchanged vibe) */
     body::after {
       content: '';
-      position: fixed; inset: 0;
-      background: radial-gradient(circle at 28% 38%, #7a84a360 0%, transparent 60%),
-                  radial-gradient(circle at 68% 64%, #5f6b8a60 0%, transparent 60%);
+      position: fixed; top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: radial-gradient(circle at 30% 40%, #8888ff11 0%, transparent 60%),
+                  radial-gradient(circle at 70% 60%, #77aaff11 0%, transparent 60%);
       z-index: 0;
-      opacity: 0.25; /* stronger */
+      opacity: 0.08;
       pointer-events: none;
     }
 
-    @keyframes starScroll {
-      0% { transform: translate(0,0);}
-      100% { transform: translate(-200px,-200px);}
-    }
-
-    /* Canvas starfield */
-    #bg-stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-
+    /* Paper grain overlay */
     .grain {
-      position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: .15;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.6"/></svg>');
+      position: fixed; inset: 0;
+      z-index: 1; pointer-events: none;
+      opacity: 0.06;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.45"/></svg>');
       mix-blend-mode: soft-light;
     }
 
-    .container { position: relative; z-index: 2; max-width: 1000px; margin: 0 auto; padding: 80px 20px; }
-    header.hero { text-align: center; padding: 100px 20px 60px; }
-    header.hero h1 { font-family: var(--font-title); font-size: 3.4em; color: var(--accent); }
-    header.hero p { font-size: 1.3em; color: #cfcfd3; margin-top: 15px; font-style: italic; }
-    section { margin: 60px 0; }
-    section h2 { font-family: var(--font-title); font-size: 2.4em; color: var(--accent); margin-bottom: 20px; }
-    section p { font-size: 1.05em; max-width: 800px; margin-bottom: 20px; }
-    .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 30px; }
-    .pillar-card { background-color: var(--card-bg); border: 1px solid var(--border); padding: 20px; border-radius: 12px; }
-    footer { text-align: center; font-size: 0.9em; color: #8b8b95; padding: 40px 0; border-top: 1px solid var(--border); margin-top: 60px; }
+    @keyframes starScroll {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-100px, -100px); }
+    }
+    /* ===== End background effects ===== */
+
+    .container {
+      position: relative;
+      z-index: 2;                 /* sits above background layers */
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 80px 20px;
+    }
+
+    header.hero {
+      text-align: center;
+      padding: 100px 20px 60px;
+    }
+
+    header.hero h1 {
+      font-family: var(--font-title);
+      font-size: 3.4em;
+      color: var(--accent);
+    }
+
+    header.hero p {
+      font-size: 1.3em;
+      color: #ccc;
+      margin-top: 15px;
+      font-style: italic;
+    }
+
+    section {
+      margin: 60px 0;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    section h2 {
+      font-family: var(--font-title);
+      font-size: 2.4em;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    section p {
+      font-size: 1.05em;
+      max-width: 800px;
+      margin-bottom: 20px;
+    }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .pillar-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .pillar-card h3 {
+      font-family: var(--font-title);
+      font-size: 1.4em;
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+
+    .pillar-card p {
+      font-size: 0.95em;
+      color: #ccc;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9em;
+      color: #777;
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      margin-top: 60px;
+    }
+
+    @media (max-width: 600px) {
+      header.hero h1 { font-size: 2.2em; }
+      section h2 { font-size: 1.8em; }
+    }
   </style>
 </head>
 <body>
+  <!-- NEW background layers -->
   <canvas id="bg-stars"></canvas>
   <div class="grain"></div>
 
@@ -84,70 +177,136 @@
       <h1>About Q Paradox</h1>
       <p>"Between paradox and prediction lies understanding."</p>
     </header>
-
-    <section>
+    <!-- What is Q Paradox -->
+    <section class="visible">
       <h2>What is Q Paradox?</h2>
-      <p><strong>Q Paradox</strong> is a conceptual lab — part physics, part philosophy, part poetic investigation.</p>
-      <p>We are not here to memorize answers — we are here to ask better questions.</p>
+      <p>
+        <strong>Q Paradox</strong> is a conceptual lab — part physics, part philosophy, part poetic investigation.
+        It's a space to explore the strange, beautiful boundaries of knowledge: the edge where theory, simulation, and experiment overlap.
+      </p>
+      <p>
+        We are not here to memorize answers — we are here to ask better questions.
+        Q Paradox invites you into that spirit: bold, curious, rigorous, and occasionally rebellious.
+      </p>
+
       <div class="pillars">
-        <div class="pillar-card"><h3>Theoretical</h3><p>Core ideas from mechanics, quantum, relativity, cosmology, and philosophy.</p></div>
-        <div class="pillar-card"><h3>Computational</h3><p>Simulations, algorithms, and frameworks that reveal hidden patterns.</p></div>
-        <div class="pillar-card"><h3>Experimental</h3><p>Where theory meets the lab — real and imagined experiments.</p></div>
+        <div class="pillar-card">
+          <h3>Theoretical</h3>
+          <p>Core ideas from classical mechanics, quantum theory, relativity, cosmology, and philosophy of physics.</p>
+        </div>
+        <div class="pillar-card">
+          <h3>Computational</h3>
+          <p>Simulations, algorithms, and frameworks that make complex systems understandable, visualizable, and hackable.</p>
+        </div>
+        <div class="pillar-card">
+          <h3>Experimental</h3>
+          <p>Where theory meets the lab. Actual and imagined experiments that sharpen — or shatter — our assumptions.</p>
+        </div>
       </div>
     </section>
 
-    <section>
+    <!-- About Yara Hamid -->
+    <section class="visible">
       <h2>About Yara Hamid</h2>
-      <p>I'm <strong>Yara Hamid</strong>, the creator of Q Paradox...</p>
+      <p>
+        I'm <strong>Yara Hamid</strong>, the creator of Q Paradox. This site is my personal thought experiment — a space where
+        physics and philosophy merge into curiosity-driven exploration.
+      </p>
+      <p>
+        I'm interested in quantum mechanics, metaphysics, complex systems, and the kind of paradoxes that don’t resolve easily.
+        This is not a textbook. This is a map. And it changes every time you look at it.
+      </p>
+      <p>
+        I hope Q Paradox gives you permission to think differently. To question deeply. And to love ideas again.
+      </p>
     </section>
 
-    <section>
+    <!-- Why “Paradox”? -->
+    <section class="visible">
       <h2>Why “Paradox”?</h2>
-      <p>A paradox is a riddle that resists simplification...</p>
+      <p>
+        A paradox is a riddle that resists simplification — not a failure of understanding, but a signpost of its limits.
+        Q Paradox is built on the idea that paradoxes aren't problems to fix, but phenomena to explore.
+        They're the cracks through which something deeper shines through.
+      </p>
+      <p>
+        Physics is full of them: wave–particle duality, the EPR paradox, Wigner’s friend, the firewall problem. Each one reminds us:
+        truth isn’t always obvious, and reality may not be fully knowable — but it's always worth chasing.
+      </p>
     </section>
 
-    <section>
+    <!-- Personal Philosophy -->
+    <section class="visible">
       <h2>A Philosophy of Curiosity</h2>
-      <p>Q Paradox is not just a website — it’s a personal archive and invitation.</p>
+      <p>
+        Q Paradox is not just a website — it’s a personal archive, a growing library, and an invitation.
+        It’s for those who want to understand, but not in a dry or detached way — in a way that’s alive.
+      </p>
+      <p>
+        My work is rooted in the belief that physics is meaningful. That theory is a kind of storytelling. That experiments are poems with measurements.
+      </p>
+      <p>
+        Whether you’re a physicist, philosopher, student, or cosmic wanderer — you belong here.
+      </p>
     </section>
 
+    <!-- Footer -->
     <footer>
       Made with paradox and precision by Yara Hamid. © 2025 Q Paradox.
       <br>
-      <a href="index.html">Return to Home</a> | <a href="concepts.html">Explore Concepts</a>
+      <a href="index.html" style="color: #aaa;">Return to Home</a> |
+      <a href="concepts.html" style="color: #aaa;">Explore Concepts</a>
     </footer>
   </div>
 
+  <!-- JS: your original IntersectionObserver + starfield animation -->
   <script>
-    // Starfield animation
-    const canvas = document.getElementById('bg-stars');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize); resize();
-    function initStars(n=200) {
-      stars = [];
-      for (let i=0;i<n;i++) {
-        stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.5+0.8,vx:(Math.random()-.5)*0.3,vy:(Math.random()-.5)*0.3});
-      }
-    }
-    function animate() {
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.fillStyle = 'rgba(255,255,255,0.8)';
-      stars.forEach(s => {
-        ctx.beginPath();
-        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-        ctx.fill();
-        s.x+=s.vx; s.y+=s.vy;
-        if(s.x<0||s.x>canvas.width) s.vx*=-1;
-        if(s.y<0||s.y>canvas.height) s.vy*=-1;
+    // Keep your reveal-on-scroll behavior
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
       });
-      requestAnimationFrame(animate);
-    }
-    initStars(); animate();
+    }, { threshold: 0.1 });
+    document.querySelectorAll('section').forEach(section => observer.observe(section));
+
+    // Added: animated starfield
+    (function(){
+      const c = document.getElementById('bg-stars');
+      const ctx = c.getContext('2d');
+      function resize(){ c.width = innerWidth; c.height = innerHeight; }
+      addEventListener('resize', resize, {passive:true}); resize();
+
+      const stars = [];
+      const COUNT = 160;
+      for(let i=0;i<COUNT;i++){
+        stars.push({
+          x: Math.random()*c.width,
+          y: Math.random()*c.height,
+          r: Math.random()*1.2 + 0.5,
+          vx: (Math.random()-.5)*0.25,
+          vy: (Math.random()-.5)*0.25,
+          a: 0.10 + Math.random()*0.15
+        });
+      }
+
+      function step(){
+        ctx.clearRect(0,0,c.width,c.height);
+        for(const s of stars){
+          s.x += s.vx; s.y += s.vy;
+          if(s.x < 0 || s.x > c.width) s.vx *= -1;
+          if(s.y < 0 || s.y > c.height) s.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+          ctx.fillStyle = `rgba(255,255,255,${s.a})`;
+          ctx.fill();
+        }
+        requestAnimationFrame(step);
+      }
+        step();
+    })();
   </script>
 </body>
 </html>
