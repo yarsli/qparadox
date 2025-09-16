@@ -3,22 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Concepts</title>
+  <title>Q Paradox – Concepts</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=EB+Garamond&display=swap" rel="stylesheet">
   <style>
-    /* === VARIABLES === */
     :root {
-      --bg: #0e1120;
-      --accent: #d1a075;
-      --text: #e0d8cc;
-      --card-bg: #1a1c2c;
-      --border: #3a3f5c;
-      --highlight: #c7b299;
-      --scrollbar-bg: #2a2d45;
-      --scrollbar-thumb: #b38b6d;
+      --bg: #0a0c16;
+      --text: #d8d4cd;
+      --accent: #bca88d;
+      --card-bg: #131520;
+      --border: #2f334d;
+      --font-title: 'Playfair Display', serif;
+      --font-body: 'EB Garamond', serif;
     }
 
-    /* === RESET === */
     * {
       margin: 0;
       padding: 0;
@@ -26,47 +23,43 @@
     }
 
     html, body {
-      height: 100%;
       background-color: var(--bg);
-      font-family: 'EB Garamond', serif;
+      font-family: var(--font-body);
       color: var(--text);
-      scroll-behavior: smooth;
+      height: 100%;
       overflow-x: hidden;
     }
 
-    /* === SCROLLBAR === */
-    ::-webkit-scrollbar {
-      width: 12px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--scrollbar-bg);
-    }
-    ::-webkit-scrollbar-thumb {
-      background-color: var(--scrollbar-thumb);
-      border-radius: 6px;
+    /* BACKGROUND PATTERN */
+    body::before {
+      content: '';
+      background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+      position: fixed;
+      top: 0; left: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0.05;
+      z-index: 0;
     }
 
-    /* === SIDEBAR === */
+    /* SIDEBAR */
     nav {
       position: fixed;
       top: 0;
       left: 0;
-      height: 100vh;
-      width: 220px;
-      background-color: #121528;
+      width: 240px;
+      height: 100%;
+      background-color: #0c0f1f;
       border-right: 1px solid var(--border);
-      padding: 30px 20px;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      padding: 40px 20px;
+      z-index: 2;
     }
 
     nav h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.4em;
+      font-family: var(--font-title);
+      font-size: 2em;
       color: var(--accent);
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
     nav ul {
@@ -74,13 +67,13 @@
     }
 
     nav ul li {
-      margin: 20px 0;
+      margin: 15px 0;
     }
 
     nav ul li a {
       color: var(--text);
       text-decoration: none;
-      font-size: 1.2em;
+      font-size: 1.1em;
       transition: color 0.3s;
     }
 
@@ -89,14 +82,16 @@
     }
 
     nav footer {
-      font-size: 0.9em;
-      color: #aaa;
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.8em;
       font-style: italic;
+      color: #888;
     }
 
-    /* === MAIN === */
+    /* MAIN */
     main {
-      margin-left: 240px;
+      margin-left: 260px;
       padding: 60px 40px;
       position: relative;
       z-index: 1;
@@ -104,76 +99,87 @@
 
     .header {
       text-align: center;
-      margin-bottom: 60px;
+      margin-bottom: 40px;
     }
 
     .header h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3em;
-      color: var(--highlight);
+      font-family: var(--font-title);
+      font-size: 2.5em;
+      color: var(--accent);
     }
 
     .header p {
       font-style: italic;
-      color: #ccc;
-      margin-top: 10px;
+      color: #aaa;
+      margin-top: 5px;
     }
 
-    .concepts {
+    /* SEARCH BAR */
+    .search-bar {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .search-bar input {
+      padding: 10px 15px;
+      width: 60%;
+      max-width: 600px;
+      font-size: 1em;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background-color: #10121c;
+      color: var(--text);
+    }
+
+    .pillar {
+      margin-bottom: 50px;
+    }
+
+    .pillar h3 {
+      font-family: var(--font-title);
+      font-size: 2em;
+      color: var(--accent);
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 5px;
+    }
+
+    .concept-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
     }
 
     .concept-card {
-      background: var(--card-bg);
+      background-color: var(--card-bg);
       border: 1px solid var(--border);
-      padding: 24px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(12, 15, 30, 0.5);
-      transition: transform 0.3s, box-shadow 0.3s;
-      backdrop-filter: blur(4px);
+      border-radius: 8px;
+      padding: 20px;
+      transition: all 0.3s;
+      cursor: pointer;
     }
 
     .concept-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 30px rgba(255, 200, 160, 0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 0 15px rgba(255,255,255,0.08);
     }
 
-    .concept-card h3 {
-      font-size: 1.6em;
+    .concept-card h4 {
+      font-size: 1.2em;
       color: var(--accent);
-      margin-bottom: 10px;
-      font-family: 'Playfair Display', serif;
+      margin-bottom: 8px;
     }
 
     .concept-card p {
-      font-size: 1em;
-      line-height: 1.6;
+      font-size: 0.95em;
+      color: #bbb;
     }
 
-    /* === PARALLAX BG === */
-    .background {
-      background-image: url('https://www.transparenttextures.com/patterns/dark-mosaic.png');
-      opacity: 0.05;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 100vw;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* === MEDIA === */
     @media (max-width: 768px) {
       nav {
+        position: static;
         width: 100%;
         height: auto;
-        position: static;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
         padding: 20px;
       }
 
@@ -186,79 +192,98 @@
         font-size: 2em;
       }
 
-      .concept-card {
-        padding: 16px;
+      .search-bar input {
+        width: 90%;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="background"></div>
-
   <nav>
-    <div>
-      <h1>CONCEPTS</h1>
-      <ul>
-        <li><a href="#concepts">Concepts</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#thoughts">Thoughts</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
-    <footer>
-      &copy; 2025 — Crafted in candlelight.
-    </footer>
+    <h1>Q Paradox</h1>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="#theoretical">Theoretical</a></li>
+      <li><a href="#computational">Computational</a></li>
+      <li><a href="#experiments">Experiments</a></li>
+    </ul>
+    <footer>&copy; 2025 — Crafted in candlelight.</footer>
   </nav>
 
   <main>
     <div class="header">
-      <h2>A Cabinet of Ideas</h2>
-      <p>Collecting fragments of imagination, shadow, and philosophy</p>
+      <h2>Concepts</h2>
+      <p>Explore the mind of Q Paradox through structured chaos.</p>
     </div>
 
-    <section id="concepts" class="concepts">
-      <div class="concept-card">
-        <h3>Ephemeral Beauty</h3>
-        <p>The fleeting nature of beauty in dusty books and morning light.</p>
+    <div class="search-bar">
+      <input type="text" id="searchInput" onkeyup="filterConcepts()" placeholder="Search concepts...">
+    </div>
+
+    <!-- === THEORETICAL === -->
+    <section id="theoretical" class="pillar">
+      <h3>Theoretical</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><h4>Theoretical Foundations</h4><p>Basic principles of quantum theory and logic.</p></div>
+        <div class="concept-card"><h4>Quantum Toolkit</h4><p>Operators, spaces, matrices, commutators.</p></div>
+        <div class="concept-card"><h4>Quantum Deep Dive</h4><p>Entanglement, interpretations, decoherence.</p></div>
+        <div class="concept-card"><h4>Quantum Experiments</h4><p>Thought experiments that shaped theory.</p></div>
+        <div class="concept-card"><h4>Cosmology</h4><p>Entropy, inflation, fields, and quantum gravity.</p></div>
+        <div class="concept-card"><h4>Classical Mechanics</h4><p>From Newton to Lagrangians and Hamiltonians.</p></div>
+        <div class="concept-card"><h4>Relativity</h4><p>Space-time, general relativity, curvature, tensors.</p></div>
+        <div class="concept-card"><h4>Electromagnetism</h4><p>Maxwell's equations, gauge symmetry.</p></div>
+        <div class="concept-card"><h4>Metaphysics</h4><p>Interpretations of reality, measurement, existence.</p></div>
+        <div class="concept-card"><h4>Quantum Field Theory</h4><p>Fields, particles, Feynman diagrams, renormalization.</p></div>
+        <div class="concept-card"><h4>Philosophy of Science</h4><p>Scientific method, reductionism, realism vs. anti-realism.</p></div>
+        <div class="concept-card"><h4>Mathematical Structures</h4><p>Hilbert spaces, topology, group theory in physics.</p></div>
+        <div class="concept-card"><h4>Time & Causality</h4><p>The arrow of time, retrocausality, chronology.</p></div>
       </div>
-      <div class="concept-card">
-        <h3>Temporal Dissonance</h3>
-        <p>Where past and present blur — echoes of old letters read under modern lamps.</p>
+    </section>
+
+    <!-- === COMPUTATIONAL === -->
+    <section id="computational" class="pillar">
+      <h3>Computational</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><h4>Quantum Simulators</h4><p>Modeling quantum systems using Python/Qiskit.</p></div>
+        <div class="concept-card"><h4>Numerical Methods</h4><p>Runge-Kutta, Monte Carlo, matrix decompositions.</p></div>
+        <div class="concept-card"><h4>Computational Physics</h4><p>Simulations of classical systems and chaotic models.</p></div>
+        <div class="concept-card"><h4>Visualization Tools</h4><p>Graphing interference, state evolution, spin dynamics.</p></div>
+        <div class="concept-card"><h4>Computational Complexity</h4><p>P, NP, BQP, and resource theory in quantum computing.</p></div>
+        <div class="concept-card"><h4>Quantum Algorithms</h4><p>Grover’s, Shor’s, QFT, and variational circuits.</p></div>
+        <div class="concept-card"><h4>Tensor Networks</h4><p>MPS, PEPS, and entanglement area laws.</p></div>
       </div>
-      <div class="concept-card">
-        <h3>Philosophical Weight</h3>
-        <p>Ideas that linger in silence, pressing down like velvet drapes in a forgotten library.</p>
-      </div>
-      <div class="concept-card">
-        <h3>Romantic Absurdity</h3>
-        <p>Love in the age of reason — irrational and poetic in the face of logic.</p>
-      </div>
-      <div class="concept-card">
-        <h3>Ornamental Chaos</h3>
-        <p>Deliberate disorder framed in antique gold — the beauty of crowded design.</p>
-      </div>
-      <div class="concept-card">
-        <h3>Existential Architecture</h3>
-        <p>Gothic halls built from doubt, longing, and the slow passing of time.</p>
-      </div>
-      <div class="concept-card">
-        <h3>Melancholic Light</h3>
-        <p>The way shadows gather around knowledge, mystery, and half-truths.</p>
-      </div>
-      <div class="concept-card">
-        <h3>Mythic Memory</h3>
-        <p>Ancient stories tangled in the folds of modern minds and rituals.</p>
+    </section>
+
+    <!-- === EXPERIMENTS === -->
+    <section id="experiments" class="pillar">
+      <h3>Experiments</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><h4>Double Slit</h4><p>Wave-particle duality in spatial interference.</p></div>
+        <div class="concept-card"><h4>Weak Measurement</h4><p>Pre-/post-selection and non-destructive observation.</p></div>
+        <div class="concept-card"><h4>Photon Entanglement</h4><p>Tests of Bell’s theorem with polarization states.</p></div>
+        <div class="concept-card"><h4>Quantum Eraser</h4><p>Information, causality, and restoration of interference.</p></div>
+        <div class="concept-card"><h4>Bydberg Atoms</h4><p>Long-lived excited states for quantum simulation.</p></div>
+        <div class="concept-card"><h4>Neutron Interferometry</h4><p>Testing gravitational phase shifts at quantum scale.</p></div>
       </div>
     </section>
   </main>
 
   <script>
-    // OPTIONAL: Add simple parallax effect on scroll
-    const bg = document.querySelector('.background');
-    window.addEventListener('scroll', () => {
-      bg.style.transform = `translateY(${window.scrollY * 0.4}px)`;
-    });
+    function filterConcepts() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.concept-card');
+
+      cards.forEach(card => {
+        const title = card.querySelector('h4').innerText.toLowerCase();
+        const desc = card.querySelector('p').innerText.toLowerCase();
+        if (title.includes(input) || desc.includes(input)) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
   </script>
 
 </body>
