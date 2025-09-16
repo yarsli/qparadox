@@ -9,612 +9,293 @@
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0e0f12;
-      --panel:#14161b;
-      --panel-2:#1a1d23;
-      --ink:#e8e6df;
-      --muted:#b9b6ae;
-      --accent:#9aa6ff;
-      --accent-2:#7ad1ff;
-      --chip:#21242c;
-      --border:rgba(255,255,255,0.07);
-      --glow:0 0 0 1px var(--border), 0 0 30px rgba(154,166,255,0.10);
-      --radius:18px;
-      --radius-sm:12px;
-      --shadow:0 10px 30px rgba(0,0,0,0.45);
+      --bg:#0e0f12; --panel:#14161b; --panel-2:#1a1d23; --ink:#e8e6df; --muted:#b9b6ae;
+      --accent:#9aa6ff; --accent-2:#7ad1ff; --chip:#21242c; --border:rgba(255,255,255,0.07);
+      --radius:18px; --shadow:0 10px 30px rgba(0,0,0,0.45);
     }
     *{box-sizing:border-box}
-    html,body{background:var(--bg); color:var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, "SF Pro Text", Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";}
-    body{opacity:0; transition:opacity .5s ease}
+    html,body{background:var(--bg); color:var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; opacity:0; transition:opacity .6s ease}
     body.ready{opacity:1}
-    a{color:inherit}
-    .wrap{max-width:1200px; margin:0 auto; padding:24px;}
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1200px; margin:0 auto; padding:24px}
 
-    /* Background interactive canvas */
+    /* background */
     #bg{position:fixed; inset:0; z-index:-1}
 
-    /* Hero */
-    .hero{display:grid; gap:10px; margin:8px 0 18px 0}
-    .title{font-family: 'EB Garamond', Georgia, serif; font-size: clamp(36px, 5vw, 56px); letter-spacing:.2px}
+    /* hero */
+    .title{font-family:'EB Garamond', Georgia, serif; font-size: clamp(38px,5vw,60px)}
     .subtitle{color:var(--muted); max-width:72ch; line-height:1.6}
+    .crumbs{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 14px 0; color:var(--muted)}
+    .crumbs a{border:1px solid var(--border); padding:6px 10px; border-radius:999px}
 
-    /* Breadcrumbs / quick jumps */
-    .crumbs{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:2px 0 6px 0; color:var(--muted)}
-    .crumbs a{border:1px solid var(--border); padding:6px 10px; border-radius:999px; text-decoration:none}
+    /* pillar cards */
+    .pillars{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-top:14px}
+    .pcard{background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--border); border-radius:var(--radius); padding:18px; position:relative; overflow:hidden; box-shadow:var(--shadow); cursor:pointer; transition:transform .15s ease, box-shadow .2s ease}
+    .pcard:hover{transform:translateY(-3px); box-shadow:0 14px 40px rgba(0,0,0,.55)}
+    .pcard h2{font-family:'EB Garamond', Georgia, serif; font-size:28px; margin:6px 0}
+    .pcard p{color:var(--muted); margin:0}
+    .pcard .open{font-family:'EB Garamond', Georgia, serif; margin-top:12px; display:inline-block; border:1px solid var(--border); padding:8px 12px; border-radius:10px; background:linear-gradient(180deg,#2b3350,#1b2032);}
 
-    /* Tabs */
-    .tabs{display:flex; gap:10px; flex-wrap:wrap; margin:8px 0 16px 0}
-    .tab{padding:10px 14px; border:1px solid var(--border); border-radius:999px; background:var(--chip); color:var(--ink); cursor:pointer; user-select:none; transition:transform .15s ease, background .2s ease, box-shadow .3s ease}
-    .tab[aria-selected="true"]{background:linear-gradient(180deg, #222633, #171a22); box-shadow: var(--glow);}
+    /* panel */
+    .panel{grid-column:1/-1; background:linear-gradient(180deg,var(--panel),#0f1217); border:1px solid var(--border); border-radius:20px; padding:16px; box-shadow:var(--shadow); display:none}
+    .panel.active{display:block; animation:fadeUp .28s ease}
+    @keyframes fadeUp{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)}}
 
-    /* Controls */
-    .controls{display:grid; grid-template-columns: 1fr auto auto auto; gap:10px; align-items:center; position:relative;}
-    .search{display:flex; align-items:center; gap:10px; background:var(--panel); border:1px solid var(--border); border-radius:999px; padding:10px 14px; box-shadow:var(--shadow)}
-    .search input{flex:1; background:transparent; border:none; color:var(--ink); outline:none}
-    .chiprow{display:flex; gap:8px; flex-wrap:wrap}
-    .chip{padding:8px 12px; border:1px solid var(--border); border-radius:999px; background:var(--chip); color:var(--muted); font-size:14px; cursor:pointer}
-    .chip[data-active="true"]{color:var(--ink); background:linear-gradient(180deg, #1f2330, #171a21); box-shadow:var(--glow)}
-    select, .sort{appearance:none; background:var(--panel); color:var(--ink); border:1px solid var(--border); padding:10px 14px; border-radius:999px}
+    /* inside panel layout */
+    .panel-head{display:flex; align-items:center; justify-content:space-between; gap:12px}
+    .panel-title{font-family:'EB Garamond', Georgia, serif; font-size:26px}
+    .btn{font-family:'EB Garamond', Georgia, serif; background:transparent; border:1px solid var(--border); color:var(--ink); padding:8px 12px; border-radius:10px; cursor:pointer}
+    .btn.primary{background:linear-gradient(180deg,#2b3350,#1b2032); border-color:rgba(154,166,255,0.45)}
 
-    .mobile-bar{display:none}
+    .cats{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:12px}
+    .cat{background:linear-gradient(180deg,#171b22,#11151b); border:1px solid var(--border); border-radius:14px; padding:12px}
+    .cat h3{font-family:'EB Garamond', Georgia, serif; margin:4px 0 6px 0; font-size:20px}
+    .topics{display:flex; flex-wrap:wrap; gap:8px}
+    .topic{border:1px dashed var(--border); padding:6px 10px; border-radius:999px; color:var(--muted); font-size:14px}
 
-    /* Grid */
-    .grid{display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:14px; margin-top:16px}
-    .card{background:linear-gradient(180deg, var(--panel-2), var(--panel)); border:1px solid var(--border); border-radius:var(--radius); padding:16px; position:relative; overflow:hidden; box-shadow:var(--shadow); transition: transform .15s ease, box-shadow .2s ease}
-    .card:hover{transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,0,0,0.55)}
-    .pill{display:inline-flex; align-items:center; gap:8px; background:var(--chip); border:1px solid var(--border); color:var(--muted); padding:6px 10px; border-radius:999px; font-size:12px; margin-right:8px}
-    .card h3{font-family: 'EB Garamond', Georgia, serif; margin:6px 0 6px 0; font-size:22px}
-    .hook{color:var(--muted); font-size:14.5px; line-height:1.6}
-    .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px}
-    .tag{border:1px dashed var(--border); color:var(--muted); font-size:12px; padding:6px 8px; border-radius:999px}
-    .row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:12px}
-    .btn{background:transparent; border:1px solid var(--border); color:var(--ink); padding:8px 12px; border-radius:10px; cursor:pointer}
-    .btn.primary{font-family:'EB Garamond', Georgia, serif; letter-spacing:.3px; background:linear-gradient(180deg, #2b3350, #1b2032); border-color:rgba(154,166,255,0.45)}
-    .save{cursor:pointer; font-size:14px; color:var(--muted)}
-
-    /* Right rail */
-    .layout{display:grid; grid-template-columns: 1fr 280px; gap:18px}
-    aside{position:sticky; top:12px; height:max-content}
-    .panel{background:linear-gradient(180deg, var(--panel), #11141a); border:1px solid var(--border); border-radius:var(--radius); padding:14px}
-    .panel h4{margin:4px 0 10px 0; font-family: 'EB Garamond', Georgia, serif}
-    .glossary li{color:var(--muted); margin-bottom:8px; font-size:14px}
-    .pathways{display:flex; flex-wrap:wrap; gap:8px}
-
-    /* Top pathways */
-    .pathbar{display:flex; flex-wrap:wrap; gap:8px; margin-top:6px}
-    .path{padding:8px 10px; border:1px solid var(--border); border-radius:999px; background:var(--chip); color:var(--muted); cursor:pointer}
-
-    /* Footer */
-    footer{margin:30px 0 10px 0; color:var(--muted); display:flex; gap:12px; flex-wrap:wrap}
-    footer a{border:1px solid var(--border); padding:8px 12px; border-radius:999px}
-
-    /* Modal preview */
-    .modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.6); backdrop-filter:saturate(120%) blur(4px);}
-    .modal.active{display:flex}
-    .sheet{width:min(720px, 92vw); background:var(--panel-2); border:1px solid var(--border); border-radius:20px; padding:16px}
-
-    /* Mobile */
-    @media (max-width:1100px){
-      .layout{grid-template-columns: 1fr}
-      aside{display:none}
-    }
-    @media (max-width:900px){
-      .grid{grid-template-columns: repeat(2, minmax(0,1fr))}
-      .controls{grid-template-columns: 1fr auto}
-      .controls .chiprow, .controls select, .controls .sort{display:none}
-      .mobile-bar{display:flex; gap:8px}
-    }
-    @media (max-width:600px){
-      .grid{grid-template-columns: 1fr}
-    }
-
-    /* Mobile filter drawer */
-    .drawer{position:fixed; left:0; right:0; bottom:0; transform:translateY(100%); transition: transform .25s ease; background:var(--panel-2); border-top:1px solid var(--border); border-radius:18px 18px 0 0; box-shadow:0 -10px 30px rgba(0,0,0,.45); padding:16px}
-    .drawer.active{transform:translateY(0)}
-    .drawer .row{justify-content:flex-start}
-
-    /* Floating pillar shortcuts */
-    .float-nav{position:fixed; right:16px; bottom:18px; display:flex; gap:8px; z-index:5}
-    .float-nav .btn{backdrop-filter: blur(4px); background:linear-gradient(180deg, #232735CC, #141821CC)}
-
-    /* Tiny decorative grid sparkles */
-    .card::after{content:""; position:absolute; right:-40px; top:-40px; width:160px; height:160px; background:radial-gradient(circle at center, rgba(154,166,255,0.16), rgba(0,0,0,0)); filter:blur(12px)}
+    /* mobile */
+    @media (max-width:900px){.pillars{grid-template-columns:1fr}.cats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:600px){.cats{grid-template-columns:1fr}}
   </style>
-  <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" />
 </head>
 <body>
   <canvas id="bg"></canvas>
   <div class="wrap">
-    <section class="hero" aria-label="Page header">
-      <nav class="crumbs" aria-label="Breadcrumbs and quick jumps">
-        <a href="index.html">← Home</a>
-        <a href="#" data-jump="Theoretical">Go to Theoretical</a>
-        <a href="#" data-jump="Computational">Go to Computational</a>
-        <a href="#" data-jump="Experimental">Go to Experimental</a>
-      </nav>
-      <div class="title">Concepts</div>
-      <p class="subtitle">A focused map of ideas that spans theoretical insight, computational practice, and experimental intuition. Use the tabs to switch pillars. Use filters to shape your path.</p>
+    <nav class="crumbs">
+      <a href="index.html">← Home</a>
+      <a href="#" data-jump="Theoretical">Go to Theoretical</a>
+      <a href="#" data-jump="Computational">Go to Computational</a>
+      <a href="#" data-jump="Experimental">Go to Experimental</a>
+    </nav>
+    <div class="title">Concepts</div>
+    <p class="subtitle">Browse by pillar. Click a pillar to open a clean panel of categories, then pick a subtopic. The page is light and friendly on phone.</p>
 
-      <!-- Pillar tabs -->
-      <div class="tabs" role="tablist" aria-label="Pillars">
-        <button class="tab" role="tab" aria-selected="true" data-pillar="Theoretical">Theoretical</button>
-        <button class="tab" role="tab" aria-selected="false" data-pillar="Computational">Computational</button>
-        <button class="tab" role="tab" aria-selected="false" data-pillar="Experimental">Experimental</button>
-      </div>
+    <section class="pillars" id="pillars">
+      <article class="pcard" data-pillar="Theoretical">
+        <h2>Theoretical</h2>
+        <p>Foundations, toolkits, deep dives, and beyond textbook ideas.</p>
+        <span class="open">Open</span>
+      </article>
+      <article class="pcard" data-pillar="Computational">
+        <h2>Computational</h2>
+        <p>Numerical methods, algorithms, and visualization habits that work.</p>
+        <span class="open">Open</span>
+      </article>
+      <article class="pcard" data-pillar="Experimental">
+        <h2>Experimental</h2>
+        <p>Thought experiments, lab skills, noise, and data acquisition.</p>
+        <span class="open">Open</span>
+      </article>
 
-      <!-- Pathways -->
-      <div class="pathbar" aria-label="Pathways">
-        <button class="path" data-path="new-to-quantum">New to quantum</button>
-        <button class="path" data-path="measurement-and-reality">Measurement and reality</button>
-        <button class="path" data-path="topology-trail">Topology trail</button>
-        <button class="path" data-path="from-classical-to-field">From classical to field theory</button>
-      </div>
+      <!-- expandable panel inserted here -->
+      <div class="panel" id="panel"></div>
     </section>
 
-    <section class="layout">
-      <main>
-        <!-- Controls -->
-        <div class="controls" aria-label="Filters and search">
-          <label class="search" aria-label="Search concepts">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10.5" cy="10.5" r="7" stroke="currentColor" stroke-width="1.5"/></svg>
-            <input id="search" placeholder="Search concepts" autocomplete="off" />
-          </label>
-
-          <div class="chiprow" aria-label="Difficulty">
-            <button class="chip" data-diff="Intro">Intro</button>
-            <button class="chip" data-diff="Core">Core</button>
-            <button class="chip" data-diff="Advanced">Advanced</button>
-          </div>
-
-          <select id="categorySelect" aria-label="Category">
-            <option value="">All categories</option>
-            <option>Classical Mechanics</option>
-            <option>Electromagnetism</option>
-            <option>Relativity</option>
-            <option>Quantum Mechanics</option>
-            <option>Quantum Field Theory</option>
-            <option>Statistical Mechanics</option>
-            <option>Cosmology</option>
-            <option>Beyond the Textbook</option>
-            <option>Physics and Philosophy</option>
-            <option>Gallery of Problems</option>
-            <option>Foundations</option>
-            <option>Quantum Toolkits</option>
-            <option>Quantum Deep Dive</option>
-            <option>Quantum Experiments</option>
-            <option>Numerical Methods</option>
-            <option>Simulation and Visualization</option>
-            <option>Data Handling and Monte Carlo</option>
-            <option>Algorithms</option>
-            <option>Tooling</option>
-            <option>Lab Skills</option>
-            <option>Measurement and Noise</option>
-            <option>Thought Experiments</option>
-            <option>Data Acquisition</option>
-          </select>
-
-          <select id="sortSelect" class="sort" aria-label="Sort">
-            <option value="curated">Sort by curated</option>
-            <option value="recent">Sort by recent</option>
-            <option value="alpha">Sort by title</option>
-            <option value="popular">Sort by popularity</option>
-          </select>
-
-          <!-- Mobile buttons -->
-          <div class="mobile-bar">
-            <button class="btn" id="openDrawer">Filters</button>
-            <button class="btn" id="clearAll">Clear</button>
-          </div>
-        </div>
-
-        <!-- Grid -->
-        <div id="grid" class="grid" aria-live="polite"></div>
-      </main>
-
-      <aside>
-        <div class="panel">
-          <h4>Glossary micro notes</h4>
-          <ul class="glossary">
-            <li><strong>State</strong> short for quantum state, a vector that captures amplitudes</li>
-            <li><strong>Operator</strong> a rule that acts on states to produce new ones</li>
-            <li><strong>Hilbert space</strong> the complete space that hosts states</li>
-            <li><strong>Observable</strong> a measurable quantity tied to an operator</li>
-          </ul>
-        </div>
-        <div class="panel" style="margin-top:12px">
-          <h4>Suggested pathways</h4>
-          <div class="pathways">
-            <button class="path" data-path="new-to-quantum">New to quantum</button>
-            <button class="path" data-path="measurement-and-reality">Measurement and reality</button>
-            <button class="path" data-path="topology-trail">Topology trail</button>
-          </div>
-        </div>
-      </aside>
-    </section>
-
-    <footer>
-      <a href="introduction.html">Begin here</a>
-      <a href="theory.html">Theory</a>
-      <a href="projects.html">Projects</a>
+    <footer style="margin-top:18px; color:var(--muted); display:flex; gap:12px; flex-wrap:wrap">
+      <a class="btn" href="introduction.html">Begin here</a>
+      <a class="btn" href="theory.html">Theory</a>
+      <a class="btn" href="projects.html">Projects</a>
     </footer>
-
-    <div class="float-nav" aria-label="Quick pillar navigation">
-      <button class="btn" data-jump="Theoretical">Theory</button>
-      <button class="btn" data-jump="Computational">Comp</button>
-      <button class="btn" data-jump="Experimental">Exp</button>
-    </div>
-  </div>
-
-  <!-- Mobile drawer -->
-  <div id="drawer" class="drawer" aria-hidden="true">
-    <div class="row">
-      <button class="btn" id="closeDrawer">Close</button>
-    </div>
-    <div style="margin-top:10px">
-      <div class="chiprow" id="drawerDiff"></div>
-      <div style="margin-top:10px">
-        <label for="drawerCat">Category</label>
-        <select id="drawerCat" style="width:100%; margin-top:6px"></select>
-      </div>
-      <div style="margin-top:10px">
-        <label for="drawerSort">Sort</label>
-        <select id="drawerSort" style="width:100%; margin-top:6px">
-          <option value="curated">Sort by curated</option>
-          <option value="recent">Sort by recent</option>
-          <option value="alpha">Sort by title</option>
-          <option value="popular">Sort by popularity</option>
-        </select>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal for quick preview -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="sheet">
-      <div class="row"><div style="font-family: 'EB Garamond', Georgia, serif; font-size:22px" id="modalTitle"></div><button class="btn" id="closeModal">Close</button></div>
-      <p id="modalHook" class="subtitle" style="margin-top:8px"></p>
-      <div id="modalMath" style="margin-top:10px"></div>
-      <div class="tags" id="modalTags" style="margin-top:10px"></div>
-      <div style="margin-top:14px" class="row">
-        <a id="modalLink" class="btn primary">Open</a>
-        <button id="modalSave" class="btn">Save for later</button>
-      </div>
-    </div>
   </div>
 
   <script>
-    // Curated card data with weights for ordering inside pillars
-    const concepts = [
-      // Theoretical — curated top sequence
-      {title:"What is theoretical physics", hook:"How abstraction and models reveal structure beyond surface detail", pillar:"Theoretical", difficulty:"Intro", categories:["Foundations"], tags:["method","models"], eq:"", link:"concepts/what-is-theoretical.html", popular:5, updated:20250915, weight:100},
-      {title:"Foundations overview", hook:"Probability, states, and the logic that frames modern quantum theory", pillar:"Theoretical", difficulty:"Intro", categories:["Foundations","Quantum Mechanics"], tags:["axioms","logic"], eq:"", link:"concepts/foundations-overview.html", popular:7, updated:20250912, weight:98},
-      {title:"Quantum toolkits", hook:"Dirac notation, operators, and common moves you will use everywhere", pillar:"Theoretical", difficulty:"Core", categories:["Quantum Toolkits","Quantum Mechanics"], tags:["Dirac","operators","Hilbert"], eq:"\\(|\\psi\\rangle=\\sum_i c_i|i\\rangle\\)", link:"concepts/quantum-toolkits.html", popular:11, updated:20250910, weight:96},
-      {title:"Quantum deep dive", hook:"When you need the full weight of the formalism and the geometry behind it", pillar:"Theoretical", difficulty:"Advanced", categories:["Quantum Deep Dive"], tags:["geometry","spectra"], eq:"\\(U(t)=e^{-iHt/\\hbar}\\)", link:"concepts/quantum-deep-dive.html", popular:9, updated:20250908, weight:94},
-      {title:"Quantum experiments in theory", hook:"Clean models that mirror real setups and show the core ideas", pillar:"Theoretical", difficulty:"Core", categories:["Quantum Experiments","Quantum Mechanics"], tags:["two level","interference"], eq:"", link:"concepts/quantum-experiments.html", popular:6, updated:20250914, weight:92},
-
-      {title:"Classical mechanics overview", hook:"Configuration, constraints, and motion as geometry in time", pillar:"Theoretical", difficulty:"Intro", categories:["Classical Mechanics"], tags:["Newton","Lagrange"], eq:"\\(L=T-V\\)", link:"concepts/classical-overview.html", popular:8, updated:20250911, weight:80},
-      {title:"Lagrangian and Hamiltonian form", hook:"Two complementary lenses that trade coordinates for conjugate momentum", pillar:"Theoretical", difficulty:"Core", categories:["Classical Mechanics"], tags:["Lagrangian","Hamiltonian"], eq:"\\(H=\\sum p_i \\dot q_i - L\\)", link:"concepts/lagrangian-hamiltonian.html", popular:10, updated:20250913, weight:79},
-      {title:"Noether and symmetry", hook:"Every continuous symmetry writes a conservation law", pillar:"Theoretical", difficulty:"Core", categories:["Classical Mechanics"], tags:["symmetry","conservation"], eq:"", link:"concepts/noether.html", popular:12, updated:20250913, weight:78},
-
-      {title:"Electromagnetism overview", hook:"Fields unify electricity and magnetism into one structure", pillar:"Theoretical", difficulty:"Intro", categories:["Electromagnetism"], tags:["fields"], eq:"\\(\\nabla\\cdot\\mathbf{E}=\\rho/\\varepsilon_0\\)", link:"concepts/em-overview.html", popular:6, updated:20250909, weight:70},
-      {title:"Relativity overview", hook:"Spacetime geometry reshapes motion and energy", pillar:"Theoretical", difficulty:"Intro", categories:["Relativity"], tags:["spacetime"], eq:"\\(ds^2=-c^2dt^2+dx^2+dy^2+dz^2\\)", link:"concepts/relativity-overview.html", popular:7, updated:20250909, weight:69},
-
-      {title:"Quantum mechanics overview", hook:"States, amplitudes, and the rules that produce outcomes", pillar:"Theoretical", difficulty:"Intro", categories:["Quantum Mechanics"], tags:["states","amplitudes"], eq:"", link:"concepts/qm-overview.html", popular:14, updated:20250912, weight:68},
-      {title:"Superposition", hook:"A state can carry mutually exclusive possibilities at once", pillar:"Theoretical", difficulty:"Intro", categories:["Quantum Mechanics","Foundations"], tags:["kets","amplitudes"], eq:"\\(|\\psi\\rangle=\\alpha|0\\rangle+\\beta|1\\rangle\\)", link:"concepts/superposition.html", popular:20, updated:20250915, weight:67},
-      {title:"Operators and observables", hook:"Rules that act on states and produce measurable spectra", pillar:"Theoretical", difficulty:"Core", categories:["Quantum Toolkits","Quantum Mechanics"], tags:["operators","spectra"], eq:"\\(\\hat A|a\\rangle=a|a\\rangle\\)", link:"concepts/operators.html", popular:18, updated:20250912, weight:66},
-      {title:"Born rule", hook:"Amplitudes square to probabilities", pillar:"Theoretical", difficulty:"Intro", categories:["Foundations","Quantum Mechanics"], tags:["probability"], eq:"\\(P(a)=|\\langle a|\\psi\\rangle|^2\\)", link:"concepts/born-rule.html", popular:15, updated:20250912, weight:65},
-      {title:"Uncertainty principle", hook:"Spread in one quantity tightens the other", pillar:"Theoretical", difficulty:"Core", categories:["Foundations","Quantum Mechanics"], tags:["variance"], eq:"\\(\\sigma_x\\sigma_p\\ge\\tfrac{\\hbar}{2}\\)", link:"concepts/uncertainty.html", popular:16, updated:20250912, weight:64},
-      {title:"Time evolution", hook:"Unitary flow preserves inner products and total probability", pillar:"Theoretical", difficulty:"Core", categories:["Quantum Toolkits","Quantum Mechanics"], tags:["unitary"], eq:"\\(i\\hbar\\partial_t|\\psi\\rangle=H|\\psi\\rangle\\)", link:"concepts/time-evolution.html", popular:17, updated:20250912, weight:63},
-      {title:"Measurement problem", hook:"Smooth unitary motion vs single outcomes", pillar:"Theoretical", difficulty:"Advanced", categories:["Foundations","Quantum Mechanics"], tags:["projection","decoherence"], eq:"\\(\\rho\\to\\sum_iP_i\\rho P_i\\)", link:"concepts/measurement.html", popular:13, updated:20250912, weight:62},
-      {title:"Decoherence", hook:"Phase information leaks into the environment and kills interference", pillar:"Theoretical", difficulty:"Advanced", categories:["Quantum Deep Dive","Beyond the Textbook"], tags:["open systems"], eq:"\\(\\rho\\to\\sum_iK_i\\rho K_i^\\dagger\\)", link:"concepts/decoherence.html", popular:12, updated:20250911, weight:61},
-      {title:"Entanglement", hook:"Correlations that cannot be built from local hidden parts", pillar:"Theoretical", difficulty:"Core", categories:["Quantum Mechanics"], tags:["tensor","nonlocal"], eq:"\\(|\\Phi^+\\rangle=(|00\\rangle+|11\\rangle)/\\sqrt{2}\\)", link:"concepts/entanglement.html", popular:21, updated:20250915, weight:60},
-      {title:"Bell inequalities", hook:"A line that classical models must respect and quantum models can cross", pillar:"Theoretical", difficulty:"Advanced", categories:["Quantum Mechanics","Foundations"], tags:["CHSH"], eq:"", link:"concepts/bell.html", popular:9, updated:20250910, weight:59},
-      {title:"Spin and Bloch sphere", hook:"Two level systems live on a sphere of pure states", pillar:"Theoretical", difficulty:"Core", categories:["Quantum Toolkits"], tags:["spin","Bloch"], eq:"", link:"concepts/bloch.html", popular:10, updated:20250911, weight:58},
-      {title:"Quantum tunneling", hook:"Classical forbidden does not block amplitude flow", pillar:"Theoretical", difficulty:"Core", categories:["Quantum Mechanics"], tags:["barrier"], eq:"", link:"concepts/tunneling.html", popular:8, updated:20250909, weight:57},
-      {title:"Quantum field theory overview", hook:"Fields, excitations, and local symmetries as the language of particles", pillar:"Theoretical", difficulty:"Advanced", categories:["Quantum Field Theory"], tags:["fields","excitations"], eq:"", link:"concepts/qft-overview.html", popular:6, updated:20250908, weight:56},
-      {title:"Path integrals", hook:"Sum over histories builds amplitudes", pillar:"Theoretical", difficulty:"Advanced", categories:["Quantum Deep Dive"], tags:["histories"], eq:"\\(K=\\int\\mathcal{D}[x] e^{iS[x]/\\hbar]\\)", link:"concepts/path-integrals.html", popular:7, updated:20250908, weight:55},
-      {title:"Berry phase", hook:"Geometry of parameter space writes a hidden phase", pillar:"Theoretical", difficulty:"Advanced", categories:["Beyond the Textbook"], tags:["geometry"], eq:"\\(\\gamma=\\oint\\mathbf{A}\\cdot d\\mathbf{R}\\)", link:"concepts/berry.html", popular:11, updated:20250910, weight:54},
-      {title:"Topological phases", hook:"Patterns that stay rigid under smooth deformations", pillar:"Theoretical", difficulty:"Advanced", categories:["Beyond the Textbook"], tags:["invariants"], eq:"", link:"concepts/topological.html", popular:10, updated:20250910, weight:53},
-      {title:"Density matrices", hook:"A compact way to track uncertainty and mixing", pillar:"Theoretical", difficulty:"Core", categories:["Quantum Toolkits"], tags:["mixed"], eq:"\\(\\rho=\\sum_i p_i |i\\rangle\\langle i|\\)", link:"concepts/density.html", popular:9, updated:20250911, weight:52},
-      {title:"POVMs and general measurement", hook:"Projective rules are a special case of a wider story", pillar:"Theoretical", difficulty:"Advanced", categories:["Quantum Deep Dive"], tags:["Kraus","effects"], eq:"", link:"concepts/povm.html", popular:6, updated:20250909, weight:51},
-      {title:"Quantum information entropy", hook:"Uncertainty measured in bits that reflect amplitudes", pillar:"Theoretical", difficulty:"Core", categories:["Quantum Toolkits"], tags:["entropy"], eq:"\\(S(\\rho)=-\\mathrm{Tr}[\\rho\\log\\rho]\\)", link:"concepts/entropy.html", popular:12, updated:20250911, weight:50},
-      {title:"No cloning theorem", hook:"Unknown quantum states cannot be copied perfectly", pillar:"Theoretical", difficulty:"Core", categories:["Quantum Mechanics"], tags:["limits"], eq:"", link:"concepts/no-cloning.html", popular:8, updated:20250910, weight:49},
-      {title:"Kochen Specker", hook:"Value assignments that refuse to exist globally", pillar:"Theoretical", difficulty:"Advanced", categories:["Beyond the Textbook"], tags:["contextuality"], eq:"", link:"concepts/kochen-specker.html", popular:5, updated:20250908, weight:48},
-      {title:"Quantum eraser", hook:"Erase which path information and fringes return", pillar:"Theoretical", difficulty:"Core", categories:["Beyond the Textbook"], tags:["interference"], eq:"", link:"concepts/eraser.html", popular:6, updated:20250908, weight:47},
-      {title:"Cosmology overview", hook:"Dynamics of the very large from energy and geometry", pillar:"Theoretical", difficulty:"Intro", categories:["Cosmology"], tags:["early universe"], eq:"", link:"concepts/cosmology-overview.html", popular:5, updated:20250907, weight:40},
-
-      // Computational
-      {title:"Finite difference for Schrödinger", hook:"Discretize space and solve for bound states", pillar:"Computational", difficulty:"Core", categories:["Numerical Methods","Algorithms"], tags:["eigen"], eq:"", link:"concepts/fd-schrodinger.html", popular:10, updated:20250914, weight:100},
-      {title:"Split operator time evolution", hook:"Fast unitary steps in position and momentum space", pillar:"Computational", difficulty:"Advanced", categories:["Numerical Methods"], tags:["FFT","unitary"], eq:"", link:"concepts/split-operator.html", popular:8, updated:20250913, weight:98},
-      {title:"Shooting method", hook:"Tune energy until boundary conditions land", pillar:"Computational", difficulty:"Core", categories:["Numerical Methods"], tags:["BVP"], eq:"", link:"concepts/shooting.html", popular:7, updated:20250913, weight:96},
-      {title:"Monte Carlo intuition", hook:"Randomness as a tool for averages and integrals", pillar:"Computational", difficulty:"Intro", categories:["Data Handling and Monte Carlo"], tags:["sampling"], eq:"", link:"concepts/monte-carlo.html", popular:12, updated:20250912, weight:95},
-      {title:"Markov chains and detailed balance", hook:"Walks that settle to steady distributions", pillar:"Computational", difficulty:"Core", categories:["Algorithms"], tags:["chains"], eq:"", link:"concepts/markov.html", popular:8, updated:20250912, weight:94},
-      {title:"Random walks for diffusion", hook:"From coin flips to Brownian style motion", pillar:"Computational", difficulty:"Intro", categories:["Simulation and Visualization"], tags:["diffusion"], eq:"", link:"concepts/random-walk.html", popular:7, updated:20250912, weight:93},
-      {title:"Fast Fourier transform for spectra", hook:"Frequency reveals hidden structure in time and space", pillar:"Computational", difficulty:"Core", categories:["Algorithms"], tags:["FFT"], eq:"", link:"concepts/fft.html", popular:9, updated:20250912, weight:92},
-      {title:"Poisson equation on a grid", hook:"A simple template that powers many field solvers", pillar:"Computational", difficulty:"Core", categories:["Numerical Methods"], tags:["Poisson"], eq:"", link:"concepts/poisson.html", popular:6, updated:20250911, weight:91},
-      {title:"ODE solvers for motion", hook:"Stable steps keep orbits from drifting away", pillar:"Computational", difficulty:"Intro", categories:["Numerical Methods"], tags:["RK4"], eq:"", link:"concepts/ode-motion.html", popular:7, updated:20250911, weight:90},
-      {title:"Matrix diagonalization", hook:"Eigenvalues organize dynamics and spectra", pillar:"Computational", difficulty:"Core", categories:["Algorithms"], tags:["linear algebra"], eq:"", link:"concepts/diagonalization.html", popular:7, updated:20250911, weight:89},
-      {title:"Tensor tricks for spin systems", hook:"Kronecker products build multi qubit worlds", pillar:"Computational", difficulty:"Advanced", categories:["Algorithms"], tags:["tensor"], eq:"", link:"concepts/tensor-spin.html", popular:5, updated:20250910, weight:88},
-      {title:"Visualization for probability density", hook:"Turn arrays into insight without hiding artifacts", pillar:"Computational", difficulty:"Intro", categories:["Simulation and Visualization"], tags:["plot"], eq:"", link:"concepts/visualization.html", popular:6, updated:20250910, weight:87},
-      {title:"Notebooks and project structure", hook:"Simple habits that keep experiments tidy", pillar:"Computational", difficulty:"Intro", categories:["Tooling"], tags:["workflow"], eq:"", link:"concepts/notebooks.html", popular:9, updated:20250909, weight:86},
-
-      // Experimental
-      {title:"Two level Rabi", hook:"Drive a two state system and watch population swap", pillar:"Experimental", difficulty:"Core", categories:["Thought Experiments","Lab Skills","Gallery of Problems"], tags:["Rabi"], eq:"", link:"concepts/rabi.html", popular:11, updated:20250914, weight:100},
-      {title:"Interference and visibility", hook:"Contrast in fringes measures the quality of coherence", pillar:"Experimental", difficulty:"Intro", categories:["Thought Experiments","Measurement and Noise","Gallery of Problems"], tags:["visibility"], eq:"", link:"concepts/interference.html", popular:12, updated:20250914, weight:98},
-      {title:"Light as a messenger", hook:"Photons carry timing and energy that encode processes", pillar:"Experimental", difficulty:"Intro", categories:["Thought Experiments"], tags:["photons"], eq:"", link:"concepts/light-messenger.html", popular:7, updated:20250913, weight:96},
-      {title:"Single to double slit", hook:"Open one more path and a new pattern appears", pillar:"Experimental", difficulty:"Intro", categories:["Thought Experiments"], tags:["slits"], eq:"", link:"concepts/double-slit.html", popular:9, updated:20250912, weight:95},
-      {title:"Polarization and Malus law", hook:"Intensity follows a clean cosine square rule", pillar:"Experimental", difficulty:"Core", categories:["Measurement and Noise","Lab Skills"], tags:["polarizer"], eq:"\\(I=I_0\\cos^2\\theta\\)", link:"concepts/malus.html", popular:8, updated:20250912, weight:94},
-      {title:"Simple spectrometry", hook:"A grating reveals fingerprints of light sources", pillar:"Experimental", difficulty:"Core", categories:["Lab Skills","Data Acquisition"], tags:["spectrum"], eq:"", link:"concepts/spectrometry.html", popular:6, updated:20250911, weight:92},
-      {title:"Photodiode basics and shot noise", hook:"Current comes in quanta that bring variance", pillar:"Experimental", difficulty:"Advanced", categories:["Measurement and Noise"], tags:["noise"], eq:"", link:"concepts/photodiode.html", popular:6, updated:20250911, weight:90},
-      {title:"Lock in idea", hook:"Recover tiny signals by smart modulation and reference mixing", pillar:"Experimental", difficulty:"Advanced", categories:["Measurement and Noise"], tags:["lock in"], eq:"", link:"concepts/lock-in.html", popular:5, updated:20250910, weight:89},
-      {title:"Uncertainty and error bars", hook:"Propagate uncertainty with simple derivatives", pillar:"Experimental", difficulty:"Intro", categories:["Measurement and Noise"], tags:["errors"], eq:"", link:"concepts/errors.html", popular:8, updated:20250909, weight:88},
-      {title:"Curve fitting sanity", hook:"Fit only what the physics can support", pillar:"Experimental", difficulty:"Intro", categories:["Data Acquisition"], tags:["fit"], eq:"", link:"concepts/fitting.html", popular:7, updated:20250909, weight:87}
-    ];
-
-    // State
-    let state = {
-      pillar: 'Theoretical',
-      search: '',
-      diffs: new Set(),
-      category: '',
-      sort: 'curated',
-      saved: new Set(JSON.parse(localStorage.getItem('qpx_saved')||'[]')),
-      path: ''
-    }
-
-    // Elements
-    const grid = document.getElementById('grid');
-    const tabs = [...document.querySelectorAll('.tab')];
-    const chips = [...document.querySelectorAll('.chip')];
-    const search = document.getElementById('search');
-    const categorySelect = document.getElementById('categorySelect');
-    const sortSelect = document.getElementById('sortSelect');
-    const paths = [...document.querySelectorAll('.pathways .path, .pathbar .path')];
-
-    // Drawer elements
-    const drawer = document.getElementById('drawer');
-    const openDrawerBtn = document.getElementById('openDrawer');
-    const closeDrawerBtn = document.getElementById('closeDrawer');
-    const drawerDiff = document.getElementById('drawerDiff');
-    const drawerCat = document.getElementById('drawerCat');
-    const drawerSort = document.getElementById('drawerSort');
-
-    // Modal elements
-    const modal = document.getElementById('modal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalHook = document.getElementById('modalHook');
-    const modalMath = document.getElementById('modalMath');
-    const modalTags = document.getElementById('modalTags');
-    const modalLink = document.getElementById('modalLink');
-    const modalSave = document.getElementById('modalSave');
-
-    // Build drawer controls to mirror main controls
-    function buildDrawer(){
-      drawerDiff.innerHTML = ['Intro','Core','Advanced'].map(d=>`<button class="chip" data-diff="${d}">${d}</button>`).join('');
-      const cats = [...categorySelect.options].map(o=>o.value);
-      drawerCat.innerHTML = cats.map(v=>`<option value="${v}">${v || 'All categories'}</option>`).join('');
-      drawerSort.value = state.sort;
-      drawer.querySelectorAll('.chip').forEach(el=>{
-        el.addEventListener('click',()=>{ toggleDiff(el.dataset.diff); syncDrawerDiff(); render(); })
-      });
-      drawerCat.addEventListener('change',()=>{ state.category = drawerCat.value; categorySelect.value = state.category; render(); });
-      drawerSort.addEventListener('change',()=>{ state.sort = drawerSort.value; sortSelect.value = state.sort; render(); });
-    }
-
-    function syncDrawerDiff(){
-      drawer.querySelectorAll('.chip').forEach(el=>{
-        el.setAttribute('data-active', state.diffs.has(el.dataset.diff));
-      })
-    }
-
-    // Events
-    tabs.forEach(t=>t.addEventListener('click',()=>{
-      tabs.forEach(x=>x.setAttribute('aria-selected','false'));
-      t.setAttribute('aria-selected','true');
-      state.pillar = t.dataset.pillar;
-      state.path = '';
-      render();
-    }))
-
-    function toggleDiff(d){
-      if(state.diffs.has(d)) state.diffs.delete(d); else state.diffs.add(d);
-    }
-
-    chips.forEach(c=>{
-      c.addEventListener('click',()=>{
-        toggleDiff(c.dataset.diff); c.dataset.active = state.diffs.has(c.dataset.diff); render(); syncDrawerDiff();
-      })
-    })
-
-    search.addEventListener('input',()=>{ state.search = search.value.trim().toLowerCase(); render(); })
-    categorySelect.addEventListener('change',()=>{ state.category = categorySelect.value; drawerCat.value = state.category; render(); })
-    sortSelect.addEventListener('change',()=>{ state.sort = sortSelect.value; drawerSort.value = state.sort; render(); })
-
-    document.querySelectorAll('[data-jump]').forEach(btn=>{
-      btn.addEventListener('click',(e)=>{ e.preventDefault();
-        const p = btn.getAttribute('data-jump');
-        state.pillar = p; tabs.forEach(t=>t.setAttribute('aria-selected', t.dataset.pillar===p ? 'true':'false'));
-        render(); window.scrollTo({top:document.querySelector('.tabs').offsetTop-20, behavior:'smooth'});
-      });
-    })
-
-    const pathways = [...document.querySelectorAll('.pathways .path, .pathbar .path')];
-    pathways.forEach(p=>p.addEventListener('click',()=>{ const key = p.dataset.path; applyPath(key); render(); }))
-
-    // Drawer interactions
-    buildDrawer();
-    document.getElementById('clearAll')?.addEventListener('click',()=>{
-      state.diffs.clear(); chips.forEach(c=>c.dataset.active=false); syncDrawerDiff();
-      state.category=''; categorySelect.value=''; drawerCat.value='';
-      state.sort='curated'; sortSelect.value='curated'; drawerSort.value='curated';
-      state.search=''; search.value=''; state.path=''; render();
-    })
-    document.getElementById('openDrawer')?.addEventListener('click',()=>{ drawer.classList.add('active'); drawer.setAttribute('aria-hidden','false'); syncDrawerDiff(); })
-    document.getElementById('closeDrawer')?.addEventListener('click',()=>{ drawer.classList.remove('active'); drawer.setAttribute('aria-hidden','true'); })
-
-    // Path presets
-    function applyPath(key){
-      state.diffs.clear();
-      state.category = '';
-      if(key==='new-to-quantum'){
-        state.pillar = 'Theoretical';
-        state.diffs.add('Intro');
-        state.category = 'Quantum Mechanics';
-      } else if(key==='measurement-and-reality'){
-        state.pillar = 'Theoretical';
-        state.diffs.add('Core'); state.diffs.add('Advanced');
-        state.category = 'Foundations';
-      } else if(key==='topology-trail'){
-        state.pillar = 'Theoretical';
-        state.diffs.add('Advanced');
-        state.category = 'Beyond the Textbook';
-      } else if(key==='from-classical-to-field'){
-        state.pillar = 'Theoretical';
-        state.diffs.add('Intro'); state.diffs.add('Core');
-        state.category = 'Classical Mechanics';
+    // Data structure maps pillar to categories then topic links
+    const data = {
+      Theoretical:{
+        Categories:[
+          {name:'Foundations', topics:[
+            ['What is theoretical physics','concepts/what-is-theoretical.html'],
+            ['Foundations overview','concepts/foundations-overview.html'],
+            ['Born rule','concepts/born-rule.html'],
+            ['Uncertainty principle','concepts/uncertainty.html'],
+            ['Measurement problem','concepts/measurement.html']
+          ]},
+          {name:'Quantum Toolkits', topics:[
+            ['Dirac notation and operators','concepts/quantum-toolkits.html'],
+            ['Time evolution','concepts/time-evolution.html'],
+            ['Density matrices','concepts/density.html'],
+            ['POVMs and general measurement','concepts/povm.html'],
+            ['Entropy of a state','concepts/entropy.html']
+          ]},
+          {name:'Quantum Deep Dive', topics:[
+            ['Path integrals','concepts/path-integrals.html'],
+            ['Decoherence','concepts/decoherence.html'],
+            ['Berry phase','concepts/berry.html'],
+            ['Topological phases','concepts/topological.html'],
+            ['Kochen Specker','concepts/kochen-specker.html']
+          ]},
+          {name:'Quantum Mechanics', topics:[
+            ['Overview','concepts/qm-overview.html'],
+            ['Superposition','concepts/superposition.html'],
+            ['Operators and observables','concepts/operators.html'],
+            ['Entanglement','concepts/entanglement.html'],
+            ['Bell inequalities','concepts/bell.html'],
+            ['Quantum tunneling','concepts/tunneling.html'],
+            ['Quantum eraser','concepts/eraser.html']
+          ]},
+          {name:'Classical Mechanics', topics:[
+            ['Overview','concepts/classical-overview.html'],
+            ['Lagrangian and Hamiltonian form','concepts/lagrangian-hamiltonian.html'],
+            ['Noether and symmetry','concepts/noether.html']
+          ]},
+          {name:'Electromagnetism', topics:[
+            ['Overview','concepts/em-overview.html']
+          ]},
+          {name:'Relativity', topics:[
+            ['Overview','concepts/relativity-overview.html']
+          ]},
+          {name:'Quantum Field Theory', topics:[
+            ['Overview','concepts/qft-overview.html']
+          ]},
+          {name:'Statistical Mechanics', topics:[
+            ['Coming soon','concepts/statmech.html']
+          ]},
+          {name:'Cosmology', topics:[
+            ['Overview','concepts/cosmology-overview.html']
+          ]},
+          {name:'Beyond the Textbook', topics:[
+            ['Geometry and topology trail','concepts/topological.html']
+          ]},
+          {name:'Physics and Philosophy', topics:[
+            ['Measurement and reality path','concepts/measurement.html']
+          ]},
+          {name:'Quantum Experiments', topics:[
+            ['Models that mirror setups','concepts/quantum-experiments.html']
+          ]}
+        ]
+      },
+      Computational:{
+        Categories:[
+          {name:'Numerical Methods', topics:[
+            ['Finite difference for Schrödinger','concepts/fd-schrodinger.html'],
+            ['Split operator method','concepts/split-operator.html'],
+            ['Shooting method','concepts/shooting.html'],
+            ['Poisson equation on a grid','concepts/poisson.html'],
+            ['ODE solvers for motion','concepts/ode-motion.html']
+          ]},
+          {name:'Algorithms', topics:[
+            ['Matrix diagonalization','concepts/diagonalization.html'],
+            ['Markov chains','concepts/markov.html'],
+            ['FFT for spectra','concepts/fft.html'],
+            ['Tensor tricks for spins','concepts/tensor-spin.html']
+          ]},
+          {name:'Simulation and Visualization', topics:[
+            ['Random walks for diffusion','concepts/random-walk.html'],
+            ['Visualization for probability','concepts/visualization.html']
+          ]},
+          {name:'Data Handling and Monte Carlo', topics:[
+            ['Monte Carlo intuition','concepts/monte-carlo.html']
+          ]},
+          {name:'Tooling', topics:[
+            ['Notebooks and project structure','concepts/notebooks.html']
+          ]}
+        ]
+      },
+      Experimental:{
+        Categories:[
+          {name:'Thought Experiments', topics:[
+            ['Single to double slit','concepts/double-slit.html'],
+            ['Light as a messenger','concepts/light-messenger.html']
+          ]},
+          {name:'Lab Skills', topics:[
+            ['Two level Rabi','concepts/rabi.html'],
+            ['Polarization and Malus law','concepts/malus.html'],
+            ['Simple spectrometry','concepts/spectrometry.html']
+          ]},
+          {name:'Measurement and Noise', topics:[
+            ['Photodiode basics and shot noise','concepts/photodiode.html'],
+            ['Lock in idea','concepts/lock-in.html'],
+            ['Uncertainty and error bars','concepts/errors.html']
+          ]},
+          {name:'Data Acquisition', topics:[
+            ['Curve fitting sanity','concepts/fitting.html']
+          ]},
+          {name:'Gallery of Problems', topics:[
+            ['Interference and visibility','concepts/interference.html']
+          ]}
+        ]
       }
-      chips.forEach(c=>c.dataset.active = state.diffs.has(c.dataset.diff));
-      categorySelect.value = state.category;
-      sortSelect.value = state.sort;
-      drawerCat.value = state.category;
-      syncDrawerDiff();
-    }
+    };
 
-    function sortItems(list){
-      if(state.sort==='alpha') return list.slice().sort((a,b)=>a.title.localeCompare(b.title));
-      if(state.sort==='popular') return list.slice().sort((a,b)=>b.popular - a.popular);
-      if(state.sort==='recent') return list.slice().sort((a,b)=>b.updated - a.updated);
-      // curated: sort by weight desc then title
-      return list.slice().sort((a,b)=>(b.weight||0)-(a.weight||0) || a.title.localeCompare(b.title));
-    }
+    const pillars = document.getElementById('pillars');
+    const panel = document.getElementById('panel');
 
-    function matches(c){
-      if(c.pillar !== state.pillar) return false;
-      if(state.diffs.size && !state.diffs.has(c.difficulty)) return false;
-      if(state.category && !(c.categories||[]).includes(state.category)) return false;
-      if(state.search){
-        const hay = (c.title + ' ' + c.hook + ' ' + (c.tags||[]).join(' ') + ' ' + (c.categories||[]).join(' ')).toLowerCase();
-        if(!hay.includes(state.search)) return false;
-      }
-      return true;
-    }
+    pillars.addEventListener('click', e => {
+      const card = e.target.closest('.pcard');
+      if(!card) return;
+      const p = card.dataset.pillar;
+      openPanel(p);
+    });
 
-    function tagHTML(tags){
-      return (tags||[]).slice(0,4).map(t=>`<span class="tag">${t}</span>`).join('');
-    }
-
-    function cardHTML(c){
-      const saved = state.saved.has(c.title);
-      return `
-        <article class="card" tabindex="0">
-          <div>
-            <span class="pill">${c.difficulty}</span>
-            ${(c.categories||[]).slice(0,1).map(x=>`<span class="pill">${x}</span>`).join('')}
+    function openPanel(p){
+      const d = data[p];
+      if(!d) return;
+      panel.innerHTML = `
+        <div class="panel-head">
+          <div class="panel-title">${p}</div>
+          <div style="display:flex; gap:8px">
+            <a class="btn" href="index.html">Home</a>
+            <button class="btn" id="closePanel">Close</button>
           </div>
-          <h3>${c.title}</h3>
-          <p class="hook">${c.hook}</p>
-          ${c.eq?`<div class="hook">${c.eq}</div>`:''}
-          <div class="tags">${tagHTML(c.tags)}</div>
-          <div class="row">
-            <a class="btn primary" href="${c.link}">Open</a>
-            <div class="save" role="button" aria-label="Save for later" data-title="${c.title}">${saved?'Saved':'Save'}</div>
-          </div>
-        </article>`
+        </div>
+        <div class="cats">
+          ${d.Categories.map(cat => `
+            <div class="cat">
+              <h3>${cat.name}</h3>
+              <div class="topics">
+                ${cat.topics.map(t => `<a class="topic" href="${t[1]}">${t[0]}</a>`).join('')}
+              </div>
+            </div>
+          `).join('')}
+        </div>`;
+      panel.classList.add('active');
+      document.getElementById('closePanel').onclick = () => panel.classList.remove('active');
+      panel.scrollIntoView({behavior:'smooth', block:'start'});
     }
 
-    function attachCardEvents(){
-      // Save buttons
-      document.querySelectorAll('.save').forEach(el=>{
-        el.addEventListener('click',()=>{
-          const t = el.dataset.title;
-          if(state.saved.has(t)) state.saved.delete(t); else state.saved.add(t);
-          localStorage.setItem('qpx_saved', JSON.stringify([...state.saved]));
-          el.textContent = state.saved.has(t)?'Saved':'Save';
-        })
-      })
-      // Preview modal on title click
-      document.querySelectorAll('.card h3').forEach(h=>{
-        h.style.cursor='pointer';
-        h.addEventListener('click',()=>{
-          const title = h.textContent;
-          const c = concepts.find(x=>x.title===title);
-          if(!c) return;
-          modalTitle.textContent = c.title;
-          modalHook.textContent = c.hook;
-          modalMath.innerHTML = c.eq || '';
-          modalTags.innerHTML = tagHTML(c.tags);
-          modalLink.href = c.link;
-          modalSave.onclick = ()=>{
-            if(state.saved.has(c.title)) state.saved.delete(c.title); else state.saved.add(c.title);
-            localStorage.setItem('qpx_saved', JSON.stringify([...state.saved]));
-            modal.classList.remove('active');
-          }
-          modal.classList.add('active'); modal.setAttribute('aria-hidden','false');
-          if(window.MathJax) MathJax.typesetPromise();
-        })
-      })
-    }
-
-    function render(){
-      const list = sortItems(concepts.filter(matches));
-      grid.innerHTML = list.map(cardHTML).join('');
-      attachCardEvents();
-      if(window.MathJax) MathJax.typesetPromise();
-    }
-
-    // Modal close
-    document.getElementById('closeModal')?.addEventListener('click',()=>{ modal.classList.remove('active'); modal.setAttribute('aria-hidden','true'); })
-    modal.addEventListener('click',(e)=>{ if(e.target===modal){ modal.classList.remove('active'); modal.setAttribute('aria-hidden','true'); }})
-
-    // First render
-    render();
-
-    // Fade in when ready
-    window.addEventListener('load',()=>{
-      document.body.classList.add('ready');
-      const s = document.createElement('script');
-      s.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      s.async = true; document.head.appendChild(s);
+    // quick jump buttons
+    document.querySelectorAll('[data-jump]').forEach(b => {
+      b.addEventListener('click', e => { e.preventDefault(); openPanel(b.dataset.jump); });
     })
 
-    // Interactive background — subtle particle field with click spawns
+    // background particles with orbiting trails and click bursts
     const canvas = document.getElementById('bg');
     const ctx = canvas.getContext('2d');
-    let W, H, dpr; let particles=[]; let mouse={x:-9999,y:-9999};
+    let W,H,dpr,parts=[]; let mouse={x:-9999,y:-9999};
     function resize(){ dpr=window.devicePixelRatio||1; W=canvas.width=innerWidth*dpr; H=canvas.height=innerHeight*dpr; canvas.style.width=innerWidth+'px'; canvas.style.height=innerHeight+'px'; }
     window.addEventListener('resize', resize); resize();
 
-    function spawn(x,y, n=20){
+    function add(x,y,n=18){
       for(let i=0;i<n;i++){
-        const a=Math.random()*Math.PI*2; const v=0.2+Math.random()*0.8; const r=0.6+Math.random()*1.8;
-        particles.push({x:x*dpr,y:y*dpr,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:60+Math.random()*60,r});
+        const ang=Math.random()*Math.PI*2, sp=0.2+Math.random()*0.8, r=0.6+Math.random()*1.6;
+        parts.push({x:x*dpr, y:y*dpr, vx:Math.cos(ang)*sp, vy:Math.sin(ang)*sp, life:70+Math.random()*80, r});
       }
     }
-    window.addEventListener('mousemove', e=>{ mouse.x=e.clientX; mouse.y=e.clientY; })
-    window.addEventListener('click', e=>{ spawn(e.clientX, e.clientY, 28); })
-
-    // seed gentle field
-    for(let i=0;i<120;i++) spawn(Math.random()*innerWidth, Math.random()*innerHeight, 1);
+    window.addEventListener('mousemove', e=>{ mouse.x=e.clientX*dpr; mouse.y=e.clientY*dpr; })
+    window.addEventListener('click', e=>{ add(e.clientX, e.clientY, 26); })
+    for(let i=0;i<110;i++) add(Math.random()*innerWidth, Math.random()*innerHeight, 1);
 
     function step(){
       ctx.clearRect(0,0,W,H);
-      // faint vignette
-      const grd = ctx.createRadialGradient(W*0.2,H*0.1,0,W*0.2,H*0.1,Math.max(W,H)*0.8);
-      grd.addColorStop(0,'rgba(154,166,255,0.03)'); grd.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle=grd; ctx.fillRect(0,0,W,H);
-
-      // update particles
-      for(let i=particles.length-1;i>=0;i--){
-        const p=particles[i]; p.x+=p.vx; p.y+=p.vy; p.vx*=0.995; p.vy*=0.995; p.life-=1;
-        // gentle drift toward mouse
-        const dx=(mouse.x*dpr - p.x), dy=(mouse.y*dpr - p.y); const d=Math.hypot(dx,dy); if(d<200*dpr){ p.vx+=dx*0.00004; p.vy+=dy*0.00004; }
-        if(p.life<=0) { particles.splice(i,1); continue; }
+      // vignette
+      const g=ctx.createRadialGradient(W*0.2,H*0.1,0,W*0.2,H*0.1,Math.max(W,H)*0.8);
+      g.addColorStop(0,'rgba(154,166,255,0.04)'); g.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+      // particles
+      for(let i=parts.length-1;i>=0;i--){
+        const p=parts[i]; p.x+=p.vx; p.y+=p.vy; p.vx*=0.996; p.vy*=0.996; p.life-=1;
+        const dx=mouse.x-p.x, dy=mouse.y-p.y, d=Math.hypot(dx,dy);
+        if(d<240*dpr){ p.vx+=dx*0.00003; p.vy+=dy*0.00003; }
+        if(p.life<=0){ parts.splice(i,1); continue; }
         ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
         ctx.fillStyle='rgba(154,166,255,0.12)'; ctx.fill();
       }
       requestAnimationFrame(step);
     }
     step();
+
+    // fade ready
+    window.addEventListener('load',()=>{ document.body.classList.add('ready'); });
   </script>
 </body>
 </html>
