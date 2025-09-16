@@ -4,298 +4,372 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Concepts • Qparadox</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0e0f12; --panel:#14161b; --panel-2:#1a1d23; --ink:#e8e6df; --muted:#b9b6ae;
-      --accent:#9aa6ff; --accent-2:#7ad1ff; --chip:#21242c; --border:rgba(255,255,255,0.07);
-      --radius:18px; --shadow:0 10px 30px rgba(0,0,0,0.45);
+      --bg:#0b0a08;        /* deep espresso */
+      --ink:#ebe4d8;       /* warm ink */
+      --muted:#b8ae9c;     /* parchment muted */
+      --panel:#16130f;     /* panels */
+      --panel-2:#1c1813;
+      --chip:#1f1a14;      /* chips */
+      --border:rgba(255,233,200,0.10);
+      --gold:#d4b483;      /* accent */
+      --copper:#b98c60;
+      --r:18px;
+      --shadow:0 14px 44px rgba(0,0,0,.55);
     }
     *{box-sizing:border-box}
-    html,body{background:var(--bg); color:var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; opacity:0; transition:opacity .6s ease}
-    body.ready{opacity:1}
-    a{color:inherit; text-decoration:none}
-    .wrap{max-width:1200px; margin:0 auto; padding:24px}
+    html,body{margin:0; background:var(--bg); color:var(--ink); font-family: ui-serif, Georgia, "Times New Roman", serif}
+    @keyframes fadeIn{from{opacity:.001; transform:translateY(6px)} to{opacity:1; transform:none}}
+    body{animation:fadeIn .65s ease both}
+
+    .wrap{max-width:1220px; margin:0 auto; padding:26px; position:relative; z-index:1}
+    .title{font-family: Georgia, serif; font-weight:700; letter-spacing:.2px; font-size:clamp(42px,6vw,68px)}
+    .subtitle{color:var(--muted); max-width:80ch; line-height:1.7}
 
     /* background */
-    #bg{position:fixed; inset:0; z-index:-1}
+    #bg{position:fixed; inset:0; z-index:-2}
+    .grain{position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.10; background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.35"/></svg>'); mix-blend-mode:soft-light}
 
-    /* hero */
-    .title{font-family:'EB Garamond', Georgia, serif; font-size: clamp(38px,5vw,60px)}
-    .subtitle{color:var(--muted); max-width:72ch; line-height:1.6}
-    .crumbs{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 14px 0; color:var(--muted)}
-    .crumbs a{border:1px solid var(--border); padding:6px 10px; border-radius:999px}
+    /* controls */
+    .controls{display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center; margin:10px 0 2px}
+    .search{display:flex; align-items:center; gap:10px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--border); border-radius:999px; padding:12px 14px; box-shadow:var(--shadow)}
+    .search input{flex:1; background:transparent; border:none; color:var(--ink); outline:none; font-size:16px}
+    .chips{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end}
+    .chip{padding:8px 12px; border:1px solid var(--border); border-radius:999px; background:var(--chip); color:var(--muted); font-size:14px; cursor:pointer}
+    .chip[data-active="true"]{color:var(--ink); box-shadow:0 0 0 1px rgba(212,180,131,.25), 0 0 22px rgba(212,180,131,.08)}
 
-    /* pillar cards */
-    .pillars{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-top:14px}
-    .pcard{background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--border); border-radius:var(--radius); padding:18px; position:relative; overflow:hidden; box-shadow:var(--shadow); cursor:pointer; transition:transform .15s ease, box-shadow .2s ease}
-    .pcard:hover{transform:translateY(-3px); box-shadow:0 14px 40px rgba(0,0,0,.55)}
-    .pcard h2{font-family:'EB Garamond', Georgia, serif; font-size:28px; margin:6px 0}
-    .pcard p{color:var(--muted); margin:0}
-    .pcard .open{font-family:'EB Garamond', Georgia, serif; margin-top:12px; display:inline-block; border:1px solid var(--border); padding:8px 12px; border-radius:10px; background:linear-gradient(180deg,#2b3350,#1b2032);}
+    /* big pillar cards */
+    .stack{display:grid; gap:16px; margin-top:14px}
+    .card{position:relative; border-radius:var(--r); padding:22px; cursor:pointer; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--border); box-shadow:var(--shadow); transition:transform .18s ease, box-shadow .25s ease}
+    .card:hover{transform:translateY(-4px)}
+    .card::before{content:""; position:absolute; inset:-1px; border-radius:calc(var(--r) + 1px); padding:1px; background:linear-gradient(120deg, rgba(212,180,131,.35), rgba(185,140,96,.28), rgba(212,180,131,.18)); -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; opacity:.8}
+    .card h2{display:flex; align-items:center; gap:10px; margin:0; font-size:26px}
+    .badge{font-size:13px; color:var(--muted); border:1px solid var(--border); padding:6px 10px; border-radius:999px}
+    .copy{color:var(--muted); margin:8px 0 0 0; font-size:16px}
+    .chev{width:20px; height:20px; margin-left:auto; transform:rotate(0deg); transition:transform .2s ease}
+    .card[aria-expanded="true"] .chev{transform:rotate(180deg)}
 
-    /* panel */
-    .panel{grid-column:1/-1; background:linear-gradient(180deg,var(--panel),#0f1217); border:1px solid var(--border); border-radius:20px; padding:16px; box-shadow:var(--shadow); display:none}
-    .panel.active{display:block; animation:fadeUp .28s ease}
-    @keyframes fadeUp{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)}}
+    .panel{grid-template-rows:0fr; display:grid; transition:grid-template-rows .3s ease}
+    .panel>.inner{overflow:hidden}
+    .card[aria-expanded="true"] + .panel{grid-template-rows:1fr}
 
-    /* inside panel layout */
-    .panel-head{display:flex; align-items:center; justify-content:space-between; gap:12px}
-    .panel-title{font-family:'EB Garamond', Georgia, serif; font-size:26px}
-    .btn{font-family:'EB Garamond', Georgia, serif; background:transparent; border:1px solid var(--border); color:var(--ink); padding:8px 12px; border-radius:10px; cursor:pointer}
-    .btn.primary{background:linear-gradient(180deg,#2b3350,#1b2032); border-color:rgba(154,166,255,0.45)}
-
-    .cats{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:12px}
-    .cat{background:linear-gradient(180deg,#171b22,#11151b); border:1px solid var(--border); border-radius:14px; padding:12px}
-    .cat h3{font-family:'EB Garamond', Georgia, serif; margin:4px 0 6px 0; font-size:20px}
+    /* inside panel */
+    .cats{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; padding:14px 6px 6px}
+    .cat{background:linear-gradient(180deg,#1a1712,#14110d); border:1px solid var(--border); border-radius:16px; padding:14px}
+    .cat h3{display:flex; align-items:center; gap:8px; margin:0 0 10px 0; font-size:20px}
     .topics{display:flex; flex-wrap:wrap; gap:8px}
-    .topic{border:1px dashed var(--border); padding:6px 10px; border-radius:999px; color:var(--muted); font-size:14px}
+    .topic{display:inline-flex; align-items:center; gap:8px; border:1px dashed var(--border); padding:8px 12px; border-radius:999px; color:var(--muted); font-size:15px; transition: transform .12s ease, background .2s ease}
+    .topic:hover{transform:translateY(-1px); background:#16120e; color:var(--ink)}
 
-    /* mobile */
-    @media (max-width:900px){.pillars{grid-template-columns:1fr}.cats{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media (max-width:600px){.cats{grid-template-columns:1fr}}
+    /* svg icon style */
+    .ico{width:16px; height:16px; color:var(--gold)}
+
+    footer{margin:30px 0 14px; color:var(--muted)}
+    footer a{display:inline-block; border:1px solid var(--border); padding:10px 14px; border-radius:999px; text-decoration:none; background:linear-gradient(180deg,var(--chip),#14110d); color:var(--ink)}
+
+    @media (max-width:980px){ .cats{grid-template-columns:repeat(2,minmax(0,1fr))} }
+    @media (max-width:620px){ .cats{grid-template-columns:1fr} .card h2{font-size:24px} .copy{font-size:15px} }
   </style>
 </head>
 <body>
   <canvas id="bg"></canvas>
+  <div class="grain"></div>
   <div class="wrap">
-    <nav class="crumbs">
-      <a href="index.html">← Home</a>
-      <a href="#" data-jump="Theoretical">Go to Theoretical</a>
-      <a href="#" data-jump="Computational">Go to Computational</a>
-      <a href="#" data-jump="Experimental">Go to Experimental</a>
-    </nav>
     <div class="title">Concepts</div>
-    <p class="subtitle">Browse by pillar. Click a pillar to open a clean panel of categories, then pick a subtopic. The page is light and friendly on phone.</p>
+    <p class="subtitle">Pick a pillar. Use search + filters to focus. Each panel mirrors your course order: <strong>What is theoretical → Foundations → Quantum Toolkit → Quantum Deep Dive</strong>, then the rest.</p>
 
-    <section class="pillars" id="pillars">
-      <article class="pcard" data-pillar="Theoretical">
-        <h2>Theoretical</h2>
-        <p>Foundations, toolkits, deep dives, and beyond textbook ideas.</p>
-        <span class="open">Open</span>
-      </article>
-      <article class="pcard" data-pillar="Computational">
-        <h2>Computational</h2>
-        <p>Numerical methods, algorithms, and visualization habits that work.</p>
-        <span class="open">Open</span>
-      </article>
-      <article class="pcard" data-pillar="Experimental">
-        <h2>Experimental</h2>
-        <p>Thought experiments, lab skills, noise, and data acquisition.</p>
-        <span class="open">Open</span>
-      </article>
+    <div class="controls">
+      <label class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10.5" cy="10.5" r="7" stroke="currentColor" stroke-width="1.5"/></svg>
+        <input id="q" placeholder="Search topics (e.g., Berry, Poisson, Black holes)" autocomplete="off" />
+      </label>
+      <div class="chips">
+        <button class="chip" data-diff="Intro">Intro</button>
+        <button class="chip" data-diff="Core">Core</button>
+        <button class="chip" data-diff="Advanced">Advanced</button>
+        <button class="chip" id="toggleSaved" title="Show only saved">★ Saved</button>
+      </div>
+    </div>
 
-      <!-- expandable panel inserted here -->
-      <div class="panel" id="panel"></div>
+    <section class="stack" id="stack">
+      <!-- THEORETICAL -->
+      <div class="card" role="button" tabindex="0" aria-expanded="false" data-pillar="Theoretical">
+        <h2>
+          <svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M5 4h14v16H5z" stroke="currentColor" stroke-width="1.2"/><path d="M7 7h10M7 11h10M7 15h6" stroke="currentColor" stroke-width="1.2"/></svg>
+          Theoretical <span class="badge">Foundations • QM • Relativity • QFT</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </h2>
+        <p class="copy">Your ordered track: What it is → Foundations → Toolkit → Deep Dive. Then classical, E&M, relativity, QFT, stat mech, cosmology, beyond, philosophy, experiments.</p>
+      </div>
+      <div class="panel"><div class="inner">
+        <div class="cats">
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2"/><path d="M12 6v12M6 12h12" stroke="currentColor" stroke-width="1.2"/></svg> What is theoretical</h3><div class="topics">
+            <a class="topic" data-diff="Intro" href="concepts/what-is-theoretical.html"><span class="dot"></span>What it is</a>
+            <a class="topic" data-diff="Intro" href="concepts/what-is-theoretical.html#why"><span class="dot"></span>Why we use it</a>
+            <a class="topic" data-diff="Intro" href="concepts/what-is-theoretical.html#find"><span class="dot"></span>What we can find with it</a>
+            <a class="topic" data-diff="Intro" href="concepts/what-is-theoretical.html#work"><span class="dot"></span>How we actually work</a>
+            <a class="topic" data-diff="Intro" href="concepts/what-is-theoretical.html#gain"><span class="dot"></span>What you gain by learning theory</a>
+            <a class="topic" data-diff="Intro" href="concepts/what-is-theoretical.html#quiz"><span class="dot"></span>Quick quiz</a>
+            <a class="topic" data-diff="Intro" href="concepts/what-is-theoretical.html#next"><span class="dot"></span>Next steps</a>
+          </div></div>
+
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 18V6l8-2 8 2v12l-8 2-8-2z" stroke="currentColor" stroke-width="1.2"/></svg> Foundations</h3><div class="topics">
+            <a class="topic" data-diff="Intro" href="concepts/foundations-overview.html#orientation"><span class="dot"></span>Orientation</a>
+            <a class="topic" data-diff="Core" href="concepts/foundations-overview.html#conservation"><span class="dot"></span>Conservation laws</a>
+            <a class="topic" data-diff="Core" href="concepts/foundations-overview.html#noether"><span class="dot"></span>Symmetry & Noether</a>
+            <a class="topic" data-diff="Intro" href="concepts/foundations-overview.html#frames"><span class="dot"></span>Reference frames & invariance</a>
+            <a class="topic" data-diff="Intro" href="concepts/foundations-overview.html#scales"><span class="dot"></span>Scales & dimensional analysis</a>
+            <a class="topic" data-diff="Core" href="concepts/foundations-overview.html#least-action"><span class="dot"></span>Principle of least action</a>
+            <a class="topic" data-diff="Core" href="concepts/foundations-overview.html#waves"><span class="dot"></span>Fields & waves</a>
+            <a class="topic" data-diff="Core" href="concepts/foundations-overview.html#osc"><span class="dot"></span>Oscillations & normal modes</a>
+            <a class="topic" data-diff="Core" href="concepts/foundations-overview.html#fourier"><span class="dot"></span>Fourier thinking</a>
+            <a class="topic" data-diff="Intro" href="concepts/foundations-overview.html#prob"><span class="dot"></span>Probability for physics</a>
+            <a class="topic" data-diff="Intro" href="concepts/foundations-overview.html#practice"><span class="dot"></span>Practice prompts</a>
+            <a class="topic" data-diff="Intro" href="concepts/foundations-overview.html#quiz"><span class="dot"></span>Foundations quiz</a>
+          </div></div>
+
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="1.2"/></svg> Quantum Toolkit</h3><div class="topics">
+            <a class="topic" data-diff="Intro" href="concepts/qm-overview.html#amp"><span class="dot"></span>From amplitudes to probability</a>
+            <a class="topic" data-diff="Core" href="concepts/time-evolution.html"><span class="dot"></span>Time evolution (Schrödinger)</a>
+            <a class="topic" data-diff="Core" href="concepts/superposition.html"><span class="dot"></span>Superposition & interference</a>
+            <a class="topic" data-diff="Core" href="concepts/operators.html"><span class="dot"></span>Operators & observables</a>
+            <a class="topic" data-diff="Core" href="concepts/bloch.html"><span class="dot"></span>Spin as 2‑state system</a>
+            <a class="topic" data-diff="Core" href="concepts/entanglement.html"><span class="dot"></span>Entanglement, plain words</a>
+            <a class="topic" data-diff="Advanced" href="concepts/decoherence.html"><span class="dot"></span>Decoherence & classicality</a>
+            <a class="topic" data-diff="Intro" href="concepts/eraser.html"><span class="dot"></span>Quantum eraser</a>
+            <a class="topic" data-diff="Intro" href="concepts/born-rule.html"><span class="dot"></span>Born rule</a>
+            <a class="topic" data-diff="Core" href="concepts/uncertainty.html"><span class="dot"></span>Uncertainty without fear</a>
+            <a class="topic" data-diff="Intro" href="concepts/quantum-toolkits.html#practice"><span class="dot"></span>Practice prompts</a>
+            <a class="topic" data-diff="Intro" href="concepts/quantum-toolkits.html#quiz"><span class="dot"></span>Toolkit quiz</a>
+          </div></div>
+
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.2"/></svg> Quantum Deep Dive</h3><div class="topics">
+            <a class="topic" data-diff="Advanced" href="concepts/path-integrals.html"><span class="dot"></span>Path integrals</a>
+            <a class="topic" data-diff="Advanced" href="concepts/berry.html"><span class="dot"></span>Berry phase & holonomy</a>
+            <a class="topic" data-diff="Advanced" href="concepts/topological.html"><span class="dot"></span>Topological phases</a>
+            <a class="topic" data-diff="Advanced" href="concepts/povm.html"><span class="dot"></span>POVMs & general measurement</a>
+            <a class="topic" data-diff="Advanced" href="concepts/density.html"><span class="dot"></span>Density matrices</a>
+            <a class="topic" data-diff="Advanced" href="concepts/entropy.html"><span class="dot"></span>Quantum information entropy</a>
+            <a class="topic" data-diff="Advanced" href="concepts/bell.html"><span class="dot"></span>Bell inequalities (deep)</a>
+          </div></div>
+
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M3 12h18M12 3v18" stroke="currentColor" stroke-width="1.2"/></svg> Classical Mechanics</h3><div class="topics">
+            <a class="topic" data-diff="Intro" href="concepts/classical-overview.html"><span class="dot"></span>Overview</a>
+            <a class="topic" data-diff="Core" href="concepts/lagrangian-hamiltonian.html"><span class="dot"></span>Lagrangian & Hamiltonian</a>
+            <a class="topic" data-diff="Core" href="concepts/noether.html"><span class="dot"></span>Noether & symmetry</a>
+            <a class="topic" data-diff="Core" href="concepts/oscillations.html"><span class="dot"></span>Oscillations & normal modes</a>
+            <a class="topic" data-diff="Core" href="concepts/chaos.html"><span class="dot"></span>Chaos & phase portraits</a>
+          </div></div>
+
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16M8 8l8 8" stroke="currentColor" stroke-width="1.2"/></svg> Electromagnetism</h3><div class="topics">
+            <a class="topic" data-diff="Intro" href="concepts/em-overview.html"><span class="dot"></span>Maxwell’s equations</a>
+            <a class="topic" data-diff="Core" href="concepts/em-potentials.html"><span class="dot"></span>Potentials & gauges</a>
+            <a class="topic" data-diff="Core" href="concepts/em-waves.html"><span class="dot"></span>Waves & polarization</a>
+            <a class="topic" data-diff="Advanced" href="concepts/em-covariant.html"><span class="dot"></span>Covariant formulation</a>
+          </div></div>
+
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M3 12h18M6 12c0-6 12-6 12 0s-12 6-12 0z" stroke="currentColor" stroke-width="1.2"/></svg> Relativity</h3><div class="topics">
+            <a class="topic" data-diff="Intro" href="concepts/relativity-overview.html"><span class="dot"></span>SR basics</a>
+            <a class="topic" data-diff="Core" href="concepts/relativity-metrics.html"><span class="dot"></span>Metrics & geodesics</a>
+            <a class="topic" data-diff="Advanced" href="concepts/relativity-tensors.html"><span class="dot"></span>Stress‑energy & curvature</a>
+            <a class="topic" data-diff="Advanced" href="concepts/gravitational-waves.html"><span class="dot"></span>Gravitational waves</a>
+          </div></div>
+
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4zM8 8h8v8H8z" stroke="currentColor" stroke-width="1.2"/></svg> Quantum Field Theory</h3><div class="topics">
+            <a class="topic" data-diff="Intro" href="concepts/qft-overview.html"><span class="dot"></span>Fields & excitations</a>
+            <a class="topic" data-diff="Core" href="concepts/qft-lagrangian.html"><span class="dot"></span>QFT Lagrangians</a>
+            <a class="topic" data-diff="Core" href="concepts/qft-feynman.html"><span class="dot"></span>Feynman rules & diagrams</a>
+            <a class="topic" data-diff="Advanced" href="concepts/qft-renormalization.html"><span class="dot"></span>Renormalization ideas</a>
+            <a class="topic" data-diff="Advanced" href="concepts/qft-symmetry-breaking.html"><span class="dot"></span>Symmetry breaking</a>
+          </div></div>
+
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M6 6h12M6 12h12M6 18h12" stroke="currentColor" stroke-width="1.2"/></svg> Statistical Mechanics</h3><div class="topics">
+            <a class="topic" data-diff="Intro" href="concepts/statmech.html"><span class="dot"></span>Micro/Canonical ensembles</a>
+            <a class="topic" data-diff="Core" href="concepts/statmech-partition.html"><span class="dot"></span>Partition function</a>
+            <a class="topic" data-diff="Core" href="concepts/statmech-fluct.html"><span class="dot"></span>Fluctuations & response</a>
+            <a class="topic" data-diff="Core" href="concepts/statmech-phase.html"><span class="dot"></span>Phase transitions</a>
+          </div></div>
+
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 6 6 .5-4.5 4 1.5 6-6-3.2-6 3.2 1.5-6L3 8.5 9 8z" stroke="currentColor" stroke-width="1.2"/></svg> Cosmology</h3><div class="topics">
+            <a class="topic" data-diff="Intro" href="concepts/cosmology-overview.html"><span class="dot"></span>Big picture & expansion</a>
+            <a class="topic" data-diff="Core" href="concepts/cosmology-friedmann.html"><span class="dot"></span>Friedmann equations</a>
+            <a class="topic" data-diff="Core" href="concepts/cosmology-cmb.html"><span class="dot"></span>CMB & cosmological parameters</a>
+            <a class="topic" data-diff="Core" href="concepts/cosmology-inflation.html"><span class="dot"></span>Inflation</a>
+            <a class="topic" data-diff="Core" href="concepts/cosmology-dark-matter.html"><span class="dot"></span>Dark matter</a>
+            <a class="topic" data-diff="Core" href="concepts/cosmology-dark-energy.html"><span class="dot"></span>Dark energy</a>
+            <a class="topic" data-diff="Advanced" href="concepts/cosmology-black-holes.html"><span class="dot"></span>Black holes</a>
+            <a class="topic" data-diff="Advanced" href="concepts/cosmology-singularity.html"><span class="dot"></span>Singularities</a>
+            <a class="topic" data-diff="Advanced" href="concepts/cosmology-wormholes.html"><span class="dot"></span>Wormholes</a>
+          </div></div>
+
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.2"/></svg> Beyond the Textbook</h3><div class="topics">
+            <a class="topic" data-diff="Advanced" href="concepts/topological.html"><span class="dot"></span>Topology trail</a>
+            <a class="topic" data-diff="Advanced" href="concepts/berry.html"><span class="dot"></span>Berry & holonomy</a>
+            <a class="topic" data-diff="Core" href="concepts/decoherence.html"><span class="dot"></span>Decoherence in practice</a>
+            <a class="topic" data-diff="Core" href="concepts/open-systems.html"><span class="dot"></span>Open systems & noise</a>
+          </div></div>
+
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M6 6h12v12H6zM9 9h6v6H9z" stroke="currentColor" stroke-width="1.2"/></svg> Physics & Philosophy</h3><div class="topics">
+            <a class="topic" data-diff="Intro" href="concepts/measurement.html"><span class="dot"></span>Measurement & reality</a>
+            <a class="topic" data-diff="Core" href="concepts/bell.html"><span class="dot"></span>Locality vs realism</a>
+            <a class="topic" data-diff="Core" href="concepts/interpretations.html"><span class="dot"></span>Interpretations tour</a>
+            <a class="topic" data-diff="Advanced" href="concepts/contextuality.html"><span class="dot"></span>Contextuality</a>
+          </div></div>
+
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M6 12h12M8 18h8" stroke="currentColor" stroke-width="1.2"/></svg> Quantum Experiments</h3><div class="topics">
+            <a class="topic" data-diff="Core" href="concepts/quantum-experiments.html"><span class="dot"></span>Model setups</a>
+            <a class="topic" data-diff="Core" href="concepts/rabi.html"><span class="dot"></span>Rabi oscillations</a>
+            <a class="topic" data-diff="Core" href="concepts/interference.html"><span class="dot"></span>Interference & visibility</a>
+            <a class="topic" data-diff="Intro" href="concepts/double-slit.html"><span class="dot"></span>Single → double slit</a>
+          </div></div>
+        </div>
+      </div></div>
+
+      <!-- COMPUTATIONAL -->
+      <div class="card" role="button" tabindex="0" aria-expanded="false" data-pillar="Computational">
+        <h2>
+          <svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v14H4zM7 9h10" stroke="currentColor" stroke-width="1.2"/></svg>
+          Computational <span class="badge">Numerical • Algorithms • Viz</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </h2>
+        <p class="copy">Numerics that behave, patterns you can see, workflows that stay tidy.</p>
+      </div>
+      <div class="panel"><div class="inner">
+        <div class="cats">
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.2"/></svg> Numerical Methods</h3><div class="topics">
+            <a class="topic" data-diff="Core" href="concepts/fd-schrodinger.html"><span class="dot"></span>Finite difference Schrödinger</a>
+            <a class="topic" data-diff="Advanced" href="concepts/split-operator.html"><span class="dot"></span>Split operator</a>
+            <a class="topic" data-diff="Core" href="concepts/shooting.html"><span class="dot"></span>Shooting method</a>
+            <a class="topic" data-diff="Core" href="concepts/poisson.html"><span class="dot"></span>Poisson equation</a>
+            <a class="topic" data-diff="Intro" href="concepts/ode-motion.html"><span class="dot"></span>ODE solvers for motion</a>
+          </div></div>
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M6 18l6-12 6 12" stroke="currentColor" stroke-width="1.2"/></svg> Algorithms</h3><div class="topics">
+            <a class="topic" data-diff="Core" href="concepts/diagonalization.html"><span class="dot"></span>Matrix diagonalization</a>
+            <a class="topic" data-diff="Core" href="concepts/markov.html"><span class="dot"></span>Markov chains</a>
+            <a class="topic" data-diff="Core" href="concepts/fft.html"><span class="dot"></span>FFT for spectra</a>
+            <a class="topic" data-diff="Advanced" href="concepts/tensor-spin.html"><span class="dot"></span>Tensors for spins</a>
+          </div></div>
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4z" stroke="currentColor" stroke-width="1.2"/></svg> Simulation & Visualization</h3><div class="topics">
+            <a class="topic" data-diff="Intro" href="concepts/random-walk.html"><span class="dot"></span>Random walks</a>
+            <a class="topic" data-diff="Intro" href="concepts/visualization.html"><span class="dot"></span>Probability visuals</a>
+          </div></div>
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h14" stroke="currentColor" stroke-width="1.2"/></svg> Data & Monte Carlo</h3><div class="topics">
+            <a class="topic" data-diff="Intro" href="concepts/monte-carlo.html"><span class="dot"></span>Monte Carlo intuition</a>
+          </div></div>
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M6 6h12v12H6zM9 9h6v6H9z" stroke="currentColor" stroke-width="1.2"/></svg> Tooling</h3><div class="topics">
+            <a class="topic" data-diff="Intro" href="concepts/notebooks.html"><span class="dot"></span>Notebooks & structure</a>
+          </div></div>
+        </div>
+      </div></div>
+
+      <!-- EXPERIMENTAL -->
+      <div class="card" role="button" tabindex="0" aria-expanded="false" data-pillar="Experimental">
+        <h2>
+          <svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M7 3v6l-4 8h18l-4-8V3" stroke="currentColor" stroke-width="1.2"/></svg>
+          Experimental <span class="badge">Thought • Lab • Noise • DAQ</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </h2>
+        <p class="copy">Simple setups, clean measurement habits, and data done right.</p>
+      </div>
+      <div class="panel"><div class="inner">
+        <div class="cats">
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.2"/></svg> Thought Experiments</h3><div class="topics">
+            <a class="topic" data-diff="Intro" href="concepts/double-slit.html"><span class="dot"></span>Single → double slit</a>
+            <a class="topic" data-diff="Intro" href="concepts/light-messenger.html"><span class="dot"></span>Light as a messenger</a>
+          </div></div>
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M5 19l6-14 6 14" stroke="currentColor" stroke-width="1.2"/></svg> Lab Skills</h3><div class="topics">
+            <a class="topic" data-diff="Core" href="concepts/rabi.html"><span class="dot"></span>Two level Rabi</a>
+            <a class="topic" data-diff="Core" href="concepts/malus.html"><span class="dot"></span>Polarization (Malus)</a>
+            <a class="topic" data-diff="Core" href="concepts/spectrometry.html"><span class="dot"></span>Simplest spectrometry</a>
+          </div></div>
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M6 12h12M8 18h8" stroke="currentColor" stroke-width="1.2"/></svg> Measurement & Noise</h3><div class="topics">
+            <a class="topic" data-diff="Advanced" href="concepts/photodiode.html"><span class="dot"></span>Photodiode & shot noise</a>
+            <a class="topic" data-diff="Advanced" href="concepts/lock-in.html"><span class="dot"></span>Lock‑in idea</a>
+            <a class="topic" data-diff="Intro" href="concepts/errors.html"><span class="dot"></span>Error bars</a>
+          </div></div>
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M6 6h12v12H6zM9 9h6v6H9z" stroke="currentColor" stroke-width="1.2"/></svg> Data Acquisition</h3><div class="topics">
+            <a class="topic" data-diff="Core" href="concepts/fitting.html"><span class="dot"></span>Curve fitting sanity</a>
+          </div></div>
+          <div class="cat"><h3><svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 6 6 .5-4.5 4 1.5 6-6-3.2-6 3.2 1.5-6L3 8.5 9 8z" stroke="currentColor" stroke-width="1.2"/></svg> Gallery of Problems</h3><div class="topics">
+            <a class="topic" data-diff="Core" href="concepts/interference.html"><span class="dot"></span>Interference & visibility</a>
+          </div></div>
+        </div>
+      </div></div>
     </section>
 
-    <footer style="margin-top:18px; color:var(--muted); display:flex; gap:12px; flex-wrap:wrap">
-      <a class="btn" href="introduction.html">Begin here</a>
-      <a class="btn" href="theory.html">Theory</a>
-      <a class="btn" href="projects.html">Projects</a>
+    <footer>
+      <a href="index.html">← Back Home</a>
     </footer>
   </div>
 
   <script>
-    // Data structure maps pillar to categories then topic links
-    const data = {
-      Theoretical:{
-        Categories:[
-          {name:'Foundations', topics:[
-            ['What is theoretical physics','concepts/what-is-theoretical.html'],
-            ['Foundations overview','concepts/foundations-overview.html'],
-            ['Born rule','concepts/born-rule.html'],
-            ['Uncertainty principle','concepts/uncertainty.html'],
-            ['Measurement problem','concepts/measurement.html']
-          ]},
-          {name:'Quantum Toolkits', topics:[
-            ['Dirac notation and operators','concepts/quantum-toolkits.html'],
-            ['Time evolution','concepts/time-evolution.html'],
-            ['Density matrices','concepts/density.html'],
-            ['POVMs and general measurement','concepts/povm.html'],
-            ['Entropy of a state','concepts/entropy.html']
-          ]},
-          {name:'Quantum Deep Dive', topics:[
-            ['Path integrals','concepts/path-integrals.html'],
-            ['Decoherence','concepts/decoherence.html'],
-            ['Berry phase','concepts/berry.html'],
-            ['Topological phases','concepts/topological.html'],
-            ['Kochen Specker','concepts/kochen-specker.html']
-          ]},
-          {name:'Quantum Mechanics', topics:[
-            ['Overview','concepts/qm-overview.html'],
-            ['Superposition','concepts/superposition.html'],
-            ['Operators and observables','concepts/operators.html'],
-            ['Entanglement','concepts/entanglement.html'],
-            ['Bell inequalities','concepts/bell.html'],
-            ['Quantum tunneling','concepts/tunneling.html'],
-            ['Quantum eraser','concepts/eraser.html']
-          ]},
-          {name:'Classical Mechanics', topics:[
-            ['Overview','concepts/classical-overview.html'],
-            ['Lagrangian and Hamiltonian form','concepts/lagrangian-hamiltonian.html'],
-            ['Noether and symmetry','concepts/noether.html']
-          ]},
-          {name:'Electromagnetism', topics:[
-            ['Overview','concepts/em-overview.html']
-          ]},
-          {name:'Relativity', topics:[
-            ['Overview','concepts/relativity-overview.html']
-          ]},
-          {name:'Quantum Field Theory', topics:[
-            ['Overview','concepts/qft-overview.html']
-          ]},
-          {name:'Statistical Mechanics', topics:[
-            ['Coming soon','concepts/statmech.html']
-          ]},
-          {name:'Cosmology', topics:[
-            ['Overview','concepts/cosmology-overview.html']
-          ]},
-          {name:'Beyond the Textbook', topics:[
-            ['Geometry and topology trail','concepts/topological.html']
-          ]},
-          {name:'Physics and Philosophy', topics:[
-            ['Measurement and reality path','concepts/measurement.html']
-          ]},
-          {name:'Quantum Experiments', topics:[
-            ['Models that mirror setups','concepts/quantum-experiments.html']
-          ]}
-        ]
-      },
-      Computational:{
-        Categories:[
-          {name:'Numerical Methods', topics:[
-            ['Finite difference for Schrödinger','concepts/fd-schrodinger.html'],
-            ['Split operator method','concepts/split-operator.html'],
-            ['Shooting method','concepts/shooting.html'],
-            ['Poisson equation on a grid','concepts/poisson.html'],
-            ['ODE solvers for motion','concepts/ode-motion.html']
-          ]},
-          {name:'Algorithms', topics:[
-            ['Matrix diagonalization','concepts/diagonalization.html'],
-            ['Markov chains','concepts/markov.html'],
-            ['FFT for spectra','concepts/fft.html'],
-            ['Tensor tricks for spins','concepts/tensor-spin.html']
-          ]},
-          {name:'Simulation and Visualization', topics:[
-            ['Random walks for diffusion','concepts/random-walk.html'],
-            ['Visualization for probability','concepts/visualization.html']
-          ]},
-          {name:'Data Handling and Monte Carlo', topics:[
-            ['Monte Carlo intuition','concepts/monte-carlo.html']
-          ]},
-          {name:'Tooling', topics:[
-            ['Notebooks and project structure','concepts/notebooks.html']
-          ]}
-        ]
-      },
-      Experimental:{
-        Categories:[
-          {name:'Thought Experiments', topics:[
-            ['Single to double slit','concepts/double-slit.html'],
-            ['Light as a messenger','concepts/light-messenger.html']
-          ]},
-          {name:'Lab Skills', topics:[
-            ['Two level Rabi','concepts/rabi.html'],
-            ['Polarization and Malus law','concepts/malus.html'],
-            ['Simple spectrometry','concepts/spectrometry.html']
-          ]},
-          {name:'Measurement and Noise', topics:[
-            ['Photodiode basics and shot noise','concepts/photodiode.html'],
-            ['Lock in idea','concepts/lock-in.html'],
-            ['Uncertainty and error bars','concepts/errors.html']
-          ]},
-          {name:'Data Acquisition', topics:[
-            ['Curve fitting sanity','concepts/fitting.html']
-          ]},
-          {name:'Gallery of Problems', topics:[
-            ['Interference and visibility','concepts/interference.html']
-          ]}
-        ]
+    (function(){
+      const SAVED_KEY='qpx_saved_topics';
+      const saved=new Set(JSON.parse(localStorage.getItem(SAVED_KEY)||'[]'));
+      const q=document.getElementById('q');
+      const chips=[...document.querySelectorAll('.chip[data-diff]')];
+      const toggleSaved=document.getElementById('toggleSaved');
+      let showSavedOnly=false;
+
+      function applyFilters(){
+        const text=(q?.value||'').toLowerCase().trim();
+        const activeDiffs=new Set(chips.filter(c=>c.dataset.active==='true').map(c=>c.dataset.diff));
+        document.querySelectorAll('.topic').forEach(el=>{
+          const matchesText=!text||el.textContent.toLowerCase().includes(text);
+          const matchesDiff=!activeDiffs.size||activeDiffs.has(el.dataset.diff);
+          const matchesSaved=!showSavedOnly||saved.has(el.getAttribute('href'));
+          el.style.display=(matchesText&&matchesDiff&&matchesSaved)?'inline-flex':'none';
+        });
       }
-    };
 
-    const pillars = document.getElementById('pillars');
-    const panel = document.getElementById('panel');
+      document.querySelectorAll('.topic').forEach(el=>{
+        el.addEventListener('click',e=>{
+          if(e.altKey){ e.preventDefault(); const href=el.getAttribute('href'); if(saved.has(href)) saved.delete(href); else saved.add(href); localStorage.setItem(SAVED_KEY, JSON.stringify([...saved])); el.style.boxShadow=saved.has(href)?'0 0 0 1px rgba(212,180,131,.35), 0 0 20px rgba(212,180,131,.09)':'none'; }
+        });
+      });
 
-    pillars.addEventListener('click', e => {
-      const card = e.target.closest('.pcard');
-      if(!card) return;
-      const p = card.dataset.pillar;
-      openPanel(p);
-    });
+      chips.forEach(ch=>{ ch.addEventListener('click',()=>{ const on=ch.getAttribute('data-active')==='true'; ch.setAttribute('data-active', on?'false':'true'); applyFilters(); }); });
+      toggleSaved.addEventListener('click',()=>{ showSavedOnly=!showSavedOnly; toggleSaved.setAttribute('data-active', showSavedOnly?'true':'false'); applyFilters(); });
+      q?.addEventListener('input', applyFilters);
 
-    function openPanel(p){
-      const d = data[p];
-      if(!d) return;
-      panel.innerHTML = `
-        <div class="panel-head">
-          <div class="panel-title">${p}</div>
-          <div style="display:flex; gap:8px">
-            <a class="btn" href="index.html">Home</a>
-            <button class="btn" id="closePanel">Close</button>
-          </div>
-        </div>
-        <div class="cats">
-          ${d.Categories.map(cat => `
-            <div class="cat">
-              <h3>${cat.name}</h3>
-              <div class="topics">
-                ${cat.topics.map(t => `<a class="topic" href="${t[1]}">${t[0]}</a>`).join('')}
-              </div>
-            </div>
-          `).join('')}
-        </div>`;
-      panel.classList.add('active');
-      document.getElementById('closePanel').onclick = () => panel.classList.remove('active');
-      panel.scrollIntoView({behavior:'smooth', block:'start'});
-    }
+      const stack=document.getElementById('stack');
+      stack.addEventListener('click',e=>{ const card=e.target.closest('.card'); if(!card) return; if(e.target.tagName==='A') return; const expanded=card.getAttribute('aria-expanded')==='true'; stack.querySelectorAll('.card').forEach(c=>c.setAttribute('aria-expanded','false')); card.setAttribute('aria-expanded', expanded?'false':'true'); if(!expanded){ card.scrollIntoView({behavior:'smooth', block:'start'}); } });
+      stack.querySelectorAll('.card').forEach(card=>{ card.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); card.click(); } }); });
 
-    // quick jump buttons
-    document.querySelectorAll('[data-jump]').forEach(b => {
-      b.addEventListener('click', e => { e.preventDefault(); openPanel(b.dataset.jump); });
-    })
+      // background: warm starfield + subtle links
+      try{
+        const c=document.getElementById('bg'); const ctx=c.getContext('2d');
+        let W,H,dpr,stars=[]; let mouse={x:-9999,y:-9999};
+        function R(){ dpr=window.devicePixelRatio||1; W=c.width=innerWidth*dpr; H=c.height=innerHeight*dpr; c.style.width=innerWidth+'px'; c.style.height=innerHeight+'px';}
+        window.addEventListener('resize', R, {passive:true}); R();
+        function seed(n=170){ for(let i=0;i<n;i++){ stars.push({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.10, vy:(Math.random()-.5)*.10, r:.7+Math.random()*1.8}); } }
+        seed();
+        window.addEventListener('mousemove', e=>{ mouse.x=e.clientX*dpr; mouse.y=e.clientY*dpr; });
+        window.addEventListener('click', e=>{ const x=e.clientX*dpr,y=e.clientY*dpr; for(let i=0;i<24;i++){ stars.push({x,y,vx:(Math.random()-.5)*.9,vy:(Math.random()-.5)*.9,r:1+Math.random()*2,life:60+Math.random()*40}); } });
+        function step(){
+          ctx.clearRect(0,0,W,H);
+          const g=ctx.createRadialGradient(W*.2,H*.12,0,W*.2,H*.12,Math.max(W,H)*.85);
+          g.addColorStop(0,'rgba(212,180,131,.06)'); g.addColorStop(1,'rgba(0,0,0,0)');
+          ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+          for(let i=stars.length-1;i>=0;i--){ const s=stars[i]; s.x+=s.vx; s.y+=s.vy; s.vx*=.998; s.vy*=.998; if(s.life){ s.life--; if(s.life<=0){ stars.splice(i,1); continue; } } if(s.x<0||s.x>W) s.vx*=-1; if(s.y<0||s.y>H) s.vy*=-1; }
+          ctx.lineWidth=.7; ctx.strokeStyle='rgba(212,180,131,.10)';
+          for(let i=0;i<stars.length;i++){
+            for(let j=i+1;j<stars.length;j++){
+              const a=stars[i], b=stars[j]; const dx=a.x-b.x, dy=a.y-b.y; const d=dx*dx+dy*dy; if(d<(95*dpr)*(95*dpr)){
+                if(Math.abs(a.x-mouse.x)<150*dpr && Math.abs(a.y-mouse.y)<150*dpr){ ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+              }
+            }
+          }
+          for(const s of stars){ ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle='rgba(212,180,131,.16)'; ctx.fill(); }
+          requestAnimationFrame(step);
+        }
+        step();
+      }catch(err){ console.error('bg error', err); }
 
-    // background particles with orbiting trails and click bursts
-    const canvas = document.getElementById('bg');
-    const ctx = canvas.getContext('2d');
-    let W,H,dpr,parts=[]; let mouse={x:-9999,y:-9999};
-    function resize(){ dpr=window.devicePixelRatio||1; W=canvas.width=innerWidth*dpr; H=canvas.height=innerHeight*dpr; canvas.style.width=innerWidth+'px'; canvas.style.height=innerHeight+'px'; }
-    window.addEventListener('resize', resize); resize();
-
-    function add(x,y,n=18){
-      for(let i=0;i<n;i++){
-        const ang=Math.random()*Math.PI*2, sp=0.2+Math.random()*0.8, r=0.6+Math.random()*1.6;
-        parts.push({x:x*dpr, y:y*dpr, vx:Math.cos(ang)*sp, vy:Math.sin(ang)*sp, life:70+Math.random()*80, r});
-      }
-    }
-    window.addEventListener('mousemove', e=>{ mouse.x=e.clientX*dpr; mouse.y=e.clientY*dpr; })
-    window.addEventListener('click', e=>{ add(e.clientX, e.clientY, 26); })
-    for(let i=0;i<110;i++) add(Math.random()*innerWidth, Math.random()*innerHeight, 1);
-
-    function step(){
-      ctx.clearRect(0,0,W,H);
-      // vignette
-      const g=ctx.createRadialGradient(W*0.2,H*0.1,0,W*0.2,H*0.1,Math.max(W,H)*0.8);
-      g.addColorStop(0,'rgba(154,166,255,0.04)'); g.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-      // particles
-      for(let i=parts.length-1;i>=0;i--){
-        const p=parts[i]; p.x+=p.vx; p.y+=p.vy; p.vx*=0.996; p.vy*=0.996; p.life-=1;
-        const dx=mouse.x-p.x, dy=mouse.y-p.y, d=Math.hypot(dx,dy);
-        if(d<240*dpr){ p.vx+=dx*0.00003; p.vy+=dy*0.00003; }
-        if(p.life<=0){ parts.splice(i,1); continue; }
-        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle='rgba(154,166,255,0.12)'; ctx.fill();
-      }
-      requestAnimationFrame(step);
-    }
-    step();
-
-    // fade ready
-    window.addEventListener('load',()=>{ document.body.classList.add('ready'); });
+      applyFilters();
+    })();
   </script>
 </body>
 </html>
+
