@@ -7,7 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=EB+Garamond&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #060617;
+      /* LESS-SATURATED, DARK-ACADEMIC PALETTE */
+      --bg: #0a0a12;            /* was #060617 */
       --text: #eaeaea;
       --accent: #ffffff;
       --card-bg: #10121e;
@@ -15,7 +16,6 @@
       --font-title: 'Playfair Display', serif;
       --font-body: 'EB Garamond', serif;
 
-      /* mobile helpers */
       --nav-h: 64px;
     }
 
@@ -33,7 +33,7 @@
       overflow-x: hidden;
     }
 
-    /* ===== background effects you already had ===== */
+    /* BACKGROUND LAYERS (desaturated / softer) */
     body::before {
       content: '';
       position: fixed;
@@ -41,12 +41,12 @@
       left: 0;
       width: 200%;
       height: 200%;
-      background: radial-gradient(#ffffff22 1px, transparent 1px),
-                  radial-gradient(#ffffff11 1px, transparent 1px);
+      background: radial-gradient(#ffffff1f 1px, transparent 1px),
+                  radial-gradient(#ffffff10 1px, transparent 1px);
       background-size: 4px 4px;
       animation: moveStars 180s linear infinite;
       z-index: 0;
-      opacity: 0.03;
+      opacity: 0.035;
       pointer-events: none;
     }
 
@@ -60,7 +60,7 @@
       background-size: cover;
       animation: scrollNebula 120s linear infinite;
       z-index: 0;
-      opacity: 0.04;
+      opacity: 0.02; /* softer than before */
       pointer-events: none;
     }
 
@@ -70,10 +70,12 @@
       top: 0; left: 0;
       width: 100vw;
       height: 100vh;
-      background: radial-gradient(circle at 30% 40%, #aaa2ff11 0%, transparent 80%),
-                  radial-gradient(circle at 70% 60%, #88caff11 0%, transparent 80%);
+      /* less blue, more gray-blue and softer */
+      background:
+        radial-gradient(circle at 30% 40%, #9aa6c411 0%, transparent 80%),
+        radial-gradient(circle at 70% 60%, #8ba2c011 0%, transparent 80%);
       z-index: 1;
-      opacity: 0.08;
+      opacity: 0.05; /* was 0.08 */
     }
 
     #foggy-noise {
@@ -88,13 +90,13 @@
       mix-blend-mode: overlay;
     }
 
-    /* NEW: starfield canvas (sits under content, above ::before/::after) */
+    /* STARFIELD CANVAS (kept) */
     #bg-stars {
       position: fixed;
       inset: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 0; /* same layer as ::before/::after; still visible through */
+      z-index: 0;
       pointer-events: none;
     }
 
@@ -108,7 +110,7 @@
       100% { background-position: -200px -100px; }
     }
 
-    /* ===== your existing layout ===== */
+    /* LAYOUT */
     nav {
       position: fixed;
       top: 0;
@@ -128,23 +130,15 @@
       margin-bottom: 30px;
     }
 
-    nav ul {
-      list-style: none;
-    }
-
-    nav ul li {
-      margin: 15px 0;
-    }
+    nav ul { list-style: none; }
+    nav ul li { margin: 15px 0; }
 
     nav ul li a {
       color: var(--text);
       text-decoration: none;
       font-size: 1.1em;
     }
-
-    nav ul li a:hover {
-      color: var(--accent);
-    }
+    nav ul li a:hover { color: var(--accent); }
 
     nav footer {
       position: absolute;
@@ -160,15 +154,8 @@
       font-size: 0.9em;
       color: #bbb;
     }
-
-    .breadcrumb a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .breadcrumb a:hover {
-      text-decoration: underline;
-    }
+    .breadcrumb a { color: var(--accent); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
 
     main {
       margin-left: 270px;
@@ -177,22 +164,13 @@
       z-index: 3;
     }
 
-    .header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
+    .header { text-align: center; margin-bottom: 40px; }
     .header h2 {
       font-family: var(--font-title);
       font-size: 3em;
       color: var(--accent);
     }
-
-    .header p {
-      font-style: italic;
-      color: #ccc;
-      margin-top: 5px;
-    }
+    .header p { font-style: italic; color: #ccc; margin-top: 5px; }
 
     h3 {
       font-size: 2.4em;
@@ -204,12 +182,7 @@
       padding-bottom: 10px;
     }
 
-    .search-bar {
-      display: flex;
-      justify-content: center;
-      margin: 30px 0;
-    }
-
+    .search-bar { display: flex; justify-content: center; margin: 30px 0; }
     .search-bar input {
       padding: 12px 20px;
       font-size: 1em;
@@ -246,9 +219,7 @@
       transform: translateY(0);
     }
 
-    .concept-card:hover {
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.06);
-    }
+    .concept-card:hover { box-shadow: 0 0 15px rgba(255, 255, 255, 0.06); }
 
     .concept-card h4 {
       font-size: 1.3em;
@@ -257,25 +228,22 @@
       font-family: var(--font-title);
     }
 
-    .concept-card p {
+    .concept-card p { font-size: 0.95em; color: #bbb; }
+
+    /* NEW: tiny inline “Go to →” line */
+    .go-link {
+      display: inline-block;
+      margin-top: 10px;
       font-size: 0.95em;
-      color: #bbb;
+      color: #d8d0c0;
+      opacity: .95;
+      border-bottom: 1px dotted #4a4f6a;
     }
+    .concept-card:hover .go-link { opacity: 1; }
 
-    /* ====== NEW: responsive/mobile behavior (no removals) ====== */
-    /* make grids breathe on very narrow screens */
-    @media (max-width: 520px) {
-      .concept-grid {
-        grid-template-columns: 1fr;
-      }
-      .search-bar input {
-        width: 100%;
-      }
-    }
-
-    /* transform the sidebar into a top bar with a toggle */
+    /* MOBILE ENHANCEMENTS (kept from last step) */
     .nav-toggle {
-      display: none; /* shown on mobile */
+      display: none;
       background: #121424;
       color: var(--text);
       border: 1px solid var(--border);
@@ -287,8 +255,12 @@
       text-align: left;
     }
 
+    @media (max-width: 520px) {
+      .concept-grid { grid-template-columns: 1fr; }
+      .search-bar input { width: 100%; }
+    }
+
     @media (max-width: 900px) {
-      /* make nav a top bar */
       nav {
         width: 100%;
         height: var(--nav-h);
@@ -298,14 +270,9 @@
         align-items: center;
         gap: 12px;
       }
-      nav h1 {
-        margin: 0;
-        font-size: 1.4em;
-      }
-      nav footer {
-        display: none;
-      }
-      /* collapsible menu */
+      nav h1 { margin: 0; font-size: 1.4em; }
+      nav footer { display: none; }
+
       nav .menu {
         position: fixed;
         top: var(--nav-h);
@@ -318,20 +285,13 @@
         transition: max-height .25s ease;
         z-index: 9;
       }
-      nav .menu.open {
-        max-height: 260px; /* enough for items */
-      }
-      nav ul {
-        padding: 10px 16px 14px;
-      }
-      nav ul li {
-        margin: 10px 0;
-      }
-      .nav-toggle {
-        display: inline-block;
-      }
+      nav .menu.open { max-height: 260px; }
 
-      /* content offsets when nav becomes top bar */
+      nav ul { padding: 10px 16px 14px; }
+      nav ul li { margin: 10px 0; }
+
+      .nav-toggle { display: inline-block; }
+
       .breadcrumb {
         margin-left: 0;
         padding: calc(var(--nav-h) + 6px) 16px 0;
@@ -339,32 +299,22 @@
       main {
         margin-left: 0;
         padding: 16px 16px 80px;
-        padding-top: 16px;
       }
-      .header h2 {
-        font-size: 2.2em;
-      }
-      h3 {
-        font-size: 1.8em;
-        margin-top: 48px;
-      }
+      .header h2 { font-size: 2.2em; }
+      h3 { font-size: 1.8em; margin-top: 48px; }
     }
   </style>
 </head>
 <body>
-  <!-- NEW: starfield canvas -->
+  <!-- starfield + overlays -->
   <canvas id="bg-stars"></canvas>
-
   <div class="glow-overlay"></div>
   <div id="foggy-noise"></div>
 
-  <!-- Sidebar / Topbar Navigation (unchanged items, just wrapped a .menu and added a toggle button) -->
+  <!-- NAV (unchanged items) -->
   <nav>
     <h1>Q Paradox</h1>
-    <!-- NEW: toggle button (mobile only) -->
     <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">☰ Menu</button>
-
-    <!-- NEW: wrap your list in a div.menu for collapsing on mobile -->
     <div id="nav-menu" class="menu" role="region" aria-label="Primary">
       <ul>
         <li><a href="index.html">Home</a></li>
@@ -373,185 +323,217 @@
         <li><a href="#experiments">Experiments</a></li>
       </ul>
     </div>
-
     <footer>© 2025 — In the library of spacetime.</footer>
   </nav>
 
-  <!-- Breadcrumb Navigation -->
+  <!-- Breadcrumb -->
   <div class="breadcrumb">
     <a href="index.html">Home</a> › Concepts
   </div>
 
-  <!-- Main Content -->
+  <!-- MAIN -->
   <main>
     <div class="header">
       <h2>Concepts</h2>
       <p>Mapping the philosophical and experimental realms of Q Paradox.</p>
     </div>
 
-    <!-- Search Bar -->
     <div class="search-bar">
       <input type="text" id="searchInput" placeholder="Search concepts...">
     </div>
 
-    <!-- Theoretical Pillar -->
+    <!-- THEORETICAL -->
     <section id="theoretical" class="pillar">
       <h3>Theoretical</h3>
       <div class="concept-grid">
         <a class="concept-card" href="what_is_theoretical.html">
           <h4>What is Theoretical?</h4>
           <p>The heart of abstract reasoning in physics. Foundations, philosophy, and mathematics.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="theoretical_foundations.html">
           <h4>Theoretical Foundations</h4>
           <p>From logical axioms to modern field theories.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="quantum_toolkit.html">
           <h4>Quantum Toolkit</h4>
           <p>Operators, Hilbert spaces, Dirac notation, postulates.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="quantum_nexthtml">
           <h4>Quantum Deep Dive</h4>
           <p>Bell inequalities, EPR paradox, Many Worlds, and decoherence.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="quantum_experiments.html">
           <h4>Quantum Experiments</h4>
           <p>Interpretations through real-world results.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/classical-mechanics.html">
           <h4>Classical Mechanics</h4>
           <p>Newtonian, Lagrangian, and Hamiltonian mechanics.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/electromagnetism.html">
           <h4>Electromagnetism</h4>
           <p>Maxwell’s equations, gauge symmetry, and fields.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/relativity.html">
           <h4>Relativity</h4>
           <p>Special and general relativity. Space, time, and curvature.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/quantum-mechanics.html">
           <h4>Quantum Mechanics</h4>
           <p>Core formalism, uncertainty, entanglement.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/quantum-field-theory.html">
           <h4>Quantum Field Theory</h4>
           <p>Quantizing fields, interactions, and Feynman diagrams.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/statistical-mechanics.html">
           <h4>Statistical Mechanics</h4>
           <p>Entropy, temperature, and emergent macroscopic order.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/cosmology.html">
           <h4>Cosmology</h4>
           <p>Big Bang, expansion, dark matter, dark energy.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/beyond-textbook.html">
           <h4>Beyond the Textbook</h4>
           <p>Topological phases, Berry phase, and quantum geometry.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/decoherence.html">
           <h4>Decoherence</h4>
           <p>Environment-induced transition from quantum to classical.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/wigners-friend.html">
           <h4>Wigner’s Friend</h4>
           <p>Observer-dependent reality in quantum mechanics.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/qbism.html">
           <h4>QBism</h4>
           <p>Quantum Bayesianism: physics as subjective probability.</p>
+          <span class="go-link">Go to →</span>
         </a>
       </div>
     </section>
 
-    <!-- Computational Pillar -->
+    <!-- COMPUTATIONAL -->
     <section id="computational" class="pillar">
       <h3>Computational</h3>
       <div class="concept-grid">
         <a class="concept-card" href="concept_pages/quantum-simulators.html">
           <h4>Quantum Simulators</h4>
           <p>Qiskit, Cirq, and libraries for simulating quantum systems.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/numerical-methods.html">
           <h4>Numerical Methods</h4>
           <p>ODEs, PDEs, matrix diagonalization and time evolution.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/quantum-algorithms.html">
           <h4>Quantum Algorithms</h4>
           <p>Shor’s algorithm, Grover’s, variational methods, and more.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/tensor-networks.html">
           <h4>Tensor Networks</h4>
           <p>Computational compression for quantum many-body systems.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/data-driven-physics.html">
           <h4>Data-Driven Physics</h4>
           <p>Physics-informed ML, neural ODEs, symbolic regression.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/computational-cosmology.html">
           <h4>Computational Cosmology</h4>
           <p>Simulations of inflation, structure formation, and CMB.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/monte-carlo.html">
           <h4>Monte Carlo Methods</h4>
           <p>Sampling-based computation for integrals and uncertainty.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/quantum-complexity.html">
           <h4>Quantum Complexity</h4>
           <p>BQP, QMA, and limits of computational quantum power.</p>
+          <span class="go-link">Go to →</span>
         </a>
       </div>
     </section>
 
-    <!-- Experimental Pillar -->
+    <!-- EXPERIMENTS -->
     <section id="experiments" class="pillar">
       <h3>Experiments</h3>
       <div class="concept-grid">
         <a class="concept-card" href="concept_pages/double-slit.html">
           <h4>Double Slit</h4>
           <p>Wave-particle duality tested with single photons.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/photon-entanglement.html">
           <h4>Photon Entanglement</h4>
           <p>Bell test experiments and the CHSH inequality.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/quantum-eraser.html">
           <h4>Quantum Eraser</h4>
           <p>Recovering interference by erasing which-path info.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/weak-measurements.html">
           <h4>Weak Measurements</h4>
           <p>Probing quantum systems with minimal disturbance.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/rabi-story.html">
           <h4>2-Level Rabi Story</h4>
           <p>Coherent oscillations in two-level quantum systems.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/interference-visibility.html">
           <h4>Interference Visibility</h4>
           <p>Fringe contrast as a measure of quantum coherence.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/monte-carlo-intuition.html">
           <h4>Monte Carlo Intuition</h4>
           <p>Randomized simulation of measurement outcomes.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/light-as-messenger.html">
           <h4>Light as a Messenger</h4>
           <p>Photons carrying quantum info across setups.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/rydberg-atoms.html">
           <h4>Rydberg Atoms</h4>
           <p>Huge atoms with dipole blockade for entanglement.</p>
+          <span class="go-link">Go to →</span>
         </a>
         <a class="concept-card" href="concept_pages/ultracold-gases.html">
           <h4>Ultracold Gases</h4>
           <p>Condensed atoms for collective quantum behaviors.</p>
+          <span class="go-link">Go to →</span>
         </a>
       </div>
     </section>
 
-    <!-- Words in the Void -->
+    <!-- WORDS IN THE VOID (no links = no “Go to”) -->
     <section class="pillar">
       <h3>Words in the Void</h3>
       <div class="concept-grid">
@@ -574,7 +556,7 @@
       </div>
     </section>
 
-    <!-- Scripts -->
+    <!-- SCRIPTS -->
     <script>
       // Search filter (unchanged)
       const searchInput = document.getElementById('searchInput');
@@ -586,7 +568,7 @@
         });
       });
 
-      // Card scroll animation (unchanged)
+      // Card reveal (unchanged)
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -595,10 +577,9 @@
           }
         });
       }, { threshold: 0.1 });
-
       document.querySelectorAll('.concept-card').forEach(card => observer.observe(card));
 
-      // NEW: mobile nav toggle
+      // Mobile nav toggle (unchanged from previous)
       const toggleBtn = document.querySelector('.nav-toggle');
       const menu = document.getElementById('nav-menu');
       if (toggleBtn) {
@@ -608,7 +589,7 @@
         });
       }
 
-      // NEW: starfield animation (very lightweight)
+      // Starfield animation
       (function(){
         const c = document.getElementById('bg-stars');
         if(!c) return;
