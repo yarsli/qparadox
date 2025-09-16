@@ -7,66 +7,68 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=EB+Garamond&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0c0c2d;
-      --text: #e0ded8;
-      --accent: #cabaa5;
-      --card-bg: #14152a;
-      --border: #2e304d;
+      --bg: #080a12;
+      --text: #eaeaea;
+      --accent: #eeeeee;
+      --card-bg: #10121e;
+      --border: #25273c;
       --font-title: 'Playfair Display', serif;
       --font-body: 'EB Garamond', serif;
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
+      height: 100%;
       font-family: var(--font-body);
       background-color: var(--bg);
-      background-image: url("data:image/svg+xml,%3Csvg width='60' height='48' viewBox='0 0 60 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='fancy-rectangles' fill='%23494155' fill-opacity='0.4'%3E%3Cpath d='M6 12h6v12H6V12zm12 0h6v12h-6V12zm6-12h6v12h-6V0zM12 0h6v12h-6V0zm0 24h6v12h-6V24zM0 0h6v12H0V0zm6 36h6v12H6V36zm12 0h6v12h-6V36zm12-12h6v12h-6V24zM42 0h6v12h-6V0zm-6 12h6v12h-6V12zm12 0h6v12h-6V12zM36 36h6v12h-6V36zm12 0h6v12h-6V36zm-6-12h6v12h-6V24zm12 0h6v12h-6V24z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      background-repeat: repeat;
       color: var(--text);
+      overflow-x: hidden;
       scroll-behavior: smooth;
+      background-image: radial-gradient(circle at top left, #101324, transparent 70%), radial-gradient(circle at bottom right, #0a0c18, transparent 70%);
     }
-
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('https://raw.githubusercontent.com/JulianPrieber/starry-night-background/main/starfield.png');
+      background-size: cover;
+      opacity: 0.05;
+      z-index: 0;
+      pointer-events: none;
+    }
     nav {
       position: fixed;
       top: 0;
       left: 0;
-      width: 240px;
+      width: 250px;
       height: 100%;
-      background-color: #0a0b1f;
+      background-color: #0a0b14;
       border-right: 1px solid var(--border);
       padding: 40px 20px;
+      z-index: 10;
     }
-
     nav h1 {
       font-family: var(--font-title);
       font-size: 2em;
       color: var(--accent);
       margin-bottom: 30px;
     }
-
     nav ul {
       list-style: none;
     }
-
     nav ul li {
       margin: 15px 0;
     }
-
     nav ul li a {
       color: var(--text);
       text-decoration: none;
       font-size: 1.1em;
     }
-
     nav ul li a:hover {
       color: var(--accent);
     }
-
     nav footer {
       position: absolute;
       bottom: 20px;
@@ -74,48 +76,42 @@
       font-style: italic;
       color: #888;
     }
-
     .breadcrumb {
-      margin-left: 260px;
+      margin-left: 270px;
       padding: 20px 40px 0;
       font-size: 0.9em;
+      color: #bbb;
     }
-
     .breadcrumb a {
       color: var(--accent);
       text-decoration: none;
     }
-
-    .breadcrumb span {
-      color: #aaa;
+    .breadcrumb a:hover {
+      text-decoration: underline;
     }
-
     main {
-      margin-left: 260px;
-      padding: 20px 40px 60px;
+      margin-left: 270px;
+      padding: 20px 40px 80px;
+      position: relative;
+      z-index: 1;
     }
-
     .header {
       text-align: center;
       margin-bottom: 40px;
     }
-
     .header h2 {
       font-family: var(--font-title);
-      font-size: 2.5em;
+      font-size: 2.8em;
       color: var(--accent);
     }
-
     .header p {
       font-style: italic;
-      color: #aaa;
+      color: #ccc;
       margin-top: 5px;
     }
-
     .pillar {
-      margin-bottom: 50px;
+      margin-bottom: 60px;
     }
-
     .pillar h3 {
       font-family: var(--font-title);
       font-size: 2em;
@@ -124,63 +120,57 @@
       border-bottom: 2px solid var(--border);
       padding-bottom: 5px;
     }
-
     .concept-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
     }
-
     .concept-card {
       display: block;
       background-color: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px;
+      border-radius: 10px;
+      padding: 24px;
       transition: all 0.4s ease;
       text-decoration: none;
+      color: inherit;
       opacity: 0;
-      transform: translateY(40px);
+      transform: translateY(30px);
     }
-
     .concept-card.show {
       opacity: 1;
       transform: translateY(0);
     }
-
     .concept-card:hover {
-      box-shadow: 0 0 15px rgba(255,255,255,0.08);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.06);
     }
-
     .concept-card h4 {
-      font-size: 1.2em;
+      font-size: 1.3em;
       color: var(--accent);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      font-family: var(--font-title);
     }
-
     .concept-card p {
       font-size: 0.95em;
       color: #bbb;
     }
-
     @media (max-width: 768px) {
       nav {
         position: static;
         width: 100%;
         height: auto;
+        display: flex;
+        justify-content: space-between;
         padding: 20px;
       }
-
       main {
         margin-left: 0;
         padding: 20px;
       }
-
       .breadcrumb {
         margin-left: 0;
         padding: 10px 20px;
       }
-
       .header h2 {
         font-size: 2em;
       }
@@ -188,7 +178,6 @@
   </style>
 </head>
 <body>
-
   <nav>
     <h1>Q Paradox</h1>
     <ul>
@@ -197,84 +186,125 @@
       <li><a href="#computational">Computational</a></li>
       <li><a href="#experiments">Experiments</a></li>
     </ul>
-    <footer>© 2025 — Crafted in candlelight.</footer>
+    <footer>© 2025 — In the library of spacetime.</footer>
   </nav>
-
   <div class="breadcrumb">
-    <a href="index.html">Home</a> › <span>Concepts</span>
+    <a href="index.html">Home</a> › <a href="#">Concepts</a>
   </div>
-
   <main>
     <div class="header">
       <h2>Concepts</h2>
-      <p>Explore the mind of Q Paradox through structured chaos.</p>
+      <p>Mapping the philosophical and experimental realms of Q Paradox.</p>
     </div>
-
-    <!-- THEORETICAL -->
     <section id="theoretical" class="pillar">
       <h3>Theoretical</h3>
       <div class="concept-grid">
-        <a class="concept-card" href="theoretical-foundations.html"><h4>Theoretical Foundations</h4><p>Quantum logic, axioms, uncertainty.</p></a>
-        <a class="concept-card" href="quantum-toolkit.html"><h4>Quantum Toolkit</h4><p>Operators, spaces, measurement.</p></a>
-        <a class="concept-card" href="quantum-deep-dive.html"><h4>Quantum Deep Dive</h4><p>Entanglement, decoherence, interpretations.</p></a>
-        <a class="concept-card" href="quantum-field-theory.html"><h4>Quantum Field Theory</h4><p>Fields, particles, vacuum, diagrams.</p></a>
-        <a class="concept-card" href="statistical-mechanics.html"><h4>Statistical Mechanics</h4><p>Entropy, ensembles, partition functions.</p></a>
-        <a class="concept-card" href="cosmology.html"><h4>Cosmology</h4><p>Inflation, dark energy, quantum horizon.</p></a>
-        <a class="concept-card" href="relativity.html"><h4>Relativity</h4><p>Spacetime curvature and transformations.</p></a>
-        <a class="concept-card" href="electromagnetism.html"><h4>Electromagnetism</h4><p>Maxwell’s equations and EM fields.</p></a>
-        <a class="concept-card" href="classical-mechanics.html"><h4>Classical Mechanics</h4><p>Lagrangian and Hamiltonian systems.</p></a>
-        <a class="concept-card" href="physics-philosophy.html"><h4>Physics & Philosophy</h4><p>Wigner’s Friend, QBism, ontology.</p></a>
-        <a class="concept-card" href="beyond-the-textbook.html"><h4>Beyond the Textbook</h4><p>Berry phase, topological matter.</p></a>
+        <a class="concept-card" href="theoretical-foundations.html"><h4>Theoretical Foundations</h4><p>What lies at the core of theory? Logic, axioms, and mathematics.</p></a>
+        <a class="concept-card" href="quantum-toolkit.html"><h4>Quantum Toolkit</h4><p>Operators, Hilbert spaces, measurement postulates, and notation.</p></a>
+        <a class="concept-card" href="quantum-deep-dive.html"><h4>Quantum Deep Dive</h4><p>Bell inequalities, EPR paradox, Many Worlds, and decoherence.</p></a>
+        <a class="concept-card" href="cosmology.html"><h4>Cosmology</h4><p>Entropy, inflation, cosmic horizon, holographic principle.</p></a>
+        <a class="concept-card" href="classical-mechanics.html"><h4>Classical Mechanics</h4><p>Newton’s laws to Lagrangian and Hamiltonian reformulations.</p></a>
+        <a class="concept-card" href="relativity.html"><h4>Relativity</h4><p>Special relativity, general relativity, spacetime curvature.</p></a>
+        <a class="concept-card" href="electromagnetism.html"><h4>Electromagnetism</h4><p>Field equations, vector potential, gauge theory connections.</p></a>
+        <a class="concept-card" href="statistical-mechanics.html"><h4>Statistical Mechanics</h4><p>Entropy, ensembles, fluctuations, and emergent order.</p></a>
+        <a class="concept-card" href="quantum-field-theory.html"><h4>Quantum Field Theory</h4><p>Quantized fields, particles, Lagrangians, Feynman diagrams.</p></a>
+        <a class="concept-card" href="topological-phases.html"><h4>Beyond the Textbook</h4><p>Berry phase, topology in quantum systems, geometric phases.</p></a>
+        <a class="concept-card" href="physics-philosophy.html"><h4>Physics & Philosophy</h4><p>Wigner’s Friend, QBism, metaphysics of observation.</p></a>
+        <a class="concept-card" href="metaphysics.html"><h4>Metaphysics</h4><p>The nature of reality, consciousness and observation in physics.</p></a>
+        <a class="concept-card" href="information-theory.html"><h4>Information Theory</h4><p>Entropy, Shannon, and the bridge between physics and computation.</p></a>
+        <a class="concept-card" href="symmetry-breaking.html"><h4>Symmetry Breaking</h4><p>Spontaneous symmetry, phase transitions, Higgs mechanism.</p></a>
+        <a class="concept-card" href="vacuum-energy.html"><h4>Vacuum Energy</h4><p>Zero-point fields, cosmological constant, and dark energy.</p></a>
       </div>
     </section>
-
-    <!-- COMPUTATIONAL -->
     <section id="computational" class="pillar">
       <h3>Computational</h3>
       <div class="concept-grid">
-        <a class="concept-card" href="quantum-simulators.html"><h4>Quantum Simulators</h4><p>Python, Qiskit, qubit emulators.</p></a>
-        <a class="concept-card" href="numerical-methods.html"><h4>Numerical Methods</h4><p>Solvers for ODEs and PDEs.</p></a>
-        <a class="concept-card" href="computational-physics.html"><h4>Computational Physics</h4><p>Simulating real physical systems.</p></a>
-        <a class="concept-card" href="visualization-tools.html"><h4>Visualization Tools</h4><p>Graphs, interference patterns, evolution.</p></a>
-        <a class="concept-card" href="quantum-algorithms.html"><h4>Quantum Algorithms</h4><p>Shor’s, Grover’s, VQE, QAOA.</p></a>
-        <a class="concept-card" href="tensor-networks.html"><h4>Tensor Networks</h4><p>MPS, PEPS, entanglement geometry.</p></a>
-        <a class="concept-card" href="quantum-complexity.html"><h4>Quantum Complexity</h4><p>BQP, QMA, circuit depth.</p></a>
+        <a class="concept-card" href="quantum-simulators.html"><h4>Quantum Simulators</h4><p>Qiskit, Cirq, tensor networks, and open-source toolkits.</p></a>
+        <a class="concept-card" href="numerical-methods.html"><h4>Numerical Methods</h4><p>ODE/PDE solvers, iterative methods, matrix decompositions.</p></a>
+        <a class="concept-card" href="computational-physics.html"><h4>Computational Physics</h4><p>Simulations of chaos, turbulence, spin chains.</p></a>
+        <a class="concept-card" href="visualization-tools.html"><h4>Visualization Tools</h4><p>Complex amplitudes, wave packets, field plots.</p></a>
+        <a class="concept-card" href="quantum-algorithms.html"><h4>Quantum Algorithms</h4><p>Shor’s, Grover’s, QAOA, Variational Quantum Eigensolver.</p></a>
+        <a class="concept-card" href="tensor-networks.html"><h4>Tensor Networks</h4><p>Matrix product states, area law, entanglement scaling.</p></a>
+        <a class="concept-card" href="quantum-complexity.html"><h4>Quantum Complexity</h4><p>BQP, QMA, time-space tradeoffs in circuits.</p></a>
+        <a class="concept-card" href="data-driven-physics.html"><h4>Data-Driven Physics</h4><p>Machine learning models for predicting quantum states.</p></a>
+        <a class="concept-card" href="monte-carlo-methods.html"><h4>Monte Carlo Methods</h4><p>Stochastic sampling techniques in high-dimensional problems.</p></a>
+        <a class="concept-card" href="cellular-automata.html"><h4>Cellular Automata</h4><p>Complexity and emergent behavior from simple rules.</p></a>
+        <a class="concept-card" href="computational-cosmology.html"><h4>Computational Cosmology</h4><p>Simulating large-scale structure of the universe.</p></a>
+        <a class="concept-card" href="finite-elements.html"><h4>Finite Elements</h4><p>Discretization methods for solving field equations.</p></a>
       </div>
     </section>
-
-    <!-- EXPERIMENTS -->
     <section id="experiments" class="pillar">
       <h3>Experiments</h3>
       <div class="concept-grid">
-        <a class="concept-card" href="double-slit.html"><h4>Double Slit</h4><p>Wave-particle duality experiment.</p></a>
-        <a class="concept-card" href="photon-entanglement.html"><h4>Photon Entanglement</h4><p>Bell tests and quantum optics.</p></a>
-        <a class="concept-card" href="quantum-eraser.html"><h4>Quantum Eraser</h4><p>Erasing path info restores coherence.</p></a>
-        <a class="concept-card" href="weak-measurement.html"><h4>Weak Measurement</h4><p>Gentle observation without collapse.</p></a>
-        <a class="concept-card" href="monte-carlo-intuition.html"><h4>Monte Carlo Intuition</h4><p>Stochastic sampling in physics.</p></a>
-        <a class="concept-card" href="rabi-oscillations.html"><h4>2-Level Rabi Story</h4><p>Coherent transitions in qubits.</p></a>
-        <a class="concept-card" href="interference-visibility.html"><h4>Interference Visibility</h4><p>Quantifying coherence quality.</p></a>
-        <a class="concept-card" href="light-as-messenger.html"><h4>Light as a Messenger</h4><p>Photons in communication.</p></a>
-        <a class="concept-card" href="rydberg-atoms.html"><h4>Rydberg Atoms</h4><p>Quantum control of giant atoms.</p></a>
-        <a class="concept-card" href="neutron-interferometry.html"><h4>Neutron Interferometry</h4><p>Mass & gravity at quantum scale.</p></a>
+        <a class="concept-card" href="double-slit.html"><h4>Double Slit</h4><p>Foundational quantum interference experiment.</p></a>
+        <a class="concept-card" href="photon-entanglement.html"><h4>Photon Entanglement</h4><p>Tests of nonlocality via polarization states.</p></a>
+        <a class="concept-card" href="quantum-eraser.html"><h4>Quantum Eraser</h4><p>Erasing information to restore interference.</p></a>
+        <a class="concept-card" href="weak-measurement.html"><h4>Weak Measurement</h4><p>Measurement without collapse; post-selection magic.</p></a>
+        <a class="concept-card" href="monte-carlo-intuition.html"><h4>Monte Carlo Intuition</h4><p>Random sampling to model chaotic systems.</p></a>
+        <a class="concept-card" href="rabi-oscillations.html"><h4>2-Level Rabi Story</h4><p>Coherent driving and qubit oscillations.</p></a>
+        <a class="concept-card" href="interference-visibility.html"><h4>Interference Visibility</h4><p>Quantifying coherence in multi-path systems.</p></a>
+        <a class="concept-card" href="light-as-messenger.html"><h4>Light as a Messenger</h4><p>Photons carrying quantum information.</p></a>
+        <a class="concept-card" href="rydberg-atoms.html"><h4>Rydberg Atoms</h4><p>Giant atoms for quantum gates and simulation.</p></a>
+        <a class="concept-card" href="neutron-interferometry.html"><h4>Neutron Interferometry</h4><p>Neutrons in gravitational and magnetic fields.</p></a>
+        <a class="concept-card" href="superconducting-qubits.html"><h4>Superconducting Qubits</h4><p>Josephson junctions and circuit QED experiments.</p></a>
+        <a class="concept-card" href="ion-trap-experiments.html"><h4>Ion Trap Experiments</h4><p>Laser-cooled ions for high-fidelity quantum gates.</p></a>
+        <a class="concept-card" href="quantum-optics.html"><h4>Quantum Optics</h4><p>Controlling light at the quantum level.</p></a>
+        <a class="concept-card" href="ultracold-gases.html"><h4>Ultracold Gases</h4><p>Bose-Einstein condensates and quantum degeneracy.</p></a>
       </div>
     </section>
-  </main>
+    <!-- Cosmic Quote Section -->
+    <section class="pillar">
+      <h3>Words in the Void</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <h4>“The universe is not only stranger than we imagine, it is stranger than we can imagine.”</h4>
+          <p>— J.B.S. Haldane</p>
+        </div>
+        <div class="concept-card">
+          <h4>“What we observe is not nature itself, but nature exposed to our method of questioning.”</h4>
+          <p>— Werner Heisenberg</p>
+        </div>
+        <div class="concept-card">
+          <h4>“Time is an illusion. Lunchtime doubly so.”</h4>
+          <p>— Douglas Adams</p>
+        </div>
+        <div class="concept-card">
+          <h4>“Reality is merely an illusion, albeit a very persistent one.”</h4>
+          <p>— Albert Einstein</p>
+        </div>
+      </div>
+    </section>
 
-  <script>
-    // Fade-in animation using IntersectionObserver
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-          observer.unobserve(entry.target);
-        }
+    <!-- Filler Block for Depth -->
+    <section class="pillar">
+      <h3>Library Scroll</h3>
+      <div style="max-width: 900px; margin: 0 auto; line-height: 1.8; font-size: 1.1em; color: #ccc;">
+        <p>
+          Deep within the thought-temple of quantum minds, ideas flow like spin networks in a gravity-less manifold. The quantum field stretches its tendrils into metaphysics, entangling cause with probability, observation with reality. The symphony of partial differentials plays an ode to the vacuum.
+        </p>
+        <p>
+          Cosmology dreams in fluctuations, statistical shadows on the fabric of time. Decoherence is the language of emergence. In this infinite architecture of logic and uncertainty, Q Paradox invites you to ask not only “What is?” but “Why must it be so?” and “What remains when the measurement ends?”
+        </p>
+      </div>
+    </section>
+
+    <!-- JavaScript: Fade-in Cards on Scroll -->
+    <script>
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.concept-card').forEach(card => {
+        observer.observe(card);
       });
-    }, { threshold: 0.1 });
+    </script>
 
-    document.querySelectorAll('.concept-card').forEach(card => {
-      observer.observe(card);
-    });
-  </script>
-
+  </main>
 </body>
 </html>
+
