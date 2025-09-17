@@ -3,67 +3,90 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>QParadox • Classical Mechanics — Lagrangian</title>
+<title>QParadox • Lagrangian Mechanics</title>
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
 
 <!-- MathJax -->
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+window.MathJax = {
+  tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+};
+</script>
 <script id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
-/* Styles same as Newtonian page */
-:root{--bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
   --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
   --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
-  --radius:18px; --side:330px;}
+  --radius:18px; --side:330px;
+}
 *{box-sizing:border-box}
-body{margin:0; background:var(--bg); color:var(--ink); font-family:"Crimson Text",serif;
-  line-height:1.95; overflow-x:hidden;}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
+}
 body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
   background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
 body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
-  background:radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
-.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none}
-#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100;
-  background:linear-gradient(90deg,var(--gold),var(--blue))}
-header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
-h1{font-family:"Playfair Display",serif; font-weight:900; margin:0; font-size:clamp(2.6rem,4vw,4.8rem); color:#f5ead8}
-.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2)}
+  background:
+    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue))}
+
+header{padding:6rem 1.2rem 2rem; text-align:center}
+h1{font-family:"Playfair Display",serif; font-weight:900; margin:0;
+  font-size:clamp(2.6rem,4vw,4.6rem); line-height:1.1; color:#f5ead8}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:1.2rem}
+
 .main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
-@media(min-width:1120px){.main{grid-template-columns:minmax(0,1fr) var(--side)}}
-article{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
-  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem}
-article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; color:#f6eddc}
-.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0,1fr) var(--side)} }
+
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+}
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:2rem; color:#f6eddc}
 p{margin:1.05rem 0; text-align:justify}
-.dropcap:first-letter{float:left; font-size:3.2rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
-.figure{margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; max-width:820px}
-.figure img{width:100%}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3rem; line-height:2.2rem; padding:.25rem .5rem 0 0; color:#f3e4c5}
+
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+
+.figure{margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#0e0f12; max-width:820px}
+.figure img{display:block; width:100%}
 .figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
+
 .pwrap{position:relative; padding-right:2.5rem}
 .hlbtn{position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
-  background:var(--glass); border:1px solid var(--line); font-size:.85rem; cursor:pointer; opacity:0}
+  background:var(--glass); border:1px solid var(--line); color:var(--ink); font-size:.85rem; cursor:pointer; opacity:0}
 .pwrap:hover .hlbtn{opacity:1}
-.mark{background:linear-gradient(180deg,rgba(202,163,107,.3),rgba(122,160,255,.24))}
-aside{position:sticky; top:90px; background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+
+aside{position:sticky; top:90px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
   border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem}
-aside h3{font-family:"Playfair Display",serif}
-.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; font-size:.95rem}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
 .toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+
 .quiz{margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.04)}
 .qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
 .qchoices{display:grid; gap:.45rem}
-.qchoices button{border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05); color:var(--ink);
-  padding:.55rem .7rem; border-radius:.6rem; cursor:pointer}
-.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
-.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26);
-  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem}
-.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
-.reveal.in{opacity:1; transform:none}
-footer{padding:2rem 1rem; text-align:center; color:var(--muted)}
+.qchoices button{text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05); color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer}
+.qchoices button.correct{border-color:#46d17d}
+.qchoices button.wrong{border-color:#e07070}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
+
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -71,145 +94,131 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted)}
 <div class="frame"></div>
 <div id="progress"></div>
 
-<header class="reveal in">
-  <h1>Classical Mechanics — Lagrangian</h1>
-  <p class="subtitle">How energy, geometry, and symmetry reshape Newton’s laws into a universal language of physics.</p>
+<header>
+  <h1>Lagrangian Mechanics</h1>
+  <p class="subtitle">From Newton’s forces to the principle of least action, Lagrangian mechanics reframes motion as geometry and energy flow.</p>
 </header>
 
 <div class="main">
-<article id="article">
+  <!-- ARTICLE -->
+  <article id="article">
 
-  <h2 id="origin" class="reveal">Origins of the Lagrangian</h2>
-  <div class="divider"></div>
-  <div class="pwrap reveal">
-    <button class="hlbtn" data-target="p1">★ Highlight</button>
-    <p id="p1" class="dropcap">
-      Lagrangian mechanics was born from a search for deeper simplicity. Newton’s laws are straightforward but tied to forces and vectors in specific directions. Joseph-Louis Lagrange realized that nature’s economy could be expressed differently: in terms of energy, not forces. By taking the difference between kinetic and potential energy, he built a single function, the <em>Lagrangian</em>, that encodes a system’s dynamics. From this one function flows an entire set of equations that generalize Newton’s results and make new problems solvable. The reformulation was not just technical. It revealed a philosophy: the universe prefers elegance. Motion unfolds along the path where the action — the time integral of the Lagrangian — is stationary, as if reality itself respects a principle of economy.
-    </p>
-  </div>
+    <h2 id="intro">Introduction</h2>
+    <div class="divider"></div>
+    <div class="pwrap"><button class="hlbtn" data-target="p1">★ Highlight</button>
+    <p id="p1" class="dropcap">Lagrangian mechanics is one of the great intellectual revolutions in physics. While Newton’s equations describe motion by forces and accelerations, Joseph-Louis Lagrange recast the problem into a framework of energies and symmetries. The central object is the <em>Lagrangian</em>, $L = T - V$, the difference between kinetic and potential energy. By treating generalized coordinates $q_i$ and their time derivatives $\dot q_i$ as the essential variables, the method unifies mechanics, simplifies constraints, and prepares the way for modern field theory.</p></div>
 
-  <h2 id="principle" class="reveal">Principle of Least Action</h2>
-  <div class="divider"></div>
-  <div class="pwrap reveal">
-    <button class="hlbtn" data-target="p2">★ Highlight</button>
-    <p id="p2">
-      The action is defined as
-      \[
-      S = \int_{t_1}^{t_2} L(q,\dot q,t)\, dt,
-      \]
-      where \(L = T - V\). The requirement that \( \delta S = 0 \) yields the Euler–Lagrange equations, which determine the system’s motion. This principle sounds abstract, but it has concrete power. Light rays bend along paths that minimize travel time (Fermat’s principle). Soap films settle into surfaces that minimize area. Classical particles move along paths that minimize action. Across physics, economy is law. This variational principle is why Lagrangian mechanics generalizes so well: the same structure reappears in optics, quantum mechanics, and relativity.
-    </p>
-  </div>
+    <h2 id="principle">The Principle of Least Action</h2>
+    <div class="divider"></div>
+    <div class="pwrap"><button class="hlbtn" data-target="p2">★ Highlight</button>
+    <p id="p2" class="dropcap">At the heart of Lagrangian mechanics lies the <strong>principle of stationary action</strong>. Instead of predicting motion step by step with forces, we imagine the entire path between two points and assign an action functional:
+    $$S[q] = \int_{t_1}^{t_2} L(q,\dot q,t)\,dt.$$
+    The true trajectory is the one that makes $S$ stationary under small variations of the path. This principle leads to the Euler–Lagrange equations:
+    $$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot q_i}\right) - \frac{\partial L}{\partial q_i} = 0.$$</p></div>
 
-  <h2 id="coordinates" class="reveal">Generalized Coordinates</h2>
-  <div class="divider"></div>
-  <div class="pwrap reveal">
-    <button class="hlbtn" data-target="p3">★ Highlight</button>
-    <p id="p3">
-      Instead of being restricted to Cartesian \(x, y, z\), the Lagrangian formalism allows any set of generalized coordinates \(q_i\). A bead on a rotating hoop is described naturally by an angle. A double pendulum uses two angular coordinates. Planetary orbits are simpler in polar coordinates than in rectangular axes. This freedom makes the Lagrangian formalism a universal toolkit. It adapts to constraints automatically: if the coordinate system reflects the physical restrictions, the equations of motion follow without extra force diagrams. In this sense, the Lagrangian is both a computational method and a conceptual liberation.
-    </p>
-  </div>
+    <figure class="figure"><img src="lagrange-path.jpeg" alt="Path variations"><figcaption class="figcap">Nature chooses the path of stationary action, not by minimizing effort but by balancing variations.</figcaption></figure>
 
-  <h2 id="equations" class="reveal">Euler–Lagrange Equations</h2>
-  <div class="divider"></div>
-  <div class="pwrap reveal">
-    <button class="hlbtn" data-target="p4">★ Highlight</button>
-    <p id="p4" class="dropcap">
-      The Euler–Lagrange equation is the beating heart of the method:
-      \[
-      \frac{d}{dt}\left(\frac{\partial L}{\partial \dot q_i}\right) - \frac{\partial L}{\partial q_i} = 0.
-      \]
-      Each generalized coordinate has its own equation of motion, derived not from forces but from derivatives of the Lagrangian. This structure reveals conserved quantities directly. If \(L\) does not depend explicitly on a coordinate, the conjugate momentum is conserved. If it does not depend on time, total energy is conserved. This link between symmetry and conservation hints at the power later formalized by Noether’s theorem. Thus, even before advanced physics, the seeds of unity are visible in the Lagrangian framework.
-    </p>
-  </div>
+    <h2 id="examples">Examples</h2>
+    <div class="divider"></div>
+    <div class="pwrap"><button class="hlbtn" data-target="p3">★ Highlight</button>
+    <p id="p3">For a free particle of mass $m$, $L = \tfrac12 m \dot x^2$. The Euler–Lagrange equation gives $\ddot x = 0$, a straight line at constant velocity. For a simple pendulum with coordinate $\theta$, $L = \tfrac12 m l^2 \dot\theta^2 - mgl(1-\cos\theta)$. The equation of motion becomes $ml^2 \ddot\theta + mgl\sin\theta = 0$, recovering the familiar pendulum dynamics in a more elegant form. Constraints, such as motion on a surface, are automatically respected by using the right coordinates.</p></div>
 
-  <h2 id="example" class="reveal">Example: The Simple Pendulum</h2>
-  <div class="divider"></div>
-  <div class="pwrap reveal">
-    <button class="hlbtn" data-target="p5">★ Highlight</button>
-    <p id="p5">
-      Consider a pendulum of mass \(m\) and length \(l\). With generalized coordinate \( \theta \), kinetic energy is \(T = \tfrac{1}{2} m l^2 \dot\theta^2\), potential is \(V = mgl(1-\cos\theta)\). Thus
-      \[
-      L = \tfrac{1}{2} m l^2 \dot\theta^2 - mgl(1-\cos\theta).
-      \]
-      Applying Euler–Lagrange yields
-      \( ml^2 \ddot\theta + mgl\sin\theta = 0 \).
-      This nonlinear equation governs the pendulum’s exact motion. For small angles, \( \sin\theta \approx \theta \), and the result reduces to simple harmonic motion with period \(2\pi \sqrt{l/g}\). The Lagrangian method shows its elegance: a single calculation captures both approximate and exact dynamics without explicit force diagrams.
-    </p>
-  </div>
+    <h2 id="advanced">Deeper Structures</h2>
+    <div class="divider"></div>
+    <div class="pwrap"><button class="hlbtn" data-target="p4">★ Highlight</button>
+    <p id="p4">Lagrangian mechanics does more than repackage Newton’s laws. It exposes symmetries. Noether’s theorem states that every continuous symmetry of the Lagrangian corresponds to a conserved quantity. Time invariance leads to energy conservation, spatial translation to momentum, and rotation to angular momentum. This deep unity links mechanics to geometry and underpins quantum field theory, general relativity, and gauge theories.</p></div>
 
-  <h2 id="constraints" class="reveal">Handling Constraints</h2>
-  <div class="divider"></div>
-  <div class="pwrap reveal">
-    <button class="hlbtn" data-target="p6">★ Highlight</button>
-    <p id="p6">
-      Many problems involve constraints: a bead sliding on a curved wire, a disk rolling without slipping, or a double pendulum swinging freely. Newtonian mechanics requires adding constraint forces and solving simultaneously. Lagrangian mechanics absorbs constraints naturally: by choosing appropriate generalized coordinates, the equations automatically respect the limitations. A rolling wheel described by angle of rotation plus center-of-mass position already encodes the no-slip condition. This is one reason Lagrangian mechanics is the method of choice for robotics, celestial mechanics, and molecular dynamics.
-    </p>
-  </div>
-
-  <h2 id="example2" class="reveal">Example: Double Pendulum</h2>
-  <div class="divider"></div>
-  <div class="pwrap reveal">
-    <button class="hlbtn" data-target="p7">★ Highlight</button>
-    <p id="p7">
-      The double pendulum consists of one pendulum attached to another. With two angles \( \theta_1, \theta_2 \), the kinetic and potential energies become complex, but the Lagrangian formalism handles them cleanly. The resulting equations are nonlinear and coupled, leading to chaotic behavior. Even here, where Newtonian methods become unwieldy, the Lagrangian produces equations systematically. Studying the double pendulum not only demonstrates the efficiency of the method but also reveals the beauty of chaos in classical systems — a reminder that even deterministic rules can yield unpredictable motion.
-    </p>
-  </div>
-
-  <h2 id="beyond" class="reveal">Beyond Mechanics</h2>
-  <div class="divider"></div>
-  <div class="pwrap reveal">
-    <button class="hlbtn" data-target="p8">★ Highlight</button>
-    <p id="p8">
-      Lagrangian mechanics is not confined to pulleys and pendulums. Electromagnetism can be written in terms of a Lagrangian density that yields Maxwell’s equations. Quantum field theory is built entirely on Lagrangian formulations, with particles emerging as excitations of underlying fields. General relativity, Einstein’s masterpiece, can be derived from the Einstein–Hilbert action. Thus, the method is more than a reformulation; it is the gateway to modern physics. Learning it is like learning a new language, one in which the grammar is symmetry and the poetry is conservation.
-    </p>
-  </div>
-
-  <h2 id="quiz" class="reveal">Quick Quiz</h2>
-  <div class="divider"></div>
-  <section class="quiz reveal" id="quizSection">
-    <div class="qitem">
-      <h4>1) What is the action in Lagrangian mechanics?</h4>
-      <div class="qchoices" data-answer="a" data-explain="It is the time integral of the Lagrangian.">
-        <button data-choice="a">The time integral of L over the motion</button>
-        <button data-choice="b">The total kinetic energy</button>
-        <button data-choice="c">The work done by all forces</button>
+    <h2 id="quiz">Quick Quiz</h2>
+    <div class="divider"></div>
+    <section class="quiz">
+      <div class="qitem">
+        <h4>1) What is the Lagrangian?</h4>
+        <div class="qchoices" data-answer="b" data-explain="The Lagrangian is kinetic energy minus potential energy.">
+          <button data-choice="a">The sum of kinetic and potential energy</button>
+          <button data-choice="b">The difference between kinetic and potential energy</button>
+          <button data-choice="c">The total energy of the system</button>
+        </div>
+        <div class="qfeedback"></div>
       </div>
-      <div class="qfeedback"></div>
-    </div>
-    <div class="qitem">
-      <h4>2) If the Lagrangian does not depend on a coordinate \(q_i\), what is conserved?</h4>
-      <div class="qchoices" data-answer="c" data-explain="The conjugate momentum \(p_i\) is conserved.">
-        <button data-choice="a">Energy</button>
-        <button data-choice="b">Angular velocity</button>
-        <button data-choice="c">Conjugate momentum</button>
+      <div class="qitem">
+        <h4>2) Which principle determines the path of motion?</h4>
+        <div class="qchoices" data-answer="c" data-explain="The stationary action principle leads to the Euler–Lagrange equations.">
+          <button data-choice="a">Principle of virtual work</button>
+          <button data-choice="b">Principle of energy conservation</button>
+          <button data-choice="c">Principle of stationary action</button>
+        </div>
+        <div class="qfeedback"></div>
       </div>
-      <div class="qfeedback"></div>
+    </section>
+
+    <div style="margin-top:.8rem">
+      <button id="gradeBtn">Grade quiz</button>
+      <span id="scoreLine"></span>
     </div>
-  </section>
 
-  <div class="nextrow reveal">
-    <a href="classical-newtonian.html">← Back to Newtonian Mechanics</a>
-    <a href="classical-hamiltonian.html">Next page → Hamiltonian Mechanics</a>
-  </div>
+    <div class="nextrow">
+      <a href="classical-newtonian.html">← Back to Newtonian</a>
+      <a href="classical-hamiltonian.html">Next page → Hamiltonian</a>
+    </div>
+  </article>
 
-</article>
-
-<aside class="reveal">
-  <h3>Contents</h3>
-  <div id="toc" class="toc"></div>
-</aside>
+  <!-- SIDEBAR -->
+  <aside>
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); font-size:.9rem">Click ★ to save highlights here.</p>
+    <div id="nbList"></div>
+    <textarea id="freeNote" placeholder="Write your own note..." style="margin-top:.6rem; height:100px; width:100%"></textarea>
+    <div style="margin-top:.4rem">
+      <button id="saveFree">Save</button>
+      <button id="clearAll">Clear all</button>
+    </div>
+  </aside>
 </div>
 
 <footer>© 2025 QParadox</footer>
 
 <script>
+// Progress bar
 const bar=document.getElementById('progress');
-addEventListener('scroll',()=>{const h=document.documentElement, st=h.scrollTop, sh=h.scrollHeight-h.clientHeight; bar.style.width=(st/sh*100)+'%';});
-const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); obs.unobserve(e.target)}});},{threshold:.18});
-document.querySelectorAll('.reveal').forEach(el=>{if(!el.classList.contains('in')) obs.observe(el);});
+function onScroll(){const h=document.documentElement;const st=h.scrollTop;const sh=h.scrollHeight-h.clientHeight;bar.style.width=(st/sh*100)+'%';}
+addEventListener('scroll',onScroll);onScroll();
+
+// Build TOC
 const toc=document.getElementById('toc');
-document.querySelectorAll('#article h2').forEach(h=>{const a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent; toc.appendChild(a);});
+const heads=[...document.querySelectorAll('#article h2')];
+heads.forEach(h=>{const a=document.createElement('a');a.href='#'+h.id;a.textContent=h.textContent;toc.appendChild(a);});
+
+// Notebook storage
+const KEY='qpx_notes_lagrangian_v1';
+const listEl=document.getElementById('nbList');
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return []}}
+function save(data){localStorage.setItem(KEY,JSON.stringify(data))}
+function render(){const notes=load();listEl.innerHTML='';if(notes.length===0){listEl.innerHTML='<p style="color:var(--muted)">No highlights yet.</p>';return;}notes.forEach(n=>{const d=document.createElement('div');d.className='note';d.dataset.id=n.id;d.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`;listEl.appendChild(d)});}
+render();
+document.querySelectorAll('.hlbtn').forEach(btn=>{btn.addEventListener('click',()=>{const id=btn.dataset.target,p=document.getElementById(id);if(!p)return;p.classList.add('mark');const notes=load();notes.push({id:'n'+Date.now(),text:p.textContent.trim(),time:Date.now(),para:id});save(notes);render();});});
+document.getElementById('saveFree').addEventListener('click',()=>{const box=document.getElementById('freeNote');const t=box.value.trim();if(!t)return;const notes=load();notes.push({id:'n'+Date.now(),text:t,time:Date.now(),para:null});save(notes);render();box.value='';});
+listEl.addEventListener('click',e=>{if(!e.target.classList.contains('del'))return;const id=e.target.closest('.note').dataset.id;const notes=load().filter(x=>x.id!==id);save(notes);render();});
+document.getElementById('clearAll').addEventListener('click',()=>{if(!confirm('Clear all notes?'))return;localStorage.removeItem(KEY);render();});
+
+// Quiz grading
+document.getElementById('gradeBtn').addEventListener('click',()=>{
+  let score=0,total=0;
+  document.querySelectorAll('.qchoices').forEach(group=>{
+    total++;
+    const ans=group.dataset.answer;
+    const fb=group.parentElement.querySelector('.qfeedback');
+    const pressed=[...group.querySelectorAll('button')].find(b=>b.dataset.pressed==='1');
+    if(!pressed){fb.textContent='No answer selected';fb.style.color='#f0d28a';return;}
+    if(pressed.dataset.choice===ans){score++;pressed.classList.add('correct');fb.textContent='Correct — '+group.dataset.explain;fb.style.color='#8fe0a8';}
+    else{pressed.classList.add('wrong');fb.textContent='Not quite — '+group.dataset.explain;fb.style.color='#f29b9b';const c=[...group.querySelectorAll('button')].find(b=>b.dataset.choice===ans);if(c)c.classList.add('correct');}
+  });
+  document.getElementById('scoreLine').textContent='Score: '+score+' / '+total;
+});
+document.querySelectorAll('.qchoices button').forEach(btn=>{btn.addEventListener('click',()=>{const g=btn.closest('.qchoices');g.querySelectorAll('button').forEach(b=>{b.dataset.pressed='0';b.classList.remove('correct','wrong')});btn.dataset.pressed='1';const fb=g.parentElement.querySelector('.qfeedback');fb.textContent='Answer selected';fb.style.color='#d1d1d1';});});
 </script>
 </body>
 </html>
+
