@@ -13,8 +13,19 @@ Required image files (place next to this HTML file, exact lowercase names):
   - cm-header.jpeg
   - cm-diagrams.jpeg
   - cm-phase-space.jpeg
-  (Use your own images; names can be changed if you prefer—then update src below.)
 -->
+
+<!-- MathJax (for all equations) -->
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']]
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 :root{
@@ -160,14 +171,14 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p1">★ Highlight</button>
       <p id="p1" class="dropcap">
-        Newton’s second law relates acceleration to force: <em>F = ma</em>. The content is deeper than the compact form suggests. It assumes a choice of inertial frame (no extra accelerations built into the coordinates) and a mass that does not change during the motion. Forces can be contact (springs, constraints, friction) or at-a-distance (gravity, electrostatics in appropriate regimes). The goal is to translate a physical situation into <em>F</em> as a function of position, velocity, and time, then integrate to obtain motion.
+        Newton’s second law relates acceleration to force: $F = m a$. The content is deeper than the compact form suggests. It assumes an inertial frame and a constant mass during the motion. Forces can be contact (springs, constraints, friction) or at-a-distance (gravity, electrostatics in appropriate regimes). The goal is to translate a physical situation into $F(x,v,t)$ and integrate to obtain motion; in one dimension, $m \, \ddot{x} = F(x,\dot{x},t)$.
       </p>
     </div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p2">★ Highlight</button>
       <p id="p2">
-        Two shortcuts dominate in practice: the work–energy theorem and momentum methods. The work–energy theorem trades the vector equation for a scalar: the net work done equals the change in kinetic energy. It shines when forces are parallel to motion or when you can express forces as gradients of a potential. Momentum methods remove details of internal forces and let you track the motion of a whole system under external impulses. Use energy when forces are conservative and direction changes complicate the vector sum; use momentum when interactions are brief or internal and symmetry makes the vector story simple.
+        Two shortcuts dominate in practice: the work–energy theorem and momentum methods. The work–energy theorem trades vectors for a scalar: the net work done equals the change in kinetic energy, $\Delta K = \int \mathbf F \cdot d\mathbf r$. It shines when forces are parallel to motion or when $ \mathbf F = -\nabla V$. Momentum methods remove details of internal forces and let you track the motion of a whole system under external impulses: $\mathbf P_{\text{final}} = \mathbf P_{\text{initial}} + \int \mathbf F_{\text{ext}} \, dt$. Use energy when forces are conservative and direction changes complicate the vector sum; use momentum when interactions are brief or internal and symmetry makes the vector story simple.
       </p>
     </div>
 
@@ -179,48 +190,60 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p3">★ Highlight</button>
       <p id="p3">
-        A small catalog helps. Springs: <em>F = −kx</em>. Drag at low speed: <em>F = −bv</em>. Gravity near Earth: <em>F = −mg \hat{y}</em>. Planetary gravity: <em>F = −GMm r̂ / r^2</em>. Normal forces enforce constraints by canceling motion into a surface; they do no work when the surface is rigid and frictionless. Static friction adjusts up to a maximum; kinetic friction has near-constant magnitude opposite motion. Constraint reactions are best found from kinematics first: describe what motion is allowed, then let unspecified forces enforce that motion.
+        A small catalog helps. Springs: $F = -k x$. Low-speed drag: $F = -b v$. Gravity near Earth: $\mathbf F = - m g\, \hat{\mathbf y}$. Planetary gravity: $\mathbf F = - \dfrac{G M m}{r^{2}} \, \hat{\mathbf r}$. Normal forces enforce constraints by canceling motion into a surface; ideal normal forces do no work. Static friction adjusts up to a maximum; kinetic friction has near-constant magnitude opposite motion. Describe the allowable motion first (kinematics), then let unspecified forces enforce it (constraints).
       </p>
     </div>
 
+    <!-- LAGRANGIAN -->
     <h2 id="lagrange" class="reveal">Lagrangian Mechanics — principles and coordinates</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p4">★ Highlight</button>
       <p id="p4" class="dropcap">
-        The Lagrangian method begins with a single scalar function <em>L(q, \dot{q}, t) = T - V</em>, kinetic minus potential energy, in a set of generalized coordinates <em>q</em> that encode only the real degrees of freedom. The equations of motion follow from the Euler–Lagrange equation: <em>d/dt(∂L/∂\dot{q}_i) − ∂L/∂q_i = 0</em>. This is not a trick; it is a compressed way to state Newton’s second law for any coordinate system and any holonomic constraints. It is powerful because choosing <em>q</em> well can make the physics obvious.
+        The Lagrangian method begins with a single scalar function $L(q,\dot q,t)=T-V$, kinetic minus potential energy, in a set of generalized coordinates $q$ that encode only the true degrees of freedom. The equations of motion follow from the Euler–Lagrange equation:
       </p>
     </div>
+
+    <p class="reveal" style="text-align:center">
+      $$ \frac{d}{dt}\!\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = 0. $$
+    </p>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p5">★ Highlight</button>
       <p id="p5">
-        Constraints reduce the number of independent variables. For a bead sliding on a rigid wire in space, a single parameter like the arc length along the curve may be the only coordinate you need. Forces of constraint never appear explicitly; the geometry handles them. Symmetries of <em>L</em> imply conserved quantities: if <em>L</em> has no explicit time dependence, the energy is conserved; if it has no dependence on a coordinate (cyclic coordinate), the corresponding momentum is conserved. These are early glimpses of Noether’s theorem.
+        Constraints reduce the number of independent variables. For a bead sliding on a rigid wire in space, a single parameter like the arc length along the curve may be the only coordinate you need. Forces of constraint never appear explicitly; the geometry handles them. Symmetries of $L$ imply conserved quantities: if $L$ has no explicit time dependence, the energy is conserved; if it has no dependence on a coordinate (a cyclic coordinate), the corresponding momentum $p_i=\partial L/\partial \dot q_i$ is conserved. These are early glimpses of Noether’s theorem.
       </p>
     </div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p6">★ Highlight</button>
       <p id="p6">
-        Example: the simple pendulum of length <em>ℓ</em> with angle <em>θ</em>. The kinetic energy is <em>T = (1/2)m(ℓ^2 \dot{θ}^2)</em>, and potential energy is <em>V = mgℓ(1 − \cos θ)</em>. Thus <em>L = T − V</em>. The Euler–Lagrange equation gives <em>ℓ \ddot{θ} + g \sin θ = 0</em>. In the small-angle limit, <em>\sin θ ≈ θ</em>, we recover simple harmonic motion with period <em>2π\sqrt{ℓ/g}</em>. The method required no tension force; the constraint was built into the coordinate choice.
+        Example: the simple pendulum of length $\ell$ with angle $\theta$. The kinetic energy is $T=\tfrac12 m \ell^{2}\dot{\theta}^{2}$, and potential energy is $V= m g \ell (1-\cos\theta)$. Thus $L=T-V$. The Euler–Lagrange equation gives $\ell\, \ddot{\theta} + g \sin\theta = 0$. In the small-angle limit, $\sin\theta \approx \theta$, we recover simple harmonic motion with period $2\pi\sqrt{\ell/g}$. The method needed no tension force; the constraint was built into the coordinate choice.
       </p>
     </div>
 
+    <!-- HAMILTONIAN -->
     <h2 id="hamilton" class="reveal">Hamiltonian Mechanics — phase space and structure</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p7">★ Highlight</button>
       <p id="p7" class="dropcap">
-        Hamiltonian mechanics lifts the description to phase space: coordinates <em>q</em> and conjugate momenta <em>p = ∂L/∂\dot{q}</em>. The Hamiltonian <em>H(q,p,t)</em> is usually the total energy in familiar systems. Time evolution is given by Hamilton’s equations: <em>\dot{q}_i = ∂H/∂p_i</em> and <em>\dot{p}_i = −∂H/∂q_i</em>. These equations express motion as a flow that preserves volume in phase space (Liouville’s theorem). The geometry makes symmetries and conserved quantities appear as functions that commute with <em>H</em> under the Poisson bracket.
+        Hamiltonian mechanics lifts the description to phase space: coordinates $q$ and conjugate momenta $p=\partial L/\partial \dot q$. The Hamiltonian $H(q,p,t)$ is usually the total energy in familiar systems. Time evolution is given by Hamilton’s equations:
       </p>
     </div>
+
+    <p class="reveal" style="text-align:center">
+      $$ \dot{q}_i = \frac{\partial H}{\partial p_i}, \qquad \dot{p}_i = -\frac{\partial H}{\partial q_i}. $$
+    </p>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p8">★ Highlight</button>
       <p id="p8">
-        The Poisson bracket for functions <em>F(q,p)</em> and <em>G(q,p)</em> is <em>{F,G} = Σ_i (∂F/∂q_i ∂G/∂p_i − ∂F/∂p_i ∂G/∂q_i)</em>. A quantity <em>C</em> is conserved if <em>{C,H} + ∂C/∂t = 0</em>. Canonical transformations are changes of variables that preserve the bracket. They let you simplify problems by moving to action–angle coordinates in integrable systems, turning motion into uniform rotation on tori. This is the gateway to perturbation theory and to understanding how integrability breaks and chaos appears.
+        The Poisson bracket for functions $F(q,p)$ and $G(q,p)$ is
+        $$ \{F,G\} = \sum_i \left(\frac{\partial F}{\partial q_i}\frac{\partial G}{\partial p_i} - \frac{\partial F}{\partial p_i}\frac{\partial G}{\partial q_i}\right). $$
+        A quantity $C$ is conserved if $\{C,H\} + \partial C/\partial t = 0$. Canonical transformations preserve the bracket and let you simplify problems (e.g., action–angle variables in integrable systems). Liouville’s theorem states that Hamiltonian flow preserves phase-space volume.
       </p>
     </div>
 
@@ -235,14 +258,14 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p9">★ Highlight</button>
       <p id="p9" class="dropcap">
-        <strong>Small oscillations.</strong> Expand the potential around equilibrium, keep quadratic terms, and diagonalize the mass and stiffness matrices to find normal modes. <strong>Central forces.</strong> Reduce to an effective one-dimensional radial problem with an effective potential that includes the angular momentum barrier. <strong>Driven/ damped motion.</strong> Use linear response and complex impedance methods for steady-state amplitudes and phases. <strong>Constrained systems.</strong> Choose generalized coordinates so constraints are identities; if needed, add Lagrange multipliers to handle non-integrable constraints.
+        <strong>Small oscillations.</strong> Expand the potential around equilibrium, keep quadratic terms, and diagonalize the mass and stiffness matrices to find normal modes. <strong>Central forces.</strong> Reduce to an effective one-dimensional radial problem with an effective potential $V_{\text{eff}}(r)=V(r)+\ell^2/(2 m r^2)$ that includes the angular momentum barrier. <strong>Driven/damped motion.</strong> Use linear response and complex impedance methods for steady-state amplitudes and phases. <strong>Constrained systems.</strong> Choose generalized coordinates so constraints are identities; if needed, add Lagrange multipliers to handle non-integrable constraints.
       </p>
     </div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p10">★ Highlight</button>
       <p id="p10">
-        <strong>Noether in practice.</strong> If your Lagrangian is unchanged by a continuous transformation, there is a conserved quantity. Spatial translation → linear momentum; rotation → angular momentum; time translation → energy. Write the transformation, compute the variation of <em>L</em>, and read off the current. When stuck, look for a hidden symmetry (e.g., the Laplace–Runge–Lenz vector in the Kepler problem) that explains special degeneracies and closed orbits.
+        <strong>Noether in practice.</strong> If your Lagrangian is unchanged by a continuous transformation, there is a conserved quantity. Spatial translation $\Rightarrow$ linear momentum; rotation $\Rightarrow$ angular momentum; time translation $\Rightarrow$ energy. Write the transformation, compute the variation of $L$, and read off the current. When stuck, look for a hidden symmetry (e.g., the Laplace–Runge–Lenz vector in the Kepler problem) that explains special degeneracies and closed orbits.
       </p>
     </div>
 
@@ -252,14 +275,14 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p11">★ Highlight</button>
       <p id="p11" class="dropcap">
-        <strong>Mass–spring–dashpot (m, k, b).</strong> Newton: <em>m\ddot{x}+b\dot{x}+kx = F_0 \cos ωt</em>. Solve via trial solution or complex impedance; resonance near <em>ω≈√(k/m)</em> with width set by <em>b</em>. Lagrange: <em>L = ½m\dot{x}^2 − ½kx^2</em>, include Rayleigh dissipation <em>R = ½b\dot{x}^2</em> to model damping; Euler–Lagrange with damping term yields the same ODE. Hamilton: define <em>p = m\dot{x}</em>, <em>H = p^2/2m + ½kx^2</em>; for driving/damping you treat nonconservative effects as external.
+        <strong>Mass–spring–dashpot $(m,k,b)$.</strong> Newton: $m\ddot{x}+b\dot{x}+kx = F_0 \cos(\omega t)$. Solve via trial solution or complex impedance; resonance near $\omega \approx \sqrt{k/m}$ with width set by $b$. Lagrange: $L=\tfrac12 m\dot{x}^2-\tfrac12 k x^2$, include Rayleigh dissipation $R=\tfrac12 b\dot{x}^2$ to model damping; Euler–Lagrange with damping term yields the same ODE. Hamilton: define $p=m\dot{x}$, $H=p^2/2m + \tfrac12 k x^2$; for driving/damping treat nonconservative effects as external.
       </p>
     </div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p12">★ Highlight</button>
       <p id="p12">
-        <strong>Central force orbit.</strong> Lagrange in polar coordinates gives conservation of angular momentum <em>ℓ = m r^2 \dot{θ}</em>; reduce to radial equation in an effective potential <em>V_eff(r)=V(r)+ℓ^2/(2mr^2)</em>. For inverse-square, bounded motion is an ellipse with one focus at the center. Hamilton’s equations show the closed orbits correspond to an extra conserved quantity beyond energy and angular momentum (the Runge–Lenz vector), revealing the problem’s integrability.
+        <strong>Central force orbit.</strong> Lagrange in polar coordinates gives conservation of angular momentum $\ell=m r^{2}\dot{\theta}$; reduce to radial motion in $V_{\text{eff}}(r)$. For inverse-square, bounded motion is an ellipse with one focus at the center. Hamilton’s equations show the closed orbits correspond to an extra conserved quantity beyond energy and angular momentum (the Runge–Lenz vector), revealing the problem’s integrability.
       </p>
     </div>
 
@@ -269,7 +292,7 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p13">★ Highlight</button>
       <p id="p13" class="dropcap">
-        <strong>Symplectic geometry.</strong> Phase space is not just a set of axes; it carries a two-form that Hamiltonian flow preserves. Symplectic integrators respect this structure numerically and dramatically reduce long-time drift in energy. <strong>Action–angle variables.</strong> For integrable systems, you can label tori by actions and evolve angles linearly in time—an almost trivial motion in a curved coordinate system. <strong>From classical to quantum.</strong> Many quantum commutators mirror classical Poisson brackets; path integrals mirror actions. Learning the classical structures pays dividends later.
+        <strong>Symplectic geometry.</strong> Phase space is not just axes; it carries a two-form that Hamiltonian flow preserves. Symplectic integrators respect this structure numerically and dramatically reduce long-time drift in energy. <strong>Action–angle variables.</strong> For integrable systems, label tori by actions and evolve angles linearly in time—almost trivial motion in a curved coordinate system. <strong>From classical to quantum.</strong> Many quantum commutators mirror classical Poisson brackets; path integrals mirror actions. Learning the classical structures pays dividends later.
       </p>
     </div>
 
@@ -314,7 +337,7 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
       <!-- Q4 -->
       <div class="qitem">
         <h4>4) What indicates a cyclic coordinate in the Lagrangian?</h4>
-        <div class="qchoices" data-answer="b" data-explain="If L has no dependence on a coordinate q, the conjugate momentum p = ∂L/∂\dot{q} is conserved.">
+        <div class="qchoices" data-answer="b" data-explain="If L has no dependence on a coordinate q, the conjugate momentum p = ∂L/∂\dot q is conserved.">
           <button data-choice="a">L depends only on time</button>
           <button data-choice="b">L does not depend explicitly on that coordinate</button>
           <button data-choice="c">The coordinate is angular</button>
@@ -499,3 +522,4 @@ if(gradeBtn){
 </script>
 </body>
 </html>
+
