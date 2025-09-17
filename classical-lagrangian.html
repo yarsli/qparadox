@@ -9,13 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
 
 <!-- MathJax -->
-<script>
-window.MathJax = {
-  tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
-};
-</script>
-<script id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 :root{
@@ -25,6 +20,7 @@ window.MathJax = {
   --radius:18px; --side:330px;
 }
 *{box-sizing:border-box}
+html,body{height:100%}
 body{
   margin:0; background:var(--bg); color:var(--ink);
   font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
@@ -38,33 +34,34 @@ body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none
     radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
 
 .frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
-#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue))}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
 
-header{padding:6rem 1.2rem 2rem; text-align:center}
+header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
 h1{font-family:"Playfair Display",serif; font-weight:900; margin:0;
-  font-size:clamp(2.6rem,4vw,4.6rem); line-height:1.1; color:#f5ead8}
-.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:1.2rem}
+  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
 
 .main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
-@media(min-width:1120px){ .main{grid-template-columns:minmax(0,1fr) var(--side)} }
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
 
 article{
   background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
   border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
 }
-article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:2rem; color:#f6eddc}
-p{margin:1.05rem 0; text-align:justify}
-.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3rem; line-height:2.2rem; padding:.25rem .5rem 0 0; color:#f3e4c5}
-
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
 .divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
 
-.figure{margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#0e0f12; max-width:820px}
-.figure img{display:block; width:100%}
+.figure{margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#0e0f12; box-shadow:var(--shadow); max-width:820px}
+.figure img{display:block; width:100%; height:auto}
 .figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
 
 .pwrap{position:relative; padding-right:2.5rem}
 .hlbtn{position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
-  background:var(--glass); border:1px solid var(--line); color:var(--ink); font-size:.85rem; cursor:pointer; opacity:0}
+  background:var(--glass); color:var(--ink); border:1px solid var(--line);
+  font-size:.85rem; cursor:pointer; opacity:0; transition:.2s}
 .pwrap:hover .hlbtn{opacity:1}
 .mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
 
@@ -73,19 +70,29 @@ aside{position:sticky; top:90px; align-self:start; height:fit-content;
   border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem}
 aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
 .toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
+.toc a:hover{color:var(--ink)}
 .toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
-
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
 .note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
 .note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
 
 .quiz{margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.04)}
 .qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
 .qchoices{display:grid; gap:.45rem}
-.qchoices button{text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05); color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer}
+.qchoices button{text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05);
+  color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer}
 .qchoices button.correct{border-color:#46d17d}
 .qchoices button.wrong{border-color:#e07070}
 .qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
 
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
+  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem}
+
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
 footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
 </style>
 </head>
@@ -94,131 +101,186 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
 <div class="frame"></div>
 <div id="progress"></div>
 
-<header>
+<header class="reveal in">
   <h1>Lagrangian Mechanics</h1>
-  <p class="subtitle">From Newton’s forces to the principle of least action, Lagrangian mechanics reframes motion as geometry and energy flow.</p>
+  <p class="subtitle">From the principle of least action to the Euler–Lagrange equations, this page explores how a compact formalism reshaped classical mechanics into a framework still used in modern physics.</p>
 </header>
 
 <div class="main">
   <!-- ARTICLE -->
   <article id="article">
 
-    <h2 id="intro">Introduction</h2>
-    <div class="divider"></div>
-    <div class="pwrap"><button class="hlbtn" data-target="p1">★ Highlight</button>
-    <p id="p1" class="dropcap">Lagrangian mechanics is one of the great intellectual revolutions in physics. While Newton’s equations describe motion by forces and accelerations, Joseph-Louis Lagrange recast the problem into a framework of energies and symmetries. The central object is the <em>Lagrangian</em>, $L = T - V$, the difference between kinetic and potential energy. By treating generalized coordinates $q_i$ and their time derivatives $\dot q_i$ as the essential variables, the method unifies mechanics, simplifies constraints, and prepares the way for modern field theory.</p></div>
+    <figure class="figure reveal">
+      <img src="lagrangian-header.jpeg" alt="Variational principle diagram"/>
+      <figcaption class="figcap">The Lagrangian reframes dynamics: instead of forces, it studies action, paths, and symmetry.</figcaption>
+    </figure>
 
-    <h2 id="principle">The Principle of Least Action</h2>
+    <h2 id="intro" class="reveal">Introduction</h2>
     <div class="divider"></div>
-    <div class="pwrap"><button class="hlbtn" data-target="p2">★ Highlight</button>
-    <p id="p2" class="dropcap">At the heart of Lagrangian mechanics lies the <strong>principle of stationary action</strong>. Instead of predicting motion step by step with forces, we imagine the entire path between two points and assign an action functional:
-    $$S[q] = \int_{t_1}^{t_2} L(q,\dot q,t)\,dt.$$
-    The true trajectory is the one that makes $S$ stationary under small variations of the path. This principle leads to the Euler–Lagrange equations:
-    $$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot q_i}\right) - \frac{\partial L}{\partial q_i} = 0.$$</p></div>
 
-    <figure class="figure"><img src="lagrange-path.jpeg" alt="Path variations"><figcaption class="figcap">Nature chooses the path of stationary action, not by minimizing effort but by balancing variations.</figcaption></figure>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        Lagrangian mechanics is not just a different way to write Newton’s laws — it is a profound shift in perspective. Instead of focusing on forces directly, it begins with an energy-based quantity called the Lagrangian, defined as \(L = T - V\), the difference between kinetic and potential energy. This deceptively simple definition becomes a gateway to an entire formalism that generalizes mechanics, connects naturally to symmetries, and extends into fields as advanced as quantum mechanics and relativity. To learn the Lagrangian method is to learn how physicists compress complexity into elegant expressions that scale effortlessly from a falling bead on a wire to the dynamics of curved spacetime.
+      </p>
+    </div>
 
-    <h2 id="examples">Examples</h2>
+    <h2 id="leastaction" class="reveal">The Principle of Least Action</h2>
     <div class="divider"></div>
-    <div class="pwrap"><button class="hlbtn" data-target="p3">★ Highlight</button>
-    <p id="p3">For a free particle of mass $m$, $L = \tfrac12 m \dot x^2$. The Euler–Lagrange equation gives $\ddot x = 0$, a straight line at constant velocity. For a simple pendulum with coordinate $\theta$, $L = \tfrac12 m l^2 \dot\theta^2 - mgl(1-\cos\theta)$. The equation of motion becomes $ml^2 \ddot\theta + mgl\sin\theta = 0$, recovering the familiar pendulum dynamics in a more elegant form. Constraints, such as motion on a surface, are automatically respected by using the right coordinates.</p></div>
 
-    <h2 id="advanced">Deeper Structures</h2>
-    <div class="divider"></div>
-    <div class="pwrap"><button class="hlbtn" data-target="p4">★ Highlight</button>
-    <p id="p4">Lagrangian mechanics does more than repackage Newton’s laws. It exposes symmetries. Noether’s theorem states that every continuous symmetry of the Lagrangian corresponds to a conserved quantity. Time invariance leads to energy conservation, spatial translation to momentum, and rotation to angular momentum. This deep unity links mechanics to geometry and underpins quantum field theory, general relativity, and gauge theories.</p></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2" class="dropcap">
+        At the core lies the <em>principle of stationary action</em>. Instead of asking which force accelerates a mass, we ask: which path does the system actually take among all imaginable paths? The answer is the path that makes the action integral
+        \[
+          S = \int_{t_1}^{t_2} L(q,\dot q,t)\, dt
+        \]
+        stationary — meaning its variation vanishes compared to nearby trial paths. This principle elevates dynamics from a patchwork of case-by-case equations into a single unifying law. Nature seems to prefer economy: the real trajectory is one that minimizes or extremizes the action. What once looked like a principle of efficiency becomes the backbone of all modern theoretical physics.
+      </p>
+    </div>
 
-    <h2 id="quiz">Quick Quiz</h2>
+    <figure class="figure reveal">
+      <img src="principle-of-least-action.jpeg" alt="Path integral illustration"/>
+      <figcaption class="figcap">Between two points in time, infinitely many paths are possible. The true path makes the action stationary.</figcaption>
+    </figure>
+
+    <h2 id="eulerlagrange" class="reveal">Euler–Lagrange Equations</h2>
     <div class="divider"></div>
-    <section class="quiz">
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        By applying calculus of variations to the action, one derives the Euler–Lagrange equations:
+        \[
+          \frac{d}{dt}\left(\frac{\partial L}{\partial \dot q_i}\right) - \frac{\partial L}{\partial q_i} = 0 .
+        \]
+        Each generalized coordinate \(q_i\) produces such an equation, replacing Newton’s familiar \(F=ma\) with a deeper relation. Where Newtonian mechanics can become tangled in complex constraints, the Euler–Lagrange equations flow naturally from a single function. The genius of this form is that it scales — it works as well for a pendulum in a classroom as for geodesics in curved spacetime. The equations are not just computational tools; they are a reimagining of what it means for something to move.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="lagrangian-derivation.jpeg" alt="Derivation of Euler-Lagrange"/>
+      <figcaption class="figcap">From energy differences to equations of motion: the Euler–Lagrange derivation makes constraints disappear elegantly.</figcaption>
+    </figure>
+
+    <h2 id="examples" class="reveal">Examples in Action</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4" class="dropcap">
+        Consider the simple harmonic oscillator. Define \(L = \tfrac{1}{2}m\dot q^2 - \tfrac{1}{2}kq^2\). Plugging into the Euler–Lagrange equation yields \(m\ddot q + kq = 0\), the classic equation of oscillations. The procedure seems almost mechanical, yet beneath it is the principle of least action guiding the outcome. For a bead sliding on a rotating wire or a double pendulum, the same recipe works, no matter how many coordinates or constraints appear. This generality made the Lagrangian indispensable not only in mechanics but also in quantum field theory, where the same equations generate particle interactions.
+      </p>
+    </div>
+
+    <h2 id="quiz" class="reveal">Quick Quiz – Lagrangian Mechanics</h2>
+    <div class="divider"></div>
+
+    <section class="quiz reveal" id="quizSection">
       <div class="qitem">
-        <h4>1) What is the Lagrangian?</h4>
-        <div class="qchoices" data-answer="b" data-explain="The Lagrangian is kinetic energy minus potential energy.">
-          <button data-choice="a">The sum of kinetic and potential energy</button>
-          <button data-choice="b">The difference between kinetic and potential energy</button>
-          <button data-choice="c">The total energy of the system</button>
+        <h4>1) What is the Lagrangian \(L\) defined as?</h4>
+        <div class="qchoices" data-answer="b" data-explain="Lagrangian mechanics defines L = T - V, kinetic minus potential energy.">
+          <button data-choice="a">T + V</button>
+          <button data-choice="b">T - V</button>
+          <button data-choice="c">Potential energy alone</button>
         </div>
         <div class="qfeedback"></div>
       </div>
       <div class="qitem">
-        <h4>2) Which principle determines the path of motion?</h4>
-        <div class="qchoices" data-answer="c" data-explain="The stationary action principle leads to the Euler–Lagrange equations.">
-          <button data-choice="a">Principle of virtual work</button>
-          <button data-choice="b">Principle of energy conservation</button>
-          <button data-choice="c">Principle of stationary action</button>
+        <h4>2) What does the principle of least action state?</h4>
+        <div class="qchoices" data-answer="c" data-explain="The actual path makes the action integral stationary.">
+          <button data-choice="a">Forces always balance exactly</button>
+          <button data-choice="b">Energy is always conserved</button>
+          <button data-choice="c">Nature chooses the path that extremizes the action</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>3) The Euler–Lagrange equations replace which law?</h4>
+        <div class="qchoices" data-answer="a" data-explain="They generalize Newton’s F = ma into a variational form.">
+          <button data-choice="a">Newton’s second law</button>
+          <button data-choice="b">First law of thermodynamics</button>
+          <button data-choice="c">Ohm’s law</button>
         </div>
         <div class="qfeedback"></div>
       </div>
     </section>
 
-    <div style="margin-top:.8rem">
-      <button id="gradeBtn">Grade quiz</button>
-      <span id="scoreLine"></span>
+    <div class="nextrow reveal">
+      <a href="newtonian.html">← Back to Newtonian Mechanics</a>
+      <a href="hamiltonian.html">Next page → Hamiltonian Mechanics</a>
     </div>
 
-    <div class="nextrow">
-      <a href="classical-newtonian.html">← Back to Newtonian</a>
-      <a href="classical-hamiltonian.html">Next page → Hamiltonian</a>
-    </div>
   </article>
 
   <!-- SIDEBAR -->
-  <aside>
+  <aside class="reveal">
     <h3>Contents</h3>
     <div id="toc" class="toc"></div>
     <hr class="sep"/>
     <h3>Notebook</h3>
-    <p style="color:var(--ink2); font-size:.9rem">Click ★ to save highlights here.</p>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ to save paragraphs here. You can also write your own notes below.</p>
     <div id="nbList"></div>
-    <textarea id="freeNote" placeholder="Write your own note..." style="margin-top:.6rem; height:100px; width:100%"></textarea>
-    <div style="margin-top:.4rem">
-      <button id="saveFree">Save</button>
-      <button id="clearAll">Clear all</button>
+    <textarea id="freeNote" placeholder="Write your own note..." style="margin-top:.6rem; height:100px; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink); border-radius:.5rem; padding:.55rem .6rem; font-family:'Crimson Text',serif;"></textarea>
+    <div style="display:flex; gap:.5rem; margin-top:.4rem">
+      <button id="saveFree" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Save</button>
+      <button id="clearAll" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Clear all</button>
     </div>
+    <p style="color:var(--muted); font-size:.9rem; margin-top:.4rem">Notes are stored locally in your browser.</p>
   </aside>
 </div>
 
 <footer>© 2025 QParadox</footer>
 
 <script>
-// Progress bar
+/* progress bar */
 const bar=document.getElementById('progress');
-function onScroll(){const h=document.documentElement;const st=h.scrollTop;const sh=h.scrollHeight-h.clientHeight;bar.style.width=(st/sh*100)+'%';}
+function onScroll(){const h=document.documentElement,st=h.scrollTop||document.body.scrollTop,sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';}
 addEventListener('scroll',onScroll);onScroll();
 
-// Build TOC
-const toc=document.getElementById('toc');
-const heads=[...document.querySelectorAll('#article h2')];
+/* reveal on scroll */
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}})},{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{if(!el.classList.contains('in'))obs.observe(el);});
+
+/* TOC */
+const toc=document.getElementById('toc');const heads=[...document.querySelectorAll('#article h2')];
 heads.forEach(h=>{const a=document.createElement('a');a.href='#'+h.id;a.textContent=h.textContent;toc.appendChild(a);});
+function spy(){const y=scrollY+140;let idx=-1;heads.forEach((s,i)=>{if(s.offsetTop<=y&&s.offsetTop+s.offsetHeight>y)idx=i;});
+[...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));}
+addEventListener('scroll',spy);spy();
 
-// Notebook storage
-const KEY='qpx_notes_lagrangian_v1';
-const listEl=document.getElementById('nbList');
-function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return []}}
-function save(data){localStorage.setItem(KEY,JSON.stringify(data))}
-function render(){const notes=load();listEl.innerHTML='';if(notes.length===0){listEl.innerHTML='<p style="color:var(--muted)">No highlights yet.</p>';return;}notes.forEach(n=>{const d=document.createElement('div');d.className='note';d.dataset.id=n.id;d.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`;listEl.appendChild(d)});}
+/* notebook */
+const KEY='qpx_notes_lagrangian_v1';const listEl=document.getElementById('nbList');
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];}}
+function save(data){localStorage.setItem(KEY,JSON.stringify(data));}
+function render(){const notes=load();listEl.innerHTML='';
+  if(notes.length===0){listEl.innerHTML='<p style="color:var(--muted)">No notes yet.</p>';return;}
+  notes.forEach(n=>{const div=document.createElement('div');div.className='note';div.dataset.id=n.id;
+    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`;
+    listEl.appendChild(div);});}
 render();
-document.querySelectorAll('.hlbtn').forEach(btn=>{btn.addEventListener('click',()=>{const id=btn.dataset.target,p=document.getElementById(id);if(!p)return;p.classList.add('mark');const notes=load();notes.push({id:'n'+Date.now(),text:p.textContent.trim(),time:Date.now(),para:id});save(notes);render();});});
-document.getElementById('saveFree').addEventListener('click',()=>{const box=document.getElementById('freeNote');const t=box.value.trim();if(!t)return;const notes=load();notes.push({id:'n'+Date.now(),text:t,time:Date.now(),para:null});save(notes);render();box.value='';});
-listEl.addEventListener('click',e=>{if(!e.target.classList.contains('del'))return;const id=e.target.closest('.note').dataset.id;const notes=load().filter(x=>x.id!==id);save(notes);render();});
-document.getElementById('clearAll').addEventListener('click',()=>{if(!confirm('Clear all notes?'))return;localStorage.removeItem(KEY);render();});
+document.querySelectorAll('.hlbtn').forEach(btn=>{btn.addEventListener('click',()=>{const id=btn.dataset.target,p=document.getElementById(id);
+  if(!p)return;p.classList.add('mark');const notes=load();notes.push({id:'n'+Date.now(),text:p.textContent.trim(),time:Date.now(),para:id});
+  save(notes);render();});});
+document.getElementById('saveFree').addEventListener('click',()=>{const box=document.getElementById('freeNote');const t=box.value.trim();if(!t)return;
+  const notes=load();notes.push({id:'n'+Date.now(),text:t,time:Date.now(),para:null});save(notes);render();box.value='';});
+listEl.addEventListener('click',e=>{if(!e.target.classList.contains('del'))return;const item=e.target.closest('.note');const id=item.dataset.id;
+  const notes=load().filter(x=>x.id!==id);save(notes);render();});
+document.getElementById('clearAll').addEventListener('click',()=>{if(!confirm('Clear all notes?'))return;localStorage.removeItem(KEY);render();
+  document.querySelectorAll('.mark').forEach(m=>m.classList.remove('mark'));});
 
-// Quiz grading
-document.getElementById('gradeBtn').addEventListener('click',()=>{
-  let score=0,total=0;
-  document.querySelectorAll('.qchoices').forEach(group=>{
-    total++;
-    const ans=group.dataset.answer;
-    const fb=group.parentElement.querySelector('.qfeedback');
-    const pressed=[...group.querySelectorAll('button')].find(b=>b.dataset.pressed==='1');
+/* quiz grading */
+const gradeBtns=document.querySelectorAll('.qchoices button');
+gradeBtns.forEach(btn=>{btn.addEventListener('click',()=>{const group=btn.closest('.qchoices');group.querySelectorAll('button').forEach(b=>{b.dataset.pressed='0';b.classList.remove('correct','wrong');});
+  btn.dataset.pressed='1';const fb=group.parentElement.querySelector('.qfeedback');fb.textContent='Selection saved';fb.style.color='#d1d1d1';});});
+document.querySelectorAll('.quiz').forEach(quiz=>{
+  quiz.addEventListener('dblclick',()=>{let score=0,total=0;quiz.querySelectorAll('.qchoices').forEach(group=>{total++;const ans=group.dataset.answer;
+    const pressed=[...group.querySelectorAll('button')].find(b=>b.dataset.pressed==='1');const fb=group.parentElement.querySelector('.qfeedback');
     if(!pressed){fb.textContent='No answer selected';fb.style.color='#f0d28a';return;}
-    if(pressed.dataset.choice===ans){score++;pressed.classList.add('correct');fb.textContent='Correct — '+group.dataset.explain;fb.style.color='#8fe0a8';}
-    else{pressed.classList.add('wrong');fb.textContent='Not quite — '+group.dataset.explain;fb.style.color='#f29b9b';const c=[...group.querySelectorAll('button')].find(b=>b.dataset.choice===ans);if(c)c.classList.add('correct');}
-  });
-  document.getElementById('scoreLine').textContent='Score: '+score+' / '+total;
-});
-document.querySelectorAll('.qchoices button').forEach(btn=>{btn.addEventListener('click',()=>{const g=btn.closest('.qchoices');g.querySelectorAll('button').forEach(b=>{b.dataset.pressed='0';b.classList.remove('correct','wrong')});btn.dataset.pressed='1';const fb=g.parentElement.querySelector('.qfeedback');fb.textContent='Answer selected';fb.style.color='#d1d1d1';});});
+    if(pressed.dataset.choice===ans){score++;pressed.classList.add('correct');fb.textContent='Correct – '+group.dataset.explain;fb.style.color='#8fe0a8';}
+    else{pressed.classList.add('wrong');fb.textContent='Wrong – '+group.dataset.explain;fb.style.color='#f29b9b';
+      const c=[...group.querySelectorAll('button')].find(b=>b.dataset.choice===ans);if(c)c.classList.add('correct');}});alert('Score: '+score+' / '+total);});});
 </script>
 </body>
 </html>
-
