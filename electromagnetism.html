@@ -32,7 +32,7 @@ body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none
   background:
     radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
     radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
-    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%}
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
 
 /* frame + progress */
 .frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
@@ -128,121 +128,100 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
 
 <header class="reveal in">
   <h1>Electromagnetism</h1>
-  <p class="subtitle">An exploration of Maxwell’s framework for electric and magnetic fields — from static charges to light as a self-propagating wave.</p>
+  <p class="subtitle">From Maxwell’s unifying vision to waves, energy, and relativity — the language of fields and light.</p>
 </header>
 
 <div class="main">
   <!-- ARTICLE -->
   <article id="article">
 
-    <h2 id="laws" class="reveal">Maxwell’s Equations</h2>
+    <h2 id="maxwell" class="reveal">Maxwell’s Equations</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p1">★ Highlight</button>
       <p id="p1" class="dropcap">
-        Electromagnetism rests on four equations that tie charges, currents, and fields into a single theory. In differential form:
-        \[
-          \nabla\!\cdot\!\vec{E}=\frac{\rho}{\varepsilon_0}, \qquad
-          \nabla\!\cdot\!\vec{B}=0,
-        \]
-        \[
-          \nabla\!\times\!\vec{E}=-\,\frac{\partial\vec{B}}{\partial t}, \qquad
-          \nabla\!\times\!\vec{B}=\mu_0\vec{J}+\mu_0\varepsilon_0\,\frac{\partial\vec{E}}{\partial t}.
-        \]
-        Gauss’s law links charge to electric flux; the absence of magnetic monopoles forces magnetic field lines to form loops; Faraday’s law explains induction; and the Ampère–Maxwell law shows that both currents and changing electric fields generate magnetism.
-      </p>
-    </div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p2">★ Highlight</button>
-      <p id="p2">
-        The integral statements emphasize global structure:
-        \[
-          \oiint\vec{E}\!\cdot\!d\vec{A}=\frac{Q_{\rm encl}}{\varepsilon_0}, \quad
-          \oiint\vec{B}\!\cdot\!d\vec{A}=0,
-        \]
-        \[
-          \oint\vec{E}\!\cdot\!d\vec{l}=-\frac{d\Phi_B}{dt}, \quad
-          \oint\vec{B}\!\cdot\!d\vec{l}=\mu_0 I_{\rm encl}+\mu_0\varepsilon_0\frac{d\Phi_E}{dt}.
-        \]
-        These forms power practical calculations for capacitors, inductors, transformers, and waveguides.
+        Electromagnetism reaches its most elegant form in Maxwell’s equations, four compact statements that unify electricity, magnetism, and light. They tell us that electric charges create electric fields (\( \nabla \cdot \vec{E} = \rho/\varepsilon_0 \)), that magnetic monopoles do not exist (\( \nabla \cdot \vec{B} = 0 \)), that changing magnetic fields induce electric curls (\( \nabla \times \vec{E} = -\partial \vec{B}/\partial t \)), and that changing electric fields along with currents create magnetic curls (\( \nabla \times \vec{B} = \mu_0 \vec{J} + \mu_0 \varepsilon_0 \partial \vec{E}/\partial t \)). Together, they are a symphony of calculus describing how invisible lines of force weave through space and time. They were first written in the 1860s, but they still serve as the foundation for nearly every piece of modern technology, from radio waves to quantum electrodynamics.
       </p>
     </div>
 
     <figure class="figure reveal">
-      <img src="maxwell-equations.jpeg" alt="Summary diagram of Maxwell’s equations on a chalkboard"/>
-      <figcaption class="figcap">Maxwell’s four equations unify electricity, magnetism, and optics into one field theory.</figcaption>
+      <img src="maxwell-equations.jpeg" alt="Diagram showing Maxwell’s Equations visually"/>
+      <figcaption class="figcap">Maxwell’s equations: the unified grammar of electricity, magnetism, and light.</figcaption>
     </figure>
 
-    <h2 id="forces" class="reveal">Fields, Sources, and Matter</h2>
+    <h2 id="fields" class="reveal">Fields and Forces</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2" class="dropcap">
+        At the heart of electromagnetism lie the fields: invisible, continuous entities filling space. The electric field points outward from positive charges and inward to negative charges, while the magnetic field loops endlessly around currents. When a particle of charge \( q \) moves with velocity \( \vec{v} \), it feels a Lorentz force \( \vec{F} = q(\vec{E} + \vec{v} \times \vec{B}) \), binding its trajectory to the geometry of the fields. This law explains the spiraling of cosmic rays in Earth’s magnetosphere, the operation of cyclotrons in particle accelerators, and the simple deflection of an electron beam in a television tube. Force diagrams transform into field lines, and matter dances accordingly.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="field-lines.jpeg" alt="Electric and magnetic field line illustration"/>
+      <figcaption class="figcap">Field lines make tangible the invisible scaffolding guiding charges through space.</figcaption>
+    </figure>
+
+    <h2 id="energy" class="reveal">Energy and the Poynting Vector</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p3">★ Highlight</button>
       <p id="p3" class="dropcap">
-        Electric fields \(\vec{E}\) act on charge; magnetic fields \(\vec{B}\) act on moving charge. The Lorentz force,
-        \[
-          \vec{F}=q\big(\vec{E}+\vec{v}\times\vec{B}\big),
-        \]
-        connects fields to motion, explaining drift in plasmas, beam steering in accelerators, and the helical paths of cosmic rays. Superposition makes analysis tractable: fields from many sources simply add.
+        Electromagnetic fields not only direct motion, they store and carry energy. The energy density is split between the electric part (\( u_E = \tfrac{1}{2}\varepsilon_0 E^2 \)) and the magnetic part (\( u_B = \tfrac{1}{2\mu_0} B^2 \)). But energy is not static: it flows. The Poynting vector, \( \vec{S} = \tfrac{1}{\mu_0} \vec{E} \times \vec{B} \), measures the rate of energy transfer per unit area, pointing in the direction of wave propagation. When light streams from the Sun, when radio signals leap from antenna to antenna, or when microwaves heat a meal, the Poynting vector silently accounts for the journey of energy across space. It links field geometry to practical power delivery, ensuring conservation even when matter is absent.
       </p>
     </div>
 
+    <h2 id="waves" class="reveal">Electromagnetic Waves and Radiation</h2>
+    <div class="divider"></div>
+
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p4">★ Highlight</button>
-      <p id="p4">
-        Materials shape fields. Conductors force \(\vec{E}\) to be tangential at the surface; insulators support polarization; ferromagnets concentrate \(\vec{B}\). At boundaries, normal \(\vec{D}\) jumps by free surface charge, tangential \(\vec{E}\) is continuous, normal \(\vec{B}\) is continuous, and tangential \(\vec{H}\) jumps by surface current — rules that explain reflection, refraction, and impedance matching.
+      <p id="p4" class="dropcap">
+        Maxwell’s equations do more than connect charges and currents: they predict waves. Combining curl equations leads to wave equations for both electric and magnetic fields, each propagating at speed \( c = 1/\sqrt{\mu_0 \varepsilon_0} \). This constant turns out to be the speed of light itself, revealing light as an electromagnetic phenomenon. Waves can be polarized, reflected, refracted, and diffracted, all behaviors visible in the rainbow’s arc and in radio signals bending through the ionosphere. Accelerating charges emit radiation — the principle behind antennas. The physics scales up to pulsars beaming across galaxies and down to X-rays probing crystal lattices. Each wavefront carries energy, momentum, and information, binding the heavens and our technologies.
       </p>
     </div>
 
     <figure class="figure reveal">
-      <img src="em-wave.jpeg" alt="Perpendicular electric and magnetic fields propagating as a plane wave"/>
-      <figcaption class="figcap">A plane electromagnetic wave: \(\vec{E}\perp\vec{B}\perp\vec{k}\). The fields transport energy and momentum.</figcaption>
+      <img src="em-wave.jpeg" alt="Electromagnetic wave diagram"/>
+      <figcaption class="figcap">An electromagnetic wave: electric and magnetic fields oscillating in harmony, traveling at light speed.</figcaption>
     </figure>
 
-    <h2 id="energy" class="reveal">Energy and Work in Fields</h2>
+    <h2 id="relativity" class="reveal">Relativity and Unification</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p5">★ Highlight</button>
       <p id="p5" class="dropcap">
-        Fields store energy with density
-        \(\displaystyle u=\tfrac{1}{2}\varepsilon_0 E^2+\tfrac{1}{2\mu_0}B^2\).
-        The Poynting vector,
-        \(\displaystyle \vec{S}=\frac{1}{\mu_0}\vec{E}\times\vec{B}\),
-        gives energy flux and points in the direction power flows. Radiation pressure follows from momentum density \(\vec{g}=\vec{S}/c^2\), enabling solar sails and optical tweezers.
+        Maxwell’s equations secretly contained Einstein’s theory of relativity. Their prediction of a fixed light speed clashed with Newtonian notions of space and time, forcing a radical rethink. In relativity, electric and magnetic fields unify as components of the electromagnetic field tensor, woven into spacetime itself. A purely electric field in one frame can appear as a mix of electric and magnetic in another, depending on motion. This insight explains why moving charges generate magnetism and why no observer can outrun light. Electromagnetism was the first physical theory to demand relativity, and in turn, relativity elevated it from laboratory physics to a pillar of the cosmos.
       </p>
     </div>
+
+    <figure class="figure reveal">
+      <img src="relativity-unification.jpeg" alt="Relativity and electromagnetism conceptual illustration"/>
+      <figcaption class="figcap">Relativity reveals electric and magnetic fields as two aspects of one spacetime entity.</figcaption>
+    </figure>
+
+    <h2 id="applications" class="reveal">Applications in Technology</h2>
+    <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p6">★ Highlight</button>
-      <p id="p6">
-        Circuits reinterpret these ideas macroscopically: inductors store magnetic energy, capacitors store electric energy, and transmission lines guide \(\vec{S}\) along conductors. Power conservation appears as Poynting’s theorem — a field-theoretic energy balance that reduces to familiar circuit relations in the right limits.
+      <p id="p6" class="dropcap">
+        Beyond theory, electromagnetism powers civilization. Every motor spins because currents and fields interact. Every transformer functions because changing magnetic flux induces currents. Generators turn turbines into electricity by exploiting Faraday’s law. Wireless communication, from early telegraphs to 5G networks, depends on antennas that launch and catch electromagnetic waves. MRI machines map the human body using resonant magnetic effects, while induction stoves cook by agitating electrons directly. Even the screen displaying these words glows because charges accelerate and radiate light. The marriage of theory and engineering transforms abstract curls and divergences into the pulse of modern life.
       </p>
     </div>
 
-    <h2 id="momentum" class="reveal">Waves, Radiation, and Antennas</h2>
+    <h2 id="frontiers" class="reveal">Modern Frontiers</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p7">★ Highlight</button>
       <p id="p7" class="dropcap">
-        Combining the curl equations yields the wave equation with speed
-        \(\displaystyle c=\frac{1}{\sqrt{\mu_0\varepsilon_0}}\).
-        Accelerating charges radiate; a short dipole emits with \(\sin^2\theta\) intensity, and the Larmor formula
-        \(\displaystyle P=\frac{\mu_0 q^2 a^2}{6\pi c}\)
-        gives radiated power. Antennas exploit this by driving currents that launch controlled waves across the spectrum.
-      </p>
-    </div>
-
-    <h2 id="limits" class="reveal">Relativity and Scope</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p8">★ Highlight</button>
-      <p id="p8" class="dropcap">
-        Special relativity welds \(\vec{E}\) and \(\vec{B}\) into the electromagnetic tensor \(F_{\mu\nu}\); what is purely electric in one frame can appear magnetic in another. Classical electromagnetism is the macroscopic limit of quantum electrodynamics, yet Maxwell’s equations remain the workhorse for engineering — from power grids and MRI to lasers, fiber optics, and satellites.
+        Today, electromagnetism extends beyond Maxwell. Quantum electrodynamics (QED) refines the picture, treating light as photons and interactions as exchanges of quanta. QED predicts results to astonishing precision, making it one of the most accurate theories in science. In the twentieth century, electromagnetism was unified with the weak nuclear force into the electroweak theory, hinting at deeper symmetries. The search continues for unification with the strong force and gravity, a grand theory weaving all interactions into one. At the same time, engineers push frontiers in photonics, metamaterials, and quantum communication, proving that electromagnetism is not only the oldest of field theories but also the most enduring frontier of discovery.
       </p>
     </div>
 
@@ -251,27 +230,27 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
     <div class="divider"></div>
     <section class="quiz reveal" id="quizSection">
       <div class="qitem">
-        <h4>1) Which equation explains induction of electric fields by changing magnetic flux?</h4>
-        <div class="qchoices" data-answer="b" data-explain="Faraday’s law: \(\oint \vec{E}\cdot d\vec{l}=-\,d\Phi_B/dt\).">
-          <button data-choice="a">Gauss’s law</button>
-          <button data-choice="b">Faraday’s law</button>
-          <button data-choice="c">Gauss’s law for magnetism</button>
+        <h4>1) Which Maxwell equation rules out magnetic monopoles?</h4>
+        <div class="qchoices" data-answer="b" data-explain="Gauss’s law for magnetism: ∇·B = 0.">
+          <button data-choice="a">Gauss’s law for electricity</button>
+          <button data-choice="b">Gauss’s law for magnetism</button>
+          <button data-choice="c">Faraday’s law of induction</button>
         </div>
         <div class="qfeedback"></div>
       </div>
       <div class="qitem">
-        <h4>2) What vector represents electromagnetic energy flux?</h4>
-        <div class="qchoices" data-answer="a" data-explain="The Poynting vector \(\vec{S}=(1/\mu_0)\vec{E}\times\vec{B}\).">
-          <button data-choice="a">Poynting vector</button>
-          <button data-choice="b">Lorentz force</button>
-          <button data-choice="c">Magnetic dipole moment</button>
+        <h4>2) What does the Poynting vector represent?</h4>
+        <div class="qchoices" data-answer="c" data-explain="It measures the energy flux (rate of energy transfer) of the electromagnetic field.">
+          <button data-choice="a">Magnetic field strength</button>
+          <button data-choice="b">Force on a moving charge</button>
+          <button data-choice="c">Energy flux of an electromagnetic field</button>
         </div>
         <div class="qfeedback"></div>
       </div>
     </section>
 
     <div class="nextrow reveal">
-      <a href="hamiltonian.html">← Back to Hamiltonian</a>
+      <a href="electromagnetism.html">← Back to Electromagnetism Hub</a>
       <a href="relativity.html">Next page → Relativity</a>
     </div>
 
