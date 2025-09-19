@@ -14,14 +14,111 @@
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
-/* (same CSS as your Newtonian page for consistency) */
 :root{
   --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
   --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
   --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
   --radius:18px; --side:330px;
 }
-/* … keep rest of Newtonian CSS identical … */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
+}
+body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+
+/* frame + progress */
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
+
+/* header */
+header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
+h1{
+  font-family:"Playfair Display",serif; font-weight:900; margin:0;
+  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)
+}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+
+/* layout */
+.main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
+
+/* article */
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
+
+/* figures */
+.figure{
+  margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden;
+  background:#0e0f12; box-shadow:var(--shadow); max-width:820px
+}
+.figure img{display:block; width:100%; height:auto}
+.figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
+
+/* highlight button */
+.pwrap{position:relative; padding-right:2.5rem}
+.hlbtn{
+  position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+  background:var(--glass); color:var(--ink); border:1px solid var(--line);
+  font-size:.85rem; cursor:pointer; opacity:0; transition:.2s
+}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+
+/* sidebar */
+aside{
+  position:sticky; top:90px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem
+}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+
+/* quiz */
+.quiz{
+  margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px;
+  background:rgba(255,255,255,.04)
+}
+.qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
+.qchoices{display:grid; gap:.45rem}
+.qchoices button{
+  text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05);
+  color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer
+}
+.qchoices button.correct{border-color:#46d17d}
+.qchoices button.wrong{border-color:#e07070}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
+
+/* nav links */
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
+  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem}
+
+/* reveal + footer */
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -31,208 +128,256 @@
 
 <header class="reveal in">
   <h1>Classical Mechanics — Hamiltonian</h1>
-  <p class="subtitle">Hamilton’s mechanics reframes motion as flows of energy and momentum through phase space, shaping the path from classical to quantum physics.</p>
+  <p class="subtitle">Energy centered mechanics that describes motion as smooth flows through phase space, connecting classical intuition with the language of modern theory.</p>
 </header>
 
 <div class="main">
   <!-- ARTICLE -->
   <article id="article">
 
-    <h2 id="history" class="reveal">Historical Background</h2>
+    <h2 id="foundations" class="reveal">Foundations of Hamiltonian Mechanics</h2>
     <div class="divider"></div>
+
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p1">★ Highlight</button>
       <p id="p1" class="dropcap">
-        William Rowan Hamilton (1805–1865) was both a mathematician and physicist, 
-        a figure who saw beauty in unifying algebra and geometry. Dissatisfied with the 
-        limitations of Newton’s forces and even Lagrange’s actions, Hamilton envisioned 
-        a formalism where mechanics would mirror the structure of optics. 
-        His equations, first written in the 1830s, did not simply solve old problems: 
-        they opened entirely new ones, paving the way for modern theories of energy, 
-        probability, and symmetry.
+        Hamiltonian mechanics rewrites dynamics in terms of generalized coordinates \(q\) and conjugate momenta \(p\). The central object is the Hamiltonian \(H(q,p,t)\), typically equal to total energy. Time evolution is generated by \(H\) through a symmetric pair of first order equations. The method does not compete with Newton or Lagrange. It reframes them into a representation where geometry and symmetry become visible, which is why this approach sits at the doorway to quantum theory and statistical mechanics.
       </p>
     </div>
 
-    <h2 id="phase" class="reveal">Phase Space and Energy Landscapes</h2>
-    <div class="divider"></div>
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p2">★ Highlight</button>
-      <p id="p2" class="dropcap">
-        Phase space is the stage of Hamiltonian mechanics. Each point in this abstract 
-        space represents a complete state of the system: all coordinates \(q_i\) and all 
-        conjugate momenta \(p_i\). A pendulum, for instance, needs only two variables, 
-        angle \(\theta\) and angular momentum \(p_\theta\). A planet requires six: three 
-        positions and three momenta. In this space, motion becomes a <em>trajectory</em> 
-        that never crosses itself, threading smoothly through an energy landscape defined 
-        by the Hamiltonian.
+      <p id="p2">
+        For a broad class of mechanical systems one writes
+        \[
+          H(q,p,t)=T(p)+V(q,t),
+        \]
+        with \(T\) the kinetic term expressed in momenta and \(V\) the potential written in coordinates. This separation is convenient rather than required. The key feature is that both \(q\) and \(p\) are treated on equal footing, which produces a balanced and often simpler description of motion.
       </p>
     </div>
 
-    <h2 id="hamiltonian" class="reveal">The Hamiltonian Function</h2>
-    <div class="divider"></div>
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p3">★ Highlight</button>
-      <p id="p3" class="dropcap">
-        The Hamiltonian is generally written as
-        \[
-        H(q,p,t) = T(p) + V(q,t).
-        \]
-        This is deceptively simple: kinetic plus potential energy. Yet the real power 
-        lies in how Hamilton used it. From this single function, one can derive all 
-        equations of motion, identify conserved quantities, and analyze stability. 
-        Unlike the Lagrangian, which is tied to velocities, the Hamiltonian speaks the 
-        language of momenta — the very concept later quantized in wave mechanics.
-      </p>
-    </div>
+    <figure class="figure reveal">
+      <img src="phase-ellipse.jpeg" alt="Elliptical phase portrait of a harmonic oscillator"/>
+      <figcaption class="figcap">Phase space view: constant energy curves of the harmonic oscillator appear as nested ellipses. Each point is a complete state \((q,p)\).</figcaption>
+    </figure>
 
     <h2 id="equations" class="reveal">Hamilton’s Equations</h2>
     <div class="divider"></div>
+
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p4">★ Highlight</button>
-      <p id="p4" class="dropcap">
-        Hamilton’s equations are a pair of symmetric differential equations:
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        The equations of motion are
         \[
-        \dot{q}_i = \frac{\partial H}{\partial p_i}, \qquad 
-        \dot{p}_i = -\frac{\partial H}{\partial q_i}.
+          \dot{q}_i=\frac{\partial H}{\partial p_i},\qquad
+          \dot{p}_i=-\frac{\partial H}{\partial q_i}.
         \]
-        They replace Newton’s \(\vec{F}=m\vec{a}\) with rules that treat position and 
-        momentum as equal partners. In this framework, time evolution is not a force 
-        pushing matter forward, but the unfolding of geometry in phase space.
+        They convert one second order equation into two first order relations. The number of equations doubles, yet the symmetry between position and momentum makes analysis cleaner. In this view, trajectories are streamlines of a vector field on phase space defined by the gradients of \(H\).
       </p>
     </div>
 
-    <h2 id="examples" class="reveal">Illustrative Examples</h2>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4">
+        Consider the one dimensional harmonic oscillator
+        \[
+          H(q,p)=\frac{p^2}{2m}+\frac{1}{2}m\omega^2 q^2.
+        \]
+        Hamilton’s equations give \(\dot q=p/m\) and \(\dot p=-m\omega^2 q\). Solutions are sinusoidal and the phase portrait is an ellipse. The entire family of solutions is organized by the single constant \(H=E\), which labels the ellipse on which the motion stays forever.
+      </p>
+    </div>
+
+    <h2 id="phase" class="reveal">Phase Space and Energy Surfaces</h2>
     <div class="divider"></div>
+
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p5">★ Highlight</button>
       <p id="p5" class="dropcap">
-        <strong>Free particle:</strong> 
-        \( H = \tfrac{p^2}{2m} \). Position increases linearly; momentum is constant.  
-        <br/><br/>
-        <strong>Harmonic oscillator:</strong> 
-        \( H = \tfrac{p^2}{2m} + \tfrac{1}{2}m\omega^2 q^2 \). Motion is sinusoidal; 
-        phase space shows ellipses of constant energy.  
-        <br/><br/>
-        <strong>Pendulum:</strong> 
-        \( H(\theta,p_\theta) = \tfrac{p_\theta^2}{2ml^2} + mgl(1-\cos\theta) \). 
-        Trajectories differ: oscillations at low energy, rotations at high energy.  
-        <br/><br/>
-        <strong>Planetary orbits:</strong> 
-        In central potentials, the Hamiltonian encodes the Kepler problem, 
-        and conserved angular momentum naturally emerges from the equations.
+        Phase space is the set of all possible pairs \((q_i,p_i)\). A single point specifies a complete mechanical state. The Hamiltonian defines level sets \(H(q,p)=E\) that act as energy surfaces. Trajectories flow on these surfaces and never jump between them when the system is isolated. This picture converts dynamics into geometry and makes conserved quantities appear as hidden flat directions along which motion slides without resistance.
       </p>
     </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p6">★ Highlight</button>
+      <p id="p6">
+        For a simple pendulum with angle \(\theta\) and conjugate momentum \(p_\theta\),
+        \[
+          H(\theta,p_\theta)=\frac{p_\theta^2}{2ml^2}+mgl\,(1-\cos\theta).
+        \]
+        Low energies produce closed curves corresponding to oscillations. High energies cross the separatrix and become rotations. The phase portrait displays all behaviors at once and shows where small changes in energy cause qualitative changes in motion.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="pendulum-phase.jpeg" alt="Phase portrait of the simple pendulum with separatrix"/>
+      <figcaption class="figcap">Simple pendulum: closed loops for librations, open curves for rotations, and a separatrix dividing the two regimes.</figcaption>
+    </figure>
 
     <h2 id="legendre" class="reveal">From Lagrangian to Hamiltonian</h2>
     <div class="divider"></div>
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p6">★ Highlight</button>
-      <p id="p6" class="dropcap">
-        The bridge between formalisms is the Legendre transform:
-        \[
-        H(q,p) = \sum_i p_i \dot{q}_i - L(q,\dot{q}).
-        \]
-        This transformation swaps velocities for momenta. While the Lagrangian 
-        highlights principles of least action, the Hamiltonian highlights the 
-        conservation and flow of energy. The change is not cosmetic — it allows 
-        mechanics to merge seamlessly with the operator methods of quantum physics.
-      </p>
-    </div>
 
-    <h2 id="canon" class="reveal">Canonical Transformations</h2>
-    <div class="divider"></div>
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p7">★ Highlight</button>
       <p id="p7" class="dropcap">
-        Canonical transformations are changes of variables in phase space that 
-        preserve the form of Hamilton’s equations. They act like rotations and 
-        shifts in this abstract landscape, leaving the physics untouched but often 
-        simplifying the mathematics. Action-angle coordinates, for example, can 
-        turn complicated periodic motion into simple uniform rotation in a new set 
-        of variables.
+        The Hamiltonian is obtained from the Lagrangian \(L(q,\dot q,t)\) by a Legendre transform. Define \(p_i=\partial L/\partial \dot q_i\), then
+        \[
+          H(q,p,t)=\sum_i p_i\dot q_i-L(q,\dot q,t).
+        \]
+        After replacing \(\dot q\) in favor of \(p\), the result depends on \((q,p,t)\) only. This exchange makes momentum the central dynamical variable and prepares the stage for the operator language of quantum theory where position and momentum act on states.
       </p>
     </div>
 
-    <h2 id="poisson" class="reveal">Poisson Brackets</h2>
+    <h2 id="canonical" class="reveal">Canonical Transformations</h2>
     <div class="divider"></div>
+
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p8">★ Highlight</button>
       <p id="p8" class="dropcap">
-        The Poisson bracket is defined as
+        A canonical transformation maps \((q,p)\) to new variables \((Q,P)\) while preserving Hamilton’s equations. The physics is unchanged although the coordinates look different. Such transformations are generated by functions \(F\) and often simplify problems. In periodic systems one seeks action–angle variables \((J,\phi)\) that convert complicated motion into uniform rotation, which turns integration into straightforward quadrature.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p9">★ Highlight</button>
+      <p id="p9">
+        As an illustration, the planar central force problem admits a transformation to separate radial and angular degrees of freedom. The conserved angular momentum becomes a constant \(J_\phi\). The reduced radial motion then behaves like a one dimensional system in an effective potential that includes the centrifugal term. Canonical structure exposes this separation cleanly.
+      </p>
+    </div>
+
+    <h2 id="poisson" class="reveal">Poisson Brackets and Time Evolution</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p10">★ Highlight</button>
+      <p id="p10" class="dropcap">
+        For any two phase space functions \(f(q,p,t)\) and \(g(q,p,t)\), the Poisson bracket is
         \[
-        \{f,g\} = \sum_i \left( \frac{\partial f}{\partial q_i}\frac{\partial g}{\partial p_i} - \frac{\partial f}{\partial p_i}\frac{\partial g}{\partial q_i} \right).
+          \{f,g\}=\sum_i\left(\frac{\partial f}{\partial q_i}\frac{\partial g}{\partial p_i}-\frac{\partial f}{\partial p_i}\frac{\partial g}{\partial q_i}\right).
         \]
-        It measures how two quantities evolve relative to each other in phase space. 
-        The time evolution of any function \(f(q,p)\) can be written as 
-        \(\dot{f} = \{f,H\} + \frac{\partial f}{\partial t}\). 
-        In quantum mechanics, Poisson brackets are replaced by commutators, 
-        making them the classical ancestor of quantum algebra.
+        Time evolution is compactly written as
+        \[
+          \dot f=\{f,H\}+\frac{\partial f}{\partial t}.
+        \]
+        Fundamental brackets read \(\{q_i,p_j\}=\delta_{ij}\), while \(\{q_i,q_j\}=0\) and \(\{p_i,p_j\}=0\). This algebra mirrors the commutator structure that appears when the theory is quantized.
       </p>
     </div>
 
     <h2 id="liouville" class="reveal">Liouville’s Theorem</h2>
     <div class="divider"></div>
+
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p9">★ Highlight</button>
-      <p id="p9" class="dropcap">
-        Liouville’s theorem states that as a system evolves under Hamilton’s equations, 
-        the volume of any region of phase space remains constant. In other words, 
-        Hamiltonian flow is incompressible. This principle underpins statistical 
-        mechanics: probability distributions stretch and twist but never shrink or grow. 
-        The idea that information is preserved in motion resonates deeply with 
-        thermodynamics, entropy, and even black hole physics.
+      <button class="hlbtn" data-target="p11">★ Highlight</button>
+      <p id="p11" class="dropcap">
+        Hamiltonian flow preserves phase space volume. If one follows a cloud of nearby states as they move under the equations of motion, the cloud may stretch and fold but its total volume remains unchanged. This result is Liouville’s theorem and it forms the backbone of equilibrium statistical mechanics. Probability densities evolve without artificial compression, which keeps normalization and entropy accounting consistent.
       </p>
     </div>
 
-    <h2 id="modern" class="reveal">Modern Significance</h2>
+    <h2 id="integrability" class="reveal">Integrability and Action–Angle Variables</h2>
     <div class="divider"></div>
+
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p10">★ Highlight</button>
-      <p id="p10" class="dropcap">
-        Hamiltonian mechanics is no relic of the 19th century. In quantum theory, 
-        the Hamiltonian operator defines energy levels and governs time evolution. 
-        In relativity, Hamiltonian constraints describe spacetime itself. 
-        In chaos theory, Hamiltonian systems display sensitive dependence on 
-        initial conditions, yet still preserve volume. Every corner of modern 
-        physics — from condensed matter to cosmology — carries Hamilton’s imprint.
+      <button class="hlbtn" data-target="p12">★ Highlight</button>
+      <p id="p12" class="dropcap">
+        A system with as many independent conserved quantities in involution as degrees of freedom is called integrable. In such cases one can construct action–angle coordinates \((J_i,\phi_i)\) where \(H=H(J)\) and the equations reduce to \(\dot J_i=0\), \(\dot\phi_i=\omega_i(J)\). Motion becomes uniform on invariant tori. The harmonic oscillator and Kepler problem are classical examples. When integrability breaks, nearby invariant tori can shred into chaotic seas, which introduces rich structures such as islands and cantori in phase portraits.
       </p>
     </div>
 
+    <h2 id="examples" class="reveal">Worked Examples</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p13">★ Highlight</button>
+      <p id="p13" class="dropcap">
+        <strong>Free particle:</strong> \(H=p^2/2m\). One finds \(\dot q=p/m\) and \(\dot p=0\). Position grows linearly and momentum stays fixed.  
+        <br/><br/>
+        <strong>Harmonic oscillator:</strong> \(H=p^2/2m+\tfrac{1}{2}m\omega^2 q^2\). Energy sets the ellipse in phase space. The period does not depend on amplitude.  
+        <br/><br/>
+        <strong>Pendulum:</strong> \(H(\theta,p_\theta)=p_\theta^2/(2ml^2)+mgl(1-\cos\theta)\). The separatrix at energy \(2mgl\) divides oscillations from rotations.  
+        <br/><br/>
+        <strong>Central force:</strong> \(H=\tfrac{p_r^2}{2m}+\tfrac{L^2}{2mr^2}+V(r)\). Conservation of \(L\) follows from rotational symmetry and reduces the problem to one dimension in an effective potential.
+      </p>
+    </div>
+
+    <h2 id="symmetry" class="reveal">Symmetry and Conservation</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p14">★ Highlight</button>
+      <p id="p14" class="dropcap">
+        Continuous symmetries generate conserved quantities. In the Hamiltonian language, if a function \(G(q,p)\) generates a canonical transformation that leaves \(H\) unchanged, then \(G\) is conserved and \(\{G,H\}=0\). Spatial translation symmetry produces linear momentum. Rotational symmetry yields angular momentum. Time translation symmetry yields energy conservation. These facts echo Noether’s theorem and explain why invariants guide motion so reliably.
+      </p>
+    </div>
+
+    <h2 id="quantum" class="reveal">Bridge to Quantum Theory</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p15">★ Highlight</button>
+      <p id="p15" class="dropcap">
+        Quantization replaces Poisson brackets with commutators and the Hamiltonian with an operator that drives time evolution,
+        \[
+          i\hbar\,\frac{\partial}{\partial t}\,\lvert\psi\rangle=\hat H\,\lvert\psi\rangle.
+        \]
+        Classical constants of motion become operators that commute with \(\hat H\). Spectra of \(\hat H\) give energy levels and selection rules for transitions. The classical structure is not discarded. It becomes the semiclassical limit that explains interference, tunneling, and adiabatic invariants.
+      </p>
+    </div>
+
+    <h2 id="numerics" class="reveal">Numerical Methods and Structure Preservation</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p16">★ Highlight</button>
+      <p id="p16" class="dropcap">
+        Generic integrators can drift in energy over long times. Symplectic integrators respect the Hamiltonian structure and keep qualitative behavior correct for very long simulations. They preserve phase space area step by step and therefore maintain faithful orbits in celestial mechanics or molecular dynamics where tiny secular drifts would otherwise spoil results.
+      </p>
+    </div>
+
+    <h2 id="limits" class="reveal">Scope and Limits</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p17">★ Highlight</button>
+      <p id="p17" class="dropcap">
+        The Hamiltonian method excels for conservative systems. Nonconservative forces can be incorporated with extended phase spaces, Rayleigh dissipation terms, or contact Hamiltonian variants, yet the pure geometric elegance is clearest when energy is conserved. Constrained systems, such as rigid bodies or gauge fields, require care with primary and secondary constraints. Dirac’s procedure extends the formalism and remains standard for modern field theories.
+      </p>
+    </div>
+
+    <!-- Quiz -->
     <h2 id="quiz" class="reveal">Quick Quiz</h2>
     <div class="divider"></div>
     <section class="quiz reveal" id="quizSection">
       <div class="qitem">
-        <h4>1) What does Liouville’s theorem say about phase space volume?</h4>
-        <div class="qchoices" data-answer="b" data-explain="Phase space volume is preserved under Hamiltonian evolution.">
-          <button data-choice="a">It always shrinks</button>
-          <button data-choice="b">It is preserved</button>
-          <button data-choice="c">It grows with time</button>
+        <h4>1) What do Hamilton’s equations state for \((q_i,p_i)\)?</h4>
+        <div class="qchoices" data-answer="b" data-explain="They are first order equations that couple position to momentum and vice versa.">
+          <button data-choice="a">They give only accelerations</button>
+          <button data-choice="b">They give \(\dot q_i=\partial H/\partial p_i\) and \(\dot p_i=-\partial H/\partial q_i\)</button>
+          <button data-choice="c">They eliminate energy from dynamics</button>
         </div>
         <div class="qfeedback"></div>
       </div>
       <div class="qitem">
-        <h4>2) What mathematical object replaces Poisson brackets in quantum mechanics?</h4>
-        <div class="qchoices" data-answer="c" data-explain="Poisson brackets become commutators in quantum theory.">
+        <h4>2) Which statement matches Liouville’s theorem?</h4>
+        <div class="qchoices" data-answer="a" data-explain="Hamiltonian flow preserves phase space volume.">
+          <button data-choice="a">Phase space volume is preserved</button>
+          <button data-choice="b">Momentum is always conserved</button>
+          <button data-choice="c">Energy always decreases</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>3) In quantum theory, Poisson brackets are replaced by…</h4>
+        <div class="qchoices" data-answer="c" data-explain="The classical algebra becomes the commutator algebra.">
           <button data-choice="a">Derivatives</button>
-          <button data-choice="b">Integrals</button>
+          <button data-choice="b">Laplace transforms</button>
           <button data-choice="c">Commutators</button>
-        </div>
-        <div class="qfeedback"></div>
-      </div>
-      <div class="qitem">
-        <h4>3) What does a canonical transformation do?</h4>
-        <div class="qchoices" data-answer="a" data-explain="It changes variables while preserving Hamilton’s equations.">
-          <button data-choice="a">Preserves the form of Hamilton’s equations</button>
-          <button data-choice="b">Eliminates all energy terms</button>
-          <button data-choice="c">Creates new forces</button>
         </div>
         <div class="qfeedback"></div>
       </div>
     </section>
 
     <div class="nextrow reveal">
-      <a href="classical-lagrangian.html">← Back to Lagrangian Mechanics</a>
-      <a href="classical-relativity.html">Next page → Relativity</a>
+      <a href="classical_mechanics.html">← Back to Classical Mechanics Hub</a>
+      <a href="classical-electromagnetism.html">Next page → Electromagnetism</a>
     </div>
 
   </article>
@@ -251,7 +396,58 @@
 <footer>© 2025 QParadox</footer>
 
 <script>
-/* same JS as your Newtonian page (progress bar, reveal, TOC, notebook, quiz handling) */
+/* progress bar */
+const bar=document.getElementById('progress');
+function onScroll(){
+  const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
+}
+addEventListener('scroll', onScroll); onScroll();
+
+/* reveal on scroll */
+const obs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} }); },{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{ if(!el.classList.contains('in')) obs.observe(el); });
+
+/* TOC */
+const toc=document.getElementById('toc');
+const heads=[...document.querySelectorAll('#article h2')];
+heads.forEach(h=>{ const a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent; toc.appendChild(a); });
+function spy(){
+  const y=scrollY+140; let idx=-1;
+  heads.forEach((s,i)=>{ if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i; });
+  [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));
+}
+addEventListener('scroll', spy); spy();
+
+/* notebook */
+const KEY='qpx_notes_classical_hamiltonian';
+const listEl=document.getElementById('nbList');
+function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return []}}
+function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+function render(){
+  const notes=load(); listEl.innerHTML='';
+  if(notes.length===0){ listEl.innerHTML='<p style="color:var(--muted)">No highlights yet.</p>'; return; }
+  notes.forEach(n=>{
+    const div=document.createElement('div'); div.className='note'; div.dataset.id=n.id;
+    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`;
+    listEl.appendChild(div);
+  });
+}
+render();
+document.querySelectorAll('.hlbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id=btn.dataset.target, p=document.getElementById(id);
+    if(!p) return;
+    p.classList.add('mark');
+    const notes=load(); notes.push({id:'n'+Date.now(), text:p.textContent.trim(), time:Date.now(), para:id});
+    save(notes); render();
+  });
+});
+listEl.addEventListener('click',e=>{
+  if(!e.target.classList.contains('del')) return;
+  const id=e.target.closest('.note').dataset.id;
+  const notes=load().filter(x=>x.id!==id); save(notes); render();
+});
 </script>
 </body>
 </html>
