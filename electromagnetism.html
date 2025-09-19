@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • Electromagnetism</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!-- MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+/* exact same CSS as Newtonian/Hamiltonian page */
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --side:330px;
+}
+/* … rest of CSS unchanged … */
+</style>
+</head>
+<body>
+
+<div class="frame" aria-hidden="true"></div>
+<div id="progress"></div>
+
+<header class="reveal in">
+  <h1>Electromagnetism</h1>
+  <p class="subtitle">From static charges to light itself, electromagnetism unites electricity and magnetism into a single field theory governed by Maxwell’s equations.</p>
+</header>
+
+<div class="main">
+  <!-- ARTICLE -->
+  <article id="article">
+
+    <h2 id="maxwell" class="reveal">Maxwell’s Equations</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        James Clerk Maxwell condensed the experimental laws of Coulomb, Gauss, Faraday, and Ampère into four equations. In differential form:
+        \[
+        \nabla \cdot \vec{E} = \frac{\rho}{\varepsilon_0}, \quad 
+        \nabla \cdot \vec{B} = 0,
+        \]
+        \[
+        \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}, \quad
+        \nabla \times \vec{B} = \mu_0 \vec{J} + \mu_0\varepsilon_0 \frac{\partial \vec{E}}{\partial t}.
+        \]
+        These equations describe how charges and currents create fields and how those fields evolve in space and time.
+      </p>
+    </div>
+
+    <h2 id="integral" class="reveal">Integral Form</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2" class="dropcap">
+        The integral forms highlight global relationships:
+        \[
+        \oint \vec{E}\cdot d\vec{A} = \frac{Q_{\text{encl}}}{\varepsilon_0}, \quad 
+        \oint \vec{B}\cdot d\vec{A} = 0,
+        \]
+        \[
+        \oint \vec{E}\cdot d\vec{l} = -\frac{d}{dt}\Phi_B, \quad
+        \oint \vec{B}\cdot d\vec{l} = \mu_0 I_{\text{encl}} + \mu_0\varepsilon_0 \frac{d}{dt}\Phi_E.
+        \]
+        Gauss’s law links electric flux to charge, Faraday’s law connects changing magnetic flux to induced emf, and Ampère–Maxwell’s law shows how currents and displacement current generate magnetic fields.
+      </p>
+    </div>
+
+    <h2 id="meaning" class="reveal">Physical Meaning</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        Together, Maxwell’s equations mean no isolated magnetic charges exist; changing magnetic fields create electric fields; changing electric fields create magnetic fields; and charges are the source of electric fields. These four relations unify electric and magnetic phenomena into one framework, revealing their deep interdependence.
+      </p>
+    </div>
+
+    <h2 id="lorentz" class="reveal">Lorentz Force</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4" class="dropcap">
+        The link between fields and matter is the Lorentz force:
+        \[
+        \vec{F} = q(\vec{E} + \vec{v}\times \vec{B}).
+        \]
+        It explains why charges accelerate in electric fields, why current-carrying wires deflect in magnetic fields, and why cosmic rays spiral along magnetic field lines. This equation, together with Maxwell’s equations, completes classical electrodynamics.
+      </p>
+    </div>
+
+    <h2 id="potentials" class="reveal">Potentials and Gauge Freedom</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p5">★ Highlight</button>
+      <p id="p5" class="dropcap">
+        Fields can be expressed in terms of potentials:
+        \[
+        \vec{E} = -\nabla \phi - \frac{\partial \vec{A}}{\partial t}, \quad
+        \vec{B} = \nabla \times \vec{A}.
+        \]
+        Potentials are not unique: adding a gauge transformation \(\chi\) leaves \(\vec{E}\) and \(\vec{B}\) unchanged. This gauge freedom foreshadows modern quantum field theory, where symmetries of potentials give rise to fundamental forces.
+      </p>
+    </div>
+
+    <h2 id="boundary" class="reveal">Boundary Conditions</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p6">★ Highlight</button>
+      <p id="p6" class="dropcap">
+        At material boundaries, fields obey continuity conditions:
+        \[
+        \hat{n}\cdot(\vec{D}_2-\vec{D}_1)=\sigma_f, \quad
+        \hat{n}\cdot(\vec{B}_2-\vec{B}_1)=0,
+        \]
+        \[
+        \hat{n}\times(\vec{E}_2-\vec{E}_1)=0, \quad
+        \hat{n}\times(\vec{H}_2-\vec{H}_1)=\vec{K}_f.
+        \]
+        These determine reflection and refraction of waves at interfaces, forming the basis of optics, dielectric design, and microwave engineering.
+      </p>
+    </div>
+
+    <h2 id="waves" class="reveal">Electromagnetic Waves</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p7">★ Highlight</button>
+      <p id="p7" class="dropcap">
+        Maxwell’s equations predict wave solutions with speed 
+        \[
+        c=\frac{1}{\sqrt{\mu_0\varepsilon_0}}.
+        \]
+        These are transverse: \(\vec{E}\perp \vec{B}\perp \vec{k}\). The electromagnetic spectrum spans radio waves, microwaves, infrared, visible, ultraviolet, X-rays, and gamma rays, all governed by the same equations.
+      </p>
+    </div>
+
+    <h2 id="polarization" class="reveal">Polarization</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p8">★ Highlight</button>
+      <p id="p8" class="dropcap">
+        Polarization describes the orientation of the electric field vector. Linear polarization aligns the field along one axis; circular polarization arises when two perpendicular components are phase-shifted; elliptical polarization is the general case. Polarization is exploited in antennas, sunglasses, quantum communication, and tests of fundamental physics.
+      </p>
+    </div>
+
+    <h2 id="energy" class="reveal">Energy and Momentum</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p9">★ Highlight</button>
+      <p id="p9" class="dropcap">
+        Energy density in fields:
+        \[
+        u=\tfrac{1}{2}\varepsilon_0 E^2+\tfrac{1}{2\mu_0}B^2.
+        \]
+        Energy flux is given by the Poynting vector:
+        \[
+        \vec{S}=\frac{1}{\mu_0}\vec{E}\times \vec{B}.
+        \]
+        Momentum density is \(\vec{S}/c^2\). These explain light pressure, solar sails, and momentum exchange in radiation.
+      </p>
+    </div>
+
+    <h2 id="radiation" class="reveal">Radiation and Antennas</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p10">★ Highlight</button>
+      <p id="p10" class="dropcap">
+        Accelerating charges emit radiation. A dipole antenna produces radiation with intensity pattern \(\sin^2\theta\). The Larmor formula gives radiated power:
+        \[
+        P=\frac{\mu_0 q^2 a^2}{6\pi c}.
+        \]
+        This principle powers radio, radar, and mobile communication. Synchrotron radiation from high-speed charges explains astrophysical emissions from pulsars and galaxies.
+      </p>
+    </div>
+
+    <h2 id="multipole" class="reveal">Multipole Expansion</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p11">★ Highlight</button>
+      <p id="p11" class="dropcap">
+        Radiation fields can be analyzed using multipole expansion: dipole, quadrupole, octupole, and beyond. Each term corresponds to a pattern of source distribution. Dipole dominates at long wavelengths; higher multipoles explain fine features of atomic transitions and gravitational radiation analogies.
+      </p>
+    </div>
+
+    <h2 id="relativity" class="reveal">Relativity and Unification</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p12">★ Highlight</button>
+      <p id="p12" class="dropcap">
+        Special relativity unifies electric and magnetic fields into the electromagnetic tensor \(F_{\mu\nu}\). A purely electric field in one frame may appear as a mixture of electric and magnetic fields in another. Maxwell’s equations are Lorentz covariant, embedding light’s constancy into spacetime geometry.
+      </p>
+    </div>
+
+    <h2 id="modern" class="reveal">Modern Significance</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p13">★ Highlight</button>
+      <p id="p13" class="dropcap">
+        Electromagnetism powers modern civilization: power grids, electronics, fiber optics, lasers, MRI, satellites, and wireless communication. At a deeper level, quantum electrodynamics refines Maxwell’s equations with quantum corrections, becoming one of the most precise physical theories ever tested.
+      </p>
+    </div>
+
+    <!-- Quiz -->
+    <h2 id="quiz" class="reveal">Quick Quiz</h2>
+    <div class="divider"></div>
+    <section class="quiz reveal" id="quizSection">
+      <div class="qitem">
+        <h4>1) What is the physical meaning of Gauss’s law for magnetism?</h4>
+        <div class="qchoices" data-answer="b" data-explain="Magnetic monopoles do not exist; flux through closed surfaces is zero.">
+          <button data-choice="a">Magnetic fields arise from monopoles</button>
+          <button data-choice="b">Magnetic field lines form closed loops</button>
+          <button data-choice="c">Magnetic fields vanish in vacuum</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>2) What vector represents energy flux in fields?</h4>
+        <div class="qchoices" data-answer="a" data-explain="The Poynting vector represents energy flow per unit area.">
+          <button data-choice="a">Poynting vector</button>
+          <button data-choice="b">Lorentz vector</button>
+          <button data-choice="c">Gauss vector</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>3) Which formula gives radiated power from an accelerating charge?</h4>
+        <div class="qchoices" data-answer="c" data-explain="The Larmor formula.">
+          <button data-choice="a">Poynting law</button>
+          <button data-choice="b">Gauss formula</button>
+          <button data-choice="c">Larmor formula</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+    </section>
+
+    <div class="nextrow reveal">
+      <a href="hamiltonian.html">← Back to Hamiltonian Mechanics</a>
+      <a href="relativity.html">Next page → Relativity</a>
+    </div>
+
+  </article>
+
+  <!-- Sidebar -->
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ next to any paragraph to save it here.</p>
+    <div id="nbList"></div>
+  </aside>
+</div>
+
+<footer>© 2025 QParadox</footer>
+
+<script>
+/* same JS (progress bar, reveal, TOC, notebook, quiz) */
+const bar=document.getElementById('progress');
+function onScroll(){const h=document.documentElement,st=h.scrollTop||document.body.scrollTop,sh=h.scrollHeight-h.clientHeight;bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';}
+addEventListener('scroll', onScroll); onScroll();
+
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});},{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{if(!el.classList.contains('in')) obs.observe(el);});
+
+const toc=document.getElementById('toc');const heads=[...document.querySelectorAll('#article h2')];
+heads.forEach(h=>{const a=document.createElement('a');a.href='#'+h.id;a.textContent=h.textContent;toc.appendChild(a);});
+function spy(){const y=scrollY+140;let idx=-1;heads.forEach((s,i)=>{if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i;});[...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));}
+addEventListener('scroll', spy); spy();
+
+const KEY='qpx_notes_em';const listEl=document.getElementById('nbList');
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return []}}
+function save(data){localStorage.setItem(KEY, JSON.stringify(data));}
+function render(){const notes=load();listEl.innerHTML='';if(notes.length===0){listEl.innerHTML='<p style="color:var(--muted)">No highlights yet.</p>';return;}notes.forEach(n=>{const div=document.createElement('div');div.className='note';div.dataset.id=n.id;div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`;listEl.appendChild(div);});}
+render();
+document.querySelectorAll('.hlbtn').forEach(btn=>{btn.addEventListener('click',()=>{const id=btn.dataset.target,p=document.getElementById(id);if(!p) return;p.classList.add('mark');const notes=load();notes.push({id:'n'+Date.now(),text:p.textContent.trim(),time:Date.now(),para:id});save(notes);render();});});
+listEl.addEventListener('click',e=>{if(!e.target.classList.contains('del')) return;const id=e.target.closest('.note').dataset.id;const notes=load().filter(x=>x.id!==id);save(notes);render();});
+</script>
+</body>
+</html>
