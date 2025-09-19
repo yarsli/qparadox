@@ -274,27 +274,27 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
         In the 21st century, the manipulation of matter waves lies at the core of quantum information science. Superposition and interference enable quantum computers to process information in parallel. Matter-wave interferometers measure gravitational fields and fundamental constants with extraordinary sensitivity. Wave–particle duality, once a philosophical puzzle, has become a practical engine for new technologies.
       </p>
     </div>
-    <h2 id="implications" class="reveal">Philosophical Implications</h2>
+        <h2 id="implications" class="reveal">Philosophical Implications</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p18">★ Highlight</button>
       <p id="p18" class="dropcap">
-        Wave–particle duality forces us to reconsider what it means for something to “exist.” A photon is not a tiny billiard ball flying through space, nor is it a ripple on a physical medium. It is an entity that resists classical categories. When unobserved, it evolves as a spread-out wavefunction; when measured, it appears as a discrete particle. The duality is not in nature itself, but in how our measurements reveal different aspects of the same quantum reality.
+        Wave–particle duality is more than a scientific principle; it is a philosophical earthquake. For centuries, natural philosophy relied on categorization: objects were particles or waves, never both. Yet quantum experiments shattered these categories. A photon is not a marble rolling through space, nor is it a ripple on water. It is something deeper — a quantum object, revealing different aspects depending on how we ask the question. The duality is less about nature being confused and more about the limitations of our language and categories.
       </p>
     </div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p19">★ Highlight</button>
       <p id="p19">
-        Niels Bohr framed this through the principle of complementarity: wave and particle descriptions are mutually exclusive yet jointly necessary to describe quantum phenomena. Other interpretations offer alternative pictures. The Many-Worlds view, for instance, suggests that both paths in the double-slit experiment are real, branching into separate universes. Pilot-wave theory imagines hidden waves guiding particles along deterministic paths. Each interpretation carries profound philosophical consequences, from the nature of reality to the meaning of probability itself.
+        Niels Bohr articulated this as <em>complementarity</em>: wave and particle pictures are exclusive but complementary, each necessary for a full description. The Copenhagen interpretation embraces this ambiguity, while alternatives attempt to restore determinism. The Many-Worlds interpretation claims every possibility happens in branching universes; pilot-wave theory suggests particles follow definite paths guided by hidden waves. Each interpretation raises profound questions: does reality split? Are probabilities fundamental, or do unseen variables lurk behind appearances?
       </p>
     </div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p20">★ Highlight</button>
       <p id="p20">
-        Beyond physics, the metaphor of duality has influenced art, literature, and philosophy. Writers see in it a symbol of ambiguity, multiplicity, and paradox. To study wave–particle duality is to glimpse the limits of human categories — a reminder that reality is stranger than the languages we use to capture it.
+        Beyond physics, wave–particle duality has inspired poets, artists, and philosophers. It symbolizes the coexistence of opposites: certainty and chance, unity and multiplicity, presence and absence. In literature, it echoes themes of ambiguity and paradox. To contemplate duality is to recognize that the universe does not conform to the neat categories our minds crave — instead, it challenges us to expand our imagination.
       </p>
     </div>
 
@@ -304,30 +304,32 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
     <section class="quiz reveal" id="quizSection">
       <div class="qitem">
         <h4>1) What did Einstein propose in explaining the photoelectric effect?</h4>
-        <div class="qchoices" data-answer="b" data-explain="Einstein proposed light is quantized into photons, each carrying energy \( E = h\nu \).">
+        <div class="qchoices" data-answer="b" data-explain="Einstein proposed that light is quantized into photons, each carrying energy \(E = h\nu\).">
           <button data-choice="a">Light is a continuous wave with no particles</button>
           <button data-choice="b">Light consists of photons with quantized energy</button>
-          <button data-choice="c">Light only behaves as particles when very intense</button>
+          <button data-choice="c">Light behaves like particles only when very intense</button>
         </div>
-        <div class="qfeedback"></div>
+        <div class="qfeedback" aria-live="polite"></div>
       </div>
+
       <div class="qitem">
-        <h4>2) What pattern emerges in the double-slit experiment with single electrons?</h4>
-        <div class="qchoices" data-answer="c" data-explain="Even one by one, electrons build up an interference pattern characteristic of waves.">
-          <button data-choice="a">Two sharp piles behind each slit</button>
-          <button data-choice="b">A completely random scatter</button>
-          <button data-choice="c">An interference pattern of bright and dark fringes</button>
+        <h4>2) What happens when single electrons pass through a double-slit?</h4>
+        <div class="qchoices" data-answer="c" data-explain="Even when sent one at a time, electrons build up an interference pattern characteristic of waves.">
+          <button data-choice="a">They form two sharp piles behind the slits</button>
+          <button data-choice="b">They scatter randomly with no pattern</button>
+          <button data-choice="c">They create an interference pattern of fringes</button>
         </div>
-        <div class="qfeedback"></div>
+        <div class="qfeedback" aria-live="polite"></div>
       </div>
+
       <div class="qitem">
         <h4>3) What does de Broglie’s relation state?</h4>
-        <div class="qchoices" data-answer="a" data-explain="Every particle of momentum \(p\) has a wavelength \( \lambda = h/p \).">
+        <div class="qchoices" data-answer="a" data-explain="Every particle with momentum \(p\) has a wavelength given by \( \lambda = h/p \).">
           <button data-choice="a">Particles have a wavelength inversely proportional to momentum</button>
-          <button data-choice="b">Particles never exhibit wave behavior</button>
+          <button data-choice="b">Particles never exhibit wave properties</button>
           <button data-choice="c">Wavelength depends only on charge, not momentum</button>
         </div>
-        <div class="qfeedback"></div>
+        <div class="qfeedback" aria-live="polite"></div>
       </div>
     </section>
 
@@ -404,6 +406,36 @@ listEl.addEventListener('click',e=>{
   const id=e.target.closest('.note').dataset.id;
   const notes=load().filter(x=>x.id!==id); save(notes); render();
 });
+
+/* quiz logic */
+(function () {
+  const groups = document.querySelectorAll('.qchoices');
+  groups.forEach(group => {
+    const answer = (group.dataset.answer || '').trim().toLowerCase();
+    const explain = group.dataset.explain || '';
+    const feedback = group.parentElement.querySelector('.qfeedback');
+
+    group.querySelectorAll('button[data-choice]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (group.dataset.locked === '1') return;
+        group.dataset.locked = '1';
+
+        const choice = (btn.dataset.choice || '').trim().toLowerCase();
+        group.querySelectorAll('button').forEach(b => b.disabled = true);
+
+        if (choice === answer) {
+          btn.classList.add('correct');
+          feedback.textContent = `✓ Correct! ${explain}`;
+        } else {
+          btn.classList.add('wrong');
+          const correctBtn = group.querySelector(`button[data-choice="${answer}"]`);
+          if (correctBtn) correctBtn.classList.add('correct');
+          feedback.textContent = `✗ Incorrect. ${explain}`;
+        }
+      });
+    });
+  });
+})();
 </script>
 </body>
 </html>
