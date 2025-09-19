@@ -78,6 +78,47 @@ p{margin:1.05rem 0; text-align:justify}
 }
 .pwrap:hover .hlbtn{opacity:1}
 .mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+
+/* sidebar */
+aside{
+  position:sticky; top:90px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem
+}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+
+/* quiz */
+.quiz{
+  margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px;
+  background:rgba(255,255,255,.04)
+}
+.qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
+.qchoices{display:grid; gap:.45rem}
+.qchoices button{
+  text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05);
+  color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer
+}
+.qchoices button.correct{border-color:#46d17d}
+.qchoices button.wrong{border-color:#e07070}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
+
+/* nav links */
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
+  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem}
+
+/* reveal + footer */
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -87,289 +128,131 @@ p{margin:1.05rem 0; text-align:justify}
 
 <header class="reveal in">
   <h1>Relativity</h1>
-  <p class="subtitle">From Galileo’s ships to Einstein’s cosmos — the story of space, time, and gravity reimagined.</p>
+  <p class="subtitle">Einstein’s reimagining of space, time, and gravity — a framework that shattered classical certainties and reshaped our cosmos.</p>
 </header>
 
 <div class="main">
   <!-- ARTICLE -->
   <article id="article">
 
-    <h2 id="principle" class="reveal">The Principle of Relativity</h2>
+    <h2 id="special" class="reveal">Special Relativity</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p1">★ Highlight</button>
       <p id="p1" class="dropcap">
-        The story of relativity begins not with Einstein but with Galileo. In his thought
-        experiment of a ship moving smoothly across calm seas, Galileo argued that no
-        internal experiment — dropping stones, releasing birds, or watching dripping water —
-        could reveal whether the ship was moving at a steady speed or resting at the dock.
-        This <em>principle of relativity</em> declared that the laws of mechanics are the same
-        in all inertial frames, erasing any privileged standpoint of absolute rest.
+        In 1905, Albert Einstein proposed the special theory of relativity, built on two
+        postulates: the laws of physics are the same in all inertial frames, and the speed
+        of light in vacuum is constant for all observers. These simple ideas forced a
+        radical reconstruction of reality. Time and space, once thought absolute, became
+        relative and intertwined into a single continuum — spacetime.
       </p>
     </div>
 
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p2">★ Highlight</button>
       <p id="p2">
-        Centuries later, Einstein extended this principle beyond mechanics to include the
-        laws of electromagnetism. If Maxwell’s equations were to be universally valid, then
-        observers in all inertial frames had to measure the same speed of light, regardless
-        of their motion. The failure of the Michelson–Morley experiment to detect Earth’s
-        motion through an “aether” confirmed the radical idea: light’s velocity is a cosmic
-        constant. From this single insight flowed the dismantling of Newton’s absolute
-        space and time, paving the way for a new kinematics.
+        Consequences followed. Moving clocks tick more slowly (<em>time dilation</em>),
+        lengths contract along the direction of motion (<em>length contraction</em>), and
+        simultaneity becomes relative. Perhaps the most famous equation in all of science,
+        \( E = mc^2 \), revealed that mass itself is a form of energy, laying the
+        foundation for nuclear physics and cosmology.
       </p>
     </div>
 
     <figure class="figure reveal">
-      <img src="galileo-ship.jpeg" alt="Galileo's ship thought experiment"/>
-      <figcaption class="figcap">
-        Galileo’s ship: whether moving at constant velocity or still, the laws of physics
-        below deck remain identical.
-      </figcaption>
+      <img src="spacetime-diagram.jpeg" alt="Spacetime diagram"/>
+      <figcaption class="figcap">Spacetime diagrams visualize how different observers slice reality into space and time.</figcaption>
     </figure>
-
-    <h2 id="special" class="reveal">Special Relativity</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p3">★ Highlight</button>
-      <p id="p3" class="dropcap">
-        Special relativity, unveiled by Einstein in 1905, rests on two postulates:
-        <strong>(1)</strong> the laws of physics are the same in all inertial frames, and
-        <strong>(2)</strong> the speed of light in vacuum, \( c \), is invariant for all
-        observers. These deceptively simple statements force a radical restructuring of
-        space and time. Events once thought absolute are now frame-dependent; simultaneity
-        itself dissolves into relativity.
-      </p>
-    </div>
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p4">★ Highlight</button>
-      <p id="p4">
-        The Lorentz transformations replace Galilean relativity. If an event has coordinates
-        \( (x,t) \) in one frame and \( (x',t') \) in another moving with velocity \( v \)
-        along the x-axis, then:
-        \[
-          x' = \gamma (x - vt), \quad
-          t' = \gamma \left(t - \tfrac{vx}{c^2}\right)
-        \]
-        where \( \gamma = \tfrac{1}{\sqrt{1 - v^2/c^2}} \). From these equations follow
-        time dilation, length contraction, and the relativity of simultaneity — effects
-        confirmed by particle accelerators, fast-moving muons, and GPS satellites.
-      </p>
-    </div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p5">★ Highlight</button>
-      <p id="p5">
-        Perhaps the most famous consequence is the mass–energy relation:
-        \[
-          E = mc^2
-        \]
-        which reveals that mass itself is a form of energy. This principle fuels the stars
-        through nuclear fusion and underpins both nuclear power and nuclear weapons.
-        Einstein’s compact equation connected the physics of the cosmos with the heart of
-        the atom.
-      </p>
-    </div>
-
-    <figure class="figure reveal">
-      <img src="lorentz-diagram.jpeg" alt="Spacetime diagram showing Lorentz transformation"/>
-      <figcaption class="figcap">
-        Lorentz transformations tilt the axes of space and time, preserving the speed of light.
-      </figcaption>
-    </figure>
-
-    <div class="note reveal">
-      <time>Thought Experiment</time>
-      <p><strong>Einstein’s Train and Lightning:</strong> Imagine a train moving at near-light
-      speed. Two bolts of lightning strike the front and back. An observer on the platform
-      sees them as simultaneous, but the passenger on the train does not — simultaneity
-      itself depends on motion.</p>
-    </div>
-
-    <h2 id="geometry" class="reveal">The Geometry of Spacetime</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p6">★ Highlight</button>
-      <p id="p6" class="dropcap">
-        Minkowski, Einstein’s former mathematics professor, reframed special relativity
-        in geometric terms: space and time are not separate entities but part of a
-        four-dimensional continuum called spacetime. The interval
-        \[
-          s^2 = -c^2 t^2 + x^2 + y^2 + z^2
-        \]
-        remains invariant across all inertial frames, much like distance in Euclidean
-        space. Worldlines trace the histories of particles, while light cones define the
-        possible causal structure of events.
-      </p>
-    </div>
-
-    <figure class="figure reveal">
-      <img src="spacetime-cone.jpeg" alt="Spacetime light cone diagram"/>
-      <figcaption class="figcap">
-        Light cones divide events into possible influence (future), causal past, and
-        regions forever disconnected.
-      </figcaption>
-    </figure>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p7">★ Highlight</button>
-      <p id="p7">
-        This geometric vision opened the door to a deeper theory. If space and time are
-        united, might they also bend? Could gravity itself be geometry in disguise? These
-        questions led Einstein to general relativity, where acceleration and gravitation
-        become two faces of the same principle.
-      </p>
-    </div>
 
     <h2 id="general" class="reveal">General Relativity</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p8">★ Highlight</button>
-      <p id="p8" class="dropcap">
-        General relativity, published in 1915, is Einstein’s masterpiece. It extends the
-        principle of relativity to all frames, including those undergoing acceleration,
-        and identifies gravity not as a force but as the curvature of spacetime. Matter
-        tells spacetime how to curve, and spacetime tells matter how to move.
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        A decade later, Einstein generalized his theory to include gravity. Instead of
+        treating gravity as a force acting at a distance, general relativity describes it
+        as the curvature of spacetime caused by mass and energy. Planets orbit stars not
+        because they are “pulled,” but because spacetime itself is bent, guiding their
+        trajectories along geodesics.
       </p>
     </div>
 
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p9">★ Highlight</button>
-      <p id="p9">
-        The core equation is the Einstein field equation:
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4">
+        The mathematics is encoded in Einstein’s field equations:
         \[
           G_{\mu\nu} + \Lambda g_{\mu\nu} = \frac{8 \pi G}{c^4} T_{\mu\nu}
         \]
-        Here \( G_{\mu\nu} \) describes the curvature of spacetime, \( T_{\mu\nu} \)
-        represents the energy and momentum of matter, and \( \Lambda \) is the cosmological
-        constant. These ten interlinked equations describe the dynamics of the universe,
-        from planetary orbits to black holes to the expansion of the cosmos.
+        where \(G_{\mu\nu}\) describes the geometry of spacetime and \(T_{\mu\nu}\) the
+        energy-momentum of matter. This compact relation ties the shape of the universe to
+        its contents, predicting phenomena far beyond Newton’s reach.
       </p>
     </div>
 
     <figure class="figure reveal">
-      <img src="einstein-field.jpeg" alt="Einstein field equations on blackboard"/>
-      <figcaption class="figcap">
-        The Einstein field equations: a bridge between geometry and matter.
-      </figcaption>
+      <img src="curved-spacetime.jpeg" alt="Curved spacetime illustration"/>
+      <figcaption class="figcap">Mass tells spacetime how to curve; curvature tells matter how to move.</figcaption>
     </figure>
 
-    <div class="note reveal">
-      <time>Thought Experiment</time>
-      <p><strong>Einstein’s Elevator:</strong> Inside a sealed elevator in deep space,
-      you feel yourself pressed to the floor as if in gravity. Are you accelerating
-      upward, or standing on Earth’s surface? The equivalence principle declares these
-      situations indistinguishable.</p>
-    </div>
     <h2 id="tests" class="reveal">Tests and Triumphs</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p10">★ Highlight</button>
-      <p id="p10" class="dropcap">
-        General relativity quickly faced experimental tests. The most dramatic came in
-        1919, when Arthur Eddington led an expedition to photograph stars during a solar
-        eclipse. The starlight bent around the Sun precisely as Einstein predicted, making
-        headlines worldwide and transforming Einstein into a scientific icon. This bending
-        of light, called <em>gravitational lensing</em>, is now a common tool in astronomy
-        for mapping dark matter and studying distant galaxies.
+      <button class="hlbtn" data-target="p5">★ Highlight</button>
+      <p id="p5" class="dropcap">
+        General relativity quickly faced experimental scrutiny. The 1919 solar eclipse
+        expedition led by Arthur Eddington confirmed that starlight bent around the Sun,
+        exactly as Einstein predicted. Newspapers declared “Lights All Askew in the
+        Heavens,” and Einstein became a household name overnight.
       </p>
     </div>
 
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p11">★ Highlight</button>
-      <p id="p11">
-        Other predictions followed. Mercury’s orbit precesses slightly faster than Newtonian
-        mechanics allows, an anomaly perfectly explained by Einstein’s equations. Time runs
-        more slowly in stronger gravitational fields, an effect confirmed by atomic clocks
-        on airplanes and satellites. Gravitational waves — ripples in spacetime itself —
-        were predicted in 1916 and directly observed a century later by LIGO, confirming
-        relativity on cosmic scales.
+      <button class="hlbtn" data-target="p6">★ Highlight</button>
+      <p id="p6">
+        Mercury’s anomalous orbit, unexplained by Newtonian mechanics, fell neatly into
+        Einstein’s equations. Later, atomic clocks flown on planes confirmed time dilation
+        in gravity, and the detection of gravitational waves in 2015 by LIGO revealed
+        ripples in spacetime from colliding black holes — a triumph a century in the
+        making.
       </p>
     </div>
-
-    <figure class="figure reveal">
-      <img src="gravitational-waves.jpeg" alt="Visualization of gravitational waves"/>
-      <figcaption class="figcap">
-        Gravitational waves: ripples in spacetime detected from colliding black holes.
-      </figcaption>
-    </figure>
 
     <h2 id="cosmic" class="reveal">Cosmic Consequences</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p12">★ Highlight</button>
-      <p id="p12" class="dropcap">
-        Relativity reshaped our view of the cosmos. The universe is not static but
-        expanding, as revealed by solutions to Einstein’s equations and later confirmed
-        by Edwin Hubble. Black holes emerge naturally from the mathematics — regions where
-        spacetime curvature becomes so extreme that not even light can escape. Their
-        horizons mark boundaries between the knowable and the unknowable.
-      </p>
-    </div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p13">★ Highlight</button>
-      <p id="p13">
-        Relativity also redefines time itself. The <em>twin paradox</em> shows that a twin
-        traveling near light speed returns younger than the one who stayed on Earth.
-        Far from a trick, this effect has been verified with high-speed particles and
-        precise clocks. Time is elastic, molded by motion and gravity.
+      <button class="hlbtn" data-target="p7">★ Highlight</button>
+      <p id="p7" class="dropcap">
+        Relativity reframed the universe itself. The cosmos is expanding, black holes
+        arise from stellar collapse, and time flows differently near massive bodies. The
+        twin paradox illustrates time’s elasticity: a twin traveling near light speed
+        returns younger than her sibling who remained on Earth. Time and space are not
+        fixed backdrops but active participants in the cosmic drama.
       </p>
     </div>
 
     <div class="note reveal">
       <time>Thought Experiment</time>
-      <p><strong>The Twin Paradox:</strong> One twin boards a spacecraft traveling near
-      the speed of light. After a round trip, she is younger than her sibling who
-      remained on Earth. Time itself has flowed differently along their worldlines.</p>
+      <p><strong>The Twin Paradox:</strong> A traveler moving at near-light speed returns
+      younger than the twin left behind, proving time is not absolute but shaped by
+      motion.</p>
     </div>
 
-    <figure class="figure reveal">
-      <img src="black-hole.jpeg" alt="Black hole illustration"/>
-      <figcaption class="figcap">
-        Black holes: extreme predictions of relativity, now observed by telescopes.
-      </figcaption>
-    </figure>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p14">★ Highlight</button>
-      <p id="p14">
-        Relativity also leads to the concept of <em>gravitational time dilation</em>.
-        Near a massive body, time runs more slowly compared to distant regions. This is
-        not speculation but a practical fact — GPS satellites must correct for both
-        special and general relativistic effects to provide accurate positioning.
-      </p>
-    </div>
-    <h2 id="applications" class="reveal">Applications in Technology</h2>
+    <h2 id="applications" class="reveal">Applications</h2>
     <div class="divider"></div>
 
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p15">★ Highlight</button>
-      <p id="p15" class="dropcap">
-        Though relativity may appear abstract, its influence saturates modern technology.
-        GPS systems correct for relativistic time shifts between orbiting satellites and
-        Earth-bound receivers. Particle accelerators like the Large Hadron Collider rely
-        on relativistic dynamics to steer near-light-speed particles. Even the silicon in
-        your phone’s chips is modeled with relativistic quantum mechanics, where electrons
-        demand Dirac’s corrections to explain behavior at high speeds.
-      </p>
-    </div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p16">★ Highlight</button>
-      <p id="p16">
-        Relativity also drives astrophysical instrumentation. Radio telescopes account
-        for time dilation when coordinating arrays across continents. MRI scanners exploit
-        principles of nuclear spin rooted in relativistic quantum mechanics. Spacecraft
-        navigation, satellite communications, and even precision finance depend on the
-        corrections Einstein introduced over a century ago.
+      <button class="hlbtn" data-target="p8">★ Highlight</button>
+      <p id="p8" class="dropcap">
+        Relativity is not just philosophy — it underpins technology. GPS satellites must
+        correct for both special and general relativistic effects to deliver accurate
+        positioning. Particle accelerators operate entirely within the relativistic
+        regime. Even the electronics in your phone rely on relativistic quantum mechanics
+        to describe how electrons behave in atoms.
       </p>
     </div>
 
@@ -377,24 +260,13 @@ p{margin:1.05rem 0; text-align:justify}
     <div class="divider"></div>
 
     <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p17">★ Highlight</button>
-      <p id="p17" class="dropcap">
-        Relativity is not the final word. Physicists strive to unify general relativity
-        with quantum mechanics, seeking a consistent theory of quantum gravity. Candidates
-        include string theory, loop quantum gravity, and holographic dualities suggesting
-        that spacetime itself may emerge from more fundamental quantum information.
-      </p>
-    </div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p18">★ Highlight</button>
-      <p id="p18">
-        Black hole thermodynamics hints at deep connections: horizons possess entropy
-        proportional to their area, suggesting spacetime has microscopic degrees of
-        freedom. The holographic principle imagines the universe as a projection from
-        lower-dimensional data, blending relativity and quantum theory in surprising ways.
-        Whatever the true unification, relativity remains a guiding beacon, pointing
-        toward mysteries still unsolved.
+      <button class="hlbtn" data-target="p9">★ Highlight</button>
+      <p id="p9" class="dropcap">
+        Relativity is incomplete. It does not mesh with quantum mechanics, leading to the
+        search for quantum gravity. Ideas like string theory, loop quantum gravity, and
+        holography aim to bridge the gap. Black hole thermodynamics and the holographic
+        principle hint at a deeper layer of reality where spacetime itself may be
+        emergent.
       </p>
     </div>
 
@@ -403,29 +275,29 @@ p{margin:1.05rem 0; text-align:justify}
     <div class="divider"></div>
     <section class="quiz reveal" id="quizSection">
       <div class="qitem">
-        <h4>1) What does the principle of relativity state?</h4>
-        <div class="qchoices" data-answer="b" data-explain="The laws of physics are the same in all inertial frames.">
-          <button data-choice="a">Light always moves faster than sound</button>
-          <button data-choice="b">The laws of physics are the same in all inertial frames</button>
-          <button data-choice="c">Only gravity is relative, not motion</button>
+        <h4>1) What are the two postulates of special relativity?</h4>
+        <div class="qchoices" data-answer="b" data-explain="Laws of physics same in all inertial frames, and c is constant.">
+          <button data-choice="a">Light is faster than gravity, and time is absolute</button>
+          <button data-choice="b">Physics laws same in inertial frames, and light speed is constant</button>
+          <button data-choice="c">Gravity bends only mass, not light</button>
         </div>
         <div class="qfeedback"></div>
       </div>
       <div class="qitem">
-        <h4>2) Which experiment first confirmed general relativity dramatically?</h4>
-        <div class="qchoices" data-answer="c" data-explain="Eddington's 1919 eclipse expedition confirmed light bending.">
-          <button data-choice="a">Michelson–Morley experiment</button>
-          <button data-choice="b">LIGO detection of gravitational waves</button>
-          <button data-choice="c">Eddington's 1919 eclipse expedition</button>
+        <h4>2) Which observation first confirmed general relativity?</h4>
+        <div class="qchoices" data-answer="c" data-explain="The 1919 eclipse showed starlight bending by the Sun.">
+          <button data-choice="a">Mercury’s orbit</button>
+          <button data-choice="b">LIGO gravitational waves</button>
+          <button data-choice="c">Eddington’s 1919 eclipse expedition</button>
         </div>
         <div class="qfeedback"></div>
       </div>
       <div class="qitem">
-        <h4>3) What happens to time near a black hole compared to far away?</h4>
-        <div class="qchoices" data-answer="a" data-explain="Time runs more slowly in stronger gravitational fields.">
-          <button data-choice="a">Time runs more slowly</button>
-          <button data-choice="b">Time runs faster</button>
-          <button data-choice="c">Time flows identically everywhere</button>
+        <h4>3) Why must GPS account for relativity?</h4>
+        <div class="qchoices" data-answer="a" data-explain="Satellite and ground clocks tick differently due to speed and gravity.">
+          <button data-choice="a">Time dilation from both motion and gravity</button>
+          <button data-choice="b">The satellites are further from Earth</button>
+          <button data-choice="c">Because gravity is weaker in orbit</button>
         </div>
         <div class="qfeedback"></div>
       </div>
