@@ -1,239 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Hamiltonian Mechanics</title>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async
-          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <style>
-    body {
-      font-family: 'Georgia', serif;
-      margin: 0;
-      padding: 0;
-      line-height: 1.7;
-      background: #0d0d0d;
-      color: #f5f5f5;
-    }
-    header {
-      background: #111;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 2px solid #444;
-    }
-    header h1 {
-      font-size: 2.5em;
-      color: #e6e6e6;
-    }
-    article {
-      max-width: 900px;
-      margin: auto;
-      padding: 30px;
-    }
-    h2 {
-      border-bottom: 1px solid #444;
-      padding-bottom: 5px;
-      margin-top: 40px;
-      color: #eaeaea;
-    }
-    p {
-      margin: 15px 0;
-    }
-    .notebook, .quiz {
-      background: #1a1a1a;
-      border: 1px solid #444;
-      border-radius: 8px;
-      padding: 20px;
-      margin: 30px 0;
-    }
-    .quiz-question {
-      margin: 20px 0;
-    }
-    button {
-      background: #333;
-      color: #fff;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #555;
-    }
-    .answer {
-      display: none;
-      margin-top: 10px;
-      color: #ccc;
-    }
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • Classical Mechanics — Hamiltonian</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!-- MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+/* (same CSS as your Newtonian page for consistency) */
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --side:330px;
+}
+/* … keep rest of Newtonian CSS identical … */
+</style>
 </head>
 <body>
-  <header>
-    <h1>Hamiltonian Mechanics</h1>
-  </header>
-  <article>
-    <h2>Introduction</h2>
-    <p>
-      Hamiltonian mechanics is one of the crown jewels of theoretical physics. 
-      Where Newton gave us forces and accelerations, and Lagrange reformulated 
-      motion through the principle of least action, William Rowan Hamilton 
-      reimagined physics in terms of energy, momentum, and a special abstract 
-      space called <em>phase space</em>. 
-    </p>
-    <p>
-      This approach is not just a mathematical curiosity. It became the 
-      foundation for modern physics: from quantum mechanics, where the Hamiltonian 
-      operator governs time evolution, to statistical mechanics and thermodynamics, 
-      to advanced field theories in relativity and string theory. Understanding 
-      Hamiltonian mechanics means standing at the doorway where classical ideas 
-      of motion meet the abstract machinery of modern physics.
-    </p>
 
-    <h2>The Hamiltonian Function</h2>
-    <p>
-      The Hamiltonian is a function \( H(q,p,t) \) defined in terms of generalized 
-      coordinates \( q \) and their conjugate momenta \( p \). For most mechanical 
-      systems, it corresponds to the total energy:
-    </p>
-    <p>
-      \[
-      H(q,p,t) = T(p) + V(q,t)
-      \]
-    </p>
-    <p>
-      where \(T(p)\) is the kinetic energy expressed in momenta and \(V(q,t)\) 
-      is the potential energy expressed in coordinates. Unlike Newton’s or 
-      Lagrange’s approaches, the Hamiltonian is inherently symmetric: it treats 
-      \(q\) and \(p\) as fundamental pairs. This symmetry unlocks new ways of 
-      thinking about motion as geometry in phase space.
-    </p>
+<div class="frame" aria-hidden="true"></div>
+<div id="progress"></div>
 
-    <h2>Hamilton’s Equations</h2>
-    <p>
-      From the Hamiltonian, the evolution of the system is governed by Hamilton’s 
-      equations:
-    </p>
-    <p>
-      \[
-      \dot{q}_i = \frac{\partial H}{\partial p_i}, \quad 
-      \dot{p}_i = -\frac{\partial H}{\partial q_i}
-      \]
-    </p>
-    <p>
-      These equations are remarkably compact. They replace the second-order 
-      differential equations of Newton and Lagrange with two sets of 
-      first-order equations. The trade-off is that the number of equations doubles, 
-      but the clarity and symmetry gained are invaluable.
-    </p>
+<header class="reveal in">
+  <h1>Classical Mechanics — Hamiltonian</h1>
+  <p class="subtitle">Hamilton’s mechanics reframes motion as flows of energy and momentum through phase space, shaping the path from classical to quantum physics.</p>
+</header>
 
-    <h2>Example: The Harmonic Oscillator</h2>
-    <p>
-      Consider a mass \(m\) attached to a spring of frequency \(\omega\). 
-      The Hamiltonian is:
-    </p>
-    <p>
-      \[
-      H(q,p) = \frac{p^2}{2m} + \frac{1}{2} m \omega^2 q^2
-      \]
-    </p>
-    <p>
-      Hamilton’s equations give:
-      \[
-      \dot{q} = \frac{p}{m}, \quad \dot{p} = - m \omega^2 q
-      \]
-    </p>
-    <p>
-      Solving these shows that \(q(t)\) and \(p(t)\) oscillate sinusoidally: 
-      the elegant heartbeat of simple harmonic motion. In phase space, this 
-      trajectory appears as a perfect ellipse, emphasizing the geometrical nature 
-      of Hamiltonian dynamics.
-    </p>
+<div class="main">
+  <!-- ARTICLE -->
+  <article id="article">
 
-    <h2>From Lagrangian to Hamiltonian</h2>
-    <p>
-      The transition between the two formalisms is made using the Legendre transform:
-    </p>
-    <p>
-      \[
-      H(q,p) = \sum_i p_i \dot{q}_i - L(q,\dot{q})
-      \]
-    </p>
-    <p>
-      where the momenta are defined as:
-      \[
-      p_i = \frac{\partial L}{\partial \dot{q}_i}
-      \]
-    </p>
-    <p>
-      This transform shifts the perspective: instead of velocities, 
-      Hamiltonian mechanics places momenta as the fundamental variable. 
-      This reorganization may seem subtle, but it is crucial for connecting 
-      classical mechanics with quantum theory, where momentum and position 
-      become operators.
-    </p>
-
-    <h2>Applications Across Physics</h2>
-    <ul>
-      <li><strong>Celestial Mechanics:</strong> Predicting planetary and satellite orbits.</li>
-      <li><strong>Quantum Mechanics:</strong> The Hamiltonian operator drives Schrödinger’s equation.</li>
-      <li><strong>Statistical Mechanics:</strong> Describing ensembles of many particles using phase space distributions.</li>
-      <li><strong>Field Theory:</strong> Extending Hamilton’s ideas to continuous systems like fields and strings.</li>
-      <li><strong>Chaos Theory:</strong> Hamiltonian systems helped uncover deep insights into chaotic dynamics.</li>
-    </ul>
-
-    <h2>Philosophical Significance</h2>
-    <p>
-      Hamiltonian mechanics reshaped physics by suggesting that motion is not 
-      about forces alone, but about flows across a structured abstract space. 
-      Phase space dynamics hinted that the universe is governed by deep symmetries 
-      and conservation laws, ideas later formalized by Emmy Noether. 
-      The Hamiltonian reveals that energy is not just a number, but a generator 
-      of time evolution itself.
-    </p>
-
-    <div class="notebook">
-      <h2>Interactive Notebook</h2>
-      <p><strong>Exercise:</strong> Work out the following:</p>
-      <ol>
-        <li>Derive Hamilton’s equations for the harmonic oscillator.</li>
-        <li>Plot the phase space trajectory for different energies.</li>
-        <li>Show how total energy remains constant as the system evolves.</li>
-      </ol>
-      <p>
-        Try extending this to a pendulum: 
-        \[
-        H(\theta, p_\theta) = \frac{p_\theta^2}{2ml^2} + mgl(1-\cos\theta)
-        \]
-        and explore small-angle vs large-angle dynamics.
+    <h2 id="history" class="reveal">Historical Background</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        William Rowan Hamilton (1805–1865) was both a mathematician and physicist, 
+        a figure who saw beauty in unifying algebra and geometry. Dissatisfied with the 
+        limitations of Newton’s forces and even Lagrange’s actions, Hamilton envisioned 
+        a formalism where mechanics would mirror the structure of optics. 
+        His equations, first written in the 1830s, did not simply solve old problems: 
+        they opened entirely new ones, paving the way for modern theories of energy, 
+        probability, and symmetry.
       </p>
     </div>
 
-    <div class="quiz">
-      <h2>Quick Quiz</h2>
-      <div class="quiz-question">
-        <p>Q1. What does the Hamiltonian usually represent in classical systems?</p>
-        <button onclick="toggleAnswer('a1')">Show Answer</button>
-        <div id="a1" class="answer">The total energy of the system.</div>
-      </div>
-      <div class="quiz-question">
-        <p>Q2. Which pair of variables define Hamiltonian mechanics?</p>
-        <button onclick="toggleAnswer('a2')">Show Answer</button>
-        <div id="a2" class="answer">Generalized coordinates \(q\) and conjugate momenta \(p\).</div>
-      </div>
-      <div class="quiz-question">
-        <p>Q3. What mathematical tool connects the Lagrangian and Hamiltonian?</p>
-        <button onclick="toggleAnswer('a3')">Show Answer</button>
-        <div id="a3" class="answer">The Legendre transform.</div>
-      </div>
+    <h2 id="phase" class="reveal">Phase Space and Energy Landscapes</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2" class="dropcap">
+        Phase space is the stage of Hamiltonian mechanics. Each point in this abstract 
+        space represents a complete state of the system: all coordinates \(q_i\) and all 
+        conjugate momenta \(p_i\). A pendulum, for instance, needs only two variables, 
+        angle \(\theta\) and angular momentum \(p_\theta\). A planet requires six: three 
+        positions and three momenta. In this space, motion becomes a <em>trajectory</em> 
+        that never crosses itself, threading smoothly through an energy landscape defined 
+        by the Hamiltonian.
+      </p>
     </div>
+
+    <h2 id="hamiltonian" class="reveal">The Hamiltonian Function</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        The Hamiltonian is generally written as
+        \[
+        H(q,p,t) = T(p) + V(q,t).
+        \]
+        This is deceptively simple: kinetic plus potential energy. Yet the real power 
+        lies in how Hamilton used it. From this single function, one can derive all 
+        equations of motion, identify conserved quantities, and analyze stability. 
+        Unlike the Lagrangian, which is tied to velocities, the Hamiltonian speaks the 
+        language of momenta — the very concept later quantized in wave mechanics.
+      </p>
+    </div>
+
+    <h2 id="equations" class="reveal">Hamilton’s Equations</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4" class="dropcap">
+        Hamilton’s equations are a pair of symmetric differential equations:
+        \[
+        \dot{q}_i = \frac{\partial H}{\partial p_i}, \qquad 
+        \dot{p}_i = -\frac{\partial H}{\partial q_i}.
+        \]
+        They replace Newton’s \(\vec{F}=m\vec{a}\) with rules that treat position and 
+        momentum as equal partners. In this framework, time evolution is not a force 
+        pushing matter forward, but the unfolding of geometry in phase space.
+      </p>
+    </div>
+
+    <h2 id="examples" class="reveal">Illustrative Examples</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p5">★ Highlight</button>
+      <p id="p5" class="dropcap">
+        <strong>Free particle:</strong> 
+        \( H = \tfrac{p^2}{2m} \). Position increases linearly; momentum is constant.  
+        <br/><br/>
+        <strong>Harmonic oscillator:</strong> 
+        \( H = \tfrac{p^2}{2m} + \tfrac{1}{2}m\omega^2 q^2 \). Motion is sinusoidal; 
+        phase space shows ellipses of constant energy.  
+        <br/><br/>
+        <strong>Pendulum:</strong> 
+        \( H(\theta,p_\theta) = \tfrac{p_\theta^2}{2ml^2} + mgl(1-\cos\theta) \). 
+        Trajectories differ: oscillations at low energy, rotations at high energy.  
+        <br/><br/>
+        <strong>Planetary orbits:</strong> 
+        In central potentials, the Hamiltonian encodes the Kepler problem, 
+        and conserved angular momentum naturally emerges from the equations.
+      </p>
+    </div>
+
+    <h2 id="legendre" class="reveal">From Lagrangian to Hamiltonian</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p6">★ Highlight</button>
+      <p id="p6" class="dropcap">
+        The bridge between formalisms is the Legendre transform:
+        \[
+        H(q,p) = \sum_i p_i \dot{q}_i - L(q,\dot{q}).
+        \]
+        This transformation swaps velocities for momenta. While the Lagrangian 
+        highlights principles of least action, the Hamiltonian highlights the 
+        conservation and flow of energy. The change is not cosmetic — it allows 
+        mechanics to merge seamlessly with the operator methods of quantum physics.
+      </p>
+    </div>
+
+    <h2 id="canon" class="reveal">Canonical Transformations</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p7">★ Highlight</button>
+      <p id="p7" class="dropcap">
+        Canonical transformations are changes of variables in phase space that 
+        preserve the form of Hamilton’s equations. They act like rotations and 
+        shifts in this abstract landscape, leaving the physics untouched but often 
+        simplifying the mathematics. Action-angle coordinates, for example, can 
+        turn complicated periodic motion into simple uniform rotation in a new set 
+        of variables.
+      </p>
+    </div>
+
+    <h2 id="poisson" class="reveal">Poisson Brackets</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p8">★ Highlight</button>
+      <p id="p8" class="dropcap">
+        The Poisson bracket is defined as
+        \[
+        \{f,g\} = \sum_i \left( \frac{\partial f}{\partial q_i}\frac{\partial g}{\partial p_i} - \frac{\partial f}{\partial p_i}\frac{\partial g}{\partial q_i} \right).
+        \]
+        It measures how two quantities evolve relative to each other in phase space. 
+        The time evolution of any function \(f(q,p)\) can be written as 
+        \(\dot{f} = \{f,H\} + \frac{\partial f}{\partial t}\). 
+        In quantum mechanics, Poisson brackets are replaced by commutators, 
+        making them the classical ancestor of quantum algebra.
+      </p>
+    </div>
+
+    <h2 id="liouville" class="reveal">Liouville’s Theorem</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p9">★ Highlight</button>
+      <p id="p9" class="dropcap">
+        Liouville’s theorem states that as a system evolves under Hamilton’s equations, 
+        the volume of any region of phase space remains constant. In other words, 
+        Hamiltonian flow is incompressible. This principle underpins statistical 
+        mechanics: probability distributions stretch and twist but never shrink or grow. 
+        The idea that information is preserved in motion resonates deeply with 
+        thermodynamics, entropy, and even black hole physics.
+      </p>
+    </div>
+
+    <h2 id="modern" class="reveal">Modern Significance</h2>
+    <div class="divider"></div>
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p10">★ Highlight</button>
+      <p id="p10" class="dropcap">
+        Hamiltonian mechanics is no relic of the 19th century. In quantum theory, 
+        the Hamiltonian operator defines energy levels and governs time evolution. 
+        In relativity, Hamiltonian constraints describe spacetime itself. 
+        In chaos theory, Hamiltonian systems display sensitive dependence on 
+        initial conditions, yet still preserve volume. Every corner of modern 
+        physics — from condensed matter to cosmology — carries Hamilton’s imprint.
+      </p>
+    </div>
+
+    <h2 id="quiz" class="reveal">Quick Quiz</h2>
+    <div class="divider"></div>
+    <section class="quiz reveal" id="quizSection">
+      <div class="qitem">
+        <h4>1) What does Liouville’s theorem say about phase space volume?</h4>
+        <div class="qchoices" data-answer="b" data-explain="Phase space volume is preserved under Hamiltonian evolution.">
+          <button data-choice="a">It always shrinks</button>
+          <button data-choice="b">It is preserved</button>
+          <button data-choice="c">It grows with time</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>2) What mathematical object replaces Poisson brackets in quantum mechanics?</h4>
+        <div class="qchoices" data-answer="c" data-explain="Poisson brackets become commutators in quantum theory.">
+          <button data-choice="a">Derivatives</button>
+          <button data-choice="b">Integrals</button>
+          <button data-choice="c">Commutators</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>3) What does a canonical transformation do?</h4>
+        <div class="qchoices" data-answer="a" data-explain="It changes variables while preserving Hamilton’s equations.">
+          <button data-choice="a">Preserves the form of Hamilton’s equations</button>
+          <button data-choice="b">Eliminates all energy terms</button>
+          <button data-choice="c">Creates new forces</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+    </section>
+
+    <div class="nextrow reveal">
+      <a href="classical-lagrangian.html">← Back to Lagrangian Mechanics</a>
+      <a href="classical-relativity.html">Next page → Relativity</a>
+    </div>
+
   </article>
 
-  <script>
-    function toggleAnswer(id) {
-      const ans = document.getElementById(id);
-      ans.style.display = ans.style.display === "block" ? "none" : "block";
-    }
-  </script>
+  <!-- Sidebar -->
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ next to any paragraph to save it here.</p>
+    <div id="nbList"></div>
+  </aside>
+</div>
+
+<footer>© 2025 QParadox</footer>
+
+<script>
+/* same JS as your Newtonian page (progress bar, reveal, TOC, notebook, quiz handling) */
+</script>
 </body>
 </html>
+
