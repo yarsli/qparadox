@@ -476,7 +476,7 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
     <!-- Navigation -->
     <div class="nextrow reveal">
       <a href="quantum_mechanics.html">← Back to Quantum Mechanics Hub</a>
-      <a href="quantum-wavefunctions.html">Next page → Wavefunctions</a>
+      <a href="quantum-superposition.html">Next page → Superposition and Measurement</a>
     </div>
 
   </article>
@@ -571,6 +571,31 @@ listEl.addEventListener('click',e=>{
   const id=e.target.closest('.note').dataset.id;
   const notes=load().filter(x=>x.id!==id);
   save(notes); render();
+});
+/* quiz logic */
+document.querySelectorAll('.qchoices').forEach(set=>{
+  const answer = set.dataset.answer;
+  const explain = set.dataset.explain;
+  const feedback = set.parentElement.querySelector('.qfeedback');
+
+  set.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      // reset styles
+      set.querySelectorAll('button').forEach(b=>{
+        b.classList.remove('correct','wrong');
+      });
+
+      if(btn.dataset.choice === answer){
+        btn.classList.add('correct');
+        feedback.textContent = "✔ Correct! " + explain;
+        feedback.style.color = "#46d17d";
+      } else {
+        btn.classList.add('wrong');
+        feedback.textContent = "✘ Incorrect. " + explain;
+        feedback.style.color = "#e07070";
+      }
+    });
+  });
 });
 </script>
 </body>
