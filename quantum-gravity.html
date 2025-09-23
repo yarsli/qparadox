@@ -570,3 +570,100 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
       <a href="quantum-gravity.html">← Back to Quantum Gravity Hub</a>
       <a href="index.html">Return to Home →</a>
     </div>
+<footer>© 2025 QParadox</footer>
+
+<script>
+/* progress bar */
+const bar=document.getElementById('progress');
+function onScroll(){
+  const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
+}
+addEventListener('scroll', onScroll); onScroll();
+
+/* reveal on scroll (fade in) */
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{
+  if(!el.classList.contains('in')) obs.observe(el);
+});
+
+/* TOC build */
+const toc=document.getElementById('toc');
+const heads=[...document.querySelectorAll('#article h2')];
+heads.forEach(h=>{
+  const a=document.createElement('a');
+  a.href='#'+h.id;
+  a.textContent=h.textContent;
+  toc.appendChild(a);
+});
+function spy(){
+  const y=scrollY+140; let idx=-1;
+  heads.forEach((s,i)=>{
+    if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i;
+  });
+  [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));
+}
+addEventListener('scroll', spy); spy();
+
+/* notebook */
+const KEY='qpx_notes_quantum_gravity';
+const listEl=document.getElementById('nbList');
+function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return []} }
+function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+function render(){
+  const notes=load(); listEl.innerHTML='';
+  if(notes.length===0){
+    listEl.innerHTML='<p style="color:var(--muted)">No highlights yet.</p>';
+    return;
+  }
+  notes.forEach(n=>{
+    const div=document.createElement('div'); div.className='note'; div.dataset.id=n.id;
+    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`;
+    listEl.appendChild(div);
+  });
+}
+render();
+document.querySelectorAll('.hlbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id=btn.dataset.target, p=document.getElementById(id);
+    if(!p) return;
+    p.classList.add('mark');
+    const notes=load();
+    notes.push({id:'n'+Date.now(), text:p.textContent.trim(), time:Date.now(), para:id});
+    save(notes); render();
+  });
+});
+listEl.addEventListener('click',e=>{
+  if(!e.target.classList.contains('del')) return;
+  const id=e.target.closest('.note').dataset.id;
+  const notes=load().filter(x=>x.id!==id); save(notes); render();
+});
+
+/* quiz logic */
+document.querySelectorAll('.qchoices').forEach(container=>{
+  const correct=container.dataset.answer;
+  const explain=container.dataset.explain;
+  const feedback=container.nextElementSibling;
+  container.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const choice=btn.dataset.choice;
+      if(choice===correct){
+        btn.classList.add('correct');
+        feedback.textContent="✔ Correct! " + explain;
+      } else {
+        btn.classList.add('wrong');
+        feedback.textContent="✘ Incorrect. " + explain;
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
