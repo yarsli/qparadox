@@ -14,7 +14,8 @@
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
-:root {
+/* --- Same styled base, trimmed for clarity but full --- */
+:root{
   --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
   --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
   --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
@@ -26,90 +27,48 @@ body{
   margin:0; background:var(--bg); color:var(--ink);
   font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
 }
-body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
-  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
-body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
-  background:
-    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
-    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
-    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
-
-/* frame + progress */
-.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
-#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
-
-/* header */
-header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
+header{padding:6rem 1rem 2.4rem; text-align:center}
 h1{
   font-family:"Playfair Display",serif; font-weight:900; margin:0;
-  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)
+  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8;
 }
-.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
-
-/* layout */
+.subtitle{max-width:960px; margin:1rem auto 0; color:var(--ink2); font-size:1.2rem}
 .main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
 @media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
-
-/* article */
 article{
   background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
-  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:2.2rem 1.2rem
 }
-@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
-article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:2.2rem; color:#f6eddc}
 .divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
 p{margin:1.05rem 0; text-align:justify}
 .dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
 
-/* figures */
-.figure{margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden;
-  background:#0e0f12; box-shadow:var(--shadow); max-width:820px}
-.figure img{display:block; width:100%; height:auto}
-.figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
-
-/* highlight button */
-.pwrap{position:relative; padding-right:2.5rem}
-.hlbtn{
-  position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
-  background:var(--glass); color:var(--ink); border:1px solid var(--line);
-  font-size:.85rem; cursor:pointer; opacity:0; transition:.2s
-}
-.pwrap:hover .hlbtn{opacity:1}
-.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
-
-/* sidebar */
-aside{position:sticky; top:90px; align-self:start; height:fit-content;
+/* Sidebar */
+aside{
+  position:sticky; top:90px; align-self:start; height:fit-content;
   background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
-  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem}
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem
+}
 aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
 .toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
 .toc a:hover{color:var(--ink)}
 .toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
-hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
-.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
-.note time{display:block; color:var(--muted); font-size:.85rem}
-.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
 
-/* quiz */
+/* Quiz */
 .quiz{margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.04)}
 .qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
 .qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
 .qchoices{display:grid; gap:.45rem}
-.qchoices button{text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05);
-  color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer}
-.qchoices button.correct{border-color:#46d17d}
-.qchoices button.wrong{border-color:#e07070}
+.qchoices button{
+  text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05);
+  color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer; transition:.2s
+}
+.qchoices button:hover{background:rgba(202,163,107,.12)}
+.qchoices button.correct{border-color:#46d17d; background:rgba(70,209,125,.15)}
+.qchoices button.wrong{border-color:#e07070; background:rgba(224,112,112,.15)}
 .qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
-
-/* nav links */
-.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
-.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
-  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem}
-
-/* reveal + footer */
-.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
-.reveal.in{opacity:1; transform:none}
-footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -119,457 +78,151 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
 
 <header class="reveal in">
   <h1>Quantum Gravity</h1>
-  <p class="subtitle">Exploring the frontier where quantum mechanics and general relativity collide — the search for a theory of everything.</p>
+  <p class="subtitle">The search for a theory that unites general relativity and quantum mechanics — weaving spacetime with the threads of uncertainty.</p>
 </header>
 
 <div class="main">
-  <!-- ARTICLE -->
-  <article id="article">
+<article id="article">
 
-    <h2 id="intro" class="reveal">The Clash of Theories</h2>
-    <div class="divider"></div>
+  <h2 id="intro" class="reveal">Why Quantum Gravity?</h2>
+  <div class="divider"></div>
+  <div class="pwrap reveal">
+    <p id="p1" class="dropcap">
+      Quantum mechanics describes the microscopic world of particles with astonishing accuracy, while general relativity explains the cosmic dance of planets and galaxies. Yet when pushed together — near black hole singularities or the Big Bang — these two frameworks clash. <strong>Quantum Gravity</strong> is the attempt to resolve this contradiction, to describe a universe where both curvature of spacetime and quantum uncertainty coexist in a single language.
+    </p>
+  </div>
 
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p1">★ Highlight</button>
-      <p id="p1" class="dropcap">
-        Quantum gravity is the ambitious attempt to merge the physics of the very large with the physics of the very small. On one hand, Einstein’s <strong>general relativity</strong> describes the curvature of spacetime and the motion of planets, galaxies, and the universe itself. On the other, <strong>quantum mechanics</strong> governs atoms, particles, and fields with uncanny precision. Each theory is spectacular in its domain, but when pushed to the <em>Planck scale</em> — around \(10^{-35}\) meters — their principles clash.
-      </p>
-    </div>
+  <div class="pwrap reveal">
+    <p id="p2">
+      This search is not merely technical; it is philosophical. Does spacetime emerge from something deeper? Are space and time fundamental, or are they byproducts of quantum information? These questions drive the construction of new theories, from vibrating strings to quantized loops, and motivate the experimental frontiers that push detectors and telescopes to their limits.
+    </p>
+  </div>
+  <h2 id="strings" class="reveal">String Theory</h2>
+  <div class="divider"></div>
+  <div class="pwrap reveal">
+    <p id="p3" class="dropcap">
+      <strong>String theory</strong> begins with a bold idea: instead of point-like particles, the fundamental building blocks of the universe are tiny one-dimensional strings. Their different vibrational modes give rise to all known particles — an electron, a photon, or a quark is simply the string playing a different “note.” Gravity emerges naturally when one vibrational pattern corresponds to the graviton, the hypothetical quantum carrier of gravitational force.
+    </p>
+  </div>
 
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p2">★ Highlight</button>
-      <p id="p2">
-        The heart of the problem lies in their assumptions. General relativity treats spacetime as smooth and continuous, while quantum theory insists that nature comes in discrete quanta. When one tries to calculate gravity’s quantum corrections, infinities erupt. Black holes and the big bang expose contradictions that cannot be patched. To understand the universe at its deepest level, we need a new synthesis: a <strong>quantum theory of gravity</strong>.
-      </p>
-    </div>
-    <h2 id="string" class="reveal">String Theory</h2>
-    <div class="divider"></div>
+  <div class="pwrap reveal">
+    <p id="p4">
+      To make the mathematics work, string theory requires additional dimensions beyond the familiar four of space and time. These extra dimensions are thought to be compactified into complex shapes known as Calabi–Yau manifolds. Though unobservable at human scales, they shape the physics of our universe in subtle ways, determining particle masses and forces. String theory aspires to be a “theory of everything,” but critics note that its predictions are difficult to test, and its landscape of possible universes is vast.
+    </p>
+  </div>
 
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p3">★ Highlight</button>
-      <p id="p3" class="dropcap">
-        String theory suggests that the fundamental units of nature are not particles but tiny vibrating <strong>strings</strong>. Each vibrational mode corresponds to a different particle: one vibration appears as a photon, another as a quark, and a special mode represents the <strong>graviton</strong>, the quantum mediator of gravity. Instead of multiple independent forces, string theory promises a unifying framework where all of physics emerges from the harmonics of these microscopic strings.
-      </p>
-    </div>
+  <h2 id="lqg" class="reveal">Loop Quantum Gravity</h2>
+  <div class="divider"></div>
+  <div class="pwrap reveal">
+    <p id="p5" class="dropcap">
+      <strong>Loop Quantum Gravity (LQG)</strong> takes a very different approach. Rather than adding new dimensions or objects, it directly quantizes spacetime itself. LQG suggests that space is not continuous but discrete — woven from finite “loops” of quantum geometry. Just as matter is made of atoms, spacetime is composed of indivisible quanta of area and volume.
+    </p>
+  </div>
 
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p4">★ Highlight</button>
-      <p id="p4">
-        A radical consequence is the requirement of <strong>extra dimensions</strong>. Rather than our familiar four (three of space, one of time), string theory typically demands ten or eleven. These hidden dimensions are compactified into intricate geometries known as <em>Calabi–Yau manifolds</em>. The specific shape of these compact dimensions determines particle masses and forces, linking cosmology to abstract mathematics and suggesting that the universe’s deepest structure is geometric.
-      </p>
-    </div>
+  <div class="pwrap reveal">
+    <p id="p6">
+      This leads to extraordinary consequences. Singularities — the infinite densities predicted at black hole cores or the Big Bang — are replaced by a more physical picture. Instead of a beginning with infinite compression, LQG proposes a <em>cosmic bounce</em>, where the universe transitions from contraction to expansion. In this sense, the birth of our cosmos may not have been a “beginning,” but a rebound from a prior universe.
+    </p>
+  </div>
 
-    <h2 id="mtheory" class="reveal">M-Theory</h2>
-    <div class="divider"></div>
+  <h2 id="spin-networks" class="reveal">Spin Networks and Spin Foams</h2>
+  <div class="divider"></div>
+  <div class="pwrap reveal">
+    <p id="p7" class="dropcap">
+      At the mathematical core of LQG lie <strong>spin networks</strong>, graphs whose edges and nodes encode quanta of geometry. Each link carries information about an area, while each node represents a volume. Together, they define the granular fabric of space. When these networks evolve through time, they form <strong>spin foams</strong> — the histories of quantum geometries.
+    </p>
+  </div>
 
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p5">★ Highlight</button>
-      <p id="p5" class="dropcap">
-        In the mid-1990s, researchers discovered that the five competing versions of string theory were actually connected, forming different limits of a more fundamental framework: <strong>M-Theory</strong>. M-theory extends the concept of strings to higher-dimensional objects called <em>branes</em>. A two-dimensional brane is a membrane, a three-dimensional brane could be an entire universe, and higher-dimensional branes stretch across the bulk of reality. Gravity, in this view, may leak between branes, offering an explanation for why it appears so weak compared to other forces.
-      </p>
-    </div>
+  <div class="pwrap reveal">
+    <p id="p8">
+      Spin networks and foams suggest that spacetime itself is relational: geometry is not a fixed stage, but a web of interactions. This perspective reshapes our understanding of physics, where the very backdrop of reality is a quantum participant rather than a passive container.
+    </p>
+  </div>
+  <h2 id="comparison" class="reveal">Strings vs Loops</h2>
+  <div class="divider"></div>
+  <div class="pwrap reveal">
+    <p id="p9" class="dropcap">
+      String theory and Loop Quantum Gravity represent two contrasting philosophies. One seeks unification by adding new entities and dimensions; the other insists that quantizing geometry itself is enough. While string theory excels in mathematical elegance and unification, LQG shines in conceptual clarity and background independence. Both remain incomplete, and some physicists suspect that the ultimate theory may merge insights from both camps.
+    </p>
+  </div>
 
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p6">★ Highlight</button>
-      <p id="p6">
-        M-theory is incomplete, but it offers tantalizing hints. It suggests that all forces and matter types are unified in a single quantum structure, and that spacetime itself could be emergent from these deeper dynamics. The theory even embraces eleven dimensions, weaving together geometry, algebra, and quantum physics into one sweeping picture — though much remains conjectural.
-      </p>
-    </div>
+  <h2 id="blackholes" class="reveal">Black Holes and the Holographic Principle</h2>
+  <div class="divider"></div>
+  <div class="pwrap reveal">
+    <p id="p10" class="dropcap">
+      Black holes are the testing grounds of quantum gravity. Hawking radiation suggests they evaporate, yet this raises the <em>information paradox</em>: does quantum information vanish with them, violating fundamental laws? String theory proposes that information is stored on the event horizon, leading to the <strong>holographic principle</strong>: the idea that the physics of a volume can be encoded on its boundary. This radical vision reshapes not just black holes, but our entire universe.
+    </p>
+  </div>
 
-    <h2 id="holography" class="reveal">The Holographic Principle</h2>
-    <div class="divider"></div>
+  <h2 id="cosmology" class="reveal">Cosmology and Beyond</h2>
+  <div class="divider"></div>
+  <div class="pwrap reveal">
+    <p id="p11" class="dropcap">
+      In cosmology, quantum gravity touches the earliest instants of the Big Bang and perhaps even what came “before.” Bounce models inspired by LQG suggest the universe may be eternal, cycling through contraction and expansion. String cosmology entertains multiverse scenarios where other universes sprout like bubbles. Both ideas push science to its limits, bordering on philosophy, but they remain grounded in a quest for mathematical consistency and physical insight.
+    </p>
+  </div>
 
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p7">★ Highlight</button>
-      <p id="p7" class="dropcap">
-        Perhaps the most surprising insight from string theory is the <strong>holographic principle</strong>. It proposes that the information contained in a volume of space is proportional not to its volume but to its surface area. This means that the universe may be like a cosmic hologram: our three-dimensional experience emerges from data encoded on a two-dimensional boundary. This principle was inspired by black hole entropy, which scales with horizon area, not volume.
-      </p>
-    </div>
+  <h2 id="philosophy" class="reveal">Philosophy and Open Questions</h2>
+  <div class="divider"></div>
+  <div class="pwrap reveal">
+    <p id="p12" class="dropcap">
+      Is spacetime fundamental, or emergent from entanglement and information? Can the laws of physics be derived from principles deeper than geometry? Quantum gravity is not only a technical puzzle but a philosophical challenge to how we conceive reality itself. In searching for answers, physicists find themselves echoing ancient questions with modern mathematics.
+    </p>
+  </div>
 
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p8">★ Highlight</button>
-      <p id="p8">
-        The most precise realization is the AdS/CFT correspondence, formulated by Juan Maldacena. It equates a gravity theory in a higher-dimensional “bulk” (Anti-de Sitter space) with a quantum field theory without gravity on its lower-dimensional boundary. This duality has become one of the most powerful tools in theoretical physics, providing deep connections between quantum information, condensed matter, and spacetime geometry itself.
-      </p>
-    </div>
-    <h2 id="lqg" class="reveal">Loop Quantum Gravity</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p9">★ Highlight</button>
-      <p id="p9" class="dropcap">
-        Not all approaches to quantum gravity begin with strings. <strong>Loop Quantum Gravity</strong> (LQG) takes a different path, quantizing spacetime itself. Instead of treating gravity as a force transmitted by gravitons, LQG suggests that the fabric of space is woven from discrete loops of fields. These loops form networks called <strong>spin networks</strong>, which evolve into spin foams as the universe progresses through time. Space is thus granular, not smooth, with the Planck length setting the minimum unit of distance.
-      </p>
-    </div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p10">★ Highlight</button>
-      <p id="p10">
-        A striking prediction of LQG is that areas and volumes come in discrete quanta. This means that the geometry of the universe is fundamentally digital. Black hole entropy, in this framework, emerges naturally from counting microstates of spin networks. Though experimental tests are elusive, LQG has provided a fertile mathematical playground and deepened our view of how spacetime might be quantized.
-      </p>
-    </div>
-
-    <h2 id="cdt" class="reveal">Causal Dynamical Triangulations</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p11">★ Highlight</button>
-      <p id="p11" class="dropcap">
-        Another fascinating path is <strong>Causal Dynamical Triangulations</strong> (CDT). In this approach, spacetime is approximated by gluing together tiny simplices — higher-dimensional triangles — that respect causal order. By summing over all possible triangulations, CDT aims to build spacetime from the bottom up, recovering smooth geometry at large scales while remaining discrete at the Planck scale. Surprisingly, CDT simulations have reproduced features resembling four-dimensional spacetime, offering hope that the continuum emerges naturally from quantum building blocks.
-      </p>
-    </div>
-
-    <h2 id="safety" class="reveal">Asymptotic Safety</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p12">★ Highlight</button>
-      <p id="p12" class="dropcap">
-        Quantum field theories often run into trouble at high energies, where coupling constants diverge. The idea of <strong>asymptotic safety</strong> suggests that gravity might avoid this fate if its renormalization flow approaches a fixed point. At this point, physics remains well-defined even at arbitrarily high energies. If correct, this approach could render gravity a consistent quantum theory without invoking extra dimensions or new particles, relying instead on the mathematics of renormalization.
-      </p>
-    </div>
-
-    <h2 id="emergent" class="reveal">Emergent Gravity</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p13">★ Highlight</button>
-      <p id="p13" class="dropcap">
-        A more radical idea is that gravity is not fundamental at all but <strong>emergent</strong>. In this view, gravity arises as a macroscopic phenomenon, much like temperature emerges from molecular motion. Erik Verlinde’s work on entropic gravity suggests that spacetime and gravity could emerge from quantum information and statistical mechanics. If true, Einstein’s equations might be akin to thermodynamic laws, describing averages of deeper microstates. This perspective links gravity to entropy, holography, and quantum information theory in surprising ways.
-      </p>
-    </div>
-    <h2 id="bh" class="reveal">Black Holes and Quantum Gravity</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p14">★ Highlight</button>
-      <p id="p14" class="dropcap">
-        Black holes are the crucibles where quantum gravity is most urgently tested. According to Einstein’s theory, they are regions where spacetime curves so intensely that nothing, not even light, can escape. At the center lies a singularity where densities become infinite — a place where classical physics collapses. Quantum gravity is expected to resolve this singularity, smoothing the breakdown of known laws into a deeper structure.
-      </p>
-    </div>
-
-    <figure class="figure reveal">
-      <img src="blackhole-illustration.jpeg" alt="Illustration of a black hole with an accretion disk"/>
-      <figcaption class="figcap">Black holes are natural laboratories for quantum gravity: where spacetime, energy, and information collide.</figcaption>
-    </figure>
-
-    <h2 id="hawking" class="reveal">Hawking Radiation</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p15">★ Highlight</button>
-      <p id="p15" class="dropcap">
-        In 1974, Stephen Hawking shocked the world by showing that black holes are not completely black. Quantum fluctuations near the event horizon allow particle–antiparticle pairs to emerge, with one particle escaping as radiation while the other falls into the hole. The result is a slow leak of energy, now called <strong>Hawking radiation</strong>. This process implies that black holes evaporate over time, eventually disappearing completely. It beautifully combines quantum field theory, relativity, and thermodynamics in a single picture.
-      </p>
-    </div>
-
-    <h2 id="info" class="reveal">The Information Paradox</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p16">★ Highlight</button>
-      <p id="p16" class="dropcap">
-        Hawking radiation, however, leads to a profound puzzle. If a black hole evaporates completely, what happens to the information about the matter that fell into it? Quantum mechanics forbids the destruction of information, yet general relativity seems to allow it. This tension is known as the <strong>black hole information paradox</strong>, one of the most pressing open problems in theoretical physics. Possible resolutions range from subtle correlations hidden in Hawking radiation to holographic principles that encode all information on the event horizon itself.
-      </p>
-    </div>
-
-    <h2 id="firewall" class="reveal">The Firewall Debate</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p17">★ Highlight</button>
-      <p id="p17" class="dropcap">
-        In 2012, physicists proposed a radical resolution: black holes might not be smooth at the horizon but instead possess a searing <strong>firewall</strong> of high-energy quanta that incinerates anything crossing. This idea preserves unitarity (the rule that information is never lost) but contradicts Einstein’s equivalence principle, which predicts a calm crossing for an observer falling in. The debate continues, with alternatives like <em>fuzzballs</em> in string theory and <em>soft hair</em> corrections on horizons offering other possibilities. Each hypothesis underscores how quantum gravity forces us to reconsider what we mean by space, time, and reality itself.
-      </p>
-    </div>
-
-    <h2 id="quiz" class="reveal">Quick Quiz</h2>
-    <div class="divider"></div>
-    <section class="quiz reveal" id="quizSection">
-      <div class="qitem">
-        <h4>1) What is Hawking radiation?</h4>
-        <div class="qchoices" data-answer="c" data-explain="It arises from quantum particle–antiparticle pairs at the event horizon, causing black holes to emit energy.">
-          <button data-choice="a">Heat produced by matter falling in</button>
-          <button data-choice="b">Synchrotron radiation from accretion disks</button>
-          <button data-choice="c">Quantum radiation from event horizon fluctuations</button>
-        </div>
-        <div class="qfeedback"></div>
+  <!-- QUIZ -->
+  <h2 id="quiz" class="reveal">Quick Quiz</h2>
+  <div class="divider"></div>
+  <section class="quiz reveal" id="quizSection">
+    <div class="qitem">
+      <h4>1) What is the basic idea of Loop Quantum Gravity?</h4>
+      <div class="qchoices" data-answer="a" data-explain="LQG proposes that space itself is quantized into loops.">
+        <button data-choice="a">Space is discrete, built from loops of quantum geometry</button>
+        <button data-choice="b">Particles vibrate as one-dimensional strings</button>
+        <button data-choice="c">Black holes are portals to other universes</button>
       </div>
-      <div class="qitem">
-        <h4>2) Why is the information paradox troubling?</h4>
-        <div class="qchoices" data-answer="b" data-explain="Quantum mechanics forbids information loss, yet evaporating black holes seem to erase it.">
-          <button data-choice="a">It violates the second law of thermodynamics</button>
-          <button data-choice="b">It suggests information could be lost forever</button>
-          <button data-choice="c">It requires black holes to be eternal</button>
-        </div>
-        <div class="qfeedback"></div>
+      <div class="qfeedback"></div>
+    </div>
+
+    <div class="qitem">
+      <h4>2) What does the holographic principle suggest?</h4>
+      <div class="qchoices" data-answer="b" data-explain="It states that information in a volume is encoded on its boundary.">
+        <button data-choice="a">The universe has infinite hidden dimensions</button>
+        <button data-choice="b">Physics inside a volume can be described by its boundary</button>
+        <button data-choice="c">Black holes are made entirely of photons</button>
       </div>
-      <div class="qitem">
-        <h4>3) What does the firewall proposal suggest?</h4>
-        <div class="qchoices" data-answer="a" data-explain="That a violent wall of energy exists at the event horizon, burning anything entering.">
-          <button data-choice="a">A wall of quanta destroys matter at the horizon</button>
-          <button data-choice="b">The horizon is smooth and uneventful</button>
-          <button data-choice="c">Black holes have no event horizons at all</button>
-        </div>
-        <div class="qfeedback"></div>
+      <div class="qfeedback"></div>
+    </div>
+
+    <div class="qitem">
+      <h4>3) What is the graviton in string theory?</h4>
+      <div class="qchoices" data-answer="c" data-explain="It is the vibrational mode of a string that carries gravity.">
+        <button data-choice="a">A particle that travels faster than light</button>
+        <button data-choice="b">A hypothetical black hole remnant</button>
+        <button data-choice="c">A quantum excitation of a string representing gravity</button>
       </div>
-    </section>
-    <h2 id="holography" class="reveal">The Holographic Principle</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p18">★ Highlight</button>
-      <p id="p18" class="dropcap">
-        One of the most startling insights from black hole thermodynamics is the idea that the information content of a region of space is proportional not to its <em>volume</em>, but to the <em>area</em> of its boundary. This is the essence of the <strong>holographic principle</strong>. Just as a two-dimensional hologram encodes a three-dimensional image, the physics inside a volume of space might be fully encoded on a lower-dimensional surface. This principle suggests that our familiar notion of a smooth, three-dimensional world could be a projection of a deeper, more fundamental description.
-      </p>
+      <div class="qfeedback"></div>
     </div>
+  </section>
 
-    <h2 id="adscft" class="reveal">AdS/CFT Correspondence</h2>
-    <div class="divider"></div>
+  <div class="nextrow reveal">
+    <a href="quantum-mechanics.html">← Back to Quantum Mechanics Hub</a>
+    <a href="quantum-field-theory.html">Next page → Quantum Field Theory</a>
+  </div>
 
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p19">★ Highlight</button>
-      <p id="p19" class="dropcap">
-        In 1997, Juan Maldacena proposed a concrete realization of the holographic principle: the <strong>AdS/CFT correspondence</strong>. It equates a gravitational theory in a curved spacetime called anti–de Sitter space (AdS) with a quantum field theory defined on its boundary (a conformal field theory, or CFT). This duality provides a powerful dictionary: a black hole in AdS is equivalent to a hot plasma in the CFT; strings vibrating in the bulk correspond to operators on the boundary. Suddenly, problems once intractable in one picture become solvable in the other. AdS/CFT is not just a conjecture — it has been tested in countless calculations and has reshaped modern theoretical physics.
-      </p>
-    </div>
+</article>
 
-    <h2 id="emergent" class="reveal">Spacetime as Emergent</h2>
-    <div class="divider"></div>
+<!-- Sidebar -->
+<aside class="reveal">
+  <h3>Contents</h3>
+  <div id="toc" class="toc"></div>
+  <hr class="sep"/>
+  <h3>Notebook</h3>
+  <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ next to any paragraph to save it here.</p>
+  <div id="nbList"></div>
+</aside>
+</div>
 
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p20">★ Highlight</button>
-      <p id="p20" class="dropcap">
-        The holographic principle hints at a radical possibility: spacetime itself might be <em>emergent</em>. Instead of being a fundamental backdrop, it could arise from patterns of entanglement and quantum information. In this picture, geometry is not pre-existing but is woven out of quantum correlations. Entanglement entropy, for example, has been linked to the area of minimal surfaces in AdS space, suggesting that the very fabric of spacetime is stitched together by quantum information. This resonates with Wheeler’s slogan: “It from bit” — reality emerging from information itself.
-      </p>
-    </div>
-
-    <h2 id="philo" class="reveal">Philosophical Implications</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p21">★ Highlight</button>
-      <p id="p21" class="dropcap">
-        If space and time are emergent, then our everyday experience of reality is akin to living inside a grand holographic illusion. Does this mean the universe is fundamentally two-dimensional? Or that reality is mathematical structure encoded in relationships, not things? The holographic principle forces us to rethink what “existence” even means. Just as Copernicus displaced Earth from the cosmic center, holography displaces spacetime from being the stage of physics to being a secondary effect of deeper laws. For philosophers and physicists alike, this represents a profound shift in worldview.
-      </p>
-    </div>
-
-    <h2 id="quiz" class="reveal">Quick Quiz</h2>
-    <div class="divider"></div>
-    <section class="quiz reveal" id="quizSection">
-      <div class="qitem">
-        <h4>1) What does the holographic principle claim?</h4>
-        <div class="qchoices" data-answer="a" data-explain="It suggests information in a region of space is encoded on its boundary, not its volume.">
-          <button data-choice="a">Information scales with surface area</button>
-          <button data-choice="b">Information scales with volume</button>
-          <button data-choice="c">Information is infinite in any finite region</button>
-        </div>
-        <div class="qfeedback"></div>
-      </div>
-      <div class="qitem">
-        <h4>2) What is AdS/CFT?</h4>
-        <div class="qchoices" data-answer="c" data-explain="It’s a duality between gravity in AdS space and conformal field theory on its boundary.">
-          <button data-choice="a">A proof that black holes don’t exist</button>
-          <button data-choice="b">A new type of telescope</button>
-          <button data-choice="c">A duality between gravity and field theory</button>
-        </div>
-        <div class="qfeedback"></div>
-      </div>
-      <div class="qitem">
-        <h4>3) What idea follows from emergent spacetime?</h4>
-        <div class="qchoices" data-answer="b" data-explain="That spacetime arises from quantum entanglement and information.">
-          <button data-choice="a">Space is made of tiny physical cubes</button>
-          <button data-choice="b">Spacetime emerges from entanglement</button>
-          <button data-choice="c">Time flows independently of matter</button>
-        </div>
-        <div class="qfeedback"></div>
-      </div>
-    </section>
-    <h2 id="lqg" class="reveal">Loop Quantum Gravity</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p22">★ Highlight</button>
-      <p id="p22" class="dropcap">
-        While string theory envisions the universe as vibrating strings in higher dimensions, <strong>Loop Quantum Gravity (LQG)</strong> takes a different path. It seeks to quantize spacetime itself without adding extra dimensions or exotic objects. Instead of treating space as a smooth continuum, LQG describes it as composed of discrete “chunks” — tiny quantum loops woven into a vast web. These loops form the very scaffolding of geometry, giving rise to areas and volumes that are fundamentally granular.
-      </p>
-    </div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p23">★ Highlight</button>
-      <p id="p23">
-        In this view, smooth space is an illusion that emerges at large scales. Just as water looks continuous even though it is made of molecules, spacetime feels continuous even though it is quantized. This radically changes how we imagine the Big Bang: instead of an infinitely dense singularity, LQG predicts a “bounce” where the universe rebounds from a prior contracting phase. Infinity is replaced with a cyclical rhythm, echoing ancient cosmologies but grounded in quantum geometry.
-      </p>
-    </div>
-
-    <h2 id="spin" class="reveal">Spin Networks</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p24">★ Highlight</button>
-      <p id="p24" class="dropcap">
-        The mathematical heart of LQG lies in <strong>spin networks</strong>, introduced by Roger Penrose. A spin network is a graph where edges represent quantum states of area, and nodes represent quantum states of volume. Each link carries a quantum number that encodes geometric information, like the “pixelation” of space. The entire structure evolves as quantum geometry fluctuates, meaning that spacetime itself is dynamic and relational rather than a fixed stage.
-      </p>
-    </div>
-
-    <figure class="figure reveal">
-      <img src="spin-network.jpeg" alt="Illustration of a spin network graph"/>
-      <figcaption class="figcap">Spin networks represent quantum states of geometry — spacetime woven as a tapestry of nodes and links.</figcaption>
-    </figure>
-
-    <h2 id="foams" class="reveal">Spin Foams</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p25">★ Highlight</button>
-      <p id="p25" class="dropcap">
-        To describe spacetime’s evolution, LQG extends spin networks into <strong>spin foams</strong>. These are like animated spin networks: a network at one moment evolves into another, and the collection of all such transitions forms a foam-like structure. Spin foams are the path-integral version of quantum geometry, summing over possible histories of spacetime. This formalism allows physicists to calculate probabilities for how quantum spacetime evolves — a necessary step for connecting theory with observation.
-      </p>
-    </div>
-    <h2 id="comparison" class="reveal">String Theory vs Loop Quantum Gravity</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p26">★ Highlight</button>
-      <p id="p26" class="dropcap">
-        String theory and Loop Quantum Gravity offer two very different visions of the quantum universe. String theory assumes that all particles are tiny vibrating strings, requiring extra dimensions and supersymmetry to remain consistent. Its power lies in unifying gravity with the other fundamental forces under one mathematical framework. LQG, by contrast, focuses solely on quantizing spacetime without introducing new entities. It does not unify forces, but it provides a direct approach to resolving singularities and understanding the fabric of geometry itself.
-      </p>
-    </div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p27">★ Highlight</button>
-      <p id="p27">
-        Some physicists see the two as complementary rather than competing. String theory explains black hole entropy beautifully using microstates of strings and branes, while LQG explains entropy by counting horizon states of spin networks. Perhaps both approaches are fragments of a deeper, undiscovered theory — one where strings and loops are different languages describing the same quantum spacetime.
-      </p>
-    </div>
-
-    <h2 id="cosmo" class="reveal">Cosmological Implications</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p28">★ Highlight</button>
-      <p id="p28" class="dropcap">
-        In cosmology, LQG provides an intriguing alternative to the classical Big Bang. Instead of beginning with a singularity of infinite density, the universe contracts to a minimum size and then undergoes a <strong>quantum bounce</strong>, rebounding into expansion. This prediction suggests that the cosmos might be eternal, cycling through phases of contraction and expansion. Such models could leave imprints in the cosmic microwave background, offering potential observational tests. Meanwhile, string theory proposes its own cosmologies, from inflation driven by string fields to “brane collisions” spawning entire universes.
-      </p>
-    </div>
-
-    <h2 id="philo2" class="reveal">Philosophical Reflections</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p29">★ Highlight</button>
-      <p id="p29" class="dropcap">
-        Both LQG and string theory highlight a profound truth: spacetime is not fundamental. Whether woven by loops or stretched by strings, the geometry we inhabit is a secondary phenomenon emerging from deeper rules. For philosophy, this is as radical as Copernicus or Darwin. It suggests that our sense of place — the here and now — is not an ultimate category of existence but an emergent construct. To understand quantum gravity is not just to solve equations but to rethink what it means to be “real.”
-      </p>
-    </div>
-
-    <h2 id="quiz" class="reveal">Quick Quiz</h2>
-    <div class="divider"></div>
-    <section class="quiz reveal" id="quizSection">
-      <div class="qitem">
-        <h4>1) What does Loop Quantum Gravity claim about space?</h4>
-        <div class="qchoices" data-answer="b" data-explain="Space is quantized into discrete chunks represented by spin networks.">
-          <button data-choice="a">Space is infinitely divisible and smooth</button>
-          <button data-choice="b">Space is made of discrete quantum loops</button>
-          <button data-choice="c">Space is an illusion created by strings</button>
-        </div>
-        <div class="qfeedback"></div>
-      </div>
-      <div class="qitem">
-        <h4>2) What is a spin foam?</h4>
-        <div class="qchoices" data-answer="a" data-explain="A spin foam describes the evolution of spin networks across time.">
-          <button data-choice="a">A dynamic evolution of spin networks</button>
-          <button data-choice="b">A type of cosmic inflation bubble</button>
-          <button data-choice="c">A holographic surface encoding information</button>
-        </div>
-        <div class="qfeedback"></div>
-      </div>
-      <div class="qitem">
-        <h4>3) How does LQG reinterpret the Big Bang?</h4>
-        <div class="qchoices" data-answer="c" data-explain="It predicts a bounce, replacing the singularity with a transition from contraction to expansion.">
-          <button data-choice="a">It denies the universe had a beginning</button>
-          <button data-choice="b">It keeps the singularity but smooths it mathematically</button>
-          <button data-choice="c">It replaces the singularity with a quantum bounce</button>
-        </div>
-        <div class="qfeedback"></div>
-      </div>
-    </section>
-    <h2 id="inflation" class="reveal">Quantum Gravity and Cosmic Inflation</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p30">★ Highlight</button>
-      <p id="p30" class="dropcap">
-        The earliest moments of the universe remain one of the greatest laboratories for quantum gravity. During inflation, space expanded exponentially, stretching quantum fluctuations into the seeds of galaxies. Yet inflation itself calls for a deeper explanation. Was it driven by fields predicted in string theory? Or by the quantum geometry corrections of Loop Quantum Gravity? In either case, inflation provides a window into how quantum spacetime shaped the cosmos we observe today.
-      </p>
-    </div>
-
-    <h2 id="darkenergy" class="reveal">Dark Energy and the Accelerating Universe</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p31">★ Highlight</button>
-      <p id="p31" class="dropcap">
-        In 1998, astronomers discovered that the expansion of the universe is accelerating, driven by an unknown component dubbed <strong>dark energy</strong>. Quantum field theory predicts a vacuum energy far greater than observed, leading to the infamous cosmological constant problem. Quantum gravity may hold the key: perhaps vacuum energy is tamed by quantum geometry, or perhaps dark energy is a clue to new physics beyond both strings and loops. Either way, the accelerated cosmos challenges our deepest theories.
-      </p>
-    </div>
-
-    <h2 id="multiverse" class="reveal">Multiverse and Quantum Gravity</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p32">★ Highlight</button>
-      <p id="p32" class="dropcap">
-        Both string theory and cosmology suggest the possibility of a <strong>multiverse</strong>. In string theory, the vast landscape of possible vacuum states — on the order of \(10^{500}\) — could correspond to different universes, each with its own laws of physics. In cosmology, eternal inflation spawns bubble universes endlessly. Quantum gravity may decide whether these possibilities are mathematical fictions or genuine cosmic realities. Are we a single verse, or a note in an infinite symphony of worlds?
-      </p>
-    </div>
-
-    <h2 id="final" class="reveal">Toward a Final Theory</h2>
-    <div class="divider"></div>
-
-    <div class="pwrap reveal">
-      <button class="hlbtn" data-target="p33">★ Highlight</button>
-      <p id="p33" class="dropcap">
-        The search for quantum gravity is not merely about equations. It is about redefining reality. Are we woven from loops, or strings, or something beyond both? Do we live in a holographic projection, or a cosmic foam, or an infinite multiverse? Each proposal expands the horizon of imagination. What unites them is the belief that spacetime is not the final word but a chapter in a deeper book. To pursue quantum gravity is to follow the oldest human dream: to understand the ultimate fabric of existence.
-      </p>
-    </div>
-
-    <h2 id="quiz" class="reveal">Quick Quiz</h2>
-    <div class="divider"></div>
-    <section class="quiz reveal" id="quizSection">
-      <div class="qitem">
-        <h4>1) What role does quantum gravity play in inflation?</h4>
-        <div class="qchoices" data-answer="b" data-explain="It may explain the origin and dynamics of the fields that drove inflation.">
-          <button data-choice="a">It has no role in inflation</button>
-          <button data-choice="b">It may explain inflationary fields and corrections</button>
-          <button data-choice="c">It only affects galaxies, not the early universe</button>
-        </div>
-        <div class="qfeedback"></div>
-      </div>
-      <div class="qitem">
-        <h4>2) What is the cosmological constant problem?</h4>
-        <div class="qchoices" data-answer="a" data-explain="Quantum field theory predicts vacuum energy far too large compared to what is observed.">
-          <button data-choice="a">Vacuum energy predicted vs observed is mismatched</button>
-          <button data-choice="b">Dark energy is heavier than dark matter</button>
-          <button data-choice="c">The universe should be contracting not expanding</button>
-        </div>
-        <div class="qfeedback"></div>
-      </div>
-      <div class="qitem">
-        <h4>3) What is the string theory landscape?</h4>
-        <div class="qchoices" data-answer="c" data-explain="It refers to the enormous number of possible vacuum states in string theory, each with different laws.">
-          <button data-choice="a">The shape of Earth’s spacetime curvature</button>
-          <button data-choice="b">The map of galaxies in the universe</button>
-          <button data-choice="c">The vast number of possible universes in string theory</button>
-        </div>
-        <div class="qfeedback"></div>
-      </div>
-    </section>
-
-    <div class="nextrow reveal">
-      <a href="quantum-gravity.html">← Back to Quantum Gravity Hub</a>
-      <a href="index.html">Return to Home →</a>
-    </div>
 <footer>© 2025 QParadox</footer>
 
 <script>
@@ -581,85 +234,38 @@ function onScroll(){
 }
 addEventListener('scroll', onScroll); onScroll();
 
-/* reveal on scroll (fade in) */
+/* reveal on scroll */
 const obs=new IntersectionObserver(es=>{
-  es.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('in');
-      obs.unobserve(e.target);
-    }
-  });
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} });
 },{threshold:.18});
-document.querySelectorAll('.reveal').forEach(el=>{
-  if(!el.classList.contains('in')) obs.observe(el);
-});
+document.querySelectorAll('.reveal').forEach(el=>{ if(!el.classList.contains('in')) obs.observe(el); });
 
-/* TOC build */
+/* TOC */
 const toc=document.getElementById('toc');
 const heads=[...document.querySelectorAll('#article h2')];
 heads.forEach(h=>{
-  const a=document.createElement('a');
-  a.href='#'+h.id;
-  a.textContent=h.textContent;
-  toc.appendChild(a);
+  const a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent; toc.appendChild(a);
 });
 function spy(){
   const y=scrollY+140; let idx=-1;
-  heads.forEach((s,i)=>{
-    if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i;
-  });
+  heads.forEach((s,i)=>{ if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i; });
   [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));
 }
 addEventListener('scroll', spy); spy();
 
-/* notebook */
-const KEY='qpx_notes_quantum_gravity';
-const listEl=document.getElementById('nbList');
-function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return []} }
-function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
-function render(){
-  const notes=load(); listEl.innerHTML='';
-  if(notes.length===0){
-    listEl.innerHTML='<p style="color:var(--muted)">No highlights yet.</p>';
-    return;
-  }
-  notes.forEach(n=>{
-    const div=document.createElement('div'); div.className='note'; div.dataset.id=n.id;
-    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`;
-    listEl.appendChild(div);
-  });
-}
-render();
-document.querySelectorAll('.hlbtn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const id=btn.dataset.target, p=document.getElementById(id);
-    if(!p) return;
-    p.classList.add('mark');
-    const notes=load();
-    notes.push({id:'n'+Date.now(), text:p.textContent.trim(), time:Date.now(), para:id});
-    save(notes); render();
-  });
-});
-listEl.addEventListener('click',e=>{
-  if(!e.target.classList.contains('del')) return;
-  const id=e.target.closest('.note').dataset.id;
-  const notes=load().filter(x=>x.id!==id); save(notes); render();
-});
-
-/* quiz logic */
-document.querySelectorAll('.qchoices').forEach(container=>{
-  const correct=container.dataset.answer;
-  const explain=container.dataset.explain;
-  const feedback=container.nextElementSibling;
-  container.querySelectorAll('button').forEach(btn=>{
+/* Quiz logic */
+document.querySelectorAll('.qchoices').forEach(q=>{
+  const answer=q.dataset.answer;
+  const feedback=q.nextElementSibling;
+  q.querySelectorAll('button').forEach(btn=>{
     btn.addEventListener('click',()=>{
-      const choice=btn.dataset.choice;
-      if(choice===correct){
+      q.querySelectorAll('button').forEach(b=>b.classList.remove('correct','wrong'));
+      if(btn.dataset.choice===answer){
         btn.classList.add('correct');
-        feedback.textContent="✔ Correct! " + explain;
+        feedback.textContent="✔ Correct! "+q.dataset.explain;
       } else {
         btn.classList.add('wrong');
-        feedback.textContent="✘ Incorrect. " + explain;
+        feedback.textContent="✘ Incorrect. "+q.dataset.explain;
       }
     });
   });
