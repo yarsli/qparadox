@@ -78,6 +78,27 @@ p{margin:1.05rem 0; text-align:justify}
 }
 .pwrap:hover .hlbtn{opacity:1}
 .mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+/* TOC Links */
+.toc a {
+  display: block;
+  text-decoration: none;
+  color: var(--ink2);
+  padding: .35rem .4rem;
+  border-radius: .4rem;
+  font-size: .95rem;
+  margin: .2rem 0;
+  transition: background .25s, color .25s;
+}
+.toc a:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.05);
+}
+.toc a.active {
+  color: #111;
+  background: linear-gradient(90deg, var(--gold), #efd6a8);
+  font-weight: 600;
+}
+
 </style>
 </head>
 <body>
