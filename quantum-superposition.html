@@ -130,6 +130,68 @@ aside h3 {
   font-size: .95rem;
   font-style: italic;
 }
+/* Quiz styling */
+.quiz {
+  margin-top: 1.6rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .04);
+}
+
+.qitem {
+  margin: 1.2rem 0;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,0.15);
+}
+
+.qitem h4 {
+  margin: 0 0 .7rem 0;
+  font-family: "Playfair Display", serif;
+  color: var(--ink);
+}
+
+/* Answer buttons */
+.qchoices button {
+  text-align: left;
+  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.05);
+  color: var(--ink);
+  padding: .6rem .9rem;
+  border-radius: .6rem;
+  cursor: pointer;
+  font-size: .95rem;
+  transition: background .25s, border-color .25s, transform .15s;
+  display: block;
+  width: 100%;
+  margin: .4rem 0;
+}
+
+.qchoices button:hover {
+  background: rgba(255,255,255,.1);
+  transform: scale(1.01);
+}
+
+.qchoices button.correct {
+  border-color: #46d17d;
+  background: rgba(70, 209, 125, 0.15);
+  box-shadow: 0 0 10px rgba(70, 209, 125, 0.4);
+}
+
+.qchoices button.wrong {
+  border-color: #e07070;
+  background: rgba(224, 112, 112, 0.15);
+  box-shadow: 0 0 10px rgba(224, 112, 112, 0.4);
+}
+
+.qfeedback {
+  color: var(--ink2);
+  margin-top: .6rem;
+  font-size: .95rem;
+  font-style: italic;
+}
 
 </style>
 </head>
