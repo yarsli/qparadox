@@ -68,6 +68,59 @@ p{margin:1.05rem 0; text-align:justify}
 }
 .figure img{display:block; width:100%; height:auto}
 .figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
+/* highlight button */
+.pwrap{position:relative; padding-right:2.5rem}
+.hlbtn{
+  position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+  background:var(--glass); color:var(--ink); border:1px solid var(--line);
+  font-size:.85rem; cursor:pointer; opacity:0; transition:.2s
+}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+/* sidebar */
+aside{
+  position:sticky; top:90px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem
+}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem; margin:.25rem 0}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+/* quiz */
+.quiz{margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.04)}
+.qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
+.qchoices{display:grid; gap:.45rem}
+.qchoices button{text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05); color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer}
+.qchoices button.correct{border-color:#46d17d; background:rgba(70,209,125,.15)}
+.qchoices button.wrong{border-color:#e07070; background:rgba(224,112,112,.15)}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
+/* reveal fade-in */
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+/* bottom navigation row */
+.nextrow{
+  display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem
+}
+.nextrow a{
+  text-decoration:none; color:var(--ink);
+  border:1px solid rgba(255,255,255,.26);
+  border-radius:.8rem;
+  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22));
+  padding:.7rem 1rem;
+  transition:all .25s ease
+}
+.nextrow a:hover{
+  background:linear-gradient(90deg,rgba(202,163,107,.45),rgba(122,160,255,.4));
+  color:#fff;
+  box-shadow:0 0 12px rgba(202,163,107,.5);
+}
+
 </style>
 </head>
 <body>
@@ -414,7 +467,7 @@ p{margin:1.05rem 0; text-align:justify}
 
     <div class="nextrow reveal">
       <a href="quantum-bells-theorem.html">← Back to Bell’s Theorem</a>
-      <a href="quantum-philosophy.html">Next page → Quantum Philosophy</a>
+      <a href="quantum-ft.html">Next page → Quantum Field Theory</a>
     </div>
 
   </article>
