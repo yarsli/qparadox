@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • Quantum Mechanics — Bell’s Theorem</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!-- MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --side:330px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
+}
+body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+
+/* frame + progress */
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
+
+/* header */
+header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
+h1{
+  font-family:"Playfair Display",serif; font-weight:900; margin:0;
+  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)
+}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+
+/* layout */
+.main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
+
+/* article */
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
+
+/* figures */
+.figure{
+  margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden;
+  background:#0e0f12; box-shadow:var(--shadow); max-width:820px
+}
+.figure img{display:block; width:100%; height:auto}
+.figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
+
+/* highlight button */
+.pwrap{position:relative; padding-right:2.5rem}
+.hlbtn{
+  position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+  background:var(--glass); color:var(--ink); border:1px solid var(--line);
+  font-size:.85rem; cursor:pointer; opacity:0; transition:.2s
+}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+
+/* sidebar */
+aside{
+  position:sticky; top:90px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem
+}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem; transition:.25s}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+
+/* quiz */
+.quiz{
+  margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px;
+  background:rgba(255,255,255,.04)
+}
+.qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
+.qchoices{display:grid; gap:.45rem}
+.qchoices button{
+  text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05);
+  color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer; transition:.25s
+}
+.qchoices button.correct{border-color:#46d17d; background:rgba(70,209,125,.15)}
+.qchoices button.wrong{border-color:#e07070; background:rgba(224,112,112,.15)}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
+
+/* nav links */
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
+  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem; transition:.3s}
+.nextrow a:hover{background:linear-gradient(90deg,rgba(202,163,107,.45),rgba(122,160,255,.38))}
+
+/* reveal + fade animations */
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<div class="frame" aria-hidden="true"></div>
+<div id="progress"></div>
+
+<header class="reveal in">
+  <h1>Quantum Mechanics — Bell’s Theorem</h1>
+  <p class="subtitle">From Einstein’s doubts to experimental triumphs, Bell’s Theorem revealed that reality is stranger than locality and hidden variables could allow.</p>
+</header>
+
+<div class="main">
+  <!-- ARTICLE -->
+  <article id="article">
+    <h2 id="intro" class="reveal">Introduction</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        Bell’s Theorem is one of the most profound results in twentieth-century physics. 
+        At its core, it addresses a simple but unsettling question: can the universe be explained by local hidden variables, or does quantum mechanics describe reality as it truly is? 
+        To grasp its significance, one must travel back to the debates of the 1930s, when Albert Einstein, Boris Podolsky, and Nathan Rosen published their famous <strong>EPR paper</strong>. 
+        Their argument shook the foundations of physics: they believed quantum mechanics, though successful, was incomplete. 
+        Bell’s Theorem, written decades later, would transform this philosophical puzzle into an experimentally testable inequality. 
+        The results, verified in laboratories, suggest that nature itself resists classical explanation.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2">
+        To appreciate Bell’s breakthrough, consider Einstein’s discomfort. 
+        He had accepted relativity’s radical ideas — that time dilates, lengths contract, and simultaneity dissolves. 
+        Yet he could not accept the strange probabilistic language of quantum mechanics. 
+        For Einstein, God did not play dice, and the notion that a particle had no definite position until measured seemed nonsensical. 
+        He longed for a deeper description: a hidden layer of reality in which particles had definite properties, independent of observation. 
+        This hidden layer would restore determinism and locality — two principles he considered sacred.
+      </p>
+    </div>
+
+    <h2 id="epr" class="reveal">The EPR Paradox</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        The EPR paper posed a clever thought experiment. Imagine two particles that interact and then separate, flying off in opposite directions. 
+        According to quantum mechanics, their properties remain entangled: if one is measured to have spin “up,” the other must instantly be “down.” 
+        EPR argued that if we can predict the second particle’s state without disturbing it, then the second particle must have had that property all along. 
+        In other words, reality must contain hidden variables not described by the wavefunction. 
+        Otherwise, quantum mechanics would allow “spooky action at a distance,” an influence faster than light — which Einstein rejected as impossible.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4">
+        This reasoning raised a paradox: either quantum mechanics is incomplete, or relativity’s prohibition on faster-than-light influences is violated. 
+        Niels Bohr, Einstein’s philosophical rival, responded that EPR misunderstood the meaning of measurement. 
+        For Bohr, quantum mechanics was not about hidden variables but about what can be said regarding experiments. 
+        Measurement does not uncover preexisting properties; it defines them. 
+        The two sides seemed locked in a stalemate: determinism and locality versus complementarity and indeterminacy. 
+        For decades, this debate was considered philosophy, not physics, because no experiment could distinguish between them. 
+        It would take John Bell, in 1964, to show that the issue was not merely semantic: hidden variables made testable predictions different from quantum mechanics.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="epr-paradox.jpeg" alt="Einstein and Bohr engaged in the debate of EPR paradox"/>
+      <figcaption class="figcap">
+        The EPR paradox framed a deep question: are quantum states complete, or is there an unseen layer of hidden variables? Bell’s Theorem transformed this from philosophy into experiment.
+      </figcaption>
+    </figure>
+    <h2 id="bell" class="reveal">Bell’s Inequalities</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p5">★ Highlight</button>
+      <p id="p5" class="dropcap">
+        In 1964, John Bell published a paper that changed the landscape of physics. 
+        He considered the possibility that hidden variables might exist, assigning definite values to particles before measurement, while still respecting the principle of locality. 
+        To test this idea, Bell derived an inequality: a mathematical boundary on the correlations any local hidden-variable theory could produce. 
+        If quantum mechanics predicted correlations stronger than this bound, and if experiments agreed with quantum predictions, then no local hidden-variable explanation could survive.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p6">★ Highlight</button>
+      <p id="p6">
+        The setup is deceptively simple. Imagine a source emitting pairs of particles in opposite directions, each sent to a distant detector. 
+        Each detector can be adjusted to measure spin (or polarization, in the case of photons) along different angles. 
+        In a local hidden-variable model, the results at each detector depend only on preexisting hidden instructions carried by the particle and the local detector setting. 
+        Bell showed that such models impose strict statistical limits. 
+        Specifically, the correlations between the two sides cannot exceed a certain combination of expectation values. 
+        This condition is known today as a <strong>Bell inequality</strong>.
+      </p>
+    </div>
+
+    <h2 id="math" class="reveal">Mathematical Formulation</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p7">★ Highlight</button>
+      <p id="p7" class="dropcap">
+        The most famous version, called the CHSH inequality (after Clauser, Horne, Shimony, and Holt), can be written as:
+        \[
+          |E(a, b) + E(a, b') + E(a', b) - E(a', b')| \leq 2
+        \]
+        Here \(E(a, b)\) represents the correlation between measurement outcomes when detector A is set at angle \(a\) and detector B at angle \(b\). 
+        The inequality must hold if local realism — the idea that properties exist prior to measurement and that no influence travels faster than light — is true.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p8">★ Highlight</button>
+      <p id="p8">
+        Quantum mechanics, however, predicts a violation. 
+        For entangled spin-\(\tfrac{1}{2}\) particles, if the measurement settings differ by 45°, the predicted correlation gives:
+        \[
+          |E(a, b) + E(a, b') + E(a', b) - E(a', b')| = 2\sqrt{2}
+        \]
+        which exceeds the classical bound of 2. 
+        This result is known as the <strong>Tsirelson bound</strong>. 
+        It shows that quantum correlations are stronger than any classical local model can allow, yet they still obey precise mathematical limits. 
+        Thus, Bell’s inequalities separate the universe into two regimes: the classical local-realist world and the quantum world of entanglement.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="bell-inequality.jpeg" alt="Illustration of Bell inequality experiment with detectors at different angles"/>
+      <figcaption class="figcap">
+        Bell’s inequalities define a strict boundary: local realism cannot reproduce the quantum violations observed in experiments.
+      </figcaption>
+    </figure>
+    <h2 id="experiments" class="reveal">Experimental Tests</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p9">★ Highlight</button>
+      <p id="p9" class="dropcap">
+        Bell’s inequalities moved the debate from philosophy to experiment. 
+        If quantum mechanics was right, carefully designed tests would reveal correlations stronger than any local hidden-variable theory could permit. 
+        In the 1970s and 1980s, physicists began putting these predictions to the test with entangled photons, polarizers, and detectors. 
+        The most famous early work came from Alain Aspect and his team in 1981–1982 at Orsay, France. 
+        They produced entangled photon pairs and measured their polarizations with rapidly changing detector settings, ensuring that no signal could travel between them during the measurement. 
+        The result? The correlations violated Bell’s inequalities, lining up with quantum predictions.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p10">★ Highlight</button>
+      <p id="p10">
+        Aspect’s experiments were revolutionary but not flawless. 
+        Two main concerns, known as “loopholes,” remained. 
+        The <strong>detection loophole</strong> arises when detectors miss too many particles, raising the possibility that the detected subset is biased. 
+        The <strong>locality loophole</strong> emerges if detector settings are not changed fast enough, leaving room for hidden signals to travel between them. 
+        For decades, skeptics argued that until both loopholes were closed simultaneously, the results could not be considered decisive.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p11">★ Highlight</button>
+      <p id="p11" class="dropcap">
+        In 2015, a new generation of “loophole-free” experiments ended the debate. 
+        Teams in Delft, Vienna, and Boulder used entangled photons, superconducting qubits, and electron spins in diamonds to perform tests where detector efficiency was nearly perfect and settings were changed at spacelike separation. 
+        The results again violated Bell’s inequalities, leaving no escape for local hidden-variable theories. 
+        Some even went further, using cosmic photons from distant stars to choose detector settings, pushing any hypothetical hidden signal back billions of years. 
+        These cosmic Bell tests strengthened the case: quantum mechanics, with its nonlocal correlations, is the correct description of nature.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="aspect-experiment.jpeg" alt="Diagram of Aspect’s Bell test experiment with entangled photons"/>
+      <figcaption class="figcap">
+        Alain Aspect’s pioneering 1982 experiment marked the turning point from philosophical debate to experimental proof, later confirmed by loophole-free tests worldwide.
+      </figcaption>
+    </figure>
+    <h2 id="implications" class="reveal">Implications and Philosophy</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p12">★ Highlight</button>
+      <p id="p12" class="dropcap">
+        The experimental violation of Bell’s inequalities has profound consequences. 
+        First and foremost, it rules out the possibility of any <strong>local hidden-variable theory</strong> fully explaining quantum outcomes. 
+        Nature does not allow pre-determined instructions carried by particles that respect locality. 
+        Instead, entangled particles exhibit correlations that cannot be explained by classical notions of cause and effect. 
+        This forces us to accept either <em>nonlocality</em> — influences that extend across space instantaneously — or to abandon <em>realism</em> — the idea that physical properties exist independently of observation.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p13">★ Highlight</button>
+      <p id="p13">
+        For many physicists, Bell’s Theorem represents the final nail in the coffin of Einstein’s dream of local realism. 
+        Quantum mechanics, strange though it is, has survived every experimental challenge. 
+        Yet the implications remain unsettling. 
+        Does the universe truly allow instantaneous correlations? 
+        Do measurement outcomes come into existence only when observed? 
+        Some interpretations, like the <strong>Bohmian pilot-wave theory</strong>, embrace nonlocality. 
+        Others, like the <strong>many-worlds interpretation</strong>, avoid faster-than-light influences by positing branching universes. 
+        Each path carries its own philosophical costs, leaving no fully comfortable option.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p14">★ Highlight</button>
+      <p id="p14" class="dropcap">
+        Bell’s Theorem also intersects with age-old questions of <strong>determinism and free will</strong>. 
+        If hidden variables are excluded, then outcomes are not fixed in advance but arise probabilistically in each experiment. 
+        Some researchers have even proposed “superdeterminism,” a loophole in which detector choices are secretly correlated with hidden variables, removing true freedom in experimental settings. 
+        While controversial, this highlights how Bell’s result stretches beyond physics, touching debates about causality, choice, and even human agency.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p15">★ Highlight</button>
+      <p id="p15">
+        Finally, Bell’s Theorem laid the foundation for the modern field of <strong>quantum information science</strong>. 
+        The same correlations that rule out classical explanations now serve as resources for quantum cryptography, quantum teleportation, and quantum computing. 
+        Entanglement, once a philosophical puzzle, has become a practical tool. 
+        The irony is striking: Einstein once saw “spooky action” as evidence against quantum theory, but today it fuels some of the most promising technologies of the twenty-first century.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="bell-philosophy.jpeg" alt="Conceptual art of entanglement and nonlocality"/>
+      <figcaption class="figcap">
+        Bell’s Theorem blurs the line between physics and philosophy: the universe is stranger, more relational, and less classical than Einstein ever imagined.
+      </figcaption>
+    </figure>
+    <h2 id="applications" class="reveal">Applications Beyond Philosophy</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p16">★ Highlight</button>
+      <p id="p16" class="dropcap">
+        While Bell’s Theorem is often discussed in the language of paradoxes, its consequences are remarkably practical. 
+        Quantum communication systems, such as <strong>quantum key distribution</strong>, rely on entanglement to guarantee security. 
+        If an eavesdropper tries to intercept the channel, the violation of Bell inequalities immediately reveals their presence. 
+        Likewise, <strong>quantum networks</strong> use entanglement as the backbone for transmitting information over long distances with unprecedented reliability. 
+        What began as a philosophical battle has become the cornerstone of next-generation technology.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p17">★ Highlight</button>
+      <p id="p17">
+        Quantum computing also owes part of its power to entanglement. 
+        Algorithms such as Shor’s factorization and Grover’s search gain their speedups from correlations stronger than anything classical bits could support. 
+        In this sense, Bell’s Theorem not only undermined local realism but also unlocked new ways to process information, proving that the very strangeness of the quantum world can be harnessed for human use.
+      </p>
+    </div>
+
+    <!-- Quiz -->
+    <h2 id="quiz" class="reveal">Quick Quiz</h2>
+    <div class="divider"></div>
+    <section class="quiz reveal" id="quizSection">
+      <div class="qitem">
+        <h4>1) What does Bell’s inequality test?</h4>
+        <div class="qchoices" data-answer="a" data-explain="It tests whether local hidden-variable theories can explain quantum correlations.">
+          <button data-choice="a">Limits of local hidden-variable theories</button>
+          <button data-choice="b">Whether relativity is correct</button>
+          <button data-choice="c">If quantum mechanics can predict planetary orbits</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>2) What result do quantum mechanics and experiments give for the CHSH inequality?</h4>
+        <div class="qchoices" data-answer="b" data-explain="Quantum mechanics predicts and experiments confirm violations up to 2√2, greater than the classical limit of 2.">
+          <button data-choice="a">Always ≤ 2</button>
+          <button data-choice="b">Up to 2√2</button>
+          <button data-choice="c">Unlimited correlation strength</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>3) What loophole-free experiments proved decisive in 2015?</h4>
+        <div class="qchoices" data-answer="c" data-explain="Teams in Delft, Vienna, and Boulder closed both locality and detection loopholes simultaneously.">
+          <button data-choice="a">Aspect’s 1980s photon tests</button>
+          <button data-choice="b">Einstein’s original EPR thought experiment</button>
+          <button data-choice="c">Modern Delft, Vienna, and Boulder experiments</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <div class="nextrow reveal">
+      <a href="quantum-entanglement.html">← Back to Entanglement</a>
+      <a href="quantum-applications.html">Next page → Quantum Applications</a>
+    </div>
+
+  </article>
+
+  <!-- Sidebar -->
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ next to any paragraph to save it here.</p>
+    <div id="nbList"></div>
+  </aside>
+</div>
+
+<footer>© 2025 QParadox</footer>
+
+<script>
+/* progress bar */
+const bar=document.getElementById('progress');
+function onScroll(){
+  const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
+}
+addEventListener('scroll', onScroll); onScroll();
+
+/* reveal on scroll */
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);}
+  });
+},{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{
+  if(!el.classList.contains('in')) obs.observe(el);
+});
+
+/* TOC */
+const toc=document.getElementById('toc');
+const heads=[...document.querySelectorAll('#article h2')];
+heads.forEach(h=>{
+  const a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent; toc.appendChild(a);
+});
+function spy(){
+  const y=scrollY+140; let idx=-1;
+  heads.forEach((s,i)=>{ if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i; });
+  [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));
+}
+addEventListener('scroll', spy); spy();
+
+/* notebook */
+const KEY='qpx_notes_bells_theorem';
+const listEl=document.getElementById('nbList');
+function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return []}}
+function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+function render(){
+  const notes=load(); listEl.innerHTML='';
+  if(notes.length===0){ listEl.innerHTML='<p style="color:var(--muted)">No highlights yet.</p>'; return; }
+  notes.forEach(n=>{
+    const div=document.createElement('div'); div.className='note'; div.dataset.id=n.id;
+    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`;
+    listEl.appendChild(div);
+  });
+}
+render();
+document.querySelectorAll('.hlbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id=btn.dataset.target, p=document.getElementById(id);
+    if(!p) return;
+    p.classList.add('mark');
+    const notes=load(); notes.push({id:'n'+Date.now(), text:p.textContent.trim(), time:Date.now(), para:id});
+    save(notes); render();
+  });
+});
+listEl.addEventListener('click',e=>{
+  if(!e.target.classList.contains('del')) return;
+  const id=e.target.closest('.note').dataset.id;
+  const notes=load().filter(x=>x.id!==id); save(notes); render();
+});
+
+/* quiz logic */
+document.querySelectorAll('.qchoices').forEach(set=>{
+  const ans=set.dataset.answer;
+  const fb=set.nextElementSibling;
+  set.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(btn.dataset.choice===ans){
+        btn.classList.add('correct'); fb.textContent="✅ Correct! "+set.dataset.explain;
+      } else {
+        btn.classList.add('wrong'); fb.textContent="❌ Incorrect. "+set.dataset.explain;
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
