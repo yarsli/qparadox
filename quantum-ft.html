@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • Quantum Field Theory</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!-- MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --side:330px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
+}
+body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+
+/* frame + progress */
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
+
+/* header */
+header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
+h1{
+  font-family:"Playfair Display",serif; font-weight:900; margin:0;
+  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)
+}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+
+/* layout */
+.main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
+
+/* article */
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
+
+/* highlight button */
+.pwrap{position:relative; padding-right:2.5rem}
+.hlbtn{
+  position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+  background:var(--glass); color:var(--ink); border:1px solid var(--line);
+  font-size:.85rem; cursor:pointer; opacity:0; transition:.2s
+}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+
+/* sidebar */
+aside{
+  position:sticky; top:90px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem
+}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+
+/* quiz */
+.quiz{
+  margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px;
+  background:rgba(255,255,255,.04)
+}
+.qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
+.qchoices{display:grid; gap:.45rem}
+.qchoices button{
+  text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05);
+  color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer; transition:.25s
+}
+.qchoices button.correct{border-color:#46d17d; background:rgba(70,209,125,.18)}
+.qchoices button.wrong{border-color:#e07070; background:rgba(224,112,112,.18)}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
+
+/* nav links */
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
+  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem; transition:.25s}
+.nextrow a:hover{background:linear-gradient(90deg,rgba(202,163,107,.45),rgba(122,160,255,.4)); color:#fff; box-shadow:0 0 12px rgba(202,163,107,.5)}
+
+/* reveal fade-in */
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+</style>
+</head>
+<body>
+
+<div class="frame" aria-hidden="true"></div>
+<div id="progress"></div>
+
+<header class="reveal in">
+  <h1>Quantum Field Theory</h1>
+  <p class="subtitle">Where quantum mechanics and relativity converge, and where particles dissolve into ripples of deeper fields.</p>
+</header>
+
+<div class="main">
+  <!-- ARTICLE -->
+  <article id="article">
+
+    <h2 id="intro" class="reveal">Introduction</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        Quantum Field Theory (QFT) was born from necessity. Classical mechanics could not handle the microscopic, quantum mechanics itself faltered when confronted with relativity, and neither alone could explain why light behaves both as particle and field, nor why forces seem to emerge from invisible carriers. QFT provides a unifying framework: instead of treating particles as fundamental, it elevates <em>fields</em> to the primary stage. In this view, particles are mere excitations — localized ripples — of invisible oceans of energy that fill all of space.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2">
+        The strength of QFT lies in its ability to merge <strong>quantum mechanics</strong> with <strong>special relativity</strong>. It preserves causality and ensures that nothing outruns light, while still allowing quantum indeterminacy to reign at the smallest scales. Out of this blend comes a framework powerful enough to describe both electrons interacting with photons (quantum electrodynamics) and the behavior of quarks bound inside protons (quantum chromodynamics). Every interaction in the Standard Model is written in the language of fields, symmetries, and their Lagrangians.
+      </p>
+    </div>
+    <h2 id="fields" class="reveal">Fields and Particles</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        In QFT, fields are the bedrock of reality. Each type of particle corresponds not to an isolated object but to vibrations of a specific field. The electromagnetic field gives rise to photons, the electron field gives rise to electrons, and the quark fields give rise to the building blocks of nuclei. Instead of billiard-ball particles bouncing through space, the universe is closer to a grand symphony of invisible instruments, each playing continuous tones whose excitations appear to us as discrete notes — particles.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4">
+        This perspective resolves puzzles that quantum mechanics alone struggled with. For example, how can particles be created or annihilated? In field theory, such events are simply the rising and falling of ripples in a sea of fields. A photon emitted by an electron is not conjured out of nothing; it is a redistribution of energy from the electron field into the electromagnetic field. Likewise, particle collisions at accelerators like CERN are better understood as fields exchanging excitations rather than marbles crashing together.
+      </p>
+    </div>
+
+    <h2 id="math" class="reveal">Mathematical Backbone</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p5">★ Highlight</button>
+      <p id="p5" class="dropcap">
+        The machinery of QFT is written in the language of the <strong>Lagrangian density</strong>, a mathematical function encoding the dynamics of fields. For a free scalar field \( \phi \), the Lagrangian takes the form:
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p6">★ Highlight</button>
+      <p id="p6">
+        \[
+          \mathcal{L} = \tfrac{1}{2} \partial_\mu \phi \, \partial^\mu \phi - \tfrac{1}{2} m^2 \phi^2
+        \]
+        <br/>  
+        This compact expression encodes both the kinetic energy of the field (how it varies in space and time) and its mass term. When quantized, the field is promoted to an operator, and its excitations are interpreted as particles with mass \(m\). The mathematics may look abstract, but its predictive power is staggering: from such terms emerge Feynman diagrams, scattering amplitudes, and cross-sections measured in experiments with stunning accuracy.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p7">★ Highlight</button>
+      <p id="p7">
+        One of QFT’s most profound innovations is <em>second quantization</em>. In ordinary quantum mechanics, we quantize position and momentum of particles. In QFT, we quantize the fields themselves. Creation and annihilation operators act like switches: they bring particles into existence or remove them from reality, all while preserving conservation laws. This framework naturally explains phenomena such as spontaneous emission, vacuum fluctuations, and the Casimir effect — effects that cannot be accounted for without treating fields as primary.
+      </p>
+    </div>
+    <h2 id="relativity" class="reveal">Relativity and Quantum Fields</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p8">★ Highlight</button>
+      <p id="p8" class="dropcap">
+        Special relativity insists on a maximum speed for information transfer — the speed of light. Any fundamental theory must respect this limit. Quantum mechanics, however, seemed at odds with relativity: wavefunctions could spread faster than light, and the Schrödinger equation itself was not Lorentz invariant. Quantum Field Theory solves this by recasting the problem. Fields are defined at every point in spacetime, and their dynamics obey relativistic wave equations such as the Klein–Gordon and Dirac equations. This ensures that causality holds: no signal propagates outside the light cone.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p9">★ Highlight</button>
+      <p id="p9">
+        The union of relativity and quantum principles has astonishing consequences. Antiparticles emerge naturally in the mathematics of relativistic quantum fields. Pair creation and annihilation — processes impossible in non-relativistic quantum mechanics — become inevitable. Even the very concept of the vacuum transforms: instead of empty space, the vacuum in QFT seethes with virtual particles momentarily appearing and vanishing, a restless sea predicted by equations and confirmed by experiments such as the Lamb shift and the anomalous magnetic moment of the electron.
+      </p>
+    </div>
+
+    <h2 id="philosophy" class="reveal">Philosophical Reflections</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p10">★ Highlight</button>
+      <p id="p10" class="dropcap">
+        QFT challenges our intuition about what is “real.” In Newtonian mechanics, reality was objects moving through space. In quantum mechanics, reality became probabilities and wavefunctions. In QFT, reality is more abstract still: invisible fields filling the universe, whose ripples are what we call particles. An electron is not a tiny ball orbiting a nucleus but an excitation of the electron field, indistinguishable from every other electron in existence. Identity itself becomes a property of the field, not of the particle.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p11">★ Highlight</button>
+      <p id="p11">
+        This worldview has profound philosophical implications. If fields are fundamental, then particles are not building blocks but epiphenomena, temporary notes in a cosmic harmony. It suggests a universe in which stability is achieved not by objects persisting, but by patterns re-emerging again and again. Some thinkers have even drawn analogies between QFT’s vacuums and ancient notions of the plenum, or compared field excitations to waves on an ocean that itself cannot be directly perceived. Whether one views it poetically or technically, QFT reshapes the metaphysical picture of existence.
+      </p>
+    </div>
+    <h2 id="standard-model" class="reveal">The Standard Model</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p12">★ Highlight</button>
+      <p id="p12" class="dropcap">
+        The crowning achievement of QFT is the Standard Model of particle physics. It weaves together three of the four fundamental forces — electromagnetism, the weak force, and the strong force — into a unified mathematical structure. Electrons, quarks, neutrinos, photons, gluons, and W and Z bosons all emerge naturally from this framework. The Higgs field, whose excitation is the Higgs boson discovered in 2012, explains how particles acquire mass. Every verified prediction of the Standard Model has reinforced QFT as the most accurate theory of nature ever constructed.
+      </p>
+    </div>
+
+    <h2 id="symmetry" class="reveal">Symmetry and Gauge Theories</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p13">★ Highlight</button>
+      <p id="p13" class="dropcap">
+        At the heart of QFT lies symmetry. Noether’s theorem guarantees that symmetries correspond to conserved quantities: translational symmetry implies momentum conservation, rotational symmetry implies angular momentum conservation, and so on. Gauge symmetry, the requirement that certain transformations leave the physics unchanged, is the principle that gives rise to forces themselves. Electromagnetism emerges from requiring invariance under U(1) gauge transformations. The weak and strong nuclear forces arise from SU(2) and SU(3) symmetries. What once seemed like arbitrary forces are now understood as inevitable consequences of demanding mathematical consistency.
+      </p>
+    </div>
+
+    <h2 id="renormalization" class="reveal">Renormalization</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p14">★ Highlight</button>
+      <p id="p14" class="dropcap">
+        Early QFT calculations produced infinities — meaningless predictions of infinite charge or infinite energy. Renormalization was developed as a systematic way to absorb these infinities into redefined parameters, leaving finite, testable results. Though once controversial, renormalization proved essential and elegant: it revealed that only a handful of measurable parameters determine low-energy physics, regardless of unknown high-energy details. This concept of “effective field theory” now underpins not only particle physics but condensed matter, cosmology, and beyond.
+      </p>
+    </div>
+
+    <h2 id="frontiers" class="reveal">Frontiers Beyond the Standard Model</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p15">★ Highlight</button>
+      <p id="p15" class="dropcap">
+        Despite its triumphs, QFT is not complete. Gravity remains outside its grasp: attempts to quantize general relativity lead to non-renormalizable infinities. String theory and loop quantum gravity are candidates for extending QFT to this final frontier, but no consensus exists. Dark matter and dark energy, which dominate the cosmos, also lie beyond the Standard Model. Physicists suspect that new symmetries, new particles, or entirely new principles await discovery. QFT is thus not the end of physics, but the beginning of a deeper understanding of the universe.
+      </p>
+    </div>
+
+    <!-- Quiz -->
+    <h2 id="quiz" class="reveal">Quick Quiz</h2>
+    <div class="divider"></div>
+    <section class="quiz reveal" id="quizSection">
+      <div class="qitem">
+        <h4>1) What does QFT treat particles as?</h4>
+        <div class="qchoices" data-answer="b" data-explain="QFT views particles as excitations of underlying fields.">
+          <button data-choice="a">Tiny solid objects moving in space</button>
+          <button data-choice="b">Excitations of quantum fields</button>
+          <button data-choice="c">Localized waves with fixed identity</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>2) Which symmetry underlies electromagnetism?</h4>
+        <div class="qchoices" data-answer="a" data-explain="Electromagnetism arises from U(1) gauge symmetry.">
+          <button data-choice="a">U(1)</button>
+          <button data-choice="b">SU(2)</button>
+          <button data-choice="c">SU(3)</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>3) Why was renormalization essential for QFT?</h4>
+        <div class="qchoices" data-answer="c" data-explain="Renormalization removes infinities and gives finite, testable results.">
+          <button data-choice="a">It eliminates quantum mechanics entirely</button>
+          <button data-choice="b">It proves particles are waves</button>
+          <button data-choice="c">It absorbs infinities into measurable parameters</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+    </section>
+
+    <div class="nextrow reveal">
+      <a href="applications.html">← Back to Applications</a>
+      <a href="quantum-gravity.html">Next page → Quantum Gravity</a>
+    </div>
+
+  </article>
+
+  <!-- Sidebar -->
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ next to any paragraph to save it here.</p>
+    <div id="nbList"></div>
+  </aside>
+</div>
+
+<footer>© 2025 QParadox</footer>
+<script>
+/* progress bar */
+const bar = document.getElementById('progress');
+function onScroll(){
+  const h = document.documentElement,
+        st = h.scrollTop || document.body.scrollTop,
+        sh = h.scrollHeight - h.clientHeight;
+  bar.style.width = (Math.max(0, Math.min(1, st / sh)) * 100) + '%';
+}
+addEventListener('scroll', onScroll); onScroll();
+
+/* reveal on scroll */
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{
+  if(!el.classList.contains('in')) obs.observe(el);
+});
+
+/* TOC */
+const toc = document.getElementById('toc');
+const heads = [...document.querySelectorAll('#article h2')];
+if (toc && heads.length){
+  heads.forEach(h=>{
+    const a=document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    toc.appendChild(a);
+  });
+  function spy(){
+    const y = scrollY + 140;
+    let idx = -1;
+    heads.forEach((s,i)=>{ if(s.offsetTop <= y && (s.offsetTop + s.offsetHeight) > y) idx = i; });
+    [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active', i===idx));
+  }
+  addEventListener('scroll', spy); spy();
+}
+
+/* notebook (highlight + localStorage) */
+const KEY = 'qpx_notes_qft';
+const listEl = document.getElementById('nbList');
+function loadNotes(){ try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e){ return []; } }
+function saveNotes(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+function renderNotes(){
+  if(!listEl) return;
+  const notes = loadNotes();
+  listEl.innerHTML = '';
+  if(notes.length === 0){
+    listEl.innerHTML = '<p style="color:var(--muted)">No highlights yet.</p>';
+    return;
+  }
+  notes.forEach(n=>{
+    const div = document.createElement('div');
+    div.className = 'note';
+    div.dataset.id = n.id;
+    div.innerHTML = `
+      <time>${new Date(n.time).toLocaleString()}</time>
+      <p>${n.text}</p>
+      <button class="del">Remove</button>
+    `;
+    listEl.appendChild(div);
+  });
+}
+renderNotes();
+
+document.querySelectorAll('.hlbtn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const id = btn.dataset.target, p = document.getElementById(id);
+    if(!p) return;
+    p.classList.add('mark');
+    const notes = loadNotes();
+    notes.push({ id:'n'+Date.now(), text:p.textContent.trim(), time:Date.now(), para:id });
+    saveNotes(notes);
+    renderNotes();
+  });
+});
+if(listEl){
+  listEl.addEventListener('click', e=>{
+    if(!e.target.classList.contains('del')) return;
+    const id = e.target.closest('.note').dataset.id;
+    const notes = loadNotes().filter(x=>x.id !== id);
+    saveNotes(notes);
+    renderNotes();
+  });
+}
+
+/* quiz logic (correct/incorrect + explanation) */
+document.querySelectorAll('.qchoices').forEach(set=>{
+  const ans = set.dataset.answer;
+  const explain = set.dataset.explain || '';
+  const feedback = set.nextElementSibling;
+  set.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      // clear previous states in this question
+      set.querySelectorAll('button').forEach(b=>b.classList.remove('correct','wrong'));
+      if(btn.dataset.choice === ans){
+        btn.classList.add('correct');
+        if(feedback) feedback.textContent = '✔ Correct! ' + explain;
+      } else {
+        btn.classList.add('wrong');
+        if(feedback) feedback.textContent = '✘ Incorrect. ' + explain;
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
