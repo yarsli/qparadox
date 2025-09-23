@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • Quantum Mechanics — Superposition and Measurement</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!-- MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --side:330px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
+}
+body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+
+/* frame + progress */
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
+
+/* header */
+header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
+h1{
+  font-family:"Playfair Display",serif; font-weight:900; margin:0;
+  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)
+}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+
+/* layout */
+.main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
+
+/* article */
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
+
+/* figures */
+.figure{
+  margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden;
+  background:#0e0f12; box-shadow:var(--shadow); max-width:820px
+}
+.figure img{display:block; width:100%; height:auto}
+.figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
+
+/* highlight button */
+.pwrap{position:relative; padding-right:2.5rem}
+.hlbtn{
+  position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+  background:var(--glass); color:var(--ink); border:1px solid var(--line);
+  font-size:.85rem; cursor:pointer; opacity:0; transition:.2s
+}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+</style>
+</head>
+<body>
+
+<div class="frame" aria-hidden="true"></div>
+<div id="progress"></div>
+
+<header class="reveal in">
+  <h1>Quantum Mechanics — Superposition and Measurement</h1>
+  <p class="subtitle">
+    To speak of superposition is to admit that reality resists the simplicity of classical thought: 
+    a particle is not here or there, but a delicate combination of both. 
+    To speak of measurement is to confront the moment of decision, 
+    when the wave of possibilities hardens into a single fact. 
+    Together, these principles form the heartbeat of quantum mechanics, 
+    raising not only equations but also questions of meaning, knowledge, and existence itself.
+  </p>
+</header>
+
+<div class="main">
+  <!-- ARTICLE -->
+  <article id="article">
+
+    <h2 id="intro" class="reveal">Introduction</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        At the foundation of quantum theory lies the principle of <em>superposition</em>: the idea that if a system can be in one state, and it can be in another, 
+        then it can also exist in any linear combination of the two. 
+        This principle sounds abstract, but it is the key to understanding interference, entanglement, and the power of quantum computation. 
+        A photon traveling through two slits does not “choose” one or the other; it passes through both simultaneously, 
+        carrying with it a wave of probability that only resolves when an observer measures it. 
+        This is where the second principle, <em>measurement</em>, enters. 
+        Measurement forces the quantum system to collapse into one of the possible outcomes, 
+        an act that is both predictable in probability and mysterious in ontology. 
+        Superposition tells us the universe allows a richness of overlapping possibilities; 
+        measurement reminds us that we only ever see one.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2">
+        Philosophers and physicists alike have wrestled with this paradox. 
+        Is the collapse of the wavefunction a physical process, a sudden reconfiguration of the world? 
+        Or is it merely an update in our knowledge, a Bayesian shift in what we can say about reality? 
+        The Copenhagen interpretation bows to mystery: the act of measurement is fundamental and irreducible. 
+        Many-worlds suggests no collapse occurs; instead, every possibility is realized, branching into parallel universes. 
+        Bohmian mechanics introduces hidden variables, unseen guides of motion. 
+        Each interpretation reframes the tension between possibility and actuality, 
+        and each leaves us with lingering questions about the relationship between mathematics, observation, and truth.
+      </p>
+    </div>
+    <h2 id="superposition" class="reveal">The Superposition Principle</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        The essence of superposition is captured in a simple equation: 
+        if \( |\psi_1\rangle \) and \( |\psi_2\rangle \) are possible states of a system, 
+        then so too is any linear combination \( c_1|\psi_1\rangle + c_2|\psi_2\rangle \), 
+        where \( c_1, c_2 \in \mathbb{C} \). 
+        The coefficients \( c_1 \) and \( c_2 \) encode probability amplitudes, not classical probabilities. 
+        Unlike dice that simply pick between outcomes, a quantum system exists in a mathematical overlap 
+        that can interfere constructively or destructively. 
+        This is why two paths in quantum mechanics cannot be treated as mutually exclusive: 
+        they blend, they overlap, they add and subtract before reality presents its choice.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4">
+        The double-slit experiment remains the most vivid illustration. 
+        A single photon or electron, sent toward two open slits, produces a pattern not of two piles but of alternating bright and dark fringes. 
+        Each particle interferes with itself, as though it had traveled through both slits at once. 
+        When detectors are placed at the slits, however, the interference vanishes. 
+        The system is forced into a definite path — left or right — and the delicate overlap of amplitudes collapses. 
+        In this sense, superposition is fragile: it thrives in the absence of observation, 
+        but it evaporates the moment measurement insists on a verdict.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="double-slit.jpeg" alt="Interference pattern from the double-slit experiment"/>
+      <figcaption class="figcap">
+        Even when particles are fired one at a time, the interference pattern builds up. 
+        This is the mark of superposition: reality suspended between possibilities until measured.
+      </figcaption>
+    </figure>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p5">★ Highlight</button>
+      <p id="p5">
+        Mathematically, the interference comes from cross-terms in the probability calculation. 
+        The probability of observing an outcome is given by the squared modulus of the amplitude: 
+        \( P = |\psi|^2 \). 
+        For two overlapping paths, the total amplitude is \( \psi = \psi_1 + \psi_2 \). 
+        Squaring this yields \( |\psi|^2 = |\psi_1|^2 + |\psi_2|^2 + 2\Re(\psi_1^*\psi_2) \). 
+        The last term is the interference: an additional structure that has no classical analogue. 
+        It is here that quantum theory departs most radically from the probabilistic language of classical physics. 
+        Probabilities in quantum mechanics are not merely added; they combine as waves, 
+        creating ripples of reinforcement and cancellation.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p6">★ Highlight</button>
+      <p id="p6">
+        Beyond experiments, superposition is the bedrock of quantum technology. 
+        A classical bit is either 0 or 1, but a quantum bit — a qubit — can exist as 
+        \( \alpha|0\rangle + \beta|1\rangle \), where \( \alpha \) and \( \beta \) are complex amplitudes. 
+        This allows quantum computers to explore a vast space of possibilities simultaneously, 
+        performing certain calculations with exponential speedups over classical algorithms. 
+        Yet, when measured, the qubit collapses to either 0 or 1. 
+        It is this dance between vast hidden possibility and definite revealed outcome 
+        that fuels both the power and the philosophical mystery of quantum computing.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p7">★ Highlight</button>
+      <p id="p7">
+        Superposition has also been a favorite theme for philosophers and poets of science. 
+        Erwin Schrödinger’s thought experiment of the cat — suspended between life and death until observed — 
+        dramatizes the idea for the macroscopic world. 
+        Does the cat truly exist in a ghostly overlap of states? 
+        Or is superposition simply a mathematical device for predicting outcomes we cannot otherwise describe? 
+        Some argue that superposition reveals the incompleteness of our knowledge, 
+        while others see it as proof that the world itself is not made of definite things, 
+        but of shifting possibilities that only solidify when forced by observation. 
+        In either case, superposition is not merely a mathematical trick: it is the grammar of a reality 
+        that resists being spoken in classical terms.
+      </p>
+    </div>
+    <h2 id="measurement" class="reveal">The Measurement Postulate</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p8">★ Highlight</button>
+      <p id="p8" class="dropcap">
+        If superposition defines the richness of quantum possibility, measurement defines its 
+        sudden austerity. In formal terms, the <em>measurement postulate</em> declares that 
+        when we measure a quantum system associated with an observable \( \hat{O} \), 
+        the only possible outcomes are the eigenvalues of \( \hat{O} \). 
+        If the system is in a state \( |\psi\rangle \), it “collapses” to one of the 
+        eigenstates \( |o_i\rangle \) with probability given by the <strong>Born rule</strong>: 
+        \[
+          P(o_i) = |\langle o_i|\psi\rangle|^2.
+        \]
+        The neatness of this formula belies its violence. A state that once spread 
+        across many overlapping possibilities is forced into a single branch, 
+        with all others extinguished from the observable world.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p9">★ Highlight</button>
+      <p id="p9">
+        The Born rule makes quantum mechanics predictive but also probabilistic. 
+        Unlike Newtonian mechanics, where perfect knowledge of initial conditions 
+        yields perfect knowledge of future states, quantum mechanics insists 
+        that only probabilities are knowable. This is not a flaw of our instruments 
+        but a principle of the universe. Even with infinite precision, we cannot 
+        predict whether an unstable nucleus will decay in the next second; 
+        we can only give the odds. Einstein famously resisted this idea, 
+        declaring “God does not play dice.” Niels Bohr countered that the dice 
+        are not ours to forbid. The quantum world, on Bohr’s view, is woven from 
+        probability itself.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p10">★ Highlight</button>
+      <p id="p10">
+        Mathematically, measurement is described by projection operators. 
+        If a system in state \( |\psi\rangle \) is measured with respect to an 
+        observable \( \hat{O} \), the probability of obtaining eigenvalue \( o_i \) 
+        is determined by applying the projection operator \( \hat{P}_i = |o_i\rangle\langle o_i| \). 
+        After the measurement yields \( o_i \), the state updates to 
+        \[
+          |\psi'\rangle = \frac{\hat{P}_i |\psi\rangle}{\sqrt{\langle \psi|\hat{P}_i|\psi\rangle}}.
+        \]
+        This formalism is rigorous yet conceptually strange: the act of observation 
+        changes the very state being observed. In no other branch of physics does 
+        the observer intrude so radically upon the system.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="stern-gerlach.jpeg" alt="Stern-Gerlach experiment diagram"/>
+      <figcaption class="figcap">
+        The Stern–Gerlach experiment: a beam of silver atoms splits into discrete spots 
+        corresponding to spin-up and spin-down. Measurement forces superposed spins 
+        into definite outcomes.
+      </figcaption>
+    </figure>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p11">★ Highlight</button>
+      <p id="p11">
+        The Stern–Gerlach experiment is a classic illustration. 
+        A beam of silver atoms, each with spin-\(\tfrac{1}{2}\), passes through 
+        a magnetic field gradient. Classically, one would expect a continuous smear of 
+        outcomes depending on each atom’s orientation. Instead, the beam splits cleanly 
+        into two: spin-up and spin-down along the chosen axis. 
+        Before measurement, each atom’s spin exists in a superposition. 
+        After measurement, it is either up or down, never both. 
+        Here we see collapse in action, as invisible superposition gives way 
+        to visible discreteness.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p12">★ Highlight</button>
+      <p id="p12">
+        Philosophically, the measurement problem remains unsolved. 
+        Is collapse a real physical process, a sudden jump of the wavefunction? 
+        Or is it simply an update of our knowledge, reflecting Bayesian inference 
+        rather than cosmic discontinuity? Interpretations diverge. 
+        The Copenhagen interpretation treats collapse as fundamental. 
+        Many-worlds denies collapse altogether, insisting that all outcomes occur, 
+        branching into separate universes. Objective collapse theories propose 
+        new physics to explain why quantum states break into definiteness. 
+        Each view seeks to tame the unsettling fact that the mathematics 
+        seems to demand an observer, while the universe itself surely existed 
+        before observers arose.
+      </p>
+    </div>
+    <h2 id="applications" class="reveal">Applications and Illustrations</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p13">★ Highlight</button>
+      <p id="p13" class="dropcap">
+        The power of superposition and the drama of measurement are most visible 
+        in iconic experiments. Consider again the <em>double-slit experiment</em>. 
+        With both slits open but no detectors, a crisp interference pattern forms. 
+        Place detectors at the slits, however, and the pattern collapses to two 
+        ordinary piles. The act of asking “Which path did the particle take?” 
+        changes the answer, reshaping the landscape of possibility itself. 
+        What was once a wave of overlapping amplitudes is carved into classical 
+        either/or outcomes by the blade of measurement. 
+        The experiment is not only a physics demonstration but a parable: 
+        the universe reveals what we ask of it, but never more.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="double-slit-detectors.jpeg" alt="Double-slit experiment with detectors"/>
+      <figcaption class="figcap">
+        With detectors on, interference vanishes. Measurement does not simply reveal reality — it alters it.
+      </figcaption>
+    </figure>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p14">★ Highlight</button>
+      <p id="p14">
+        In the digital age, this principle powers quantum computing. 
+        A qubit in state \( \alpha|0\rangle + \beta|1\rangle \) represents 
+        a living superposition of two classical bits. Arrays of qubits 
+        create vast Hilbert spaces, enabling algorithms that can 
+        factorize large numbers, simulate molecules, and optimize 
+        complex systems beyond classical reach. Yet measurement is 
+        the bottleneck: it collapses the sprawling superposition 
+        into a single outcome. Quantum computation thus becomes 
+        a delicate art of orchestrating interference so that the 
+        “wrong” paths cancel and the “right” paths amplify, leaving 
+        the correct answer with high probability once measurement 
+        strikes. Without collapse, quantum computers would be 
+        omniscient; with it, they are powerful yet bounded.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p15">★ Highlight</button>
+      <p id="p15">
+        Superposition and measurement also intertwine in entanglement. 
+        When two particles are prepared in a correlated state, 
+        measurement on one instantly fixes the state of the other, 
+        no matter the distance between them. This is the famous 
+        Einstein–Podolsky–Rosen paradox, in which Einstein complained 
+        of “spooky action at a distance.” According to quantum mechanics, 
+        however, no signal travels faster than light; instead, the 
+        superposed whole collapses at once, revealing correlations 
+        written into its structure. Experiments confirm these 
+        correlations, violating classical notions of locality but 
+        never breaking relativity’s speed limit. 
+        Here measurement is not just a local act but a global revelation, 
+        slicing through the fabric of shared possibility.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="entanglement.jpeg" alt="Entangled particles illustration"/>
+      <figcaption class="figcap">
+        Entanglement extends superposition across distance: measurement on one particle dictates outcomes for its partner.
+      </figcaption>
+    </figure>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p16">★ Highlight</button>
+      <p id="p16">
+        Beyond labs and algorithms, these principles raise philosophical stakes. 
+        If superposition is reality’s language and measurement its collapse into 
+        prose, then our role as observers becomes uncomfortably central. 
+        Do we create reality by observing it, or merely reveal its hidden script? 
+        Is the wavefunction a physical object, spreading across space and time, 
+        or is it just an accounting device for our ignorance? 
+        Perhaps reality is not a fixed manuscript but an improvisation, 
+        with measurement as the moment when possibility congeals into fact. 
+        Quantum theory forces us to inhabit a world where the boundary between 
+        ontology and epistemology — between what exists and what we can know — 
+        blurs into mystery.
+      </p>
+    </div>
+    <!-- Quiz -->
+    <h2 id="quiz" class="reveal">Quick Quiz</h2>
+    <div class="divider"></div>
+    <section class="quiz reveal" id="quizSection">
+      <div class="qitem">
+        <h4>1) What does the superposition principle allow?</h4>
+        <div class="qchoices" data-answer="a" data-explain="Quantum systems can exist in linear combinations of states, unlike classical systems.">
+          <button data-choice="a">A system can exist in a linear combination of multiple states</button>
+          <button data-choice="b">A system must always occupy only one classical state</button>
+          <button data-choice="c">States combine only if they have the same energy</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>2) According to the Born rule, how are probabilities determined?</h4>
+        <div class="qchoices" data-answer="b" data-explain="Probabilities are given by the squared modulus of the amplitude: \( P = |\langle \phi|\psi \rangle|^2 \).">
+          <button data-choice="a">By counting classical frequencies</button>
+          <button data-choice="b">By squaring the modulus of the amplitude</button>
+          <button data-choice="c">By adding all amplitudes directly</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>3) What happens to a quantum state upon measurement?</h4>
+        <div class="qchoices" data-answer="c" data-explain="The state collapses into an eigenstate corresponding to the measured eigenvalue.">
+          <button data-choice="a">It remains unchanged regardless of the outcome</button>
+          <button data-choice="b">It spreads into even more superpositions</button>
+          <button data-choice="c">It collapses into one of the observable’s eigenstates</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>4) What did the Stern–Gerlach experiment reveal?</h4>
+        <div class="qchoices" data-answer="a" data-explain="Spin is quantized: measurement yields discrete outcomes (up or down), not a continuous distribution.">
+          <button data-choice="a">Spin states are quantized into discrete values</button>
+          <button data-choice="b">Atoms behave as classical gyroscopes</button>
+          <button data-choice="c">Magnetic fields cannot affect spin</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <div class="nextrow reveal">
+      <a href="quantum-introduction.html">← Back to Quantum Mechanics Hub</a>
+      <a href="quantum-entanglement.html">Next page → Entanglement</a>
+    </div>
+
+  </article>
+
+  <!-- Sidebar -->
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ next to any paragraph to save it here.</p>
+    <div id="nbList"></div>
+  </aside>
+</div>
+
+<footer>© 2025 QParadox</footer>
+
+<script>
+/* progress bar */
+const bar=document.getElementById('progress');
+function onScroll(){
+  const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
+}
+addEventListener('scroll', onScroll); onScroll();
+
+/* reveal on scroll */
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);}
+  });
+},{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{
+  if(!el.classList.contains('in')) obs.observe(el);
+});
+
+/* TOC */
+const toc=document.getElementById('toc');
+const heads=[...document.querySelectorAll('#article h2')];
+heads.forEach(h=>{
+  const a=document.createElement('a');
+  a.href='#'+h.id;
+  a.textContent=h.textContent;
+  toc.appendChild(a);
+});
+function spy(){
+  const y=scrollY+140; let idx=-1;
+  heads.forEach((s,i)=>{ if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i; });
+  [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));
+}
+addEventListener('scroll', spy); spy();
+
+/* notebook */
+const KEY='qpx_notes_superposition_measurement';
+const listEl=document.getElementById('nbList');
+function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return []}}
+function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+function render(){
+  const notes=load(); listEl.innerHTML='';
+  if(notes.length===0){ listEl.innerHTML='<p style="color:var(--muted)">No highlights yet.</p>'; return; }
+  notes.forEach(n=>{
+    const div=document.createElement('div'); div.className='note'; div.dataset.id=n.id;
+    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`;
+    listEl.appendChild(div);
+  });
+}
+render();
+document.querySelectorAll('.hlbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id=btn.dataset.target, p=document.getElementById(id);
+    if(!p) return;
+    p.classList.add('mark');
+    const notes=load();
+    notes.push({id:'n'+Date.now(), text:p.textContent.trim(), time:Date.now(), para:id});
+    save(notes); render();
+  });
+});
+listEl.addEventListener('click',e=>{
+  if(!e.target.classList.contains('del')) return;
+  const id=e.target.closest('.note').dataset.id;
+  const notes=load().filter(x=>x.id!==id); save(notes); render();
+});
+
+/* quiz logic */
+document.querySelectorAll('.qchoices').forEach(set=>{
+  const answer = set.dataset.answer;
+  const explain = set.dataset.explain;
+  const feedback = set.parentElement.querySelector('.qfeedback');
+
+  set.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      set.querySelectorAll('button').forEach(b=>{
+        b.classList.remove('correct','wrong');
+      });
+      if(btn.dataset.choice === answer){
+        btn.classList.add('correct');
+        feedback.textContent = "✔ Correct! " + explain;
+        feedback.style.color = "#46d17d";
+      } else {
+        btn.classList.add('wrong');
+        feedback.textContent = "✘ Incorrect. " + explain;
+        feedback.style.color = "#e07070";
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
