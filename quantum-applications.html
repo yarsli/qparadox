@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • Quantum Applications</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!-- MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --side:330px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
+}
+body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+
+/* frame + progress */
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
+
+/* header */
+header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
+h1{
+  font-family:"Playfair Display",serif; font-weight:900; margin:0;
+  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)
+}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+
+/* layout */
+.main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
+
+/* article */
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
+
+/* figures */
+.figure{
+  margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden;
+  background:#0e0f12; box-shadow:var(--shadow); max-width:820px
+}
+.figure img{display:block; width:100%; height:auto}
+.figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<div class="frame" aria-hidden="true"></div>
+<div id="progress"></div>
+
+<header class="reveal in">
+  <h1>Quantum Applications</h1>
+  <p class="subtitle">From paradoxical foundations to practical revolutions: how quantum mechanics powers the technologies of the twenty-first century.</p>
+</header>
+
+<div class="main">
+  <!-- ARTICLE -->
+  <article id="article">
+
+    <h2 id="intro" class="reveal">Introduction</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        Quantum mechanics began as a theory to explain the strange behavior of atoms and light, 
+        but it has grown into the engine driving some of the most advanced technologies of our age. 
+        Ideas once dismissed as philosophical puzzles — superposition, entanglement, uncertainty — 
+        now fuel cryptographic systems, teleportation schemes, and computing devices that challenge the limits of classical physics. 
+        The very principles that disturbed Einstein and Bohr have become tools in the hands of engineers and scientists. 
+        This chapter surveys the major applications of quantum theory, tracing the path from abstract equations to technologies reshaping communication, security, and computation.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2">
+        The key insight is that <em>quantum weirdness is not just real — it is useful</em>. 
+        Quantum systems can encode information in ways that defy copying, transmit states across space without moving particles, 
+        and perform calculations simultaneously across vast superpositions. 
+        The applications that follow are not isolated gadgets but part of a growing ecosystem known as <strong>quantum technologies</strong>, 
+        often divided into three pillars: quantum communication, quantum computation, and quantum sensing. 
+        Each reflects a triumph of turning paradox into possibility.
+      </p>
+    </div>
+    <h2 id="crypto" class="reveal">Quantum Cryptography</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        At the heart of cryptography lies the problem of secure communication. 
+        Classical encryption schemes rely on mathematical complexity — factoring large numbers, solving discrete logarithms — 
+        but quantum computing threatens to break these foundations. 
+        Quantum cryptography, however, flips the problem on its head: it uses the laws of physics, not mathematics, to guarantee security. 
+        The most famous protocol, <strong>BB84</strong>, proposed by Charles Bennett and Gilles Brassard in 1984, 
+        exploits the fact that measuring a quantum state unavoidably disturbs it. 
+        Any eavesdropper trying to spy on the transmission introduces detectable errors.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4">
+        In BB84, information is encoded in the polarization states of photons. 
+        The sender (Alice) transmits photons randomly chosen between two bases, 
+        while the receiver (Bob) measures them with randomly chosen detectors. 
+        After transmission, they compare notes publicly about which bases they used, 
+        keeping only the cases where their choices matched. 
+        If an eavesdropper (Eve) interfered, her presence is revealed through statistical anomalies. 
+        This is not security based on computational assumptions — it is security guaranteed by quantum mechanics itself.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p5">★ Highlight</button>
+      <p id="p5" class="dropcap">
+        Quantum cryptography is not just theory. 
+        The first experimental demonstrations appeared in the 1990s, 
+        and today secure quantum key distribution (QKD) networks exist in cities like Beijing, Vienna, and Geneva. 
+        In 2017, China’s Micius satellite achieved intercontinental QKD, 
+        distributing secure keys between Beijing and Vienna using photons transmitted through space. 
+        These breakthroughs hint at a future <strong>quantum internet</strong>, 
+        where entanglement and photons enable global communications immune to hacking.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="quantum-crypto.jpeg" alt="Illustration of photons in quantum cryptography"/>
+      <figcaption class="figcap">
+        In quantum cryptography, eavesdropping cannot remain hidden: measurement itself betrays the spy.
+      </figcaption>
+    </figure>
+    <h2 id="teleportation" class="reveal">Quantum Teleportation</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p6">★ Highlight</button>
+      <p id="p6" class="dropcap">
+        The word <em>teleportation</em> conjures images of science fiction — 
+        people dissolving in beams of light and reassembling elsewhere. 
+        In quantum mechanics, teleportation has a very different meaning. 
+        It does not transport matter but instead transfers the <strong>state</strong> of a particle from one location to another, 
+        using the power of entanglement. 
+        Proposed in 1993 by Charles Bennett and collaborators, 
+        quantum teleportation has become one of the most striking examples of turning paradox into possibility. 
+        It shows that information about a quantum state — something impossible to copy directly — 
+        can nonetheless be transmitted with perfect fidelity.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p7">★ Highlight</button>
+      <p id="p7">
+        The protocol works as follows: 
+        two parties, Alice and Bob, share an entangled pair of particles. 
+        Alice has an additional particle whose state she wishes to transmit. 
+        By performing a joint measurement on her two particles (the unknown state and her half of the entangled pair) 
+        and communicating the result through a classical channel, 
+        she enables Bob to apply a correction to his particle. 
+        The outcome is that Bob’s particle assumes the exact state of Alice’s original particle, 
+        even though that particle never physically left her lab. 
+        The original state on Alice’s side is destroyed — in line with the <strong>no-cloning theorem</strong>.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p8">★ Highlight</button>
+      <p id="p8" class="dropcap">
+        Quantum teleportation has been realized in laboratories worldwide. 
+        In 1997, the first experimental demonstration transferred the polarization state of photons. 
+        Later experiments extended teleportation to atoms, ions, and even macroscopic ensembles. 
+        In 2017, Chinese scientists successfully teleported the quantum state of a photon from the ground to a satellite orbiting 500 kilometers above Earth — 
+        a landmark achievement proving the scalability of teleportation in space-based networks. 
+        Far from fantasy, teleportation is now a core component of quantum communication infrastructure.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="quantum-teleportation.jpeg" alt="Diagram of quantum teleportation protocol"/>
+      <figcaption class="figcap">
+        In quantum teleportation, information about a particle’s state “jumps” through entanglement, 
+        without the particle itself traveling.
+      </figcaption>
+    </figure>
+    <h2 id="computing" class="reveal">Quantum Computing</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p9">★ Highlight</button>
+      <p id="p9" class="dropcap">
+        Quantum computing is perhaps the most celebrated and ambitious application of quantum mechanics. 
+        Unlike classical computers, which process information as bits taking values of 0 or 1, 
+        quantum computers use <strong>qubits</strong>, which can exist in superpositions of 0 and 1 simultaneously. 
+        By entangling qubits and manipulating them through quantum gates, 
+        quantum processors can perform calculations that scale in ways impossible for classical systems. 
+        The potential impact ranges from breaking classical encryption to simulating molecules for drug discovery.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p10">★ Highlight</button>
+      <p id="p10">
+        The power of quantum computers comes from their ability to explore vast computational spaces at once. 
+        Algorithms such as <strong>Shor’s algorithm</strong> for factoring large numbers 
+        and <strong>Grover’s algorithm</strong> for searching unsorted databases 
+        illustrate how quantum speedup can be dramatic. 
+        Shor’s algorithm, in particular, threatens the security of widely used public-key cryptography, 
+        creating urgency for quantum-safe alternatives. 
+        At the same time, quantum simulation promises insights into chemistry and physics beyond the reach of supercomputers, 
+        from protein folding to superconductivity.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p11">★ Highlight</button>
+      <p id="p11" class="dropcap">
+        Building a quantum computer, however, is extraordinarily difficult. 
+        Qubits are fragile, easily disrupted by noise and decoherence. 
+        Error correction requires entangling many physical qubits to protect a single logical qubit, 
+        creating daunting engineering challenges. 
+        Current devices, known as <strong>Noisy Intermediate-Scale Quantum (NISQ)</strong> machines, 
+        operate with tens or hundreds of qubits, sufficient for experimental demonstrations but not yet practical for universal tasks. 
+        Still, progress is rapid: IBM, Google, IonQ, and other groups race toward machines with thousands of qubits and error rates low enough to enable scalable computation.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p12">★ Highlight</button>
+      <p id="p12">
+        Beyond raw computational power, quantum computing forces us to rethink the philosophy of information itself. 
+        In a sense, the quantum computer is not just faster; it is different. 
+        It leverages the probabilistic structure of nature, intertwining logic with interference and entanglement. 
+        Some researchers argue that quantum computing is the first genuine test of whether “information is physical,” 
+        a principle championed by Rolf Landauer. 
+        By encoding human thought into fragile qubits, we are literally programming the universe’s own mathematical rules.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="quantum-computing.jpeg" alt="Quantum computer processor with superconducting qubits"/>
+      <figcaption class="figcap">
+        Quantum computers transform paradoxes into processors, 
+        turning uncertainty and entanglement into engines of calculation.
+      </figcaption>
+    </figure>
+    <h2 id="networks" class="reveal">Quantum Networks and the Quantum Internet</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p13">★ Highlight</button>
+      <p id="p13" class="dropcap">
+        Just as classical computers evolved into a global internet, 
+        quantum devices are being woven into <strong>quantum networks</strong>. 
+        These networks use entanglement as the backbone for communication, 
+        enabling tasks impossible in classical systems. 
+        The idea of a <em>quantum internet</em> is no longer science fiction: 
+        experiments already demonstrate entanglement shared across kilometers of fiber 
+        and even between satellites and ground stations. 
+        Such a network would allow unbreakable cryptography, distributed quantum computing, 
+        and fundamental tests of physics on unprecedented scales.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p14">★ Highlight</button>
+      <p id="p14">
+        Building a quantum internet requires overcoming obstacles such as photon loss, 
+        limited coherence times, and the need for <strong>quantum repeaters</strong> — 
+        devices that extend entanglement across large distances by creating chains of connected nodes. 
+        Current research explores quantum memories, error correction for entangled links, 
+        and hybrid systems combining matter qubits with photonic channels. 
+        Each step advances the dream of a global web where entanglement binds distant points of the Earth, 
+        and perhaps someday, even between Earth and other planets.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="quantum-network.jpeg" alt="Conceptual illustration of a quantum internet"/>
+      <figcaption class="figcap">
+        Quantum networks extend entanglement across distance, weaving communication into the very fabric of reality.
+      </figcaption>
+    </figure>
+
+    <h2 id="sensing" class="reveal">Quantum Sensing and Metrology</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p15">★ Highlight</button>
+      <p id="p15" class="dropcap">
+        While quantum computing and communication often capture the spotlight, 
+        <strong>quantum sensing</strong> may deliver the first widespread revolution. 
+        Quantum sensors exploit superposition and entanglement to measure physical quantities 
+        — time, magnetic fields, acceleration, gravity — 
+        with precision far beyond classical limits. 
+        They already underpin the most accurate atomic clocks, 
+        which define international time standards and enable GPS navigation. 
+        The same principles are now being harnessed for medical imaging, 
+        geology, and even the detection of gravitational waves.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p16">★ Highlight</button>
+      <p id="p16">
+        Quantum-enhanced magnetometers can detect brain activity with unprecedented resolution. 
+        Quantum gravimeters measure subtle variations in Earth’s gravitational field, 
+        revealing underground structures, hidden tunnels, or valuable mineral deposits. 
+        Interferometers using entangled light improve the sensitivity of observatories like LIGO, 
+        which has opened a new era of astronomy through gravitational wave detection. 
+        In each case, quantum effects transform limits into opportunities: 
+        uncertainty is not an obstacle but a tool for sharper measurement.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="quantum-sensing.jpeg" alt="Quantum sensors in precision measurement"/>
+      <figcaption class="figcap">
+        Quantum sensors redefine precision: harnessing uncertainty to reveal hidden layers of reality.
+      </figcaption>
+    </figure>
+    <h2 id="reflections" class="reveal">Broader Reflections</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p17">★ Highlight</button>
+      <p id="p17" class="dropcap">
+        The rise of quantum technologies illustrates a profound irony: 
+        principles once viewed as philosophical puzzles are now practical tools. 
+        Superposition, once a riddle about whether Schrödinger’s cat is alive or dead, 
+        enables qubits to compute across parallel states. 
+        Entanglement, once dismissed by Einstein as “spooky action at a distance,” 
+        is the lifeblood of quantum communication and teleportation. 
+        Even uncertainty, long thought a limitation, 
+        becomes the key to ultra-precise sensors and measurements. 
+        In short, quantum mechanics has moved from paradox to power.
+      </p>
+    </div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p18">★ Highlight</button>
+      <p id="p18">
+        Beyond the labs and research centers, these developments raise deeper questions. 
+        If entanglement truly allows information to correlate across the cosmos, 
+        what does this mean for our understanding of space, time, and causality? 
+        If quantum computing challenges classical notions of information, 
+        what does this mean for mathematics and logic themselves? 
+        The applications of quantum mechanics are not just technological: 
+        they push philosophy to reconsider the boundaries of knowledge and the role of the observer in shaping reality.
+      </p>
+    </div>
+
+    <!-- Quiz -->
+    <h2 id="quiz" class="reveal">Quick Quiz</h2>
+    <div class="divider"></div>
+    <section class="quiz reveal" id="quizSection">
+      <div class="qitem">
+        <h4>1) What makes quantum cryptography fundamentally secure?</h4>
+        <div class="qchoices" data-answer="c" data-explain="Any measurement of quantum states disturbs them, revealing eavesdroppers.">
+          <button data-choice="a">It uses very long passwords</button>
+          <button data-choice="b">It hides messages with random noise</button>
+          <button data-choice="c">Measuring quantum states unavoidably changes them</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>2) What is transmitted in quantum teleportation?</h4>
+        <div class="qchoices" data-answer="b" data-explain="The state of a particle is transmitted, not the particle itself.">
+          <button data-choice="a">The physical particle itself</button>
+          <button data-choice="b">The quantum state of a particle</button>
+          <button data-choice="c">A hidden-variable code</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>3) Why are quantum computers powerful?</h4>
+        <div class="qchoices" data-answer="a" data-explain="Qubits exist in superposition, allowing massive parallelism.">
+          <button data-choice="a">They exploit superposition and entanglement</button>
+          <button data-choice="b">They have faster electrical circuits</button>
+          <button data-choice="c">They are error-free by design</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+    </section>
+
+    <div class="nextrow reveal">
+      <a href="quantum-bells-theorem.html">← Back to Bell’s Theorem</a>
+      <a href="quantum-philosophy.html">Next page → Quantum Philosophy</a>
+    </div>
+
+  </article>
+
+  <!-- Sidebar -->
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ next to any paragraph to save it here.</p>
+    <div id="nbList"></div>
+  </aside>
+</div>
+
+<footer>© 2025 QParadox</footer>
+
+<script>
+/* progress bar */
+const bar=document.getElementById('progress');
+function onScroll(){
+  const h=document.documentElement, st=h.scrollTop||document.body.scrollTop, sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';
+}
+addEventListener('scroll', onScroll); onScroll();
+
+/* reveal on scroll */
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);}
+  });
+},{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{
+  if(!el.classList.contains('in')) obs.observe(el);
+});
+
+/* TOC */
+const toc=document.getElementById('toc');
+const heads=[...document.querySelectorAll('#article h2')];
+heads.forEach(h=>{
+  const a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent; toc.appendChild(a);
+});
+function spy(){
+  const y=scrollY+140; let idx=-1;
+  heads.forEach((s,i)=>{ if(s.offsetTop<=y && s.offsetTop+s.offsetHeight>y) idx=i; });
+  [...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));
+}
+addEventListener('scroll', spy); spy();
+
+/* notebook */
+const KEY='qpx_notes_quantum_applications';
+const listEl=document.getElementById('nbList');
+function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return []}}
+function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+function render(){
+  const notes=load(); listEl.innerHTML='';
+  if(notes.length===0){ listEl.innerHTML='<p style="color:var(--muted)">No highlights yet.</p>'; return; }
+  notes.forEach(n=>{
+    const div=document.createElement('div'); div.className='note'; div.dataset.id=n.id;
+    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`;
+    listEl.appendChild(div);
+  });
+}
+render();
+document.querySelectorAll('.hlbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id=btn.dataset.target, p=document.getElementById(id);
+    if(!p) return;
+    p.classList.add('mark');
+    const notes=load(); notes.push({id:'n'+Date.now(), text:p.textContent.trim(), time:Date.now(), para:id});
+    save(notes); render();
+  });
+});
+listEl.addEventListener('click',e=>{
+  if(!e.target.classList.contains('del')) return;
+  const id=e.target.closest('.note').dataset.id;
+  const notes=load().filter(x=>x.id!==id); save(notes); render();
+});
+
+/* quiz interactivity */
+document.querySelectorAll('.qchoices').forEach(q=>{
+  const ans=q.dataset.answer, exp=q.dataset.explain, feedback=q.nextElementSibling;
+  q.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(btn.dataset.choice===ans){
+        btn.classList.add('correct'); feedback.textContent="✔ Correct! "+exp;
+      } else {
+        btn.classList.add('wrong'); feedback.textContent="✘ Incorrect. "+exp;
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
