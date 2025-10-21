@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • Topological Phases</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!-- MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+/* Same styling as Berry Phase article */
+:root{--bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+--gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+--shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+--radius:18px; --side:330px;}
+*{box-sizing:border-box} html,body{height:100%} body{margin:0; background:var(--bg); color:var(--ink);
+font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;}
+body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+background:
+radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
+
+header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
+h1{font-family:"Playfair Display",serif; font-weight:900; margin:0;
+font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+
+.main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
+
+article{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
+.figure{margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#0e0f12; box-shadow:var(--shadow); max-width:820px}
+.figure img{display:block; width:100%; height:auto}
+.figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
+.pwrap{position:relative; padding-right:2.5rem}
+.hlbtn{position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+background:var(--glass); color:var(--ink); border:1px solid var(--line);
+font-size:.85rem; cursor:pointer; opacity:0; transition:.2s}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+aside{position:sticky; top:90px; align-self:start; height:fit-content;
+background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+.quiz{margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.04)}
+.qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
+.qchoices{display:grid; gap:.45rem}
+.qchoices button{text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05);
+color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer}
+.qchoices button.correct{border-color:#46d17d}
+.qchoices button.wrong{border-color:#e07070}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
+background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem}
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<div class="frame"></div>
+<div id="progress"></div>
+
+<header class="reveal in">
+  <h1>Topological Phases of Matter</h1>
+  <p class="subtitle">Exploring how global geometric and topological properties define quantum states, bridging Berry phase with quantum geometry.</p>
+</header>
+
+<div class="main">
+  <article id="article">
+
+    <figure class="figure reveal">
+      <img src="topological-phases-header.jpg" alt="Topological phases illustration"/>
+      <figcaption class="figcap">Topological phases encode global invariants, insensitive to local perturbations but profoundly influencing quantum observables.</figcaption>
+    </figure>
+
+    <h2 id="intro" class="reveal">Introduction</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        Topological phases are quantum states characterized not by symmetry-breaking order parameters, but by global topological invariants. Building on the concept of Berry phase, these phases arise when the quantum wavefunction's evolution in parameter space cannot be continuously deformed to a trivial configuration without closing the energy gap. Such phases are robust to local perturbations, giving rise to quantized observables, edge states, and exotic excitations such as anyons in two-dimensional systems.
+      </p>
+    </div>
+
+    <h2 id="examples" class="reveal">Canonical Examples</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2" class="dropcap">
+        The integer and fractional quantum Hall effects exemplify topological phases: the Hall conductance is quantized and determined by a Chern number, a topological invariant derived from the Berry curvature integrated over the Brillouin zone. Topological insulators and superconductors exhibit conducting edge or surface states protected by topological invariants, despite an insulating bulk. These phenomena illustrate how global geometry of Hilbert space dictates measurable properties.
+      </p>
+    </div>
+
+    <h2 id="mathematics" class="reveal">Mathematical Framework</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        Let \(|u_n(\mathbf{k})\rangle\) be a Bloch eigenstate over the Brillouin zone. The Berry connection \(\mathbf{A}_n(\mathbf{k}) = i \langle u_n(\mathbf{k})|\nabla_\mathbf{k} u_n(\mathbf{k})\rangle\) defines the local geometric structure. The integral of the Berry curvature \(\mathbf{F}_n = \nabla_\mathbf{k} \times \mathbf{A}_n\) over the zone gives the first Chern number
+        \[
+        C_n = \frac{1}{2\pi} \int_{BZ} \mathbf{F}_n \cdot d^2k,
+        \]
+        quantifying the topological class. This invariant remains constant under smooth deformations of the Hamiltonian, provided the gap does not close, linking quantum topology directly to observables like quantized conductance.
+      </p>
+    </div>
+
+    <h2 id="physical" class="reveal">Physical Consequences</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4" class="dropcap">
+        Topological phases manifest in robust edge currents, topologically protected qubits for fault-tolerant quantum computation, and anomalous transport properties. The Berry phase accumulated by quasiparticles moving in momentum space or in real-space loops underlies the stability of these phenomena. These systems reveal an intimate connection between quantum geometry, gauge fields, and measurable physical quantities, forming a conceptual bridge to quantum geometry proper.
+      </p>
+    </div>
+
+    <h2 id="connections" class="reveal">Connections to Berry Phase and Quantum Geometry</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p5">★ Highlight</button>
+      <p id="p5" class="dropcap">
+        The Berry phase provides the foundational language to describe topological phases: the holonomy of the wavefunction around parameter space loops encodes global curvature information. Extending this idea, quantum geometry formalizes the metric and curvature of the Hilbert space, encompassing both Berry curvature and quantum metric tensor. In this framework, topological invariants emerge naturally from the geometry of eigenstates, linking Berry phase, topological matter, and quantum geometry in a unified perspective.
+      </p>
+    </div>
+
+    <h2 id="quiz" class="reveal">Quick Quiz – Topological Phases</h2>
+    <div class="divider"></div>
+
+    <section class="quiz reveal" id="quizSection">
+      <div class="qitem">
+        <h4>1) Topological phases are characterized by:</h4>
+        <div class="qchoices" data-answer="b" data-explain="They are defined by global invariants, not local symmetry-breaking order.">
+          <button data-choice="a">Local symmetry breaking</button>
+          <button data-choice="b">Global topological invariants</button>
+          <button data-choice="c">Temperature changes</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>2) The Chern number is derived from:</h4>
+        <div class="qchoices" data-answer="a" data-explain="The Chern number is the integral of Berry curvature over the Brillouin zone.">
+          <button data-choice="a">Berry curvature integration</button>
+          <button data-choice="b">Local energy eigenvalues</button>
+          <button data-choice="c">Classical trajectories</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>3) Robust edge states in topological insulators are due to:</h4>
+        <div class="qchoices" data-answer="b" data-explain="They are protected by the bulk topological invariants, insensitive to local disorder.">
+          <button data-choice="a">External magnetic fields only</button>
+          <button data-choice="b">Bulk topological protection</button>
+          <button data-choice="c">Temperature gradients</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+    </section>
+
+    <div class="nextrow reveal">
+      <a href="beyond-the-textbook.html">← Back to Berry Phase</a>
+      <a href="quantum-geometry.html">Next page → Quantum Geometry</a>
+    </div>
+
+  </article>
+
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ to save paragraphs here. You can also write your own notes below.</p>
+    <div id="nbList"></div>
+    <textarea id="freeNote" placeholder="Write your own note..." style="margin-top:.6rem; height:100px; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink); border-radius:.5rem; padding:.55rem .6rem; font-family:'Crimson Text',serif;"></textarea>
+    <div style="display:flex; gap:.5rem; margin-top:.4rem;">
+      <button onclick="saveFreeNote()" style="flex:1; cursor:pointer; border-radius:.5rem; padding:.5rem; background:var(--glass); border:1px solid var(--line); color:var(--ink)">Save Note</button>
+      <button onclick="clearNotes()" style="flex:1; cursor:pointer; border-radius:.5rem; padding:.5rem; background:var(--glass); border:1px solid var(--line); color:var(--ink)">Clear All</button>
+    </div>
+  </aside>
+
+</div>
+
+<footer class="reveal">
+  © QParadox • Beyond the Textbook — 2025
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); }); },{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// TOC
+const toc = document.getElementById('toc');
+document.querySelectorAll('article h2').forEach(h=>{
+  const a = document.createElement('a'); a.href = `#${h.id}`; a.textContent=h.textContent;
+  toc.appendChild(a);
+});
+
+// Notes
+const nbList = document.getElementById('nbList');
+document.querySelectorAll('.hlbtn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const p = document.getElementById(btn.dataset.target);
+    const note = document.createElement('div');
+    note.className='note'; note.innerHTML=p.innerHTML+'<time>'+new Date().toLocaleString()+'</time>';
+    const del = document.createElement('span'); del.textContent='✕'; del.className='del';
+    del.onclick=()=>nbList.removeChild(note); note.appendChild(del); nbList.appendChild(note);
+  });
+});
+function saveFreeNote(){const val=document.getElementById('freeNote').value.trim(); if(val){const note=document.createElement('div'); note.className='note'; note.innerHTML=val+'<time>'+new Date().toLocaleString()+'</time>'; const del=document.createElement('span'); del.textContent='✕'; del.className='del'; del.onclick=()=>nbList.removeChild(note); note.appendChild(del); nbList.appendChild(note); document.getElementById('freeNote').value='';}}
+function clearNotes(){nbList.innerHTML='';}
+
+// Quiz logic (allows re-click)
+document.querySelectorAll('.quiz .qitem').forEach(item=>{
+  const correct = item.querySelector('.qchoices').dataset.answer;
+  const explain = item.querySelector('.qchoices').dataset.explain;
+  item.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      item.querySelectorAll('button').forEach(b=>b.classList.remove('correct','wrong'));
+      if(btn.dataset.choice===correct){ btn.classList.add('correct'); } else{ btn.classList.add('wrong'); }
+      item.querySelector('.qfeedback').textContent=explain;
+    });
+  });
+});
+
+// Progress bar
+const progress = document.getElementById('progress');
+window.addEventListener('scroll',()=>{ const height=document.body.scrollHeight-window.innerHeight; const pct=window.scrollY/height*100; progress.style.width=pct+'%'; });
+</script>
+
+</body>
+</html>
