@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • Cosmic Microwave Background</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!-- MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --side:330px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
+}
+body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
+
+header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
+h1{font-family:"Playfair Display",serif; font-weight:900; margin:0;
+  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+
+.main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
+
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
+
+.figure{margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#0e0f12; box-shadow:var(--shadow); max-width:820px}
+.figure img{display:block; width:100%; height:auto}
+.figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
+
+.pwrap{position:relative; padding-right:2.5rem}
+.hlbtn{position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+  background:var(--glass); color:var(--ink); border:1px solid var(--line);
+  font-size:.85rem; cursor:pointer; opacity:0; transition:.2s}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+
+aside{position:sticky; top:90px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+
+.quiz{margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.04)}
+.qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
+.qchoices{display:grid; gap:.45rem}
+.qchoices button{text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05);
+  color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer}
+.qchoices button.correct{border-color:#46d17d}
+.qchoices button.wrong{border-color:#e07070}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
+
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
+  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem}
+
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<div class="frame"></div>
+<div id="progress"></div>
+
+<header class="reveal in">
+  <h1>Cosmic Microwave Background</h1>
+  <p class="subtitle">The faint afterglow of creation — a relic radiation that maps the infant Universe, revealing its origin, geometry, and fate.</p>
+</header>
+
+<div class="main">
+  <!-- ARTICLE -->
+  <article id="article">
+
+    <figure class="figure reveal">
+      <img src="cmb-header.jpeg" alt="CMB radiation pattern"/>
+      <figcaption class="figcap">The cosmic microwave background: the oldest light in the Universe, imprinted when atoms first formed.</figcaption>
+    </figure>
+
+    <h2 id="intro" class="reveal">Introduction</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        The <em>Cosmic Microwave Background</em> (CMB) is the afterglow of the Big Bang — a bath of microwave radiation permeating all of space, nearly uniform in every direction yet holding within it the fingerprints of the Universe’s birth. Discovered accidentally in 1965 by Penzias and Wilson, the CMB became the most compelling evidence for the hot Big Bang model. It represents the moment, 380,000 years after creation, when the cosmos cooled enough for protons and electrons to combine into neutral hydrogen, allowing photons to travel freely for the first time. Those photons, stretched by cosmic expansion, now whisper to us as microwaves at a temperature of about 2.725 K — the afterlight of genesis.
+      </p>
+    </div>
+
+    <h2 id="discovery" class="reveal">Discovery and Significance</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2" class="dropcap">
+        The CMB’s discovery was a triumph of both serendipity and theory. While Penzias and Wilson puzzled over a persistent background noise in their antenna, cosmologists Robert Dicke and Jim Peebles at Princeton were preparing to search for just such a relic radiation predicted by Big Bang models. The near-perfect blackbody spectrum measured later by the COBE satellite in 1992 confirmed that this radiation was indeed cosmic in origin. Its uniform temperature to one part in 100,000 testifies to the remarkable homogeneity of the early Universe — while those tiny anisotropies, the small deviations, became the seeds from which all galaxies and clusters would eventually form.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="cmb-map.jpeg" alt="Planck CMB anisotropy map"/>
+      <figcaption class="figcap">Planck’s map of CMB anisotropies reveals temperature fluctuations of just tens of microkelvin — quantum echoes of primordial density variations.</figcaption>
+    </figure>
+
+    <h2 id="spectrum" class="reveal">The Blackbody Spectrum</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        The CMB’s spectrum follows Planck’s law for a blackbody at \(T = 2.725\,\text{K}\), peaking at a wavelength near 1.9 millimeters. This astonishing precision — measured by COBE’s FIRAS instrument — shows that no known physical process can easily reproduce such a perfect blackbody except an early Universe once in thermal equilibrium. The energy density of this radiation today is tiny, yet it dominates the photon content of the cosmos. Each cubic centimeter of space holds roughly 411 CMB photons, relics of an epoch when radiation ruled over matter.
+      </p>
+    </div>
+
+    <h2 id="anisotropy" class="reveal">Anisotropies and Structure Formation</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4" class="dropcap">
+        The minute anisotropies imprinted in the CMB carry profound information. Slight density differences — enhanced by quantum fluctuations during inflation — caused the radiation to oscillate as acoustic waves in the primordial plasma. When the Universe became transparent, these oscillations froze, leaving a detailed pattern visible today as peaks in the angular power spectrum. By analyzing these peaks, cosmologists have deduced the age, composition, and curvature of the Universe. The CMB thus acts as a cosmic Rosetta stone: a two-dimensional snapshot encoding the entire three-dimensional history of our expanding cosmos.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="cmb-spectrum.jpeg" alt="CMB power spectrum graph"/>
+      <figcaption class="figcap">The CMB power spectrum: each peak reveals the size and scale of acoustic oscillations before recombination.</figcaption>
+    </figure>
+
+    <h2 id="quiz" class="reveal">Quick Quiz – Cosmic Microwave Background</h2>
+    <div class="divider"></div>
+
+    <section class="quiz reveal" id="quizSection">
+      <div class="qitem">
+        <h4>1) At what temperature does the CMB radiation currently exist?</h4>
+        <div class="qchoices" data-answer="b" data-explain="The CMB has a nearly uniform temperature of 2.725 K.">
+          <button data-choice="a">0.273 K</button>
+          <button data-choice="b">2.725 K</button>
+          <button data-choice="c">27.25 K</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>2) What caused the tiny anisotropies observed in the CMB?</h4>
+        <div class="qchoices" data-answer="c" data-explain="Quantum fluctuations during inflation led to density variations, producing CMB anisotropies.">
+          <button data-choice="a">Local galactic radio noise</button>
+          <button data-choice="b">Cosmic rays scattering off dust</button>
+          <button data-choice="c">Primordial quantum fluctuations amplified by inflation</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>3) What does the CMB’s near-perfect blackbody spectrum tell us?</h4>
+        <div class="qchoices" data-answer="a" data-explain="It proves that the early Universe was in thermal equilibrium, consistent with the Big Bang model.">
+          <button data-choice="a">The early Universe was once in thermal equilibrium</button>
+          <button data-choice="b">The Universe is perfectly static and eternal</button>
+          <button data-choice="c">Radiation cannot be used to study cosmology</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+    </section>
+
+    <div class="nextrow reveal">
+      <a href="nucleosynthesis.html">← Back to Big Bang Nucleosynthesis</a>
+      <a href="structure-formation.html">Next page → Large-Scale Structure Formation</a>
+    </div>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ to save paragraphs here. You can also write your own notes below.</p>
+    <div id="nbList"></div>
+    <textarea id="freeNote" placeholder="Write your own note..." style="margin-top:.6rem; height:100px; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink); border-radius:.5rem; padding:.55rem .6rem; font-family:'Crimson Text',serif;"></textarea>
+    <div style="display:flex; gap:.5rem; margin-top:.4rem">
+      <button id="saveFree" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Save</button>
+      <button id="clearAll" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Clear</button>
+    </div>
+  </aside>
+</div>
+
+<footer>© QParadox • The Relics of Light — 2025</footer>
+
+<script>
+// Scroll progress
+window.addEventListener("scroll",()=>{const h=document.documentElement;const sc=(h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;document.getElementById("progress").style.width=sc+"%"});
+
+// Reveal animation
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("in")});
+},{threshold:.15});
+document.querySelectorAll(".reveal").forEach(e=>obs.observe(e));
+
+// Table of contents
+const toc=document.getElementById("toc");
+document.querySelectorAll("article h2").forEach(h=>{
+  const a=document.createElement("a");
+  a.href="#"+h.id;a.textContent=h.textContent;toc.appendChild(a);
+});
+window.addEventListener("scroll",()=>{
+  let idx=-1;
+  const heads=[...document.querySelectorAll("article h2")];
+  for(let i=0;i<heads.length;i++){
+    if(heads[i].getBoundingClientRect().top<120)idx=i;
+  }
+  [...toc.children].forEach((a,i)=>a.classList.toggle("active",i===idx));
+});
+
+// Notes system
+const nbList=document.getElementById("nbList");
+function renderNotes(){
+  nbList.innerHTML="";
+  (JSON.parse(localStorage.getItem("cmbNotes")||"[]")).forEach((n,i)=>{
+    const d=document.createElement("div");
+    d.className="note";
+    d.innerHTML=`<div>${n.text}</div><time>${n.date}</time><button class='del' data-i='${i}'>Delete</button>`;
+    nbList.appendChild(d);
+  });
+}
+renderNotes();
+nbList.addEventListener("click",e=>{
+  if(e.target.classList.contains("del")){
+    const a=JSON.parse(localStorage.getItem("cmbNotes")||"[]");
+    a.splice(e.target.dataset.i,1);
+    localStorage.setItem("cmbNotes",JSON.stringify(a));
+    renderNotes();
+  }
+});
+document.querySelectorAll(".hlbtn").forEach(b=>b.onclick=()=>{
+  const p=document.getElementById(b.dataset.target);
+  const note={text:p.textContent.trim(),date:new Date().toLocaleString()};
+  const a=JSON.parse(localStorage.getItem("cmbNotes")||"[]");
+  a.push(note);localStorage.setItem("cmbNotes",JSON.stringify(a));renderNotes();
+});
+document.getElementById("saveFree").onclick=()=>{
+  const t=document.getElementById("freeNote");
+  if(t.value.trim()){
+    const note={text:t.value.trim(),date:new Date().toLocaleString()};
+    const a=JSON.parse(localStorage.getItem("cmbNotes")||"[]");
+    a.push(note);localStorage.setItem("cmbNotes",JSON.stringify(a));
+    renderNotes();t.value="";
+  }
+};
+document.getElementById("clearAll").onclick=()=>{
+  if(confirm("Clear all saved notes?")){
+    localStorage.removeItem("cmbNotes");
+    renderNotes();
+  }
+};
+
+// Quiz logic
+document.querySelectorAll(".qchoices").forEach(div=>{
+  div.querySelectorAll("button").forEach(btn=>btn.onclick=()=>{
+    const ans=div.dataset.answer;
+    div.querySelectorAll("button").forEach(b=>b.disabled=true);
+    btn.classList.add(btn.dataset.choice===ans?"correct":"wrong");
+    div.parentElement.querySelector(".qfeedback").textContent=div.dataset.explain;
+  });
+});
+</script>
+</body>
+</html>
