@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • QBism</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!-- MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+/* Keep the same dark-academic styling as previous articles */
+:root{--bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+--gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+--shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+--radius:18px; --side:330px;}
+*{box-sizing:border-box} html,body{height:100%} body{margin:0; background:var(--bg); color:var(--ink);
+font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;}
+body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+background:
+radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
+
+header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
+h1{font-family:"Playfair Display",serif; font-weight:900; margin:0;
+font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+
+.main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
+
+article{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
+.figure{margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#0e0f12; box-shadow:var(--shadow); max-width:820px}
+.figure img{display:block; width:100%; height:auto}
+.figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
+.pwrap{position:relative; padding-right:2.5rem}
+.hlbtn{position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+background:var(--glass); color:var(--ink); border:1px solid var(--line);
+font-size:.85rem; cursor:pointer; opacity:0; transition:.2s}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+aside{position:sticky; top:90px; align-self:start; height:fit-content;
+background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+.quiz{margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.04)}
+.qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
+.qchoices{display:grid; gap:.45rem}
+.qchoices button{text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05);
+color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer}
+.qchoices button.correct{border-color:#46d17d}
+.qchoices button.wrong{border-color:#e07070}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
+background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem}
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<div class="frame"></div>
+<div id="progress"></div>
+
+<header class="reveal in">
+  <h1>QBism: Quantum Bayesianism</h1>
+  <p class="subtitle">A detailed exploration of QBism, personalist probability, observer-dependent reality, and the philosophical and mathematical foundations of quantum information.</p>
+</header>
+
+<div class="main">
+  <article id="article">
+
+    <figure class="figure reveal">
+      <img src="qbism-header.jpg" alt="QBism illustration"/>
+      <figcaption class="figcap">QBism frames quantum states as an agent's personal beliefs about outcomes, not objective properties.</figcaption>
+    </figure>
+
+    <h2 id="intro" class="reveal">Introduction</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        QBism, short for Quantum Bayesianism, is an interpretation of quantum mechanics emphasizing the role of the observer as an active participant. Unlike objective collapse models, QBism treats the quantum state not as a property of a physical system but as an agent’s personal probabilistic beliefs about the outcomes of measurements. This approach integrates the principles of <em>personalist Bayesian probability</em> with quantum theory, offering a unique lens for understanding quantum phenomena.
+      </p>
+    </div>
+
+    <h2 id="foundations" class="reveal">Foundational Principles</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2" class="dropcap">
+        QBism is built on three pillars: (1) The quantum state is subjective, representing an agent's expectations. (2) Measurement outcomes are personal experiences, not objective revelations. (3) The Born rule is a normative rule guiding agents on how to assign probabilities consistently. Formally, if an agent assigns probabilities \( P(H_i) \) to possible outcomes \( H_i \) of a measurement, the Born rule constrains these assignments to maintain internal coherence, ensuring rational decision-making in light of quantum experiments.
+      </p>
+    </div>
+
+    <h2 id="probability" class="reveal">Quantum Probability and Personalism</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        Traditional interpretations often treat probabilities as objective frequencies or propensities. QBism, in contrast, adopts a personalist Bayesian view: probabilities quantify an agent's beliefs about potential measurement outcomes. Updating beliefs upon observing outcomes uses Bayes' theorem. In the quantum context, this means the agent updates their state assignment for future measurements, reflecting a continuous interplay between expectation, action, and observation.
+      </p>
+    </div>
+
+    <h2 id="relations" class="reveal">Relation to Other Interpretations</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4" class="dropcap">
+        QBism differs fundamentally from Wigner’s Friend or Many-Worlds: it denies absolute objectivity of quantum states, instead framing measurement as a personal interaction between agent and system. While Wigner’s Friend raises questions of observer-dependent reality, QBism formalizes this dependence mathematically, providing a coherent framework for multiple agents to maintain internal consistency without requiring an external “God’s eye view.” It also avoids the ontological complications of collapse by treating the wavefunction as epistemic.
+      </p>
+    </div>
+
+    <h2 id="philosophy" class="reveal">Philosophical Implications</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p5">★ Highlight</button>
+      <p id="p5" class="dropcap">
+        QBism raises deep philosophical questions: If quantum states are subjective, does this imply radical anti-realism? How do multiple agents reconcile their experiences? QBism suggests reality is participatory: each agent contributes to a network of personal experiences, where consistency is maintained by normative probabilistic rules. This perspective resonates with relational quantum mechanics, participatory universe ideas, and even echoes philosophical pragmatism, emphasizing experience and action over abstract objectivity.
+      </p>
+    </div>
+
+    <h2 id="applications" class="reveal">Modern Research and Applications</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p6">★ Highlight</button>
+      <p id="p6" class="dropcap">
+        QBism informs research in quantum information, computation, and quantum foundations. By interpreting quantum states as tools for reasoning about information, it guides error correction, adaptive measurements, and decision theory in quantum technologies. Additionally, connections to geometric quantum mechanics, SIC-POVMs (Symmetric Informationally Complete measurements), and the structure of Hilbert space provide fertile ground for exploring quantum geometry and topological features of state spaces. These links naturally connect QBism to broader topics like Berry phases and quantum contextuality.
+      </p>
+    </div>
+
+    <h2 id="quiz" class="reveal">Quick Quiz – QBism</h2>
+    <div class="divider"></div>
+
+    <section class="quiz reveal" id="quizSection">
+      <div class="qitem">
+        <h4>1) In QBism, the quantum state represents:</h4>
+        <div class="qchoices" data-answer="b" data-explain="QBism treats quantum states as personal beliefs of an agent about measurement outcomes.">
+          <button data-choice="a">An objective physical property</button>
+          <button data-choice="b">An agent’s personal belief</button>
+          <button data-choice="c">A universal wavefunction shared by all observers</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>2) The Born rule in QBism functions as:</h4>
+        <div class="qchoices" data-answer="c" data-explain="It is a normative rule guiding consistent probability assignments by the agent.">
+          <button data-choice="a">A law that causes collapse</button>
+          <button data-choice="b">A deterministic prediction of outcomes</button>
+          <button data-choice="c">A normative consistency condition for probabilities</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>3) QBism connects to quantum geometry through:</h4>
+        <div class="qchoices" data-answer="a" data-explain="State assignments and updates can be represented as trajectories in Hilbert space, revealing geometric and topological structures.">
+          <button data-choice="a">Hilbert-space trajectories and SIC-POVM structures</button>
+          <button data-choice="b">Classical configuration space trajectories</button>
+          <button data-choice="c">Gravitational curvature of spacetime</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+    </section>
+
+    <div class="nextrow reveal">
+      <a href="wigners-friend.html">← Back to Wigner’s Friend</a>
+      <a href="beyond-textbook.html">Next → Beyond the Textbook</a>
+    </div>
+
+  </article>
+
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ to save paragraphs here. You can also write your own notes below.</p>
+    <div id="nbList"></div>
+    <textarea id="freeNote" placeholder="Write your own note..." style="margin-top:.6rem; height:100px; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink); border-radius:.5rem; padding:.55rem .6rem; font-family:'Crimson Text',serif;"></textarea>
+    <div style="display:flex; gap:.5rem; margin-top:.4rem;">
+      <button onclick="saveFreeNote()" style="flex:1; cursor:pointer; border-radius:.5rem; padding:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink)">Save Note</button>
+      <button onclick="clearNotes()" style="flex:1; cursor:pointer; border-radius:.5rem; padding:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink)">Clear All</button>
+    </div>
+  </aside>
+</div>
+
+<footer class="reveal">
+  &copy; 2025 QParadox • Designed for deep quantum exploration
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); }); }, { threshold: .2 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// TOC
+const toc = document.getElementById('toc');
+document.querySelectorAll('article h2').forEach(h=>{
+  const a = document.createElement('a'); a.href = `#${h.id}`; a.textContent=h.textContent;
+  toc.appendChild(a);
+});
+
+// Notebook highlights
+const nbList = document.getElementById('nbList');
+document.querySelectorAll('.hlbtn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const p = document.getElementById(btn.dataset.target);
+    const note = document.createElement('div');
+    note.className='note'; note.innerHTML=p.innerHTML+'<time>'+new Date().toLocaleString()+'</time>';
+    const del = document.createElement('span'); del.textContent='✕'; del.className='del';
+    del.onclick=()=>nbList.removeChild(note); note.appendChild(del); nbList.appendChild(note);
+  });
+});
+function saveFreeNote(){const val=document.getElementById('freeNote').value.trim(); if(val){const note=document.createElement('div'); note.className='note'; note.innerHTML=val+'<time>'+new Date().toLocaleString()+'</time>'; const del=document.createElement('span'); del.textContent='✕'; del.className='del'; del.onclick=()=>nbList.removeChild(note); note.appendChild(del); nbList.appendChild(note); document.getElementById('freeNote').value='';}}
+function clearNotes(){nbList.innerHTML='';}
+
+// Quiz logic (allows re-click)
+document.querySelectorAll('.quiz .qitem').forEach(item=>{
+  const correct = item.querySelector('.qchoices').dataset.answer;
+  const explain = item.querySelector('.qchoices').dataset.explain;
+  item.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      item.querySelectorAll('button').forEach(b=>b.classList.remove('correct','wrong'));
+      if(btn.dataset.choice===correct){ btn.classList.add('correct'); } else{ btn.classList.add('wrong'); }
+      item.querySelector('.qfeedback').textContent=explain;
+    });
+  });
+});
+
+// Progress bar
+const progress = document.getElementById('progress');
+window.addEventListener('scroll',()=>{ const height=document.body.scrollHeight-window.innerHeight; const pct=window.scrollY/height*100; progress.style.width=pct+'%'; });
+</script>
+
+</body>
+</html>
