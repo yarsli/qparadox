@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • Monte Carlo Intuition</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!-- MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --side:330px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
+}
+body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
+
+header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
+h1{font-family:"Playfair Display",serif; font-weight:900; margin:0;
+  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+
+.main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
+
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
+
+.figure{margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#0e0f12; box-shadow:var(--shadow); max-width:820px}
+.figure img{display:block; width:100%; height:auto}
+.figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
+
+.pwrap{position:relative; padding-right:2.5rem}
+.hlbtn{position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+  background:var(--glass); color:var(--ink); border:1px solid var(--line);
+  font-size:.85rem; cursor:pointer; opacity:0; transition:.2s}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+
+aside{position:sticky; top:90px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+
+.quiz{margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.04)}
+.qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
+.qchoices{display:grid; gap:.45rem}
+.qchoices button{text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05);
+  color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer}
+.qchoices button.correct{border-color:#46d17d}
+.qchoices button.wrong{border-color:#e07070}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
+
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
+  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem}
+
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
+
+/* Simulation card */
+.simcard{max-width:820px; margin:1.2rem auto; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.03); box-shadow:var(--shadow); padding:1rem}
+.controls{display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin-bottom:.8rem}
+.controls label{font-size:.95rem; color:var(--ink2)}
+.controls input[type="number"], .controls input[type="range"], .controls select{
+  background:rgba(255,255,255,.06); color:var(--ink); border:1px solid var(--line); border-radius:.4rem; padding:.25rem .4rem
+}
+.controls button{border:1px solid var(--line); background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); color:var(--ink); padding:.45rem .7rem; border-radius:.6rem; cursor:pointer}
+canvas#hist{display:block; width:100%; height:280px; background:#0e0f12; border:1px solid var(--line); border-radius:.7rem}
+.statrow{display:flex; gap:1rem; flex-wrap:wrap; color:var(--ink2); margin-top:.5rem; font-size:.95rem}
+.badge{display:inline-block; padding:.15rem .4rem; border-radius:.35rem; border:1px solid var(--line); background:rgba(255,255,255,.05); margin-left:.25rem}
+</style>
+</head>
+<body>
+
+<div class="frame"></div>
+<div id="progress"></div>
+
+<header class="reveal in">
+  <h1>Monte Carlo Intuition</h1>
+  <p class="subtitle">Randomized simulation of measurement outcomes — from the law of large numbers to quantum sampling and interactive experiments.</p>
+</header>
+
+<div class="main">
+  <!-- ARTICLE -->
+  <article id="article">
+
+    <figure class="figure reveal">
+      <img src="monte-carlo-header.jpeg" alt="Random sampling concept"/>
+      <figcaption class="figcap">Monte Carlo uses randomness as a microscope: many noisy trials reveal precise averages.</figcaption>
+    </figure>
+
+    <h2 id="intro" class="reveal">Introduction</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        In physics, exact formulas are wonderful — but nature is often messy. Monte Carlo methods embrace randomness to estimate quantities that are hard to compute directly.
+        We generate random samples from a model and let statistics do the heavy lifting. The magic is that noisy trials average into accurate answers, with errors that shrink as \(1/\sqrt{N}\).
+      </p>
+      <p>
+        In quantum mechanics, Monte Carlo connects naturally to measurement: outcomes are random, distributed by Born’s rule. Simulating measurement is therefore a perfect playground to build Monte Carlo intuition.
+      </p>
+    </div>
+
+    <h2 id="lln" class="reveal">Law of Large Numbers & \(1/\sqrt{N}\) Error</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2" class="dropcap">
+        Suppose outcomes \(x_1,\dots,x_N\) are independent draws from a distribution with mean \(\mu\) and variance \(\sigma^2\).
+        The sample mean \(\bar{x}\) is unbiased, \(\mathbb{E}[\bar{x}]=\mu\), and its standard error scales as
+        \[
+          \mathrm{SE}(\bar{x})=\frac{\sigma}{\sqrt{N}}.
+        \]
+        Double the precision ⇒ quadruple the trials. This slow but steady convergence is why variance reduction is valuable.
+      </p>
+    </div>
+
+    <h2 id="qm" class="reveal">Quantum Sampling: Born’s Rule in Code</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        A state \(|\psi\rangle=\sum_k c_k|k\rangle\) measured in the \(|k\rangle\) basis produces outcome \(k\) with probability \(p_k=|c_k|^2\).
+        A Monte Carlo simulator draws random numbers to produce synthetic outcomes with these probabilities. Over many shots the histogram approaches \(p_k\).
+      </p>
+      <p>
+        Below you’ll find an interactive simulator for a two-outcome measurement (think spin up/down or a detector click/no-click). You can set the “true” probability \(p\), run shots, and watch the histogram and running estimate converge.
+      </p>
+    </div>
+
+    <!-- INTERACTIVE SIMULATOR -->
+    <section class="simcard reveal" id="sim">
+      <h3 style="margin:.2rem 0 0; font-family:'Playfair Display',serif">Interactive • Quantum Coin / Detector Clicks</h3>
+      <p style="color:var(--ink2); margin:.3rem 0 .8rem">
+        Model a measurement with two outcomes \(x\in\{0,1\}\). The true probability is \(p=\Pr(x=1)\).
+        Run trials and watch the histogram and running estimate \(\hat p\) settle near \(p\).
+      </p>
+
+      <div class="controls">
+        <label>True probability \(p\): <input id="pTrue" type="number" min="0" max="1" step="0.01" value="0.35"/></label>
+        <label>Batch size: <input id="batch" type="number" min="1" step="1" value="100"/></label>
+        <button id="runOnce">Run Batch</button>
+        <button id="runMany">Run ×10</button>
+        <button id="reset">Reset</button>
+      </div>
+
+      <canvas id="hist" width="900" height="280" aria-label="Histogram"></canvas>
+      <div class="statrow">
+        <div>Total shots: <span id="nShots" class="badge">0</span></div>
+        <div>Counts 1: <span id="nOne" class="badge">0</span></div>
+        <div>Estimate \(\hat p\): <span id="pHat" class="badge">0.000</span></div>
+        <div>SE \((\sqrt{\hat p(1-\hat p)/N})\): <span id="se" class="badge">—</span></div>
+      </div>
+    </section>
+
+    <h2 id="var" class="reveal">Variance Reduction: Getting More for Each Shot</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4" class="dropcap">
+        The \(1/\sqrt{N}\) law is universal, but the constant in front is the variance.
+        Techniques like <em>stratified sampling</em>, <em>control variates</em>, <em>importance sampling</em>, and <em>antithetic variables</em> reduce variance without increasing shots.
+      </p>
+      <p>
+        For example, if you want \(\mathbb{E}[f(X)]\) where most weight comes from a rare region, draw more often from that region (importance sampling) and reweight by the likelihood ratio.
+        In quantum optics, heralding acts like stratification: condition on a detected idler photon to reduce variance in the signal arm statistics.
+      </p>
+    </div>
+
+    <h2 id="randomwalks" class="reveal">Random Walks, Path Integrals, and Many-Body Monte Carlo</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p5">★ Highlight</button>
+      <p id="p5" class="dropcap">
+        Diffusion Monte Carlo and world-line methods approximate quantum amplitudes via stochastic paths.
+        Although true path-integral phases are oscillatory, clever tricks (Euclidean time, reweighting) transform problems into positive-weight sampling.
+        In materials and lattice models, Markov chain Monte Carlo explores huge configuration spaces by local updates that satisfy detailed balance.
+      </p>
+      <p>
+        Even when sign problems appear, Monte Carlo still provides intuition and bounds; hybrid quantum–classical strategies can offload the hardest phase structure to small quantum devices.
+      </p>
+    </div>
+
+    <h2 id="cases" class="reveal">Case Studies</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p6">★ Highlight</button>
+      <p id="p6" class="dropcap">
+        <strong>Photon detection:</strong> Model clicks as Bernoulli trials with \(p=\eta\,\bar{n}\) for weak coherent light. Monte Carlo reproduces Poisson counting histograms and reveals dead-time effects.
+      </p>
+      <p>
+        <strong>Radioactive decay:</strong> Each nucleus has survival \(S(t)=e^{-t/\tau}\).
+        Draw decay times by sampling \(t=-\tau\ln(1-u)\) with \(u\sim\mathrm{Uniform}(0,1)\); build exponential histograms just like in the lab.
+      </p>
+      <p>
+        <strong>Stern–Gerlach:</strong> Given spinor \(|\psi\rangle=\cos\frac{\theta}{2}|+\rangle+e^{i\phi}\sin\frac{\theta}{2}|-\rangle\),
+        Monte Carlo on \(|c_\pm|^2\) yields the familiar \(\cos^2(\theta/2)\) statistics; finite sample size explains shot-to-shot fluctuations.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="hist-convergence.jpeg" alt="Histogram convergence illustration"/>
+      <figcaption class="figcap">As the number of trials grows, the empirical histogram tightens around the true distribution (error bars shrink like \(1/\sqrt{N}\)).</figcaption>
+    </figure>
+
+    <h2 id="est" class="reveal">Estimators, Confidence, and Honest Error Bars</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p7">★ Highlight</button>
+      <p id="p7" class="dropcap">
+        For a Bernoulli probability \(p\), the maximum-likelihood estimator is \(\hat p=n_1/N\) with standard error \(\sqrt{\hat p(1-\hat p)/N}\).
+        For small \(N\) or extreme \(\hat p\), use Wilson or Agresti–Coull intervals instead of naive symmetric ones. Reporting methods matters as much as reporting numbers.
+      </p>
+    </div>
+
+    <h2 id="quiz" class="reveal">Quick Quiz – Monte Carlo Intuition</h2>
+    <div class="divider"></div>
+
+    <section class="quiz reveal" id="quizSection">
+      <div class="qitem">
+        <h4>1) The standard error of a Monte Carlo mean with variance \(\sigma^2\) scales as</h4>
+        <div class="qchoices" data-answer="b" data-explain="\(\mathrm{SE}=\sigma/\sqrt{N}\).">
+          <button data-choice="a">\(\sigma/N\)</button>
+          <button data-choice="b">\(\sigma/\sqrt{N}\)</button>
+          <button data-choice="c">\(\sqrt{\sigma N}\)</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>2) In a quantum measurement with outcomes distributed by \(|c_k|^2\), Monte Carlo simulation means</h4>
+        <div class="qchoices" data-answer="c" data-explain="Draw random outcomes according to \(|c_k|^2\) and build histograms/estimates.">
+          <button data-choice="a">Choosing eigenvalues deterministically</button>
+          <button data-choice="b">Averaging amplitudes directly</button>
+          <button data-choice="c">Sampling outcomes with probabilities \(|c_k|^2\)</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>3) Importance sampling helps most when</h4>
+        <div class="qchoices" data-answer="a" data-explain="When rare regions contribute most of the integral, biased draws reduce variance.">
+          <button data-choice="a">the integrand’s weight is concentrated in a rare region</button>
+          <button data-choice="b">the integrand is constant</button>
+          <button data-choice="c">random numbers are expensive</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>4) For a Bernoulli parameter \(p\), the MLE \(\hat p\) equals</h4>
+        <div class="qchoices" data-answer="b" data-explain="\(\hat p = n_1/N\).">
+          <button data-choice="a">\(\sqrt{n_1/N}\)</button>
+          <button data-choice="b">\(n_1/N\)</button>
+          <button data-choice="c">\((N-n_1)/N\)</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>5) The key reason histograms converge to true probabilities is</h4>
+        <div class="qchoices" data-answer="c" data-explain="The law of large numbers ensures empirical frequencies approach expectations.">
+          <button data-choice="a">noise cancellation by filters</button>
+          <button data-choice="b">detector calibration</button>
+          <button data-choice="c">the law of large numbers</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+    </section>
+
+    <div class="nextrow reveal">
+      <a href="interference-visibility.html">← Back to Interference Visibility</a>
+      <a href="light-as-a-messenger.html">Next page → Light as a Messenger</a>
+    </div>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ to save paragraphs here. You can also write your own notes below.</p>
+    <div id="nbList"></div>
+    <textarea id="freeNote" placeholder="Write your own note..." style="margin-top:.6rem; height:100px; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink); border-radius:.5rem; padding:.55rem .6rem; font-family:'Crimson Text',serif;"></textarea>
+    <div style="display:flex; gap:.5rem; margin-top:.4rem">
+      <button id="saveFree" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Save</button>
+      <button id="clearAll" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Clear all</button>
+    </div>
+    <p style="color:var(--muted); font-size:.9rem; margin-top:.4rem">Notes are stored locally in your browser.</p>
+  </aside>
+</div>
+
+<footer>© 2025 QParadox</footer>
+
+<script>
+/* progress bar */
+const bar=document.getElementById('progress');
+function onScroll(){const h=document.documentElement,st=h.scrollTop||document.body.scrollTop,sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';}
+addEventListener('scroll',onScroll);onScroll();
+
+/* reveal on scroll */
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}})},{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{if(!el.classList.contains('in'))obs.observe(el);});
+
+/* TOC */
+const toc=document.getElementById('toc');const heads=[...document.querySelectorAll('#article h2')];
+heads.forEach(h=>{const a=document.createElement('a');a.href='#'+h.id;a.textContent=h.textContent;toc.appendChild(a);});
+function spy(){const y=scrollY+140;let idx=-1;heads.forEach((s,i)=>{if(s.offsetTop<=y&&s.offsetTop+s.offsetHeight>y)idx=i;});
+[...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));}
+addEventListener('scroll',spy);spy();
+
+/* notebook */
+const KEY='qpx_notes_lagrangian_v1';const listEl=document.getElementById('nbList');
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];} }
+function save(data){localStorage.setItem(KEY,JSON.stringify(data));}
+function render(){const notes=load();listEl.innerHTML='';
+  if(notes.length===0){listEl.innerHTML='<p style="color:var(--muted)">No notes yet.</p>';return;}
+  notes.forEach(n=>{const div=document.createElement('div');div.className='note';div.dataset.id=n.id;
+    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`;
+    listEl.appendChild(div);});}
+render();
+document.querySelectorAll('.hlbtn').forEach(btn=>{btn.addEventListener('click',()=>{const id=btn.dataset.target,p=document.getElementById(id);
+  if(!p)return;p.classList.add('mark');const notes=load();notes.push({id:'n'+Date.now(),text:p.textContent.trim(),time:Date.now(),para:id});
+  save(notes);render();});});
+document.getElementById('saveFree').addEventListener('click',()=>{const box=document.getElementById('freeNote');const t=box.value.trim();if(!t)return;
+  const notes=load();notes.push({id:'n'+Date.now(),text:t,time:Date.now(),para:null});save(notes);render();box.value='';});
+listEl.addEventListener('click',e=>{if(!e.target.classList.contains('del'))return;const item=e.target.closest('.note');const id=item.dataset.id;
+  const notes=load().filter(x=>x.id!==id);save(notes);render();});
+document.getElementById('clearAll').addEventListener('click',()=>{if(!confirm('Clear all notes?'))return;localStorage.removeItem(KEY);render();
+  document.querySelectorAll('.mark').forEach(m=>m.classList.remove('mark'));});
+
+/* QUIZ (per-question immediate feedback) */
+document.querySelectorAll('.qchoices').forEach(group=>{
+  group.addEventListener('click',e=>{
+    if(e.target.tagName!=='BUTTON') return;
+    const answer = group.dataset.answer;
+    const fb = group.parentElement.querySelector('.qfeedback');
+
+    group.querySelectorAll('button').forEach(b=>{ b.disabled = true; b.classList.remove('correct','wrong'); });
+
+    if(e.target.dataset.choice === answer){
+      e.target.classList.add('correct');
+      fb.textContent = 'Correct — ' + group.dataset.explain;
+      fb.style.color = '#8fe0a8';
+    }else{
+      e.target.classList.add('wrong');
+      const right = [...group.querySelectorAll('button')].find(b=>b.dataset.choice===answer);
+      if(right) right.classList.add('correct');
+      fb.textContent = 'Wrong — ' + group.dataset.explain;
+      fb.style.color = '#f29b9b';
+    }
+  });
+});
+
+/* ===== Interactive Histogram Simulation ===== */
+const canvas=document.getElementById('hist'), ctx=canvas.getContext('2d');
+let N=0, n1=0;
+function drawHist(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  // axes
+  ctx.strokeStyle='rgba(255,255,255,.25)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(50,20); ctx.lineTo(50,250); ctx.lineTo(860,250); ctx.stroke();
+  // bars
+  const w=200, gap=120, base=250, maxCount=Math.max(1, Math.max(n1, N-n1));
+  const scale= (base-40)/maxCount;
+  // 0 bar
+  ctx.fillStyle='rgba(122,160,255,.6)'; ctx.fillRect(140, base-(N-n1)*scale, w, (N-n1)*scale);
+  // 1 bar
+  ctx.fillStyle='rgba(202,163,107,.7)'; ctx.fillRect(140+w+gap, base-n1*scale, w, n1*scale);
+
+  ctx.fillStyle='#d8d1c8'; ctx.font='14px "Crimson Text", serif';
+  ctx.fillText('Count of 0', 140, base+18); ctx.fillText('Count of 1', 140+w+gap, base+18);
+  ctx.fillText(maxCount.toString(), 10, 30); ctx.fillText('0', 20, base);
+  // running estimate line on second bar top
+  if(N>0){
+    const phat=(n1/N), se=Math.sqrt(phat*(1-phat)/N);
+    document.getElementById('nShots').textContent=N;
+    document.getElementById('nOne').textContent=n1;
+    document.getElementById('pHat').textContent=phat.toFixed(3);
+    document.getElementById('se').textContent=se.toFixed(4);
+  }else{
+    document.getElementById('nShots').textContent=0;
+    document.getElementById('nOne').textContent=0;
+    document.getElementById('pHat').textContent='0.000';
+    document.getElementById('se').textContent='—';
+  }
+}
+drawHist();
+
+function runBatch(times){
+  const p=parseFloat(document.getElementById('pTrue').value)||0;
+  for(let i=0;i<times;i++){
+    const u=Math.random(); if(u<p) n1++; N++;
+  }
+  drawHist();
+}
+
+document.getElementById('runOnce').addEventListener('click',()=>{
+  const b=parseInt(document.getElementById('batch').value)||1;
+  runBatch(b);
+});
+document.getElementById('runMany').addEventListener('click',()=>{
+  const b=parseInt(document.getElementById('batch').value)||1;
+  for(let k=0;k<10;k++) runBatch(b);
+});
+document.getElementById('reset').addEventListener('click',()=>{N=0;n1=0;drawHist();});
+</script>
+</body>
+</html>
