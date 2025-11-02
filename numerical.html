@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • Numerical Methods</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!-- MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --side:330px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
+}
+body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
+
+header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
+h1{font-family:"Playfair Display",serif; font-weight:900; margin:0;
+  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+
+.main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
+
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
+
+.figure{margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#0e0f12; box-shadow:var(--shadow); max-width:820px}
+.figure img{display:block; width:100%; height:auto}
+.figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
+
+.pwrap{position:relative; padding-right:2.5rem}
+.hlbtn{position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+  background:var(--glass); color:var(--ink); border:1px solid var(--line);
+  font-size:.85rem; cursor:pointer; opacity:0; transition:.2s}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+
+aside{position:sticky; top:90px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+
+.quiz{margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.04)}
+.qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
+.qchoices{display:grid; gap:.45rem}
+.qchoices button{text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05);
+  color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer}
+.qchoices button.correct{border-color:#46d17d}
+.qchoices button.wrong{border-color:#e07070}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
+
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
+  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem}
+
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<div class="frame"></div>
+<div id="progress"></div>
+
+<header class="reveal in">
+  <h1>Numerical Methods</h1>
+  <p class="subtitle">ODEs, PDEs, matrix diagonalization, and time evolution — a practical toolkit that powers modern physics and computation, from planetary motion to quantum dynamics.</p>
+</header>
+
+<div class="main">
+  <!-- ARTICLE -->
+  <article id="article">
+
+    <figure class="figure reveal">
+      <img src="numerical-methods-header.jpeg" alt="Discretization and grids illustration"/>
+      <figcaption class="figcap">Discretization turns continuous equations into computable algebra: grids, timesteps, and iterative solvers reveal dynamics that paper cannot.</figcaption>
+    </figure>
+
+    <h2 id="intro" class="reveal">Introduction</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        Numerical methods are the bridge between elegant theory and working predictions. Many equations of physics are analytically intractable; others admit closed forms but only under idealized assumptions. Computation resolves this tension by replacing calculus with carefully controlled approximations. We discretize time into steps, space into grids, and functions into vectors. We linearize nonlinearities, iterate toward fixed points, and track error at each stage. Far from being a mere workaround, numerical analysis is a language of its own with grammar (stability), semantics (consistency), and style (efficiency). Mastering it means being able to turn models into numbers you can test, visualize, and trust.
+      </p>
+      <p>
+        This page blends physics and computation. We will treat differential equations that describe motion and fields, linear algebra routines that diagonalize Hamiltonians, and integrators that advance states through time. Along the way we emphasize three guiding questions: <em>How do we discretize?</em> <em>How does error propagate?</em> and <em>When is an algorithm stable?</em> These questions matter whether you are simulating a damped oscillator, integrating Schrödinger’s equation, or marching Maxwell’s equations across a Yee grid.
+      </p>
+    </div>
+
+    <h2 id="leastaction" class="reveal">From Equations to Algorithms</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2" class="dropcap">
+        The first move in computation is discretization. For an ODE \(\dot y=f(t,y)\), we replace the derivative by a finite difference. The simplest forward Euler step,
+        \[
+          y_{n+1}=y_n+\Delta t\, f(t_n,y_n),
+        \]
+        is explicit and first order: the truncation error scales as \(\mathcal{O}(\Delta t)\). Higher-order Runge–Kutta methods (like RK4) evaluate \(f\) at staged points to cancel error terms and achieve \(\mathcal{O}(\Delta t^4)\) accuracy. Yet, order is not destiny—<span class="mark">stability</span> controls whether errors blow up. For stiff systems (rapidly decaying modes mixed with slow ones), implicit schemes such as backward Euler or the trapezoidal rule are preferred because their stability regions cover the negative real axis. Choosing a method is therefore a physics decision disguised as a numerical one: what are the timescales, and which modes must be trusted?
+      </p>
+      <p>
+        For PDEs we extend the idea to space. Finite differences approximate derivatives via stencils (e.g., \(u_{xx}(x_i)\approx\frac{u_{i-1}-2u_i+u_{i+1}}{\Delta x^2}\)), finite elements expand fields in basis functions with weak formulations, and finite volumes enforce conservation laws by balancing fluxes across cell faces. The celebrated <em>CFL</em> condition ties the time step to the wave speed and grid spacing: information must not outrun the grid. Violating CFL does not merely introduce error; it changes the physics you are modeling.
+      </p>
+      <p>
+        Linear algebra is the engine that drives everything. Sparse matrices arise from discretizations; iterative Krylov methods (CG, BiCGSTAB, GMRES) solve the resulting systems; preconditioners rebalance spectra to accelerate convergence. Eigenvalue routines (power method, Lanczos, Arnoldi) expose normal modes, band structures, and stationary states. In quantum mechanics these tools diagonalize Hamiltonians \(H\) to obtain energies and eigenstates, or solve the linear system created by implicit time-stepping.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="numerical-stability.jpeg" alt="Stability region plot"/>
+      <figcaption class="figcap">Stability regions define which eigenvalues of the Jacobian may be integrated safely. Implicit methods trade cost for robustness on stiff problems.</figcaption>
+    </figure>
+
+    <h2 id="eulerlagrange" class="reveal">Core Techniques by Example</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        <strong>1) ODE Integrators.</strong> Consider the damped, driven oscillator \(m\ddot x+\gamma\dot x+kx=F_0\cos\omega t\). We rewrite as a first-order system for \((x,v)\) and integrate with RK4 when the forcing is smooth. If \(\gamma\) is large (stiff regime), an implicit method avoids the tiny \(\Delta t\) that explicit schemes would demand. We diagnose stiffness by the ratio of eigenvalues of the Jacobian and select adaptive step controllers (PI or PID) to keep local error near a tolerance.
+      </p>
+      <p>
+        <strong>2) PDEs: Diffusion and Waves.</strong> The heat equation \(u_t=\alpha u_{xx}\) with central differences gives \(u^{n+1}_i=u^n_i+\lambda(u^n_{i-1}-2u^n_i+u^n_{i+1})\) where \(\lambda=\alpha\Delta t/\Delta x^2\). Stability requires \(\lambda\le \tfrac12\). For the wave equation \(u_{tt}=c^2 u_{xx}\), leapfrog schemes advance \(u\) on staggered time levels with a CFL limit \(c\Delta t/\Delta x\le 1\). Finite elements handle irregular geometries by assembling local stiffness and mass matrices from basis functions; mass lumping yields efficient explicit updates, while implicit Newmark schemes provide unconditional stability for structural dynamics.
+      </p>
+      <p>
+        <strong>3) Linear Systems and Eigenproblems.</strong> Discretizing Poisson’s equation \(\nabla^2\phi=\rho\) produces large sparse systems \(A\phi=b\). Multigrid methods attack error scales recursively—smoothing high-frequency error on fine grids and correcting low-frequency components on coarse ones—achieving near-linear complexity. For eigenproblems \(A x=\lambda x\), the power method isolates the dominant mode; shift-and-invert focuses on interior spectra; Lanczos and Arnoldi generate Krylov subspaces to approximate many eigenpairs efficiently. In quantum models, these tools expose bound states, band diagrams, and resonance widths.
+      </p>
+      <p>
+        <strong>4) Time Evolution of Quantum States.</strong> The Schrödinger equation \(i\hbar\partial_t\psi=H\psi\) must conserve norm and phase. Naïve explicit updates drift. Structure-preserving schemes—Crank–Nicolson (unitary to second order), split-operator Fourier methods \(e^{-iT\Delta t/\hbar}e^{-iV\Delta t/\hbar}\), and Krylov exponentials \(\psi_{n+1}\approx \exp(-iH\Delta t/\hbar)\psi_n\)—honor the physics. With sparse \(H\), Lanczos time propagation builds a small subspace where the exponential is accurate; with periodic boundary conditions, FFTs diagonalize the kinetic operator and make split-step evolution \(\mathcal{O}(N\log N)\).
+      </p>
+      <p>
+        <strong>5) Error, Convergence, and Validation.</strong> Numerical work is experimental. We perform grid-refinement studies (halve \(\Delta x\), \(\Delta t\); measure how error scales), monitor conserved quantities (energy, norm, charge), and compare against known limits (small-amplitude waves, free-particle propagation, analytic Green’s functions). Richardson extrapolation cancels leading error terms to boost accuracy from second to third order; posteriori estimators choose where to refine adaptively. The goal is not a pretty plot but a quantified uncertainty budget.
+      </p>
+    </div>
+
+    <figure class="figure reveal">
+      <img src="time-evolution.jpeg" alt="Split-operator propagation diagram"/>
+      <figcaption class="figcap">Split-operator methods alternate between position and momentum space, exploiting FFTs to evolve quantum states efficiently while maintaining norm.</figcaption>
+    </figure>
+
+    <h2 id="examples" class="reveal">Applications in Practice</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4" class="dropcap">
+        <strong>Quantum Lattices.</strong> Tight-binding models on 1D and 2D lattices produce sparse Hamiltonians with band structures that reveal transport properties. By sweeping boundary twists (Bloch phases) one maps dispersion \(E(k)\). Disorder introduces Anderson localization; finite-size scaling of participation ratios diagnoses the transition. Time-dependent fields require Peierls substitution and gauge-consistent integrators to respect symmetries.
+      </p>
+      <p>
+        <strong>Molecular Vibrations.</strong> Discretizing the nuclear Schrödinger equation along a bond coordinate yields bound-state spectra via finite differences plus a symmetric tridiagonal eigensolve. Anharmonicity appears as level spacing deviations; coupling multiple coordinates invites sparse tensor formats (MPS/TT) to tame dimensionality.
+      </p>
+      <p>
+        <strong>Electromagnetics.</strong> The Yee finite-difference time-domain scheme staggers \(E\) and \(H\) in space and time, enforcing discrete Faraday and Ampère laws exactly. Courant factors dictate \(\Delta t\). Perfectly matched layers absorb outgoing waves; subcell models capture thin conductors without destroying stability.
+      </p>
+      <p>
+        <strong>Astrophysical Orbits.</strong> Symplectic integrators preserve phase-space volume and long-term invariants for Hamiltonian systems. In \(N\)-body gravity, leapfrog and higher-order splitting schemes avoid secular drift in energy, allowing million-orbit integrations that would be impossible with generic solvers of the same step size.
+      </p>
+      <p>
+        <strong>Uncertainty Quantification.</strong> Monte Carlo and quasi–Monte Carlo estimate expectations when dynamics or geometry are rough. Polynomial chaos expansions propagate uncertainty through deterministic solvers by representing input randomness in orthogonal polynomial bases tied to the distribution family (Hermite for Gaussian, Legendre for uniform), turning stochastic PDEs into coupled deterministic systems.
+      </p>
+    </div>
+
+    <h2 id="quiz" class="reveal">Quick Quiz – Numerical Methods</h2>
+    <div class="divider"></div>
+
+    <section class="quiz reveal" id="quizSection">
+      <div class="qitem">
+        <h4>1) Why are implicit integrators preferred for stiff ODEs?</h4>
+        <div class="qchoices" data-answer="a" data-explain="Implicit methods have larger stability regions and can take larger time steps without instability on stiff systems.">
+          <button data-choice="a">They remain stable for large negative eigenvalues</button>
+          <button data-choice="b">They are always higher order than explicit methods</button>
+          <button data-choice="c">They avoid solving linear systems</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>2) What does the CFL condition control in PDE solvers?</h4>
+        <div class="qchoices" data-answer="c" data-explain="CFL ties the time step to wave speeds and grid spacing so that numerical information does not outrun the mesh.">
+          <button data-choice="a">The order of accuracy</button>
+          <button data-choice="b">The boundary conditions</button>
+          <button data-choice="c">The maximum stable time step</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+      <div class="qitem">
+        <h4>3) Which property should time propagation of Schrödinger’s equation preserve?</h4>
+        <div class="qchoices" data-answer="b" data-explain="Unitary evolution preserves the norm (probability) of the quantum state.">
+          <button data-choice="a">Monotonic decrease of energy</button>
+          <button data-choice="b">Norm (probability) conservation</button>
+          <button data-choice="c">Exact phase alignment at every step</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+    </section>
+
+    <div class="nextrow reveal">
+      <a href="quantum-simulators.html">← Back to Quantum Simulators</a>
+      <a href="quantum-algorithms.html">Next page → Quantum Algorithms</a>
+    </div>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ to save paragraphs here. You can also write your own notes below.</p>
+    <div id="nbList"></div>
+    <textarea id="freeNote" placeholder="Write your own note..." style="margin-top:.6rem; height:100px; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink); border-radius:.5rem; padding:.55rem .6rem; font-family:'Crimson Text',serif;"></textarea>
+    <div style="display:flex; gap:.5rem; margin-top:.4rem">
+      <button id="saveFree" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Save</button>
+      <button id="clearAll" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Clear all</button>
+    </div>
+    <p style="color:var(--muted); font-size:.9rem; margin-top:.4rem">Notes are stored locally in your browser.</p>
+  </aside>
+</div>
+
+<footer>© 2025 QParadox</footer>
+
+<script>
+/* progress bar */
+const bar=document.getElementById('progress');
+function onScroll(){const h=document.documentElement,st=h.scrollTop||document.body.scrollTop,sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';}
+addEventListener('scroll',onScroll);onScroll();
+
+/* reveal on scroll */
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}})},{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{if(!el.classList.contains('in'))obs.observe(el);});
+
+/* TOC */
+const toc=document.getElementById('toc');const heads=[...document.querySelectorAll('#article h2')];
+heads.forEach(h=>{const a=document.createElement('a');a.href='#'+h.id;a.textContent=h.textContent;toc.appendChild(a);});
+function spy(){const y=scrollY+140;let idx=-1;heads.forEach((s,i)=>{if(s.offsetTop<=y&&s.offsetTop+s.offsetHeight>y)idx=i;});
+[...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));}
+addEventListener('scroll',spy);spy();
+
+/* notebook */
+const KEY='qpx_notes_lagrangian_v1';const listEl=document.getElementById('nbList');
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];} }
+function save(data){localStorage.setItem(KEY,JSON.stringify(data));}
+function render(){const notes=load();listEl.innerHTML='';
+  if(notes.length===0){listEl.innerHTML='<p style="color:var(--muted)">No notes yet.</p>';return;}
+  notes.forEach(n=>{const div=document.createElement('div');div.className='note';div.dataset.id=n.id;
+    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`;
+    listEl.appendChild(div);});}
+render();
+document.querySelectorAll('.hlbtn').forEach(btn=>{btn.addEventListener('click',()=>{const id=btn.dataset.target,p=document.getElementById(id);
+  if(!p)return;p.classList.add('mark');const notes=load();notes.push({id:'n'+Date.now(),text:p.textContent.trim(),time:Date.now(),para:id});
+  save(notes);render();});});
+document.getElementById('saveFree').addEventListener('click',()=>{const box=document.getElementById('freeNote');const t=box.value.trim();if(!t)return;
+  const notes=load();notes.push({id:'n'+Date.now(),text:t,time:Date.now(),para:null});save(notes);render();box.value='';});
+listEl.addEventListener('click',e=>{if(!e.target.classList.contains('del'))return;const item=e.target.closest('.note');const id=item.dataset.id;
+  const notes=load().filter(x=>x.id!==id);save(notes);render();});
+document.getElementById('clearAll').addEventListener('click',()=>{if(!confirm('Clear all notes?'))return;localStorage.removeItem(KEY);render();
+  document.querySelectorAll('.mark').forEach(m=>m.classList.remove('mark'));});
+
+/* quiz grading */
+const gradeBtns=document.querySelectorAll('.qchoices button');
+gradeBtns.forEach(btn=>{btn.addEventListener('click',()=>{const group=btn.closest('.qchoices');group.querySelectorAll('button').forEach(b=>{b.dataset.pressed='0';b.classList.remove('correct','wrong');});
+  btn.dataset.pressed='1';const fb=group.parentElement.querySelector('.qfeedback');fb.textContent='Selection saved';fb.style.color='#d1d1d1';});});
+document.querySelectorAll('.quiz').forEach(quiz=>{
+  quiz.addEventListener('dblclick',()=>{let score=0,total=0;quiz.querySelectorAll('.qchoices').forEach(group=>{total++;const ans=group.dataset.answer;
+    const pressed=[...group.querySelectorAll('button')].find(b=>b.dataset.pressed==='1');const fb=group.parentElement.querySelector('.qfeedback');
+    if(!pressed){fb.textContent='No answer selected';fb.style.color='#f0d28a';return;}
+    if(pressed.dataset.choice===ans){score++;pressed.classList.add('correct');fb.textContent='Correct – '+group.dataset.explain;fb.style.color='#8fe0a8';}
+    else{pressed.classList.add('wrong');fb.textContent='Wrong – '+group.dataset.explain;fb.style.color='#f29b9b';
+      const c=[...group.querySelectorAll('button')].find(b=>b.dataset.choice===ans);if(c)c.classList.add('correct');}});alert('Score: '+score+' / '+total);});});
+</script>
+</body>
+</html>
