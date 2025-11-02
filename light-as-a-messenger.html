@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>QParadox • Light as a Messenger</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+
+<!-- MathJax -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+:root{
+  --bg:#0b0b0d; --panel:#131316; --ink:#efeae2; --ink2:#d8d1c8; --muted:#b9b3aa;
+  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.14); --glass:rgba(255,255,255,.06);
+  --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
+  --radius:18px; --side:330px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Crimson Text",serif; line-height:1.95; letter-spacing:.15px; overflow-x:hidden;
+}
+body::before{content:""; position:fixed; inset:0; z-index:-3; opacity:.06;
+  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png')}
+body::after{content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 12% 0%, rgba(255,222,180,.09), transparent 60%),
+    radial-gradient(900px 520px at 88% 12%, rgba(140,160,255,.06), transparent 60%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(202,163,107,.07), transparent 70%)}
+
+.frame{position:fixed; inset:18px; border:1px solid var(--line); border-radius:22px; pointer-events:none; box-shadow:inset 0 0 140px rgba(0,0,0,.45)}
+#progress{position:fixed; top:0; left:0; height:4px; width:0; z-index:100; background:linear-gradient(90deg,var(--gold),var(--blue)); box-shadow:0 0 10px rgba(202,163,107,.6)}
+
+header{padding:6.2rem 1.2rem 2.4rem; text-align:center}
+h1{font-family:"Playfair Display",serif; font-weight:900; margin:0;
+  font-size:clamp(2.6rem,4vw,4.8rem); line-height:1.1; color:#f5ead8; text-shadow:0 0 22px rgba(255,255,255,.12)}
+.subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink2); font-size:clamp(1.05rem,1.2vw,1.2rem)}
+
+.main{width:min(1200px,94%); margin:0 auto 4rem; display:grid; grid-template-columns:1fr; gap:26px}
+@media(min-width:1120px){ .main{grid-template-columns:minmax(0, 1fr) var(--side)} }
+
+article{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:2.2rem 1.2rem
+}
+@media(min-width:780px){ article{padding:2.6rem 2.2rem} }
+article h2{font-family:"Playfair Display",serif; margin:2rem 0 1rem; font-size:clamp(1.85rem,2.6vw,2.5rem); color:#f6eddc}
+.divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1.2rem 0}
+p{margin:1.05rem 0; text-align:justify}
+.dropcap:first-letter{float:left; font-family:"Playfair Display",serif; font-size:3.2rem; line-height:2.3rem; padding:.25rem .5rem .2rem 0; color:#f3e4c5}
+
+/* figures */
+.figure{margin:1.5rem auto; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#0e0f12; box-shadow:var(--shadow); max-width:820px}
+.figure img{display:block; width:100%; height:auto}
+.figcap{padding:.7rem .9rem; color:var(--ink2); font-size:.95rem; border-top:1px solid var(--line)}
+
+.pwrap{position:relative; padding-right:2.5rem}
+.hlbtn{position:absolute; right:.2rem; top:.35rem; padding:.25rem .6rem; border-radius:.6rem;
+  background:var(--glass); color:var(--ink); border:1px solid var(--line);
+  font-size:.85rem; cursor:pointer; opacity:0; transition:.2s}
+.pwrap:hover .hlbtn{opacity:1}
+.mark{background:linear-gradient(180deg, rgba(202,163,107,.3), rgba(122,160,255,.24)); border-radius:.2rem; padding:.05rem .12rem}
+
+/* sidebar */
+aside{position:sticky; top:90px; align-self:start; height:fit-content;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));
+  border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:1rem .9rem}
+aside h3{margin:.2rem 0 .7rem; font-family:"Playfair Display",serif}
+.toc a{display:block; text-decoration:none; color:var(--ink2); padding:.35rem .2rem; border-radius:.4rem; font-size:.95rem}
+.toc a:hover{color:var(--ink)}
+.toc a.active{color:#111; background:linear-gradient(90deg,var(--gold),#efd6a8)}
+hr.sep{border:0; height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:1rem 0}
+.note{border:1px solid var(--line); border-radius:12px; padding:.7rem .75rem; margin:.5rem 0; background:rgba(255,255,255,.05)}
+.note time{display:block; color:var(--muted); font-size:.85rem}
+.note .del{margin-top:.4rem; padding:.25rem .55rem; border-radius:.5rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer}
+
+/* quiz */
+.quiz{margin-top:1.6rem; padding:1rem; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.04)}
+.qitem{margin:1rem 0; padding:.8rem; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+.qitem h4{margin:0 0 .5rem 0; font-family:"Playfair Display",serif}
+.qchoices{display:grid; gap:.45rem}
+.qchoices button{text-align:left; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05);
+  color:var(--ink); padding:.55rem .7rem; border-radius:.6rem; cursor:pointer}
+.qchoices button.correct{border-color:#46d17d}
+.qchoices button.wrong{border-color:#e07070}
+.qfeedback{color:var(--ink2); margin-top:.4rem; font-size:.98rem}
+
+/* nav row */
+.nextrow{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.3rem}
+.nextrow a{text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.26); border-radius:.8rem;
+  background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); padding:.7rem 1rem}
+
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s, transform .9s}
+.reveal.in{opacity:1; transform:none}
+footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
+
+/* Interactive canvas card */
+.simcard{max-width:900px; margin:1.2rem auto; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.03); box-shadow:var(--shadow); padding:1rem}
+.controls{display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin-bottom:.8rem}
+.controls label{font-size:.95rem; color:var(--ink2)}
+.controls input[type="number"], .controls input[type="range"], .controls select{
+  background:rgba(255,255,255,.06); color:var(--ink); border:1px solid var(--line); border-radius:.4rem; padding:.25rem .4rem
+}
+.controls button{border:1px solid var(--line); background:linear-gradient(90deg,rgba(202,163,107,.28),rgba(122,160,255,.22)); color:var(--ink); padding:.45rem .7rem; border-radius:.6rem; cursor:pointer}
+canvas#link{display:block; width:100%; height:300px; background:#0e0f12; border:1px solid var(--line); border-radius:.7rem}
+.statrow{display:flex; gap:1rem; flex-wrap:wrap; color:var(--ink2); margin-top:.5rem; font-size:.95rem}
+.badge{display:inline-block; padding:.15rem .4rem; border-radius:.35rem; border:1px solid var(--line); background:rgba(255,255,255,.05); margin-left:.25rem}
+</style>
+</head>
+<body>
+
+<div class="frame"></div>
+<div id="progress"></div>
+
+<header class="reveal in">
+  <h1>Light as a Messenger</h1>
+  <p class="subtitle">Photons carrying quantum information across setups — polarization, noise, entanglement distribution, and cinematic-but-scientific simulation.</p>
+</header>
+
+<div class="main">
+  <!-- ARTICLE -->
+  <article id="article">
+
+    <figure class="figure reveal">
+      <img src="light-messenger-header.jpeg" alt="Photons as messengers"/>
+      <figcaption class="figcap">Photons travel far, fast, and gently — ideal messengers for quantum information in fibers, free space, and satellites.</figcaption>
+    </figure>
+
+    <h2 id="why" class="reveal">Why photons?</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p1">★ Highlight</button>
+      <p id="p1" class="dropcap">
+        Photons barely interact, move at light speed, and come with convenient <em>dial-a-basis</em> encodings (polarization, time-bin, frequency, path).
+        That’s why modern quantum networks send <em>light</em> between nodes even when computation happens on atoms, ions, or superconducting circuits.
+      </p>
+      <p>
+        The simplest qubit uses linear polarization. Using \(|H\rangle\) and \(|V\rangle\) as a computational basis, and \(|D\rangle=\tfrac{1}{\sqrt2}(|H\rangle+|V\rangle)\), \(|A\rangle=\tfrac{1}{\sqrt2}(|H\rangle-|V\rangle)\) as the diagonal basis,
+        we can encode, transmit, and measure single-photon qubits.
+      </p>
+    </div>
+
+    <h2 id="states" class="reveal">States, Measurements, and Channels</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p2">★ Highlight</button>
+      <p id="p2" class="dropcap">
+        Ideal transmission is a rotation on the Bloch sphere: a unitary \(U\) from birefringence or wave plates.
+        Real links add <em>loss</em> (photon disappears) and <em>depolarization</em> (randomize the Bloch vector toward the center).
+        A convenient model is the depolarizing channel
+        \[
+          \mathcal{E}_p(\rho)=(1-p)\rho + p\frac{\mathbb{I}}{2},
+        \]
+        and amplitude loss with probability \(\ell\) (no click).
+      </p>
+    </div>
+
+    <h2 id="sim" class="reveal">Interactive • Polarization QKD-style Link (cinematic + scientific)</h2>
+    <div class="divider"></div>
+
+    <section class="simcard reveal">
+      <p style="color:var(--ink2); margin:.2rem 0 .8rem">
+        Send single photons from Alice to Bob. Choose the send basis and bit. The channel applies loss \(\ell\) and depolarization \(p\).
+        Bob measures in a basis; matching bases produce a sifted key. Watch photons fly across the canvas (cinematic) while statistics update (scientific).
+      </p>
+
+      <div class="controls">
+        <label>Send basis:
+          <select id="basisA">
+            <option value="Z">Z (H/V)</option>
+            <option value="X">X (D/A)</option>
+          </select>
+        </label>
+        <label>Bit:
+          <select id="bitA">
+            <option value="0">0 (H or D)</option>
+            <option value="1">1 (V or A)</option>
+          </select>
+        </label>
+        <label>Bob basis:
+          <select id="basisB">
+            <option value="random">Random</option>
+            <option value="Z">Z (H/V)</option>
+            <option value="X">X (D/A)</option>
+          </select>
+        </label>
+        <label>Loss \(\ell\): <input id="loss" type="range" min="0" max="0.8" step="0.02" value="0.20"/></label>
+        <span id="lossVal" class="badge">0.20</span>
+        <label>Depolarize \(p\): <input id="depol" type="range" min="0" max="0.5" step="0.01" value="0.05"/></label>
+        <span id="depolVal" class="badge">0.05</span>
+        <button id="send1">Send 1</button>
+        <button id="send100">Send 100</button>
+        <button id="resetSim">Reset</button>
+      </div>
+
+      <canvas id="link" width="980" height="300"></canvas>
+
+      <div class="statrow">
+        <div>Sent: <span id="sent" class="badge">0</span></div>
+        <div>Received: <span id="rec" class="badge">0</span></div>
+        <div>Sifted (bases matched): <span id="sift" class="badge">0</span></div>
+        <div>QBER: <span id="qber" class="badge">—</span></div>
+        <div>Key bits: <span id="keybits" class="badge">—</span></div>
+      </div>
+    </section>
+
+    <h2 id="net" class="reveal">Entanglement Distribution & Repeaters</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p3">★ Highlight</button>
+      <p id="p3" class="dropcap">
+        To link distant quantum processors, we distribute entanglement and then use teleportation.
+        Since loss grows exponentially with distance in fiber, <em>quantum repeaters</em> break the link into segments, purify noisy entanglement locally, and swap it to extend range.
+      </p>
+      <p>
+        Photons are central at every step: they carry entanglement out of trapped-ion or solid-state emitters, interfere at beam splitters to herald links, and feed back classical messages for error detection.
+      </p>
+    </div>
+
+    <h2 id="apps" class="reveal">Applications</h2>
+    <div class="divider"></div>
+
+    <div class="pwrap reveal">
+      <button class="hlbtn" data-target="p4">★ Highlight</button>
+      <p id="p4" class="dropcap">
+        <strong>QKD (BB84, E91):</strong> uses basis mismatch to detect eavesdropping (QBER grows if Eve measures).
+        <strong>Quantum teleportation:</strong> send unknown states via shared entanglement + two classical bits.
+        <strong>Clock networks & sensing:</strong> distribute phase-stable light for interferometry and timekeeping.
+      </p>
+    </div>
+
+    <h2 id="quiz" class="reveal">Quick Quiz – Light as a Messenger</h2>
+    <div class="divider"></div>
+
+    <section class="quiz reveal" id="quizSection">
+      <div class="qitem">
+        <h4>1) In a depolarizing channel \(\mathcal{E}_p(\rho)=(1-p)\rho+p\frac{\mathbb{I}}{2}\), what happens as \(p\to 1\)?</h4>
+        <div class="qchoices" data-answer="b" data-explain="State becomes maximally mixed; no polarization information remains.">
+          <button data-choice="a">Amplitude is attenuated but purity unchanged</button>
+          <button data-choice="b">State tends to \(\mathbb{I}/2\) (fully mixed)</button>
+          <button data-choice="c">Phase flips but visibility unchanged</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>2) In BB84, bits are kept only when</h4>
+        <div class="qchoices" data-answer="a" data-explain="Alice and Bob reveal bases and keep the shots where they matched.">
+          <button data-choice="a">Alice and Bob used the same basis</button>
+          <button data-choice="b">The detector clicked</button>
+          <button data-choice="c">The channel had zero loss</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>3) The quantum bit error rate (QBER) in sifted bits mainly reflects</h4>
+        <div class="qchoices" data-answer="c" data-explain="Misalignment, depolarization, dark counts, or eavesdropping show up as wrong bits.">
+          <button data-choice="a">Classical post-processing only</button>
+          <button data-choice="b">Photon arrival time</button>
+          <button data-choice="c">State disturbance and measurement errors</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>4) Entanglement swapping lets you</h4>
+        <div class="qchoices" data-answer="b" data-explain="Two short entangled links can be combined into one longer link via a Bell measurement in the middle.">
+          <button data-choice="a">Clone an unknown quantum state</button>
+          <button data-choice="b">Create long-distance entanglement from short segments</button>
+          <button data-choice="c">Send qubits faster than light</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+
+      <div class="qitem">
+        <h4>5) Which change <em>reduces</em> QBER while keeping the sifted rate similar?</h4>
+        <div class="qchoices" data-answer="a" data-explain="Better polarization alignment decreases errors without affecting basis match probability.">
+          <button data-choice="a">Improve polarization alignment</button>
+          <button data-choice="b">Randomize Bob’s basis more</button>
+          <button data-choice="c">Increase depolarization \(p\)</button>
+        </div>
+        <div class="qfeedback"></div>
+      </div>
+    </section>
+
+    <div class="nextrow reveal">
+      <a href="monte-carlo-intution.html">← Back to Monte Carlo Intution</a>
+      <a href="rydberg-atoms.html">Next page → Rydberg Atoms</a>
+    </div>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="reveal">
+    <h3>Contents</h3>
+    <div id="toc" class="toc"></div>
+    <hr class="sep"/>
+    <h3>Notebook</h3>
+    <p style="color:var(--ink2); margin:.1rem 0 .6rem">Click ★ to save paragraphs here. You can also write your own notes below.</p>
+    <div id="nbList"></div>
+    <textarea id="freeNote" placeholder="Write your own note..." style="margin-top:.6rem; height:100px; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink); border-radius:.5rem; padding:.55rem .6rem; font-family:'Crimson Text',serif;"></textarea>
+    <div style="display:flex; gap:.5rem; margin-top:.4rem">
+      <button id="saveFree" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Save</button>
+      <button id="clearAll" style="padding:.45rem .7rem; border-radius:.6rem; border:1px solid var(--line); background:var(--glass); color:var(--ink); cursor:pointer">Clear all</button>
+    </div>
+    <p style="color:var(--muted); font-size:.9rem; margin-top:.4rem">Notes are stored locally in your browser.</p>
+  </aside>
+</div>
+
+<footer>© 2025 QParadox</footer>
+
+<script>
+/* ===== Progress bar ===== */
+const bar=document.getElementById('progress');
+function onScroll(){const h=document.documentElement,st=h.scrollTop||document.body.scrollTop,sh=h.scrollHeight-h.clientHeight;
+  bar.style.width=(Math.max(0,Math.min(1,st/sh))*100)+'%';}
+addEventListener('scroll',onScroll);onScroll();
+
+/* ===== Reveal on scroll ===== */
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}})},{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>{if(!el.classList.contains('in'))obs.observe(el);});
+
+/* ===== TOC ===== */
+const toc=document.getElementById('toc');const heads=[...document.querySelectorAll('#article h2')];
+heads.forEach(h=>{const a=document.createElement('a');a.href='#'+h.id;a.textContent=h.textContent;toc.appendChild(a);});
+function spy(){const y=scrollY+140;let idx=-1;heads.forEach((s,i)=>{if(s.offsetTop<=y&&s.offsetTop+s.offsetHeight>y)idx=i;});
+[...toc.querySelectorAll('a')].forEach((a,i)=>a.classList.toggle('active',i===idx));}
+addEventListener('scroll',spy);spy();
+
+/* ===== Notebook ===== */
+const KEY='qpx_notes_lagrangian_v1';const listEl=document.getElementById('nbList');
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];} }
+function save(data){localStorage.setItem(KEY,JSON.stringify(data));}
+function render(){const notes=load();listEl.innerHTML='';
+  if(notes.length===0){listEl.innerHTML='<p style="color:var(--muted)">No notes yet.</p>';return;}
+  notes.forEach(n=>{const div=document.createElement('div');div.className='note';div.dataset.id=n.id;
+    div.innerHTML=`<time>${new Date(n.time).toLocaleString()}</time><p>${n.text}</p><button class="del">Remove</button>`;
+    listEl.appendChild(div);});}
+render();
+document.querySelectorAll('.hlbtn').forEach(btn=>{btn.addEventListener('click',()=>{const id=btn.dataset.target,p=document.getElementById(id);
+  if(!p)return;p.classList.add('mark');const notes=load();notes.push({id:'n'+Date.now(),text:p.textContent.trim(),time:Date.now(),para:id});
+  save(notes);render();});});
+document.getElementById('saveFree').addEventListener('click',()=>{const box=document.getElementById('freeNote');const t=box.value.trim();if(!t)return;
+  const notes=load();notes.push({id:'n'+Date.now(),text:t,time:Date.now(),para:null});save(notes);render();box.value='';});
+listEl.addEventListener('click',e=>{if(!e.target.classList.contains('del'))return;const item=e.target.closest('.note');const id=item.dataset.id;
+  const notes=load().filter(x=>x.id!==id);save(notes);render();});
+document.getElementById('clearAll').addEventListener('click',()=>{if(!confirm('Clear all notes?'))return;localStorage.removeItem(KEY);render();
+  document.querySelectorAll('.mark').forEach(m=>m.classList.remove('mark'));});
+
+/* ===== Quiz grading (per-question feedback) ===== */
+document.querySelectorAll('.qchoices').forEach(group=>{
+  group.addEventListener('click',e=>{
+    if(e.target.tagName!=='BUTTON') return;
+    const answer = group.dataset.answer;
+    const fb = group.parentElement.querySelector('.qfeedback');
+    group.querySelectorAll('button').forEach(b=>{ b.disabled = true; b.classList.remove('correct','wrong'); });
+    if(e.target.dataset.choice === answer){
+      e.target.classList.add('correct'); fb.textContent = 'Correct — ' + group.dataset.explain; fb.style.color = '#8fe0a8';
+    }else{
+      e.target.classList.add('wrong'); const right = [...group.querySelectorAll('button')].find(b=>b.dataset.choice===answer);
+      if(right) right.classList.add('correct'); fb.textContent = 'Wrong — ' + group.dataset.explain; fb.style.color = '#f29b9b';
+    }
+  });
+});
+
+/* ===== Cinematic + Scientific Photon Link Simulator ===== */
+const cvs=document.getElementById('link'), ctx=cvs.getContext('2d');
+let sent=0, rec=0, sift=0, errors=0, keybits='';
+
+const state = {
+  loss: parseFloat(document.getElementById('loss').value),
+  depol: parseFloat(document.getElementById('depol').value),
+  basisA: 'Z',
+  bitA: 0,
+  basisB: 'random',
+  photons: [] // in-flight photons
+};
+
+function updateBadges(){
+  document.getElementById('sent').textContent = sent;
+  document.getElementById('rec').textContent = rec;
+  document.getElementById('sift').textContent = sift;
+  document.getElementById('qber').textContent = sift ? (errors/sift*100).toFixed(2)+'%' : '—';
+  document.getElementById('keybits').textContent = keybits.length ? keybits : '—';
+}
+
+function drawScene(){
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+  // fiber / free-space line
+  ctx.strokeStyle='rgba(255,255,255,.12)';
+  ctx.beginPath(); ctx.moveTo(60,150); ctx.lineTo(cvs.width-60,150); ctx.stroke();
+
+  // Alice & Bob icons
+  ctx.fillStyle='#d8d1c8'; ctx.font='16px "Crimson Text",serif';
+  ctx.fillText('Alice', 22, 40);
+  ctx.fillText('Bob', cvs.width-55, 40);
+
+  // Draw photons
+  state.photons.forEach(p=>{
+    // tail (streak)
+    const grad=ctx.createLinearGradient(p.x-30,p.y,p.x,p.y);
+    grad.addColorStop(0,'rgba(122,160,255,0)');
+    grad.addColorStop(1,'rgba(122,160,255,.8)');
+    ctx.strokeStyle=grad; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(p.x-30,p.y); ctx.lineTo(p.x,p.y); ctx.stroke();
+
+    // photon body
+    ctx.fillStyle='rgba(202,163,107,.9)';
+    ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2); ctx.fill();
+
+    // polarization arrow
+    const len=16;
+    ctx.save();
+    ctx.translate(p.x,p.y);
+    ctx.rotate(p.theta);
+    ctx.strokeStyle='rgba(255,255,255,.75)';
+    ctx.beginPath(); ctx.moveTo(-len/2,0); ctx.lineTo(len/2,0); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(len/2,0); ctx.lineTo(len/2-4,-4); ctx.moveTo(len/2,0); ctx.lineTo(len/2-4,4); ctx.stroke();
+    ctx.restore();
+  });
+}
+
+function step(){
+  // advance photons
+  state.photons.forEach(p=>{ p.x += p.v; });
+  // arrivals
+  for(let i=state.photons.length-1;i>=0;i--){
+    const p=state.photons[i];
+    if(p.x>=cvs.width-60){
+      // loss?
+      if(Math.random() < state.loss){ state.photons.splice(i,1); drawScene(); continue; }
+      // depolarize: mix toward random angle with prob depol
+      if(Math.random() < state.depol){ p.theta = Math.random()*Math.PI; }
+      // Bob chooses basis
+      const basisB = state.basisB==='random' ? (Math.random()<0.5?'Z':'X') : state.basisB;
+      // measurement angle (Z: 0/90°, X: 45/135°)
+      const thetaZ0=0, thetaZ1=Math.PI/2, thetaX0=Math.PI/4, thetaX1=3*Math.PI/4;
+      const aliceBasis=p.basis, aliceBit=p.bit;
+      const bobAngles = basisB==='Z' ? [thetaZ0,thetaZ1] : [thetaX0,thetaX1];
+
+      // projective prob ∝ cos^2(angle difference)
+      const prob1 = Math.cos(p.theta - bobAngles[1])**2; // outcome "1"
+      const outcome = (Math.random()<prob1)?1:0;
+
+      rec++;
+      // sift if same basis
+      if(aliceBasis===basisB){
+        sift++;
+        const truth = (aliceBasis==='Z')
+            ? (aliceBit?1:0)
+            : (aliceBit?1:0); // mapping (D/A) to (0/1) same as H/V labels
+        if(outcome!==truth){ errors++; keybits += (outcome===0?'0':'1'); }
+        else{ keybits += (truth===0?'0':'1'); }
+      }
+
+      state.photons.splice(i,1);
+      updateBadges();
+    }
+  }
+  drawScene();
+  requestAnimationFrame(step);
+}
+
+function sendOne(){
+  const basisA=document.getElementById('basisA').value;
+  const bitA=parseInt(document.getElementById('bitA').value,10);
+  const thetaZ0=0, thetaZ1=Math.PI/2, thetaX0=Math.PI/4, thetaX1=3*Math.PI/4;
+  let theta;
+  if(basisA==='Z') theta = bitA?thetaZ1:thetaZ0;
+  else theta = bitA?thetaX1:thetaX0;
+  // create photon
+  state.photons.push({x:60,y:150, v:4 + Math.random()*0.8, theta, basis:basisA, bit:bitA});
+  sent++; updateBadges();
+}
+function sendN(n){ for(let i=0;i<n;i++){ setTimeout(sendOne, i*15); } }
+
+document.getElementById('send1').addEventListener('click',()=>sendOne());
+document.getElementById('send100').addEventListener('click',()=>sendN(100));
+document.getElementById('resetSim').addEventListener('click',()=>{
+  sent=rec=sift=errors=0; keybits=''; state.photons.length=0; updateBadges();
+});
+document.getElementById('basisA').addEventListener('change',e=>state.basisA=e.target.value);
+document.getElementById('bitA').addEventListener('change',e=>state.bitA=parseInt(e.target.value,10));
+document.getElementById('basisB').addEventListener('change',e=>state.basisB=e.target.value);
+document.getElementById('loss').addEventListener('input',e=>{state.loss=parseFloat(e.target.value); document.getElementById('lossVal').textContent=state.loss.toFixed(2);});
+document.getElementById('depol').addEventListener('input',e=>{state.depol=parseFloat(e.target.value); document.getElementById('depolVal').textContent=state.depol.toFixed(2);});
+
+updateBadges(); drawScene(); step();
+</script>
+</body>
+</html>
