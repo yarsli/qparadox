@@ -1,259 +1,561 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>QParadox • Experimental Hub</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>QParadox • Experimental Physics (Hub)</title>
 
 <!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+<!-- MathJax (optional, same as your template) -->
+<script>
+  window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, svg: { fontCache: 'global' } };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <style>
-:root{
-  --bg:#0a0a0c; --panel:#121217; --ink:#f3ede4; --ink2:#cfc8be;
-  --gold:#caa36b; --blue:#7aa0ff; --line:rgba(255,255,255,.15);
-  --radius:18px; --shadow:0 18px 60px rgba(0,0,0,.72), inset 0 0 120px rgba(255,255,255,.03);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  background:var(--bg);
-  color:var(--ink);
-  font-family:"Crimson Text",serif;
-  overflow-x:hidden;
-  min-height:100vh;
-}
+  :root{
+    --bg:#0b0b0d;
+    --ink:#efeae2;
+    --ink-2:#d7d1c7;
+    --muted:#b9b3aa;
+    --accent:#caa36b;    /* warm gold */
+    --accent-2:#7aa0ff;  /* cool blue */
+    --glass:rgba(255,255,255,.06);
+    --line:rgba(255,255,255,.12);
+    --shadow:0 10px 30px rgba(0,0,0,.6), inset 0 0 60px rgba(255,255,255,.02);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 12% 0%, rgba(255,255,255,.05), transparent 60%),
+      radial-gradient(1200px 600px at 88% 12%, rgba(255,255,255,.04), transparent 60%),
+      var(--bg);
+    font-family:"Crimson Text", serif; line-height:1.74; letter-spacing:.2px; overflow-x:hidden;
+  }
 
-/* Star background */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-2;
-  background:radial-gradient(1000px 600px at 20% 0%,rgba(255,240,200,.06),transparent 70%),
-             radial-gradient(1000px 600px at 80% 100%,rgba(122,160,255,.07),transparent 70%);
-}
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-3;
-  background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
-  opacity:.07;
-}
+  /* subtle texture */
+  body::before{
+    content:""; position:fixed; inset:0;
+    background:url('https://www.transparenttextures.com/patterns/blueprint.png');
+    opacity:.05; z-index:-3; pointer-events:none;
+  }
 
-/* Animated stars */
-canvas#stars{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-}
+  /* starfield canvas */
+  #sky{position:fixed; inset:0; z-index:-1; background:transparent;}
 
-/* Header */
-header{
-  text-align:center;
-  padding:6rem 1.5rem 3rem;
-}
-h1{
-  font-family:"Playfair Display",serif;
-  font-weight:900;
-  font-size:clamp(2.8rem,4vw,4.6rem);
-  color:#f5ead8;
-  text-shadow:0 0 20px rgba(255,255,255,.12);
-}
-.subtitle{
-  margin-top:1.2rem;
-  font-size:1.25rem;
-  color:var(--ink2);
-  min-height:2.4em;
-  transition:opacity 1s ease;
-}
+  /* NAV: hamburger + overlay */
+  .hamburger{position:fixed; top:20px; right:20px; z-index:2000; width:30px; height:22px; cursor:pointer}
+  .hamburger span{display:block; height:3px; background:var(--ink); margin:5px 0; transition:.3s}
+  .menu-overlay{position:fixed; inset:0; background:rgba(0,0,0,.9); backdrop-filter:blur(8px); transform:translateX(100%); transition:.4s; z-index:1500; padding:3rem 2rem}
+  .menu-overlay.open{transform:translateX(0)}
+  .menu-overlay nav a{display:block; color:var(--ink); font-family:"Playfair Display", serif; font-size:1.2rem; text-decoration:none; margin:1rem 0}
+  .menu-overlay nav a:hover{color:var(--accent)}
 
-/* Main grid */
-main{
-  width:min(1200px,94%);
-  margin:0 auto 5rem;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:26px;
-}
-.card{
-  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.03));
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:1.8rem 1.3rem;
-  box-shadow:var(--shadow);
-  transition:.35s ease;
-  position:relative;
-  overflow:hidden;
-}
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 20px 60px rgba(0,0,0,.7), inset 0 0 120px rgba(255,255,255,.04);
-}
-.card h2{
-  font-family:"Playfair Display",serif;
-  color:#f6eddc;
-  margin-bottom:.8rem;
-  font-size:1.7rem;
-}
-.card p{
-  color:var(--ink2);
-  font-size:1rem;
-  line-height:1.7;
-  text-align:justify;
-}
-.card a{
-  display:inline-block;
-  margin-top:1.1rem;
-  padding:.55rem 1rem;
-  border-radius:.6rem;
-  border:1px solid rgba(255,255,255,.25);
-  background:linear-gradient(90deg,rgba(202,163,107,.3),rgba(122,160,255,.25));
-  color:var(--ink);
-  text-decoration:none;
-  font-size:.95rem;
-  transition:.25s ease;
-}
-.card a:hover{
-  background:linear-gradient(90deg,var(--gold),var(--blue));
-  color:#111;
-}
+  /* Scrollspy bullets */
+  .scrollspy{position:fixed; top:50%; left:15px; transform:translateY(-50%); z-index:1400; display:flex; flex-direction:column; gap:10px}
+  .scrollspy a{width:10px; height:10px; border-radius:50%; background:var(--muted); display:block; transition:background .3s}
+  .scrollspy a.active{background:var(--accent)}
 
-/* Footer */
-footer{
-  text-align:center;
-  padding:2rem 1rem 3rem;
-  border-top:1px solid var(--line);
-  color:var(--ink2);
-}
-footer a{
-  text-decoration:none;
-  color:var(--ink);
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:.6rem;
-  padding:.5rem 1rem;
-  background:linear-gradient(90deg,rgba(202,163,107,.25),rgba(122,160,255,.25));
-}
-footer a:hover{
-  background:linear-gradient(90deg,var(--gold),var(--blue));
-  color:#111;
-}
+  /* Back to Top */
+  #backToTop{position:fixed; bottom:25px; right:25px; background:var(--glass); border:1px solid var(--line); border-radius:50%; width:42px; height:42px; color:var(--ink); display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; pointer-events:none; transition:opacity .3s; font-family:"JetBrains Mono", monospace}
+  #backToTop.show{opacity:1; pointer-events:auto}
+
+  /* Layout */
+  header.hero{min-height:85vh; display:grid; place-items:center; padding:7rem 1.25rem 3rem; text-align:center; position:relative}
+  .brand{font-family:"Playfair Display", serif; font-weight:900; font-size:clamp(2.6rem, 4vw, 4.2rem); letter-spacing:.6px; line-height:1.15; margin:0; text-shadow:0 0 22px rgba(255,255,255,.12)}
+  .subtitle{max-width:1080px; margin:1rem auto 0; color:var(--ink-2); font-size:clamp(1.05rem, 1.3vw, 1.2rem)}
+  .breadcrumbs{margin-top:12px; font-family:"JetBrains Mono", monospace; font-size:.85rem; color:var(--muted)}
+  .breadcrumbs a{color:var(--ink-2); text-decoration:none}
+  .breadcrumbs a:hover{color:var(--accent)}
+  .quote{font-size:1.1rem; font-style:italic; color:var(--ink-2); text-align:center; max-width:900px; margin:1.2rem auto 0}
+  .credit{text-align:center; color:var(--muted); font-family:"JetBrains Mono", monospace; font-size:.85rem}
+
+  section{padding:4.5rem 1.25rem; border-top:1px solid var(--line)}
+  .wrap{width:min(1220px, 92%); margin:0 auto}
+  h2.section-title{font-family:"Playfair Display", serif; font-size:clamp(1.9rem, 3vw, 2.7rem); margin:0 0 1rem}
+  .lead{color:var(--ink-2); max-width:980px}
+
+  /* Grid + Cards */
+  .grid{display:grid; grid-template-columns:repeat(12, 1fr); gap:22px; margin-top:2rem}
+  .card{
+    grid-column:span 12; background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+    border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:1.4rem 1.2rem; position:relative; overflow:hidden; transition:transform .2s, box-shadow .3s, border-color .3s
+  }
+  .card:hover{transform:rotateX(3deg) rotateY(3deg) scale(1.02); border-color:rgba(255,255,255,.22); box-shadow:0 14px 40px rgba(0,0,0,.7), inset 0 0 80px rgba(255,255,255,.03)}
+  .card h3{font-family:"Playfair Display", serif; font-size:1.35rem; margin:.2rem 0 .6rem}
+  .badge{font-family:"JetBrains Mono", monospace; font-size:.74rem; color:#111; background:linear-gradient(90deg, var(--accent), #e6d1a8); padding:.28rem .55rem; border-radius:.35rem; display:inline-block; margin-bottom:.6rem}
+  .muted{color:var(--muted)}
+  @media(min-width:760px){ .span-6{grid-column:span 6} .span-4{grid-column:span 4} .span-8{grid-column:span 8} .span-12{grid-column:span 12} }
+
+  .pill{display:inline-block; border:1px solid var(--line); padding:.35rem .6rem; border-radius:1rem; font-family:"JetBrains Mono", monospace; font-size:.75rem; background:var(--glass); margin:.2rem .2rem 0 0}
+  .cta{display:inline-block; margin-top:1rem; padding:.8rem 1.1rem; border-radius:.7rem; border:1px solid rgba(255,255,255,.25); background:linear-gradient(90deg, rgba(202,163,107,.32), rgba(122,160,255,.25)); color:var(--ink); font-family:"JetBrains Mono", monospace; text-decoration:none; transition:opacity .25s, transform .25s}
+  .cta:hover{opacity:.9; transform:translateY(-2px)}
+
+  details.accordion{border:1px solid var(--line); border-radius:.8rem; background:var(--glass); padding:1rem 1rem 0; margin:.8rem 0}
+  details.accordion summary{font-family:"Playfair Display", serif; font-size:1.1rem; cursor:pointer; list-style:none}
+  details.accordion[open]{box-shadow:var(--shadow)}
+  pre{background:#101014; border:1px solid var(--line); box-shadow:var(--shadow); border-radius:.7rem; padding:1rem; overflow:auto; font-family:"JetBrains Mono", monospace; font-size:.92rem}
+
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity .6s, transform .6s}
+  .reveal.in{opacity:1; transform:none}
+
+  footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
 
-<canvas id="stars"></canvas>
+<!-- Starfield -->
+<canvas id="sky" aria-hidden="true"></canvas>
 
-<header>
-  <h1>Experimental Hub</h1>
-  <p class="subtitle" id="subtitle">Exploring the quantum world through light, motion, and measurement.</p>
+<!-- Hamburger + Overlay -->
+<div class="hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></div>
+<div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="introduction.html">Start Here</a>
+    <a href="theoretical-hub.html">Theoretical</a>
+    <a href="experimental-hub.html" style="color:var(--accent);">Experimental</a>
+    <a href="computational-hub.html">Computational</a>
+    <a href="projects.html">Projects</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</div>
+
+<!-- Scrollspy -->
+<div class="scrollspy" id="scrollspy" aria-hidden="true">
+  <a href="#doubleslit" title="Double Slit"></a>
+  <a href="#entanglement" title="Photon Entanglement"></a>
+  <a href="#quantumeraser" title="Quantum Eraser"></a>
+  <a href="#weak" title="Weak Measurements"></a>
+  <a href="#rabi" title="2-Level Rabi Story"></a>
+  <a href="#visibility" title="Interference Visibility"></a>
+  <a href="#montecarlo" title="Monte Carlo Intuition"></a>
+  <a href="#light" title="Light as a Messenger"></a>
+  <a href="#rydberg" title="Rydberg Atoms"></a>
+  <a href="#ultracold" title="Ultracold Gases"></a>
+</div>
+
+<!-- Back to Top -->
+<div id="backToTop" aria-label="Back to top">↑</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="breadcrumbs"><a href="introduction.html">Start Here</a> / Experimental Physics</div>
+    <h1 class="brand">Experimental Physics</h1>
+    <p class="subtitle">
+      The experimental wing — where light, matter, and detectors turn ideas into evidence. Wave–particle duality, entanglement, and precision at the edge of noise.
+    </p>
+    <div class="quote">The lab is where nature answers — if you phrase the question well enough.</div>
+    <div class="credit">QParadox</div>
+  </div>
 </header>
 
-<main>
-  <div class="card">
-    <h2>Double Slit Experiment</h2>
-    <p>Light and matter reveal their dual nature here. Interference fringes whisper the story of probabilities — the bridge between wave and particle. This is where physics met philosophy and forever blurred the line between the two.</p>
-    <a href="doubleslit.html">Go to →</a>
+<!-- DOUBLE SLIT -->
+<section id="doubleslit" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Double Slit • interference and duality</h2>
+    <p class="lead">
+      Scientific: spatial coherence produces an interference pattern with fringe spacing $\Delta y \propto \lambda L/d$.  
+      Poetic: a whispering curtain where possibilities add and subtract to paint reality.
+    </p>
+
+    <div class="grid">
+      <article class="card span-6">
+        <div class="badge">Concept</div>
+        <h3>Fringes from coherent paths</h3>
+        <p>
+          Two apertures define two quantum paths; amplitudes superpose and intensities reveal phase. Visibility depends on coherence length, alignment, and spectral width.
+        </p>
+        <details class="accordion">
+          <summary>Go deeper • Which-path & decoherence</summary>
+          <p>Marking path information kills cross terms in $|A_1+A_2|^2$, reducing visibility. The environment can “measure” for you.</p>
+        </details>
+      </article>
+
+      <article class="card span-6">
+        <div class="badge">Setup</div>
+        <h3>Slits, source, and screen</h3>
+        <p>
+          Laser wavelength sets scale; slit separation $d$ and screen distance $L$ tune fringe spacing. Finite slit width adds a sinc envelope.
+        </p>
+      </article>
+
+      <article class="card span-12">
+        <a class="cta" href="doubleslit.html">Read More • Double Slit</a>
+      </article>
+    </div>
   </div>
-  <div class="card">
-    <h2>Photon Entanglement</h2>
-    <p>Two particles born together, forever linked across space. Entanglement isn’t just weird — it’s proof that nature doesn’t believe in isolation. From EPR to quantum communication, it defines the interconnectedness of our universe.</p>
-    <a href="photon-entanglement.html">Go to →</a>
+</section>
+
+<!-- PHOTON ENTANGLEMENT -->
+<section id="entanglement" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Photon Entanglement • correlations beyond stories</h2>
+    <p class="lead">
+      Scientific: SPDC pairs violate Bell inequalities with high-visibility polarization correlations.  
+      Poetic: twin photons keeping promises no classical script can explain.
+    </p>
+
+    <div class="grid">
+      <article class="card span-6">
+        <div class="badge">Concept</div>
+        <h3>Bell tests, not telepathy</h3>
+        <p>
+          Rotating analyzers probe correlations incompatible with local hidden variables. Space-like separation closes locality loopholes; high-efficiency detectors target detection loopholes.
+        </p>
+      </article>
+
+      <article class="card span-6">
+        <div class="badge">Setup</div>
+        <h3>SPDC & analyzers</h3>
+        <p>
+          A nonlinear crystal splits pump photons into pairs. Polarizers and single-photon counters record joint outcomes to estimate CHSH $S$.
+        </p>
+      </article>
+
+      <article class="card span-12">
+        <a class="cta" href="photon-entanglement.html">Read More • Photon Entanglement</a>
+      </article>
+    </div>
   </div>
-  <div class="card">
-    <h2>Quantum Eraser</h2>
-    <p>Can information alone destroy interference? The quantum eraser tests the fabric of observation itself, revealing that knowledge — not contact — determines the reality we see.</p>
-    <a href="quantum-eraser.html">Go to →</a>
+</section>
+
+<!-- QUANTUM ERASER -->
+<section id="quantumeraser" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Quantum Eraser • information sculpts patterns</h2>
+    <p class="lead">
+      Scientific: conditional fringes reappear when which-path marks are erased in the coincidence basis.  
+      Poetic: what you choose to know reshapes the image the universe returns.
+    </p>
+
+    <div class="grid">
+      <article class="card span-6">
+        <div class="badge">Concept</div>
+        <h3>Mark, erase, reveal</h3>
+        <p>
+          Tagging paths entangles them with a marker. Projecting the marker into a conjugate basis erases path knowledge and restores interference conditionally.
+        </p>
+      </article>
+
+      <article class="card span-6">
+        <div class="badge">Timing</div>
+        <h3>“Delayed choice” without paradox</h3>
+        <p>
+          Post-selecting on later outcomes doesn’t change the past; it filters sub-ensembles consistent with the projection you asked for.
+        </p>
+      </article>
+
+      <article class="card span-12">
+        <a class="cta" href="quantum-eraser.html">Read More • Quantum Eraser</a>
+      </article>
+    </div>
   </div>
-  <div class="card">
-    <h2>Weak Measurements</h2>
-    <p>What if you could peek at a quantum system without collapsing its wavefunction? Weak measurements let us ask softly, revealing the subtleties of post-selection, disturbance, and hidden correlations.</p>
-    <a href="weak-measurements.html">Go to →</a>
+</section>
+
+<!-- WEAK MEASUREMENTS -->
+<section id="weak" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Weak Measurements • gentle probes, subtle truths</h2>
+    <p class="lead">
+      Scientific: weak values arise from weak coupling and post-selection, averaging pointer shifts over many trials.  
+      Poetic: asking softly enough that the melody keeps playing.
+    </p>
+
+    <div class="grid">
+      <article class="card span-6">
+        <div class="badge">Concept</div>
+        <h3>Between eigenvalues</h3>
+        <p>
+          The weak value $A_w=\langle \psi_f|A|\psi_i\rangle/\langle \psi_f|\psi_i\rangle$ can lie outside the spectrum, reflecting interference of amplitudes, not eigen-outcomes.
+        </p>
+      </article>
+
+      <article class="card span-6">
+        <div class="badge">Practice</div>
+        <h3>Signal from many</h3>
+        <p>
+          Individual runs barely nudge the pointer; averaging restores the tiny shift, trading disturbance for statistics.
+        </p>
+      </article>
+
+      <article class="card span-12">
+        <a class="cta" href="weak-measurements.html">Read More • Weak Measurements</a>
+      </article>
+    </div>
   </div>
-  <div class="card">
-    <h2>2-Level Rabi Story</h2>
-    <p>A tale of oscillation between quantum states — the rhythm of absorption and emission. The Rabi cycle lies at the heart of quantum control and qubit manipulation, a dance choreographed by light and probability.</p>
-    <a href="two-level-rabi-story.html">Go to →</a>
+</section>
+
+<!-- 2-LEVEL RABI STORY -->
+<section id="rabi" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">2-Level Rabi Story • light-driven oscillations</h2>
+    <p class="lead">
+      Scientific: a resonant drive yields population oscillations at the Rabi frequency $\Omega_R$.  
+      Poetic: a two-note song, with light as the conductor.
+    </p>
+
+    <div class="grid">
+      <article class="card span-6">
+        <div class="badge">Concept</div>
+        <h3>Bloch sphere picture</h3>
+        <p>
+          The state vector precesses around an effective field set by detuning and drive strength; pulses carve precise rotations for control.
+        </p>
+      </article>
+      <article class="card span-6">
+        <div class="badge">Noise</div>
+        <h3>Dephasing & decay</h3>
+        <p>
+          $T_1$ and $T_2$ blur and damp the arcs; composite pulses and dynamical decoupling fight back.
+        </p>
+      </article>
+      <article class="card span-12">
+        <a class="cta" href="two-level-rabi-story.html">Read More • 2-Level Rabi Story</a>
+      </article>
+    </div>
   </div>
-  <div class="card">
-    <h2>Interference Visibility</h2>
-    <p>Not all interference is perfect. Visibility quantifies how coherence fades — how decoherence creeps in, turning quantum superpositions into classical shadows. It’s where order meets entropy.</p>
-    <a href="interference-visibility.html">Go to →</a>
+</section>
+
+<!-- INTERFERENCE VISIBILITY -->
+<section id="visibility" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Interference Visibility • measuring coherence</h2>
+    <p class="lead">
+      Scientific: $V=(I_\max-I_\min)/(I_\max+I_\min)$ quantifies fringe contrast; partial coherence lowers $V$.  
+      Poetic: how crisply the universe draws with waves.
+    </p>
+
+    <div class="grid">
+      <article class="card span-6">
+        <div class="badge">Concept</div>
+        <h3>Sources of contrast loss</h3>
+        <p>
+          Spectral width, path jitter, polarization mismatch, and detector integration smear phase. Stabilization and filtering restore contrast.
+        </p>
+      </article>
+      <article class="card span-6">
+        <div class="badge">Tradeoff</div>
+        <h3>Distinguishability vs. visibility</h3>
+        <p>
+          Complementarity bounds $V^2 + D^2 \le 1$; more which-path knowledge, fewer fringes.
+        </p>
+      </article>
+      <article class="card span-12">
+        <a class="cta" href="interference-visibility.html">Read More • Interference Visibility</a>
+      </article>
+    </div>
   </div>
-  <div class="card">
-    <h2>Monte Carlo Intuition</h2>
-    <p>Randomness as a tool of reason — simulations that turn chaos into precision. From photon paths to detector noise, Monte Carlo brings computation into the laboratory of chance.</p>
-    <a href="monte-carlo-intuition.html">Go to →</a>
+</section>
+
+<!-- MONTE CARLO INTUITION -->
+<section id="montecarlo" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Monte Carlo Intuition • randomness as an instrument</h2>
+    <p class="lead">
+      Scientific: stochastic sampling estimates integrals and transport with controllable variance.  
+      Poetic: rolling many honest dice to hear a quiet truth.
+    </p>
+
+    <div class="grid">
+      <article class="card span-6">
+        <div class="badge">Photon paths</div>
+        <h3>From source to sensor</h3>
+        <p>
+          Sample scattering, absorption, and detection to reproduce measured distributions; importance sampling follows the light that matters.
+        </p>
+      </article>
+      <article class="card span-6">
+        <div class="badge">Uncertainty</div>
+        <h3>Error bars that mean it</h3>
+        <p>
+          Estimates come with $\sigma/\sqrt{N}$ scaling; stratification and control variates squeeze noise without bias.
+        </p>
+      </article>
+      <article class="card span-12">
+        <a class="cta" href="monte-carlo-intuition.html">Read More • Monte Carlo Intuition</a>
+      </article>
+    </div>
   </div>
-  <div class="card">
-    <h2>Light as a Messenger</h2>
-    <p>Photons carry more than energy — they carry information. This experiment explores how light encodes, transmits, and reveals the quantum states that define the observable universe.</p>
-    <a href="light-as-a-messenger.html">Go to →</a>
+</section>
+
+<!-- LIGHT AS A MESSENGER -->
+<section id="light" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Light as a Messenger • encoding and revealing</h2>
+    <p class="lead">
+      Scientific: polarization, frequency, and timing encode information; interferometry reads phase with exquisite sensitivity.  
+      Poetic: photons carrying stories across the dark.
+    </p>
+
+    <div class="grid">
+      <article class="card span-6">
+        <div class="badge">Sensing</div>
+        <h3>Phase and frequency</h3>
+        <p>
+          Homodyne and heterodyne detection push below intensity noise floors; cavity enhancement magnifies feeble shifts.
+        </p>
+      </article>
+      <article class="card span-6">
+        <div class="badge">Comms</div>
+        <h3>From fiber to free space</h3>
+        <p>
+          Modulation formats trade robustness for rate; quantum keys turn measurement disturbance into security.
+        </p>
+      </article>
+      <article class="card span-12">
+        <a class="cta" href="light-as-a-messenger.html">Read More • Light as a Messenger</a>
+      </article>
+    </div>
   </div>
-  <div class="card">
-    <h2>Rydberg Atoms</h2>
-    <p>Atoms stretched to enormous sizes, their electrons orbiting like fragile satellites. Rydberg physics brings atomic control into the macroscopic, where fields sculpt quantum matter with precision.</p>
-    <a href="rydberg-atoms.html">Go to →</a>
+</section>
+
+<!-- RYDBERG ATOMS -->
+<section id="rydberg" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Rydberg Atoms • giant orbits, giant interactions</h2>
+    <p class="lead">
+      Scientific: high-$n$ states have huge dipoles and tunable blockade radii for entangling operations.  
+      Poetic: atoms stretched to the edge of delicacy, yet strong enough to choreograph many-body dances.
+    </p>
+
+    <div class="grid">
+      <article class="card span-6">
+        <div class="badge">Control</div>
+        <h3>Traps, lasers, blockade</h3>
+        <p>
+          Optical tweezers arrange arrays; lasers drive to Rydberg levels; blockade forbids neighbors from exciting, enabling two-qubit gates.
+        </p>
+      </article>
+      <article class="card span-6">
+        <div class="badge">Simulation</div>
+        <h3>Ising-like dynamics</h3>
+        <p>
+          Effective spin models emerge with tunable couplings; quenches and phase diagrams unfold in real time on the table.
+        </p>
+      </article>
+      <article class="card span-12">
+        <a class="cta" href="rydberg-atoms.html">Read More • Rydberg Atoms</a>
+      </article>
+    </div>
   </div>
-  <div class="card">
-    <h2>Ultracold Gases</h2>
-    <p>When temperature nears absolute zero, matter becomes collective — atoms move in harmony, forming condensates and quantum fluids that behave like single coherent waves.</p>
-    <a href="ultracold-gases.html">Go to →</a>
+</section>
+
+<!-- ULTRACOLD GASES -->
+<section id="ultracold" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Ultracold Gases • coherence from cold</h2>
+    <p class="lead">
+      Scientific: BECs and degenerate Fermi gases emerge as $T$ approaches quantum-degenerate regimes.  
+      Poetic: atoms moving as one, a single wave breathing in glass.
+    </p>
+
+    <div class="grid">
+      <article class="card span-6">
+        <div class="badge">BEC</div>
+        <h3>Macroscopic wavefunctions</h3>
+        <p>
+          Below $T_c$, a ground-state occupation dominates; interference and vortices reveal long-range phase coherence.
+        </p>
+      </article>
+      <article class="card span-6">
+        <div class="badge">Fermions</div>
+        <h3>Degeneracy & pressure</h3>
+        <p>
+          Exclusion fills momentum shells; pairing crosses from BCS to BEC with tunable interactions.
+        </p>
+      </article>
+      <article class="card span-12">
+        <a class="cta" href="ultracold-gases.html">Read More • Ultracold Gases</a>
+      </article>
+    </div>
   </div>
-</main>
+</section>
+
+<!-- CROSSROADS -->
+<section class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Crossroads • where to go next</h2>
+    <div class="grid">
+      <article class="card span-4">
+        <div class="badge">Start</div>
+        <h3>Return to the map</h3>
+        <p>Skim the other learning routes and pick a new doorway.</p>
+        <a class="cta" href="introduction.html">Back to Start Here</a>
+      </article>
+      <article class="card span-4">
+        <div class="badge">Theory</div>
+        <h3>Theoretical Hub</h3>
+        <p>Frameworks and equations that shape physical law.</p>
+        <a class="cta" href="theoretical-hub.html">Go to Theoretical</a>
+      </article>
+      <article class="card span-4">
+        <div class="badge">Compute</div>
+        <h3>Computational Hub</h3>
+        <p>Simulators, solvers, and data techniques that turn equations into experiments.</p>
+        <a class="cta" href="computational-hub.html">Go to Computational</a>
+      </article>
+    </div>
+  </div>
+</section>
 
 <footer>
-  <a href="introduction.html">← Back to Intro</a>
+  © 2025 QParadox • Experimental hub. Built for clarity and wonder.
 </footer>
 
 <script>
-/* rotating subtitles */
-const subtitles=[
-  "Exploring the quantum world through light, motion, and measurement.",
-  "Where waves and particles dance on the edge of observation.",
-  "The lab — where theory learns to breathe.",
-  "Entanglement, interference, and the language of light.",
-  "Probing reality one photon at a time."
-];
-let idx=0;
-const el=document.getElementById('subtitle');
-setInterval(()=>{
-  idx=(idx+1)%subtitles.length;
-  el.style.opacity=0;
-  setTimeout(()=>{el.textContent=subtitles[idx];el.style.opacity=1;},1000);
-},6000);
-
-/* starfield animation */
-const canvas=document.getElementById('stars');
-const ctx=canvas.getContext('2d');
-let stars=[];
-function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
-addEventListener('resize',resize);
-resize();
-for(let i=0;i<250;i++){
-  stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,z:Math.random()*canvas.width});
+/* ===== Starfield with occasional shooting stars (same behavior) ===== */
+const canvas = document.getElementById('sky'), ctx = canvas.getContext('2d');
+let W,H,stars=[],shootingStars=[];
+function resize(){W=canvas.width=innerWidth; H=canvas.height=innerHeight;
+  stars=Array.from({length:Math.floor(W*H/6500)},()=>({x:Math.random()*W,y:Math.random()*H,z:Math.random()*0.8+0.2,vx:(Math.random()-.5)*.15,vy:(Math.random()-.5)*.15,color:Math.random()>0.5?'#fff':(Math.random()>0.5?'#caa36b':'#7aa0ff')}));
 }
-function animate(){
-  ctx.fillStyle="rgba(10,10,12,0.4)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="white";
-  for(let i=0;i<stars.length;i++){
-    let s=stars[i];
-    s.z-=0.7;
-    if(s.z<=0)s.z=canvas.width;
-    let k=128.0/s.z;
-    let px=s.x*k+canvas.width/2;
-    let py=s.y*k+canvas.height/2;
-    if(px>=0&&px<=canvas.width&&py>=0&&py<=canvas.height){
-      let size=(1-s.z/canvas.width)*1.5;
-      ctx.fillRect(px,py,size,size);
-    }
+addEventListener('resize',resize); resize();
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  for(const s of stars){
+    s.x+=s.vx; s.y+=s.vy; if(s.x<0)s.x+=W; if(s.x>W)s.x-=W; if(s.y<0)s.y+=H; if(s.y>H)s.y-=H;
+    ctx.fillStyle=s.color; ctx.globalAlpha=.35+.65*s.z; ctx.beginPath(); ctx.arc(s.x,s.y,s.z*1.1,0,Math.PI*2); ctx.fill();
   }
-  requestAnimationFrame(animate);
+  if(Math.random()<0.002){ shootingStars.push({x:Math.random()*W,y:Math.random()*H*0.4,len:Math.random()*80+50,spd:Math.random()*6+4,angle:Math.PI/4}); }
+  shootingStars.forEach((s,i)=>{ s.x+=Math.cos(s.angle)*s.spd; s.y+=Math.sin(s.angle)*s.spd;
+    ctx.strokeStyle='#fff'; ctx.globalAlpha=.8; ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(s.x-Math.cos(s.angle)*s.len, s.y-Math.sin(s.angle)*s.len); ctx.stroke();
+    if(s.x>W||s.y>H) shootingStars.splice(i,1);
+  });
+  ctx.globalAlpha=1; requestAnimationFrame(draw);
+} draw();
+
+/* ===== Reveal on scroll ===== */
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in'); obs.unobserve(e.target);} });},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el))
+
+/* ===== Hamburger menu ===== */
+const hamburger=document.getElementById('hamburger'), overlay=document.getElementById('menuOverlay');
+hamburger.addEventListener('click',()=>{ overlay.classList.toggle('open'); overlay.setAttribute('aria-hidden', overlay.classList.contains('open')?'false':'true'); });
+overlay.addEventListener('click',e=>{ if(e.target.tagName==='A'||e.target===overlay){ overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); }});
+addEventListener('keydown',e=>{ if(e.key==='Escape'){ overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); }});
+
+/* ===== Scrollspy ===== */
+const spyLinks=document.querySelectorAll('#scrollspy a');
+const sections=['#doubleslit','#entanglement','#quantumeraser','#weak','#rabi','#visibility','#montecarlo','#light','#rydberg','#ultracold']
+  .map(id=>document.querySelector(id)).filter(Boolean);
+function updateSpy(){ const y=scrollY+200;
+  sections.forEach((sec,i)=>{ if(sec.offsetTop<=y && sec.offsetTop+sec.offsetHeight>y){ spyLinks.forEach(a=>a.classList.remove('active')); if(spyLinks[i]) spyLinks[i].classList.add('active'); }});
 }
-animate();
+addEventListener('scroll',updateSpy); updateSpy();
+
+/* ===== Back to Top ===== */
+const backToTop=document.getElementById('backToTop');
+addEventListener('scroll',()=>{ if(scrollY>innerHeight*0.25) backToTop.classList.add('show'); else backToTop.classList.remove('show'); });
+backToTop.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
 </script>
+
 </body>
 </html>
-
