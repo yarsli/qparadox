@@ -103,49 +103,45 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
 
 <header class="reveal in">
   <h1>Quantum Simulators</h1>
-  <p class="subtitle">Qiskit, Cirq, and modern libraries that bring the behavior of quantum systems to classical computers — exploring how simulation bridges today’s technology with tomorrow’s quantum hardware.</p>
+  <p class="subtitle">Exploring Qiskit, Cirq, and the computational frameworks that allow us to model quantum systems on classical computers — bridging the gap between theory and real quantum hardware.</p>
 </header>
 
 <div class="main">
   <article id="article">
-    <figure class="figure reveal">
-      <img src="quantum-simulators-header.jpeg" alt="Quantum simulation visualization"/>
-      <figcaption class="figcap">Quantum simulators allow researchers to model quantum systems on classical hardware, enabling exploration of complex quantum phenomena.</figcaption>
-    </figure>
 
     <h2 id="intro" class="reveal">Introduction</h2>
     <div class="divider"></div>
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p1">★ Highlight</button>
       <p id="p1" class="dropcap">
-        Quantum simulators are computational frameworks that emulate the behavior of quantum systems on classical computers. Instead of manipulating real qubits, simulators use mathematical representations of quantum states to predict system evolution. Libraries like <strong>Qiskit</strong> and <strong>Cirq</strong> allow scientists and students to explore quantum algorithms and study phenomena such as entanglement and interference — all without needing physical quantum hardware.
+        Quantum simulators are software tools that let scientists emulate quantum systems using classical hardware. Libraries like <strong>Qiskit</strong> (by IBM) and <strong>Cirq</strong> (by Google) enable us to design, simulate, and visualize quantum circuits — making it possible to explore phenomena such as entanglement, superposition, and interference without needing a real quantum computer.
       </p>
     </div>
 
-    <h2 id="principle" class="reveal">Why Quantum Simulation Matters</h2>
+    <h2 id="principle" class="reveal">Why They Matter</h2>
     <div class="divider"></div>
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p2">★ Highlight</button>
       <p id="p2" class="dropcap">
-        Simulating quantum systems is one of the hardest challenges in science. Classical computation struggles because the state space grows exponentially with the number of particles. Quantum simulators provide a workaround: they approximate, analyze, and visualize these systems efficiently. Using quantum-inspired algorithms, these tools pave the way for breakthroughs in chemistry, materials science, and cryptography.
+        Simulating quantum behavior is essential because actual quantum devices are still limited and noisy. Classical simulators let researchers test algorithms, debug code, and predict how qubits will behave under different gate operations. This accelerates learning, research, and the design of scalable quantum systems.
       </p>
     </div>
 
-    <h2 id="libraries" class="reveal">Libraries: Qiskit and Cirq</h2>
+    <h2 id="libraries" class="reveal">Qiskit and Cirq</h2>
     <div class="divider"></div>
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p3">★ Highlight</button>
       <p id="p3" class="dropcap">
-        <strong>Qiskit</strong> provides an accessible Python framework for constructing, optimizing, and simulating quantum circuits. It includes visualization, noise modeling, and access to IBM Quantum hardware. <strong>Cirq</strong> emphasizes fine control over qubits and gates for running circuits on Google’s quantum processors. Both allow testing quantum algorithms before using real hardware.
+        <strong>Qiskit</strong> provides a Python-based toolkit for building and simulating quantum circuits, visualizing state vectors, and connecting to IBM Quantum hardware. <strong>Cirq</strong>, developed by Google, focuses on precise circuit construction and noise modeling for hardware such as Sycamore. Both libraries empower users to explore quantum computation and gain intuition for how real qubits will behave.
       </p>
     </div>
 
-    <h2 id="examples" class="reveal">Examples in Action</h2>
+    <h2 id="applications" class="reveal">Applications</h2>
     <div class="divider"></div>
     <div class="pwrap reveal">
       <button class="hlbtn" data-target="p4">★ Highlight</button>
       <p id="p4" class="dropcap">
-        Consider a two-qubit system entangled by a Hadamard and CNOT gate. In Qiskit, we can build this in a few lines of code and visualize its statevector or Bloch sphere. Cirq allows step-by-step execution to observe measurement outcomes. These experiments build intuition for larger simulations — spin chains, molecular Hamiltonians, and Grover’s search algorithm under noise models.
+        Quantum simulators have applications in chemistry, physics, and materials science. They allow the study of molecular energy states, quantum gates, and optimization problems. As hardware improves, these simulations guide experimental work and help verify theoretical predictions before running real-world quantum computations.
       </p>
     </div>
 
@@ -153,29 +149,29 @@ footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px 
     <div class="divider"></div>
     <section class="quiz reveal" id="quizSection">
       <div class="qitem">
-        <h4>1) What is the main goal of a quantum simulator?</h4>
-        <div class="qchoices" data-answer="b" data-explain="Quantum simulators reproduce quantum system behavior without real qubits.">
-          <button data-choice="a">To replace all classical computers</button>
-          <button data-choice="b">To emulate quantum systems on classical hardware</button>
-          <button data-choice="c">To measure real qubits directly</button>
+        <h4>1) What is the main purpose of a quantum simulator?</h4>
+        <div class="qchoices" data-answer="b" data-explain="Quantum simulators reproduce quantum system behavior without physical qubits.">
+          <button data-choice="a">To run algorithms on quantum chips</button>
+          <button data-choice="b">To model quantum systems on classical hardware</button>
+          <button data-choice="c">To visualize machine learning datasets</button>
         </div>
         <div class="qfeedback"></div>
       </div>
       <div class="qitem">
-        <h4>2) Which library is developed by IBM?</h4>
-        <div class="qchoices" data-answer="a" data-explain="IBM developed Qiskit, a widely used open-source quantum computing framework.">
-          <button data-choice="a">Qiskit</button>
-          <button data-choice="b">Cirq</button>
-          <button data-choice="c">PyTorch</button>
+        <h4>2) Which company created Qiskit?</h4>
+        <div class="qchoices" data-answer="a" data-explain="IBM developed Qiskit as part of its open-source quantum computing ecosystem.">
+          <button data-choice="a">IBM</button>
+          <button data-choice="b">Google</button>
+          <button data-choice="c">Microsoft</button>
         </div>
         <div class="qfeedback"></div>
       </div>
       <div class="qitem">
-        <h4>3) Why are simulators essential before using quantum hardware?</h4>
-        <div class="qchoices" data-answer="c" data-explain="Simulators allow testing algorithms and understanding results before using limited, error-prone quantum machines.">
-          <button data-choice="a">They eliminate all quantum noise</button>
-          <button data-choice="b">They are faster than classical computation</button>
-          <button data-choice="c">They help test and debug algorithms safely</button>
+        <h4>3) What is one advantage of quantum simulators?</h4>
+        <div class="qchoices" data-answer="c" data-explain="They allow debugging and algorithm testing before running on real quantum devices.">
+          <button data-choice="a">They eliminate noise completely</button>
+          <button data-choice="b">They run faster than quantum computers</button>
+          <button data-choice="c">They help test algorithms before using real hardware</button>
         </div>
         <div class="qfeedback"></div>
       </div>
@@ -226,8 +222,7 @@ addEventListener('scroll',spy);spy();
 /* notebook */
 const KEY='qpx_notes_quantumsim_v1';const listEl=document.getElementById('nbList');
 function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];} }
-function save(data){localStorage.setItem(KEY,JSON```html
-(JSON.stringify(data));render();}
+function save(data){localStorage.setItem(KEY,JSON.stringify(data));render();}
 function render(){listEl.innerHTML='';load().forEach((n,i)=>{const el=document.createElement('div');el.className='note';el.innerHTML=`<div>${n.text}</div><time>${n.time}</time><button class="del" data-i="${i}">Delete</button>`;listEl.appendChild(el);});}
 function add(t){const d=load();d.push({text:t,time:new Date().toLocaleString()});save(d);render();}
 listEl.addEventListener('click',e=>{if(e.target.classList.contains('del')){const i=e.target.dataset.i;const d=load();d.splice(i,1);save(d);render();}});
