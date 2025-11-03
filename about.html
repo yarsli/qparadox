@@ -1,313 +1,408 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About — Q Paradox</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=EB+Garamond&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #050518;           /* kept exactly as you had */
-      --text: #e8e8e8;
-      --accent: #ffffff;
-      --card-bg: #111322;
-      --border: #25273c;
-      --font-title: 'Playfair Display', serif;
-      --font-body: 'EB Garamond', serif;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>QParadox • About</title>
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
 
-    html, body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: var(--font-body);
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
+<!-- MathJax (optional, for inline math if needed) -->
+<script>
+  window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, svg: { fontCache: 'global' } };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-    /* ===== Added background effects (non-intrusive) ===== */
-    /* Starfield canvas (behind everything) */
-    #bg-stars {
-      position: fixed; inset: 0;
-      width: 100vw; height: 100vh;
-      z-index: 0; pointer-events: none;
-    }
+<style>
+  :root{
+    --bg:#0b0b0d;
+    --ink:#efeae2;
+    --ink-2:#d7d1c7;
+    --muted:#a9a39a;
+    --accent:#c3a777;    /* soft desaturated gold */
+    --accent-2:#8ea4d9;  /* soft desaturated blue */
+    --glass:rgba(255,255,255,.06);
+    --line:rgba(255,255,255,.12);
+    --shadow:0 10px 30px rgba(0,0,0,.6), inset 0 0 60px rgba(255,255,255,.02);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 12% 0%, rgba(255,255,255,.05), transparent 60%),
+      radial-gradient(1200px 600px at 88% 12%, rgba(255,255,255,.04), transparent 60%),
+      var(--bg);
+    font-family:"Crimson Text", serif; line-height:1.78; letter-spacing:.2px; overflow-x:hidden;
+  }
+  /* subtle texture */
+  body::before{
+    content:""; position:fixed; inset:0;
+    background:url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+    opacity:.06; z-index:-3; pointer-events:none;
+  }
+  /* starfield canvas */
+  #sky{position:fixed; inset:0; z-index:-1; background:transparent;}
 
-    /* Very subtle moving dot-grid (your idea, kept, just slightly clearer) */
-    body::before {
-      content: '';
-      position: fixed; top: 0; left: 0;
-      width: 200%; height: 200%;
-      background: radial-gradient(#ffffff22 1px, transparent 1px),
-                  radial-gradient(#ffffff11 1px, transparent 1px);
-      background-size: 4px 4px;
-      animation: starScroll 140s linear infinite;
-      z-index: 0;
-      opacity: 0.04;               /* slightly higher so it’s visible */
-      pointer-events: none;
-    }
+  /* NAV: hamburger + overlay */
+  .hamburger{position:fixed; top:20px; right:20px; z-index:2000; width:30px; height:22px; cursor:pointer}
+  .hamburger span{display:block; height:3px; background:var(--ink); margin:5px 0; transition:.3s}
+  .menu-overlay{position:fixed; inset:0; background:rgba(0,0,0,.88); backdrop-filter:blur(8px); transform:translateX(100%); transition:.4s; z-index:1500; padding:3rem 2rem}
+  .menu-overlay.open{transform:translateX(0)}
+  .menu-overlay nav a{display:block; color:var(--ink); font-family:"Playfair Display", serif; font-size:1.2rem; text-decoration:none; margin:1rem 0}
+  .menu-overlay nav a:hover{color:var(--accent)}
 
-    /* Muted radial glows (unchanged vibe) */
-    body::after {
-      content: '';
-      position: fixed; top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: radial-gradient(circle at 30% 40%, #8888ff11 0%, transparent 60%),
-                  radial-gradient(circle at 70% 60%, #77aaff11 0%, transparent 60%);
-      z-index: 0;
-      opacity: 0.08;
-      pointer-events: none;
-    }
+  /* Scrollspy bullets */
+  .scrollspy{position:fixed; top:50%; left:15px; transform:translateY(-50%); z-index:1400; display:flex; flex-direction:column; gap:10px}
+  .scrollspy a{width:10px; height:10px; border-radius:50%; background:var(--muted); display:block; transition:background .3s, transform .2s}
+  .scrollspy a.active{background:var(--accent); transform:scale(1.2)}
 
-    /* Paper grain overlay */
-    .grain {
-      position: fixed; inset: 0;
-      z-index: 1; pointer-events: none;
-      opacity: 0.06;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.45"/></svg>');
-      mix-blend-mode: soft-light;
-    }
+  /* Back to Top */
+  #backToTop{position:fixed; bottom:25px; right:25px; background:var(--glass); border:1px solid var(--line); border-radius:50%; width:42px; height:42px; color:var(--ink); display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; pointer-events:none; transition:opacity .3s; font-family:"JetBrains Mono", monospace}
+  #backToTop.show{opacity:1; pointer-events:auto}
 
-    @keyframes starScroll {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(-100px, -100px); }
-    }
-    /* ===== End background effects ===== */
+  /* Layout */
+  header.hero{min-height:80vh; display:grid; place-items:center; padding:7rem 1.25rem 3rem; text-align:center; position:relative}
+  .brand{font-family:"Playfair Display", serif; font-weight:900; font-size:clamp(2.6rem, 4vw, 4.2rem); letter-spacing:.6px; line-height:1.15; margin:0; text-shadow:0 0 22px rgba(255,255,255,.12)}
+  .subtitle{max-width:980px; margin:1rem auto 0; color:var(--ink-2); font-size:clamp(1.05rem, 1.3vw, 1.2rem)}
+  .breadcrumbs{margin-top:12px; font-family:"JetBrains Mono", monospace; font-size:.85rem; color:var(--muted)}
+  .breadcrumbs a{color:var(--ink-2); text-decoration:none}
+  .breadcrumbs a:hover{color:var(--accent)}
+  .quote{font-size:1.05rem; font-style:italic; color:var(--ink-2); text-align:center; max-width:900px; margin:1.2rem auto 0}
 
-    .container {
-      position: relative;
-      z-index: 2;                 /* sits above background layers */
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 80px 20px;
-    }
+  section{padding:4.5rem 1.25rem; border-top:1px solid var(--line)}
+  .wrap{width:min(1200px, 92%); margin:0 auto}
+  h2.section-title{font-family:"Playfair Display", serif; font-size:clamp(1.9rem, 3vw, 2.7rem); margin:0 0 1rem}
+  .lead{color:var(--ink-2); max-width:980px}
 
-    header.hero {
-      text-align: center;
-      padding: 100px 20px 60px;
-    }
+  /* Cards + panels */
+  .panel{
+    background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+    border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:1.5rem 1.3rem; transition:transform .25s, box-shadow .35s, border-color .25s;
+  }
+  .panel:hover{transform:translateY(-2px); border-color:rgba(255,255,255,.22); box-shadow:0 18px 48px rgba(0,0,0,.7), inset 0 0 80px rgba(255,255,255,.03)}
+  .grid{display:grid; grid-template-columns:repeat(12, 1fr); gap:22px}
+  .span-12{grid-column:span 12}
+  .span-6{grid-column:span 12}
+  .span-4{grid-column:span 12}
+  @media(min-width:760px){ .span-6{grid-column:span 6} .span-4{grid-column:span 4} }
+  .badge{font-family:"JetBrains Mono", monospace; font-size:.74rem; color:#111; background:linear-gradient(90deg, var(--accent), #e2d6b9); padding:.28rem .55rem; border-radius:.35rem; display:inline-block; margin-bottom:.6rem}
+  .mini{color:var(--ink-2); font-style:italic; margin:.1rem 0 .7rem}
+  .cta{display:inline-block; margin-top:1rem; padding:.75rem 1rem; border-radius:.7rem; border:1px solid rgba(255,255,255,.25); background:linear-gradient(90deg, rgba(195,167,119,.28), rgba(142,164,217,.24)); color:var(--ink); font-family:"JetBrains Mono", monospace; text-decoration:none; transition:opacity .25s, transform .25s}
+  .cta:hover{opacity:.92; transform:translateY(-2px)}
+  .pill{display:inline-block; border:1px solid var(--line); padding:.35rem .6rem; border-radius:1rem; font-family:"JetBrains Mono", monospace; font-size:.75rem; background:var(--glass); margin:.25rem .25rem 0 0}
 
-    header.hero h1 {
-      font-family: var(--font-title);
-      font-size: 3.4em;
-      color: var(--accent);
-    }
+  /* Accordions */
+  details.accordion{border:1px solid var(--line); border-radius:.8rem; background:var(--glass); padding:1rem 1rem .75rem; margin:.9rem 0}
+  details.accordion summary{font-family:"Playfair Display", serif; font-size:1.08rem; cursor:pointer; list-style:none}
+  details.accordion[open]{box-shadow:var(--shadow)}
+  details.accordion p{margin:.55rem 0}
 
-    header.hero p {
-      font-size: 1.3em;
-      color: #ccc;
-      margin-top: 15px;
-      font-style: italic;
-    }
+  /* Reveal on scroll */
+  .reveal{opacity:0; transform:translateY(18px) scale(.98); transition:opacity .6s, transform .6s}
+  .reveal.in{opacity:1; transform:none}
 
-    section {
-      margin: 60px 0;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s ease;
-    }
-
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    section h2 {
-      font-family: var(--font-title);
-      font-size: 2.4em;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
-
-    section p {
-      font-size: 1.05em;
-      max-width: 800px;
-      margin-bottom: 20px;
-    }
-
-    .pillars {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-top: 30px;
-    }
-
-    .pillar-card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      padding: 20px;
-      border-radius: 10px;
-    }
-
-    .pillar-card h3 {
-      font-family: var(--font-title);
-      font-size: 1.4em;
-      margin-bottom: 10px;
-      color: var(--accent);
-    }
-
-    .pillar-card p {
-      font-size: 0.95em;
-      color: #ccc;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 0.9em;
-      color: #777;
-      padding: 40px 0;
-      border-top: 1px solid var(--border);
-      margin-top: 60px;
-    }
-
-    @media (max-width: 600px) {
-      header.hero h1 { font-size: 2.2em; }
-      section h2 { font-size: 1.8em; }
-    }
-  </style>
+  footer{padding:2rem 1rem; text-align:center; color:var(--muted); border-top:1px solid var(--line)}
+</style>
 </head>
 <body>
-  <!-- NEW background layers -->
-  <canvas id="bg-stars"></canvas>
-  <div class="grain"></div>
 
-  <div class="container">
-    <header class="hero">
-      <h1>About Q Paradox</h1>
-      <p>"Between paradox and prediction lies understanding."</p>
-    </header>
-    <!-- What is Q Paradox -->
-    <section class="visible">
-      <h2>What is Q Paradox?</h2>
-      <p>
-        <strong>Q Paradox</strong> is a conceptual lab — part physics, part philosophy, part poetic investigation.
-        It's a space to explore the strange, beautiful boundaries of knowledge: the edge where theory, simulation, and experiment overlap.
-      </p>
-      <p>
-        We are not here to memorize answers — we are here to ask better questions.
-        Q Paradox invites you into that spirit: bold, curious, rigorous, and occasionally rebellious.
-      </p>
+<!-- Starfield -->
+<canvas id="sky" aria-hidden="true"></canvas>
 
-      <div class="pillars">
-        <div class="pillar-card">
-          <h3>Theoretical</h3>
-          <p>Core ideas from classical mechanics, quantum theory, relativity, cosmology, and philosophy of physics.</p>
-        </div>
-        <div class="pillar-card">
-          <h3>Computational</h3>
-          <p>Simulations, algorithms, and frameworks that make complex systems understandable, visualizable, and hackable.</p>
-        </div>
-        <div class="pillar-card">
-          <h3>Experimental</h3>
-          <p>Where theory meets the lab. Actual and imagined experiments that sharpen — or shatter — our assumptions.</p>
-        </div>
-      </div>
-    </section>
+<!-- Hamburger + Overlay -->
+<div class="hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></div>
+<div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="introduction.html">Start Here</a>
+    <a href="theoretical-hub.html">Theoretical</a>
+    <a href="experimental-hub.html">Experimental</a>
+    <a href="computational-hub.html">Computational</a>
+    <a href="concepts.html">Concepts</a>
+    <a href="projects.html">Projects</a>
+    <a href="about.html" style="color:var(--accent);">About</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</div>
 
-    <!-- About Yara Hamid -->
-    <section class="visible">
-      <h2>About Yara Hamid</h2>
-      <p>
-        I'm <strong>Yara Hamid</strong>, the creator of Q Paradox. This site is my personal thought experiment — a space where
-        physics and philosophy merge into curiosity-driven exploration.
-      </p>
-      <p>
-        I'm interested in quantum mechanics, metaphysics, complex systems, and the kind of paradoxes that don’t resolve easily.
-        This is not a textbook. This is a map. And it changes every time you look at it.
-      </p>
-      <p>
-        I hope Q Paradox gives you permission to think differently. To question deeply. And to love ideas again.
-      </p>
-    </section>
+<!-- Scrollspy -->
+<div class="scrollspy" id="scrollspy" aria-hidden="true">
+  <a href="#yara" title="About Yara"></a>
+  <a href="#mission" title="What is QParadox?"></a>
+  <a href="#contact" title="Contact"></a>
+  <a href="#faq" title="FAQ"></a>
+  <a href="#tesla" title="Nikola Tesla"></a>
+</div>
 
-    <!-- Why “Paradox”? -->
-    <section class="visible">
-      <h2>Why “Paradox”?</h2>
-      <p>
-        A paradox is a riddle that resists simplification — not a failure of understanding, but a signpost of its limits.
-        Q Paradox is built on the idea that paradoxes aren't problems to fix, but phenomena to explore.
-        They're the cracks through which something deeper shines through.
-      </p>
-      <p>
-        Physics is full of them: wave–particle duality, the EPR paradox, Wigner’s friend, the firewall problem. Each one reminds us:
-        truth isn’t always obvious, and reality may not be fully knowable — but it's always worth chasing.
-      </p>
-    </section>
+<!-- Back to Top -->
+<div id="backToTop" aria-label="Back to top">↑</div>
 
-    <!-- Personal Philosophy -->
-    <section class="visible">
-      <h2>A Philosophy of Curiosity</h2>
-      <p>
-        Q Paradox is not just a website — it’s a personal archive, a growing library, and an invitation.
-        It’s for those who want to understand, but not in a dry or detached way — in a way that’s alive.
-      </p>
-      <p>
-        My work is rooted in the belief that physics is meaningful. That theory is a kind of storytelling. That experiments are poems with measurements.
-      </p>
-      <p>
-        Whether you’re a physicist, philosopher, student, or cosmic wanderer — you belong here.
-      </p>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-      Made with paradox and precision by Yara Hamid. © 2025 Q Paradox.
-      <br>
-      <a href="index.html" style="color: #aaa;">Return to Home</a> |
-      <a href="concepts.html" style="color: #aaa;">Explore Concepts</a>
-    </footer>
+<header class="hero">
+  <div class="wrap">
+    <div class="breadcrumbs"><a href="introduction.html">Start Here</a> / About</div>
+    <h1 class="brand">About QParadox</h1>
+    <p class="subtitle">
+      a quiet corner of the internet where physics breathes — theory, computation, and experiment in harmony, written for curious minds.
+    </p>
+    <div class="quote">the universe is complicated; the explanations don’t have to be.</div>
   </div>
+</header>
 
-  <!-- JS: your original IntersectionObserver + starfield animation -->
-  <script>
-    // Keep your reveal-on-scroll behavior
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('section').forEach(section => observer.observe(section));
+<!-- YARA -->
+<section id="yara" class="reveal">
+  <div class="wrap grid">
+    <article class="panel span-12">
+      <div class="badge">Founder</div>
+      <h2 class="section-title">Yara Hamed Ahmed • the person behind QParadox</h2>
+      <p class="mini">student • physics enthusiast • builder of thoughtful explanations</p>
+      <p>
+        Hi — I’m <strong>Yara Hamed Ahmed</strong>, the owner and maintainer of <em>QParadox</em>. I’m a student who loves physics —
+        not only the equations and the problem sets, but the ideas that glow behind them: symmetry, information, fields, and
+        the simple stories that survive complicated details. QParadox began as my attempt to learn out loud:
+        to write plainly, to show code that turns equations into pictures, and to collect experiments that make the abstract feel real.
+        I believe a good explanation should respect your time, your intelligence, and your curiosity. It should be scientific without
+        sounding like a locked door; poetic without hand-waving; precise, but never precious. Here you’ll find the three wings of my learning:
+        <span class="pill">theoretical</span> frameworks that guide reasoning, <span class="pill">computational</span> tools that simulate and visualize,
+        and <span class="pill">experimental</span> setups that test and calibrate our beliefs. If any page helps you see further, then QParadox is doing its job.
+      </p>
+      <p>
+        I write for students like me — people who want to understand deeply, who like to check units, test extremes,
+        sketch the setup, and ask, “what changes if I poke the system?” I care about clean structure, gentle animations,
+        and making each page a place you’d like to stay and think. Welcome — explore slowly.
+      </p>
+    </article>
+  </div>
+</section>
 
-    // Added: animated starfield
-    (function(){
-      const c = document.getElementById('bg-stars');
-      const ctx = c.getContext('2d');
-      function resize(){ c.width = innerWidth; c.height = innerHeight; }
-      addEventListener('resize', resize, {passive:true}); resize();
+<!-- MISSION / WHAT IS -->
+<section id="mission" class="reveal">
+  <div class="wrap grid">
+    <article class="panel span-6">
+      <div class="badge">What this is</div>
+      <h2 class="section-title">What QParadox is about</h2>
+      <p class="mini">a study companion that blends clarity, beauty, and rigor</p>
+      <p>
+        QParadox is a <em>learning library</em> for physics, organized as three hubs:
+        <strong>Theoretical</strong> (principles, models, and clean derivations),
+        <strong>Computational</strong> (numerical methods, simulators, data-driven tools),
+        and <strong>Experimental</strong> (iconic and modern experiments with honest uncertainty).
+        Each article aims to be self-contained, richly cross-linked, and supported by short interactive elements when helpful.
+      </p>
+      <p>
+        The aesthetic is calm and cinematic: desaturated tones, a gentle starfield, small glows on hover, and
+        readable typography. The goal isn’t to distract — it’s to invite attention and keep you focused on the
+        <em>shape</em> of the idea. If an equation appears, it’s because it earns its keep.
+      </p>
+    </article>
 
-      const stars = [];
-      const COUNT = 160;
-      for(let i=0;i<COUNT;i++){
-        stars.push({
-          x: Math.random()*c.width,
-          y: Math.random()*c.height,
-          r: Math.random()*1.2 + 0.5,
-          vx: (Math.random()-.5)*0.25,
-          vy: (Math.random()-.5)*0.25,
-          a: 0.10 + Math.random()*0.15
-        });
-      }
+    <article class="panel span-6">
+      <div class="badge">How to use it</div>
+      <h2 class="section-title">How to read this site</h2>
+      <p class="mini">learn like a physicist: pictures, limits, checks</p>
+      <p>
+        Start at a hub, then pick a doorway. Skim the page first to map the terrain. When something feels abstract,
+        try a limit case: very small, very large, or zero. Do a unit check; sketch a diagram; write the minimal model.
+        The interactive bits are there to transform words into motion. And when you’re stuck, read the short paragraphs again —
+        the story is designed to hold together without jargon.
+      </p>
+      <p class="mini">quick jumps</p>
+      <p>
+        <a class="cta" href="theoretical-hub.html">Go to Theoretical</a>
+        <a class="cta" href="computational-hub.html">Go to Computational</a>
+        <a class="cta" href="experimental-hub.html">Go to Experimental</a>
+      </p>
+    </article>
+  </div>
+</section>
 
-      function step(){
-        ctx.clearRect(0,0,c.width,c.height);
-        for(const s of stars){
-          s.x += s.vx; s.y += s.vy;
-          if(s.x < 0 || s.x > c.width) s.vx *= -1;
-          if(s.y < 0 || s.y > c.height) s.vy *= -1;
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-          ctx.fillStyle = `rgba(255,255,255,${s.a})`;
-          ctx.fill();
-        }
-        requestAnimationFrame(step);
-      }
-        step();
-    })();
-  </script>
+<!-- CONTACT -->
+<section id="contact" class="reveal">
+  <div class="wrap grid">
+    <article class="panel span-12">
+      <div class="badge">Contact</div>
+      <h2 class="section-title">Reach out</h2>
+      <p class="mini">feedback, collabs, corrections, or just to say hi</p>
+      <p>
+        You can reach QParadox at: <strong>yarahamed.qparadox.tech</strong>.
+        (If you prefer, copy that into your email client. I read messages carefully and love hearing what helped,
+        what confused, or what you’d like to see next.)
+      </p>
+      <p>
+        I welcome thoughtful suggestions, bug reports, and requests for small interactive demos to glue concepts together.
+        This site grows a little at a time — quality first.
+      </p>
+    </article>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="reveal">
+  <div class="wrap grid">
+    <article class="panel span-12">
+      <div class="badge">FAQ</div>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+
+      <details class="accordion">
+        <summary>Is QParadox a personal blog or a textbook?</summary>
+        <p>
+          Somewhere in between. It’s a curated set of pages that read like a friendly textbook in small pieces.
+          Each page stands on its own, but together they form a map.
+        </p>
+      </details>
+
+      <details class="accordion">
+        <summary>Who is the intended audience?</summary>
+        <p>
+          Curious students and autodidacts who like precision and calm explanations.
+          You should know basic algebra and calculus; the rest I try to build gently.
+        </p>
+      </details>
+
+      <details class="accordion">
+        <summary>Why the cinematic design? Does it slow things down?</summary>
+        <p>
+          The design is deliberately quiet and desaturated to reduce glare and keep attention on ideas.
+          Animations are minimal and GPU-friendly — they should not get in your way.
+        </p>
+      </details>
+
+      <details class="accordion">
+        <summary>Can I use parts of QParadox in my study notes?</summary>
+        <p>
+          Please link back to the page you used and credit QParadox. If you want to reuse larger portions,
+          reach out first at <strong>yarahamed.qparadox.tech</strong>.
+        </p>
+      </details>
+
+      <details class="accordion">
+        <summary>Will there be problem sets or interactive notebooks?</summary>
+        <p>
+          Yes — gradually. The plan is to publish short “micro-notebooks” that turn derivations into small simulations,
+          especially in the Computational hub (numerical methods, Monte Carlo, tensor networks).
+        </p>
+      </details>
+
+      <details class="accordion">
+        <summary>How do I suggest a topic?</summary>
+        <p>
+          Send a note with a concise description of what you’d like to learn and why it matters.
+          Priority goes to topics that connect hubs (theory ↔ computation ↔ experiment).
+        </p>
+      </details>
+    </article>
+  </div>
+</section>
+
+<!-- TESLA -->
+<section id="tesla" class="reveal">
+  <div class="wrap grid">
+    <article class="panel span-12">
+      <div class="badge">Inspiration</div>
+      <h2 class="section-title">Nikola Tesla • a spark that keeps sparking</h2>
+      <p class="mini">my favorite engineer–physicist</p>
+      <p>
+        Nikola Tesla fascinates me because he treated ideas like living machines: elegant, precise, and audacious.
+        His work on alternating current and high-voltage systems wasn’t just engineering — it was insight into how
+        nature prefers to move energy: through oscillations, resonance, and smart transformations. I admire the way
+        he combined imagination with prototype discipline: bold concepts rendered in copper and glass. That duality —
+        poetic vision anchored by rigorous craft — is what I want QParadox to embody. Explanations should hum like coils:
+        clean, tunable, illuminating the room without burning it down.
+      </p>
+      <p>
+        When I write, I try to honor that spirit: make the essential visible, keep the math honest, and let the design
+        carry a quiet current that helps you focus. If a page feels like standing near a calm, humming transformer —
+        that’s the mood I’m aiming for.
+      </p>
+      <p class="mini">continue exploring</p>
+      <p>
+        <a class="cta" href="theoretical-hub.html">Theoretical Hub</a>
+        <a class="cta" href="computational-hub.html">Computational Hub</a>
+        <a class="cta" href="experimental-hub.html">Experimental Hub</a>
+        <a class="cta" href="concepts.html">Concepts Map</a>
+      </p>
+    </article>
+  </div>
+</section>
+
+<!-- CROSSROADS -->
+<section class="reveal">
+  <div class="wrap grid">
+    <article class="panel span-4">
+      <div class="badge">Start</div>
+      <h3>Return to the map</h3>
+      <p>Pick a doorway and wander.</p>
+      <a class="cta" href="introduction.html">Back to Start Here</a>
+    </article>
+    <article class="panel span-4">
+      <div class="badge">Latest</div>
+      <h3>New & Updated</h3>
+      <p>Check hubs for the freshest pages — I mark updates at the top.</p>
+      <a class="cta" href="computational-hub.html">See Computational</a>
+    </article>
+    <article class="panel span-4">
+      <div class="badge">Write</div>
+      <h3>Say hello</h3>
+      <p>Thoughts, questions, corrections — always welcome.</p>
+      <a class="cta" href="#contact">Contact</a>
+    </article>
+  </div>
+</section>
+
+<footer>
+  © 2025 QParadox • About. Built for clarity and wonder.
+</footer>
+
+<script>
+/* ===== Starfield with occasional shooting stars ===== */
+const canvas = document.getElementById('sky'), ctx = canvas.getContext('2d');
+let W,H,stars=[],shootingStars=[];
+function resize(){W=canvas.width=innerWidth; H=canvas.height=innerHeight;
+  stars=Array.from({length:Math.floor(W*H/7000)},()=>({x:Math.random()*W,y:Math.random()*H,z:Math.random()*0.8+0.2,
+    vx:(Math.random()-.5)*.12,vy:(Math.random()-.5)*.12,color:Math.random()>.5?'#ddd':(Math.random()>.5?'#c3a777':'#8ea4d9')}));
+}
+addEventListener('resize',resize); resize();
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  for(const s of stars){
+    s.x+=s.vx; s.y+=s.vy; if(s.x<0)s.x+=W; if(s.x>W)s.x-=W; if(s.y<0)s.y+=H; if(s.y>H)s.y-=H;
+    ctx.fillStyle=s.color; ctx.globalAlpha=.32+.55*s.z; ctx.beginPath(); ctx.arc(s.x,s.y,s.z*1.05,0,Math.PI*2); ctx.fill();
+  }
+  if(Math.random()<0.0018){ shootingStars.push({x:Math.random()*W,y:Math.random()*H*0.5,len:Math.random()*70+50,spd:Math.random()*5+4,angle:Math.PI/4}); }
+  shootingStars.forEach((s,i)=>{ s.x+=Math.cos(s.angle)*s.spd; s.y+=Math.sin(s.angle)*s.spd;
+    ctx.strokeStyle='#ddd'; ctx.globalAlpha=.8; ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(s.x-Math.cos(s.angle)*s.len, s.y-Math.sin(s.angle)*s.len); ctx.stroke();
+    if(s.x>W||s.y>H) shootingStars.splice(i,1);
+  });
+  ctx.globalAlpha=1; requestAnimationFrame(draw);
+} draw();
+
+/* ===== Reveal on scroll ===== */
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in'); obs.unobserve(e.target);} });},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el))
+
+/* ===== Hamburger menu ===== */
+const hamburger=document.getElementById('hamburger'), overlay=document.getElementById('menuOverlay');
+hamburger.addEventListener('click',()=>{ overlay.classList.toggle('open'); overlay.setAttribute('aria-hidden', overlay.classList.contains('open')?'false':'true'); });
+overlay.addEventListener('click',e=>{ if(e.target.tagName==='A'||e.target===overlay){ overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); }});
+addEventListener('keydown',e=>{ if(e.key==='Escape'){ overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); }});
+
+/* ===== Scrollspy ===== */
+const spyLinks=document.querySelectorAll('#scrollspy a');
+const sections=['#yara','#mission','#contact','#faq','#tesla']
+  .map(id=>document.querySelector(id)).filter(Boolean);
+function updateSpy(){ const y=scrollY+200;
+  sections.forEach((sec,i)=>{ if(sec.offsetTop<=y && sec.offsetTop+sec.offsetHeight>y){ spyLinks.forEach(a=>a.classList.remove('active')); if(spyLinks[i]) spyLinks[i].classList.add('active'); }});
+}
+addEventListener('scroll',updateSpy); updateSpy();
+
+/* ===== Back to Top ===== */
+const backToTop=document.getElementById('backToTop');
+addEventListener('scroll',()=>{ if(scrollY>innerHeight*0.25) backToTop.classList.add('show'); else backToTop.classList.remove('show'); });
+backToTop.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+</script>
+
 </body>
 </html>
-
