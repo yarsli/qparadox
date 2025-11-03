@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Visualize a Paradox | QParadox</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      background:radial-gradient(ellipse at top,#101015 0%,#0b0b0d 100%);
+      color:#e0e0e0;
+      font-family:'Georgia',serif;
+      overflow-x:hidden;
+      opacity:0;
+      animation:fadeIn 1.2s forwards;
+    }
+    @keyframes fadeIn{to{opacity:1;}}
+
+    nav{
+      position:sticky;top:0;z-index:100;
+      background:#0e0e0f;border-bottom:1px solid #333;
+      backdrop-filter:blur(8px);
+    }
+    .nav-inner{
+      max-width:1100px;margin:0 auto;padding:1rem;
+      display:flex;justify-content:space-between;align-items:center;
+    }
+    .nav-left a{color:#ccc;text-decoration:none;margin-right:1.4rem;font-size:1rem;transition:color .25s;}
+    .nav-left a:hover{color:#fff;}
+    .nav-center{font-size:1.6rem;font-weight:bold;color:#fff;letter-spacing:2px;}
+
+    header{
+      text-align:center;position:relative;padding:6rem 1rem 4rem;
+    }
+    #particles{position:absolute;inset:0;z-index:1;}
+    header h1{
+      position:relative;z-index:2;color:#fff;font-size:3rem;
+      letter-spacing:1px;margin-bottom:0.8rem;
+      text-shadow:0 0 20px rgba(255,255,255,.2);
+    }
+    header p{
+      position:relative;z-index:2;
+      font-size:1.15rem;max-width:680px;margin:0 auto;
+      color:#a8caff;line-height:1.6;
+    }
+
+    section{
+      max-width:850px;margin:3rem auto;padding:1.5rem;
+      position:relative;z-index:2;
+    }
+    h2{
+      font-size:1.7rem;color:#fff;margin-bottom:.5rem;
+      border-left:3px solid #7fa7ff;padding-left:.7rem;
+    }
+    p{color:#ccc;margin-bottom:1.2rem;line-height:1.7;}
+
+    .divider{
+      height:1px;width:100%;
+      background:linear-gradient(to right,transparent,#555,transparent);
+      margin:2rem 0;
+    }
+
+    form{
+      background:rgba(20,20,30,.6);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:12px;
+      box-shadow:0 0 30px rgba(120,150,255,.2);
+      padding:2.2rem;
+      backdrop-filter:blur(6px);
+    }
+    form label{display:block;margin-top:1rem;font-weight:600;color:#cbd3ff;}
+    form input,form textarea{
+      width:100%;
+      margin-top:.4rem;
+      padding:.7rem .9rem;
+      border:1px solid #333;
+      border-radius:6px;
+      background:rgba(10,10,20,.6);
+      color:#fff;
+      font-size:1rem;
+      transition:border .3s, box-shadow .3s;
+    }
+    form input:focus,form textarea:focus{
+      outline:none;
+      border-color:#9cbaff;
+      box-shadow:0 0 8px rgba(150,180,255,.3);
+    }
+    form input[type="file"]{
+      border:none;background:transparent;color:#aaa;
+      padding:0;margin-top:.7rem;
+    }
+    form button{
+      display:inline-block;margin-top:1.8rem;
+      background:linear-gradient(135deg,#4a69ff,#7f94ff);
+      border:none;border-radius:8px;padding:.8rem 1.8rem;
+      color:#fff;font-size:1rem;cursor:pointer;
+      transition:transform .3s, box-shadow .3s;
+    }
+    form button:hover{
+      transform:translateY(-2px);
+      box-shadow:0 0 15px rgba(130,150,255,.4);
+    }
+
+    .thankyou{
+      display:none;text-align:center;margin-top:2rem;
+      color:#a8caff;font-style:italic;
+      font-size:1.05rem;
+    }
+
+    .awards{
+      background:rgba(25,25,40,.6);
+      border:1px solid rgba(255,255,255,.08);
+      padding:2rem;border-radius:12px;
+      box-shadow:0 0 25px rgba(120,150,255,.15);
+      backdrop-filter:blur(5px);
+    }
+    .award-tier{
+      margin-bottom:1.6rem;
+    }
+    .award-tier h3{
+      color:#d5dcff;
+      font-size:1.3rem;
+      margin-bottom:.4rem;
+    }
+    .award-tier p{
+      color:#ccc;line-height:1.6;
+    }
+
+    footer{text-align:center;padding:2.5rem;color:#888;font-size:.9rem;}
+
+    @media(max-width:768px){
+      header h1{font-size:2.3rem;}
+      header p{font-size:1rem;}
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+      </div>
+      <div class="nav-center">QParadox</div>
+    </div>
+  </nav>
+
+  <header>
+    <div id="particles"></div>
+    <h1>Visualize a Paradox</h1>
+    <p>Express the tension between knowing and unknowing — let science, art, and imagination collide.</p>
+  </header>
+
+  <section>
+    <h2>The Challenge</h2>
+    <p>
+      “Visualize a Paradox” is not merely a competition — it’s an experiment in creativity.
+      You are invited to represent a paradox through your medium of choice: a drawing, an essay, a simulation, a code snippet,
+      or even a digital composition. Your submission should explore contradiction, uncertainty, or the boundaries between
+      what is real and what is imagined.
+    </p>
+
+    <div class="divider"></div>
+
+    <h2>Submission Form</h2>
+    <p>Submit your entry below. We accept <strong>PDF, DOCX, PNG, JPG, or ZIP</strong> files.  
+    Make sure your file is under 10 MB and titled with your name!</p>
+
+    <form id="paradoxForm" action="https://formspree.io/f/xpwogjzz" method="POST" enctype="multipart/form-data">
+      <label>Your Name:</label>
+      <input type="text" name="name" required>
+
+      <label>Your Email:</label>
+      <input type="email" name="_replyto" required>
+
+      <label>Short Description:</label>
+      <textarea name="message" rows="4" placeholder="Tell us about your paradox..."></textarea>
+
+      <label>Upload Your File:</label>
+      <input type="file" name="file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.zip" required>
+
+      <button type="submit">Submit Entry ✦</button>
+      <p class="thankyou" id="thankyouMsg">Your paradox has entered the universe 🌌 — thank you for submitting!</p>
+    </form>
+
+    <div class="divider"></div>
+
+    <h2>Awards & Recognition</h2>
+    <div class="awards">
+      <div class="award-tier">
+        <h3>✦ 1st Place — The Grand Paradox Laureate</h3>
+        <p>
+          Your work will be <strong>featured on QParadox</strong> with a dedicated spotlight article, a
+          <strong>personalized digital certificate</strong>, and the opportunity to have your
+          <strong>research or creative piece permanently hosted</strong> on the site.  
+          This is QParadox’s highest recognition for conceptual brilliance.
+        </p>
+      </div>
+
+      <div class="award-tier">
+        <h3>✦ 2nd Place — The Quantum Visionary</h3>
+        <p>
+          Receive a <strong>certificate of excellence</strong> and a <strong>spotlight mention</strong> on QParadox.
+          Your piece will be displayed in the featured submissions gallery and included in the annual QParadox collection.
+        </p>
+      </div>
+
+      <div class="award-tier">
+        <h3>✦ 3rd Place — The Thought Explorer</h3>
+        <p>
+          Earn an <strong>honorable mention</strong> and a <strongcertificate of distinction</strong>.
+          Your work will be listed among QParadox’s creative innovators in the public showcase.
+        </p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>Guidelines & Inspiration</h2>
+    <p>
+      There are no strict rules. You can merge art and logic, chaos and order.
+      Think of Schrödinger’s cat, quantum decoherence, symmetry breaking, or philosophical dualities like truth vs. perception.
+      The goal is to provoke thought, to make people question the obvious.
+    </p>
+
+    <p>
+      Submissions are evaluated on creativity, conceptual depth, and clarity of presentation.
+      Winners will be announced on QParadox and immortalized in its virtual observatory of ideas.
+    </p>
+  </section>
+
+  <footer>© 2025 QParadox. All rights reserved.</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS('particles', {
+      particles:{
+        number:{value:70},color:{value:'#ffffff'},
+        shape:{type:'circle'},opacity:{value:.3},
+        size:{value:2},line_linked:{enable:true,distance:140,color:'#ffffff',opacity:.2,width:1},
+        move:{enable:true,speed:1}
+      },
+      interactivity:{
+        events:{onhover:{enable:true,mode:'grab'}},
+        modes:{grab:{distance:130,line_linked:{opacity:.4}}}
+      },
+      retina_detect:true
+    });
+
+    const form=document.getElementById('paradoxForm');
+    const thankyou=document.getElementById('thankyouMsg');
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      const data=new FormData(form);
+      fetch(form.action,{method:'POST',body:data,headers:{'Accept':'application/json'}})
+      .then(response=>{
+        if(response.ok){
+          thankyou.style.display='block';
+          form.reset();
+        }else{
+          alert("Oops, something went wrong!");
+        }
+      }).catch(err=>alert("Error submitting form."));
+    });
+  </script>
+</body>
+</html>
