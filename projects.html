@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>QParadox • Projects</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+<!-- MathJax (optional) -->
+<script>
+  window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, svg: { fontCache: 'global' } };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+:root {
+  --bg:#0b0b0d;
+  --ink:#efeae2;
+  --ink-2:#d7d1c7;
+  --muted:#b9b3aa;
+  --accent:#caa36b;
+  --accent-2:#7aa0ff;
+  --glass:rgba(255,255,255,.05);
+  --line:rgba(255,255,255,.12);
+  --radius:14px;
+  --shadow:0 10px 30px rgba(0,0,0,.6), inset 0 0 60px rgba(255,255,255,.02);
+}
+
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Crimson Text",serif;
+  line-height:1.7;
+  overflow-x:hidden;
+  background:
+    radial-gradient(1000px 600px at 10% 0%, rgba(255,255,255,.05), transparent 60%),
+    radial-gradient(1000px 600px at 90% 10%, rgba(255,255,255,.04), transparent 60%),
+    var(--bg);
+}
+#sky{position:fixed;inset:0;z-index:-1;background:transparent;}
+header.hero {
+  min-height:90vh;display:grid;place-items:center;padding:6rem 1rem 3rem;text-align:center;position:relative;
+}
+h1.brand{font-family:"Playfair Display",serif;font-weight:900;font-size:clamp(2.8rem,4vw,4rem);margin:0;}
+.subtitle{max-width:1000px;margin:1rem auto;color:var(--ink-2);font-size:1.2rem;}
+.quote{font-style:italic;color:var(--muted);}
+section{padding:4rem 1rem;border-top:1px solid var(--line);}
+.wrap{width:min(1200px,92%);margin:auto;}
+h2.section-title{font-family:"Playfair Display",serif;font-size:2.2rem;margin-bottom:.6rem;}
+.lead{color:var(--ink-2);max-width:900px;}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:2rem;}
+.card{
+  grid-column:span 12;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+  border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:1.5rem;
+  transition:.3s;
+}
+.card:hover{transform:translateY(-3px) scale(1.02);border-color:rgba(255,255,255,.22);}
+.badge{font-family:"JetBrains Mono",monospace;font-size:.75rem;color:#111;background:linear-gradient(90deg,var(--accent),#e6d1a8);padding:.3rem .6rem;border-radius:.4rem;margin-bottom:.5rem;display:inline-block;}
+.cta{display:inline-block;margin-top:1rem;padding:.8rem 1.1rem;border-radius:.7rem;border:1px solid rgba(255,255,255,.25);background:linear-gradient(90deg,rgba(202,163,107,.32),rgba(122,160,255,.25));color:var(--ink);font-family:"JetBrains Mono",monospace;text-decoration:none;transition:.25s;}
+.cta:hover{opacity:.9;transform:translateY(-2px);}
+.muted{color:var(--muted);}
+@media(min-width:760px){.span-6{grid-column:span 6}.span-4{grid-column:span 4}.span-8{grid-column:span 8}}
+
+iframe.desmos {
+  width:100%;height:500px;border:1px solid var(--line);
+  border-radius:var(--radius);box-shadow:var(--shadow);
+  background:var(--glass);
+}
+
+/* Modal PDF Viewer */
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:9999;}
+.modal iframe{width:80%;height:80%;border:none;border-radius:var(--radius);}
+.modal.open{display:flex;}
+.close-btn{position:absolute;top:20px;right:30px;color:var(--ink);font-size:1.8rem;cursor:pointer;}
+
+.timeline{border-left:2px solid var(--line);margin:2rem 0;padding-left:1.2rem;}
+.timeline-item{margin-bottom:2rem;position:relative;}
+.timeline-item::before{content:"";position:absolute;left:-9px;top:3px;width:14px;height:14px;border-radius:50%;background:var(--accent);}
+.timeline-item h4{margin:0;font-family:"Playfair Display",serif;}
+.timeline-item p{margin:.3rem 0 0;color:var(--ink-2);}
+footer{text-align:center;color:var(--muted);padding:2rem 1rem;border-top:1px solid var(--line);}
+.reveal{opacity:0;transform:translateY(20px);transition:.6s;}
+.reveal.in{opacity:1;transform:none;}
+</style>
+</head>
+
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<header class="hero">
+  <div class="wrap">
+    <h1 class="brand">Projects • The Living Laboratory</h1>
+    <p class="subtitle">
+      Physics is not only studied — it’s *built.* Explore my research, experiments, outreach, and interactive creations where curiosity becomes tangible.
+    </p>
+    <p class="quote">"To understand the universe, one must not only think — but also *create*."</p>
+  </div>
+</header>
+
+<!-- FEATURED RESEARCH -->
+<section id="research" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Featured Research • FLASH Radiotherapy</h2>
+    <p class="lead">An exploration of ultra-high dose-rate radiation therapy and its implications for cancer treatment. A bridge between computational modeling and biomedical application.</p>
+    <div class="grid">
+      <article class="card span-12">
+        <div class="badge">Preprint (2023)</div>
+        <h3>FLASH Radiotherapy — Rapid Dose, Gentle Healing</h3>
+        <p class="muted">
+          This preprint investigates how *ultrafast radiation pulses* can selectively protect healthy tissue while targeting tumors. Through computational models and biological simulation, we explore how physics meets medicine.
+        </p>
+        <a class="cta" id="openPdf">Read Full Paper</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PDF Modal -->
+<div class="modal" id="pdfModal">
+  <span class="close-btn" id="closePdf">&times;</span>
+  <iframe src="FLASH_Radiotherapy_YaraAhmed_Preprint.pdf.pdf"></iframe>
+</div>
+
+<!-- INTERACTIVE SIMULATIONS -->
+<section id="interactive" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Interactive Simulations • Play With Physics</h2>
+    <p class="lead">Experiment, visualize, and explore phenomena — from oscillations to orbits — directly in your browser.</p>
+    <div class="grid">
+      <article class="card span-6">
+        <div class="badge">Desmos</div>
+        <h3>Live Graphing Environment</h3>
+        <p>Visualize waveforms, potentials, or motion equations interactively using the embedded Desmos graphing calculator.</p>
+        <iframe class="desmos" src="https://www.desmos.com/calculator" allowfullscreen></iframe>
+      </article>
+
+      <article class="card span-6">
+        <div class="badge">3D Visualization</div>
+        <h3>Quantum Interference Model</h3>
+        <p>Watch how waves overlap and interfere in 3D — an artistic and mathematical glimpse of probability amplitudes.</p>
+        <canvas id="waveSim" style="width:100%;height:500px;border:1px solid var(--line);border-radius:var(--radius);background:rgba(255,255,255,.02);"></canvas>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATIONAL + OUTREACH -->
+<section id="outreach" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Educational + Outreach</h2>
+    <p class="lead">Sharing physics with the world — teaching differently, building accessibly, and inspiring curiosity across boundaries.</p>
+    <div class="grid">
+      <article class="card span-6">
+        <div class="badge">Teaching</div>
+        <h3>Teaching Physics Differently</h3>
+        <p>Creating materials that simplify complex ideas — blending analogy, simulation, and aesthetic explanation. From dyslexia-friendly notes to interactive experiments, learning physics becomes narrative and visual.</p>
+      </article>
+
+      <article class="card span-6">
+        <div class="badge">Outreach</div>
+        <h3>Community + Connection</h3>
+        <p>Hosting online lessons and QParadox articles that connect abstract ideas to daily life. Physics is not distant — it’s a dialogue.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIMENTAL + COMPUTATIONAL BLENDS -->
+<section id="blend" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Experimental + Computational Blends</h2>
+    <p class="lead">Simulations, sensors, and scripts that turn mathematical formalisms into measurable reality.</p>
+    <div class="grid">
+      <article class="card span-6">
+        <div class="badge">Simulation</div>
+        <h3>Monte Carlo for Measurement</h3>
+        <p>Randomness becomes precision: Monte Carlo sampling to predict detector outcomes and estimate physical constants.</p>
+      </article>
+      <article class="card span-6">
+        <div class="badge">Experiment</div>
+        <h3>Mini Quantum Lab</h3>
+        <p>A digital recreation of optical setups and weak measurement simulations — visualizing the experiments that define modern quantum understanding.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- IDEAS IN PROGRESS -->
+<section id="ideas" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Ideas in Progress • The Next Questions</h2>
+    <p class="lead">Where imagination meets mathematics — rough sketches, evolving prototypes, and future research paths.</p>
+    <div class="grid">
+      <article class="card span-4">
+        <div class="badge">Idea</div>
+        <h3>Photon-Driven Computing</h3>
+        <p>Exploring photonic interference networks as analog processors for quantum-classical hybrid architectures.</p>
+      </article>
+      <article class="card span-4">
+        <div class="badge">Concept</div>
+        <h3>Visualizing Entropy</h3>
+        <p>Interactive visualization of entropy growth — particles dancing into disorder as an educational art form.</p>
+      </article>
+      <article class="card span-4">
+        <div class="badge">Dream</div>
+        <h3>Quantum Education Simulator</h3>
+        <p>An app that teaches quantum logic gates through touch — manipulating probability instead of numbers.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH TIMELINE -->
+<section id="timeline" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Research Timeline</h2>
+    <p class="lead">Tracing the evolution of curiosity and computation.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <h4>2023 • FLASH Radiotherapy Research</h4>
+        <p>Preprint exploring dose-rate physics in radiotherapy — a computational study merging quantum energy transfer and biological safety.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>2024 • QParadox Expansion</h4>
+        <p>Launch of interactive simulations and computational hubs to make theoretical physics more accessible to learners worldwide.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>2025 • New Collaborations</h4>
+        <p>Ongoing work blending machine learning and quantum experimental design, exploring Rydberg atom systems and ultracold gases.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLLABORATION -->
+<section id="collab" class="reveal">
+  <div class="wrap">
+    <h2 class="section-title">Collaboration + Contact</h2>
+    <p class="lead">Physics is communal. Every question grows better when shared. If you’d like to collaborate, reach out.</p>
+    <p class="muted" style="font-family:'JetBrains Mono',monospace;">📧 yarahamid@qparadox.tech</p>
+    <a class="cta" href="mailto:yarahamid@qparadox.tech">Send an Email</a>
+  </div>
+</section>
+
+<footer>
+  © 2025 QParadox • Projects. Built for exploration, curiosity, and creation.
+</footer>
+
+<script>
+// Starfield background
+const canvas=document.getElementById('sky'),ctx=canvas.getContext('2d');
+let W,H,stars=[];
+function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight;
+stars=Array.from({length:Math.floor(W*H/6000)},()=>({x:Math.random()*W,y:Math.random()*H,z:Math.random()*0.8+0.2,vx:(Math.random()-.5)*.15,vy:(Math.random()-.5)*.15,color:Math.random()>.5?'#fff':(Math.random()>.5?'#caa36b':'#7aa0ff')}));}
+addEventListener('resize',resize);resize();
+function draw(){ctx.clearRect(0,0,W,H);
+for(const s of stars){s.x+=s.vx;s.y+=s.vy;if(s.x<0)s.x+=W;if(s.x>W)s.x-=W;if(s.y<0)s.y+=H;if(s.y>H)s.y-=H;
+ctx.fillStyle=s.color;ctx.globalAlpha=.35+.65*s.z;ctx.beginPath();ctx.arc(s.x,s.y,s.z*1.1,0,Math.PI*2);ctx.fill();}
+requestAnimationFrame(draw);}draw();
+
+// PDF modal
+const modal=document.getElementById('pdfModal');
+document.getElementById('openPdf').onclick=()=>modal.classList.add('open');
+document.getElementById('closePdf').onclick=()=>modal.classList.remove('open');
+
+// Reveal on scroll
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Simple 3D-like wave sim
+const wave=document.getElementById('waveSim'),wctx=wave.getContext('2d');
+function drawWave(t=0){const {width:w,height:h}=wave;wctx.clearRect(0,0,w,h);
+for(let x=0;x<w;x++){const y=h/2+Math.sin((x/60)+t/40)*40*Math.sin(t/60);
+wctx.fillStyle=`rgba(202,163,107,0.6)`;wctx.fillRect(x,y,2,2);}
+requestAnimationFrame(()=>drawWave(t+1));}drawWave();
+</script>
+</body>
+</html>
