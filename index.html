@@ -26,6 +26,12 @@
     .nav-left a, .nav-right a { font-size:1rem; text-decoration:none; color:#e0e0e0; transition:color .25s; }
     .nav-left a:hover, .nav-right a:hover { color:#fff; }
     .nav-center { text-align:center; font-size:1.6rem; font-weight:bold; letter-spacing:2px; }
+    .search-bar { display:flex; align-items:center; gap:.4rem; }
+    .search-bar input { padding:.35rem .6rem; border:1px solid #333; background:#151515; color:#ddd; border-radius:4px; }
+    .search-bar button { padding:.35rem .6rem; border:1px solid #333; background:#1e1e1e; color:#ddd; border-radius:4px; cursor:pointer; }
+
+    .icon-btn { font-size:1.4rem; cursor:pointer; color:#ccc; transition:color .25s; line-height:1; }
+    .icon-btn:hover { color:#fff; }
     .hamburger { display:inline-flex; width:28px; height:22px; position:relative; border:none; background:transparent; cursor:pointer; }
     .hamburger span { position:absolute; left:0; width:100%; height:2px; background:#ccc; transition:transform .25s, opacity .25s, top .25s; }
     .hamburger span:nth-child(1){ top:2px; }
@@ -62,51 +68,90 @@
     .brand-block { text-align:center; margin:0 auto 3rem; max-width:1100px; padding:0 1rem; }
     .brand-block h2 { font-size:4rem; margin:0 0 1rem; color:#fff; letter-spacing:3px; }
     .brand-row { display:flex; align-items:center; justify-content:center; gap:1.5rem; flex-wrap:wrap; }
-    .notebook-cover { cursor:pointer; transition:transform .2s; }
+    .notebook-cover { display:inline-block; vertical-align:middle; cursor:pointer; transition:transform .2s; }
     .notebook-cover img { width:120px; height:auto; }
     .notebook-cover:hover { transform:scale(1.05); }
-    .schrodinger-box { max-width:160px; cursor:pointer; transition:transform .2s; text-align:center; }
+    .schrodinger-box { max-width:160px; cursor:pointer; display:inline-block; vertical-align:middle; transition:transform .2s; text-align:center; }
     .schrodinger-box:hover { transform:scale(1.03); }
     .schrodinger-box img { width:100%; opacity:1; transition:opacity .4s; }
-    .schrodinger-status { font-size:.95rem; color:#fff; margin-top:.35rem; }
+    .schrodinger-status { font-size:.95rem; color:#fff; margin-top:.35rem; min-height:1.2em; transition:opacity .4s; }
+    .brand-links { display:flex; flex-direction:column; gap:.35rem; text-align:left; }
+    .brand-links a { color:#fff; text-decoration:underline; }
 
-    /* POPUPS */
-    #competition-popup, #contact-popup {
-      position:fixed; inset:0; display:flex; justify-content:center; align-items:center;
-      background:rgba(0,0,0,.8); z-index:9999; opacity:0; pointer-events:none;
-      transition:opacity .4s ease;
-    }
-    #competition-popup.show, #contact-popup.show { opacity:1; pointer-events:auto; }
-    .popup-content {
-      background:rgba(20,20,20,0.9);
-      border:1px solid rgba(255,255,255,0.1);
-      border-radius:10px;
-      box-shadow:0 0 25px rgba(100,150,255,0.3);
-      padding:2.5rem;
-      max-width:500px;
-      text-align:center;
-      color:#eee;
-      position:relative;
-      animation:popupFade .6s ease forwards;
-    }
-    @keyframes popupFade { from{transform:scale(0.9);opacity:0;} to{transform:scale(1);opacity:1;} }
-    .popup-content h2 { font-size:1.8rem; color:#fff; margin-bottom:0.8rem; }
-    .popup-sub { color:#9fd2ff; margin-bottom:1rem; font-size:1.1rem; }
-    .popup-btn {
-      display:inline-block; background:linear-gradient(90deg,#4ea8de,#b197fc);
-      color:#fff; padding:.7rem 1.4rem; margin:.4rem; border-radius:6px; text-decoration:none;
-      font-weight:600; transition:transform .2s, box-shadow .2s;
-    }
-    .popup-btn:hover { transform:scale(1.05); box-shadow:0 0 12px rgba(150,200,255,0.5); }
-    .close-popup {
-      position:absolute; top:12px; right:18px; background:transparent; color:#aaa;
-      border:none; font-size:1.5rem; cursor:pointer; transition:color .25s;
-    }
-    .close-popup:hover { color:#fff; }
+    /* GRID */
+    #explore { text-align:center; padding:3rem 1rem; }
+    #explore h2 { font-size:2.2rem; margin-bottom:1rem; }
+    .grid { display:flex; justify-content:center; flex-wrap:wrap; gap:1rem; }
+    .grid a { padding:1rem 1.5rem; border:2px solid #444; color:#ccc; font-size:1.05rem; border-radius:6px; text-decoration:none; transition:all .25s; }
+    .grid a:hover { background:#222; border-color:#888; color:#fff; }
+
+    /* THEORY CARD */
+    .theory-card { background:#222; padding:1.4rem; max-width:700px; margin:0 auto 3rem; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,.5); }
+    .theory-card h2 { color:#e0e0e0; margin-bottom:.6rem; font-size:1.4rem; }
+    .theory-card p { color:#ddd; line-height:1.55; }
+    .add-note { margin-top:1rem; background:#444; padding:.55rem 1.2rem; border:none; border-radius:6px; color:#fff; font-size:1rem; cursor:pointer; transition:background .25s; }
+    .add-note:hover { background:#666; }
+
+    /* VIDEO */
+    #video-feature { text-align:center; padding:0 1rem; }
+    .video-wrap { position:relative; width:100%; max-width:720px; margin:0 auto; }
+    .video-wrap::before { content:""; display:block; padding-top:56.25%; }
+    .video-wrap iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+
+    /* ABOUT PREVIEW */
+    .about-preview { background:linear-gradient(to right, #121212, #1b1b1b); padding:4rem 1.25rem; text-align:center; margin-top:2rem; border-top:1px solid #222; border-bottom:1px solid #222; box-shadow:0 0 12px rgba(0,0,0,.3); }
+    .about-preview h2 { font-size:2.2rem; margin-bottom:1.25rem; color:#fff; text-transform:uppercase; letter-spacing:1px; font-weight:600; }
+    .about-inner { max-width:760px; margin:0 auto; font-size:1.08rem; line-height:1.7; color:#ccc; }
+    .see-more-btn { display:inline-block; margin-top:2rem; color:#fff; background-color:transparent; border:1px solid #888; padding:.6rem 1.2rem; border-radius:6px; text-decoration:none; font-weight:600; letter-spacing:.5px; transition:all .25s; }
+    .see-more-btn:hover { background-color:#222; border-color:#fff; color:#fff; }
+
+    /* NOTEBOOK MODAL */
+    #notebook-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); justify-content:center; align-items:center; z-index:1000; }
+    #notebook-content { background:#fff; border-radius:10px; padding:2rem; position:relative; width:92%; max-width:860px; height:90%; overflow:auto; }
+    #notebook-content img { display:block; width:100%; pointer-events:none; }
+    #notebook-content textarea { position:absolute; top:7%; left:7%; width:86%; height:85%; background:transparent; border:none; color:#333; font-family:Georgia, serif; font-size:1rem; line-height:1.5; resize:none; outline:none; }
+    #notebook-close { position:absolute; top:12px; right:16px; background:#444; color:#fff; border:none; padding:.5rem 1rem; border-radius:6px; cursor:pointer; }
+    #notebook-close:hover { background:#222; }
 
     footer { padding:2rem 1rem; text-align:center; color:#888; font-size:.95rem; }
 
-    @media (max-width:900px){ .nav-left{display:none;} }
+    /* ---- Minimal modal styles for the two new popups ---- */
+    .modal-backdrop{
+      position:fixed; inset:0; background:rgba(0,0,0,.85);
+      display:flex; align-items:center; justify-content:center;
+      z-index:2000; opacity:0; pointer-events:none; transition:opacity .35s ease;
+    }
+    .modal-backdrop.show{ opacity:1; pointer-events:auto; }
+    .modal-card{
+      background:#111; border:1px solid #444; color:#eee;
+      padding:2rem; border-radius:12px; text-align:center;
+      width:90%; max-width:460px; position:relative;
+      box-shadow:0 0 20px rgba(120,150,255,.35);
+    }
+    .modal-close{
+      position:absolute; top:10px; right:16px; background:none; border:none;
+      color:#aaa; font-size:1.4rem; cursor:pointer;
+    }
+    .modal-btn{
+      display:inline-block; margin-top:1rem; padding:.6rem 1.2rem;
+      background:#444; color:#fff; border:none; border-radius:6px;
+      text-decoration:none; cursor:pointer;
+    }
+
+    /* MOBILE FIRST FIXES */
+    @media (max-width: 900px) {
+      .nav-left { display:none; }
+      .search-bar { display:none; }
+      .nav-inner { grid-template-columns:auto 1fr auto; }
+    }
+    @media (max-width: 768px) {
+      header { padding:3.2rem 1rem; }
+      header h1 { font-size:2.2rem; }
+      .brand-block h2 { font-size:2.6rem; letter-spacing:2px; }
+      .brand-row { flex-direction:column; align-items:center; }
+      .brand-links { text-align:center; }
+      .grid a { min-width:160px; }
+    }
   </style>
 </head>
 <body>
@@ -120,7 +165,9 @@
         <a href="contact.html">Contact</a>
         <a href="#" onclick="openNotebook(); return false;">Notebook</a>
       </div>
+
       <div class="nav-center">QParadox</div>
+
       <div class="nav-right">
         <button class="hamburger" id="hamburger" aria-label="Open menu" aria-controls="side-panel" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -129,9 +176,9 @@
     </div>
   </nav>
 
-  <div id="overlay"></div>
+  <div id="overlay" tabindex="-1" aria-hidden="true"></div>
 
-  <aside id="side-panel">
+  <aside id="side-panel" role="dialog" aria-modal="true" aria-label="Menu">
     <a href="index.html" class="sp-link">Home</a>
     <a href="about.html" class="sp-link">About</a>
     <a href="projects.html" class="sp-link">Projects</a>
@@ -140,30 +187,34 @@
   </aside>
 
   <header>
-    <div id="particles"></div>
+    <div id="particles" aria-hidden="true"></div>
     <h1>A Prelude to the Unknown</h1>
-    <p>QParadox is a digital space where the boundaries of science and thought blur — exploring the language of quantum physics and the philosophy beneath it.</p>
+    <p>
+      QParadox is a digital space where the boundaries of science and thought begin to blur. It explores the language of quantum physics through ideas like wave particle duality, quantum entanglement, and the uncertainty that shapes reality. It also reflects on what these ideas mean and how they challenge our understanding of logic, causality, and truth. This is not just theory. It is a space where physics meets philosophy and curiosity becomes the only constant.
+    </p>
     <a href="prelude.html" class="see-more">See More →</a>
   </header>
 
   <section class="brand-block">
     <h2>QParadox</h2>
     <div class="brand-row">
-      <span class="notebook-cover" onclick="openNotebook()"><img src="cover.png" alt="Notebook Cover"></span>
-      <span class="schrodinger-box" onclick="toggleCatState()">
-        <img id="schrodinger-img" src="box.png" alt="Quantum Box">
-        <div id="schrodinger-status">Click to observe cat</div>
+      <span class="notebook-cover" onclick="openNotebook()">
+        <img src="cover.png" alt="Notebook Cover" />
       </span>
-      <div class="brand-links">
+      <span class="schrodinger-box" onclick="toggleCatState()">
+        <img id="schrodinger-img" src="box.png" alt="Quantum box" />
+        <div id="schrodinger-status" class="schrodinger-status">Click to observe cat</div>
+      </span>
+      <span class="brand-links">
         <a href="introduction.html">New to QParadox? Start here →</a>
         <a href="concepts.html">Want to learn more? Click here →</a>
         <a href="timeline.html">Confused about the history? Look at our timeline →</a>
-      </div>
+      </span>
     </div>
   </section>
 
   <section id="explore">
-    <h2 style="text-align:center;">Explore the Contents</h2>
+    <h2>Explore the Contents</h2>
     <div class="grid">
       <a href="introduction.html">Introduction</a>
       <a href="timeline.html">History</a>
@@ -172,84 +223,153 @@
     </div>
   </section>
 
-  <section class="theory-card">
+  <section class="theory-card" id="theory-card">
     <h2>Theory of the Week</h2>
-    <p>Quantum entanglement explores how particles remain correlated across distance, defying classical intuition and reshaping our understanding of locality and causality.</p>
+    <p id="theory-text">Quantum entanglement explores how particles remain correlated across distance, defying classical intuition, and reshaping our understanding of locality and causality.</p>
     <button class="add-note" onclick="openNotebook()">Add to Notebook</button>
   </section>
 
-  <section id="video-feature" style="text-align:center;">
+  <section id="video-feature">
     <div class="video-wrap">
-      <iframe src="https://www.youtube.com/embed/QkhBcLk_8f0" title="Richard Feynman on The Beauty of Not Knowing" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/QkhBcLk_8f0" title="Richard Feynman on The Beauty of Not Knowing" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
   </section>
 
-  <section class="about-preview">
+  <section id="about-preview" class="about-preview">
     <h2>About QParadox</h2>
     <div class="about-inner">
-      <p>QParadox is a personal website curated by a student fascinated by theoretical and quantum physics. It’s a quiet corner for curiosity and imagination.</p>
+      <p>QParadox is a personal website curated by a student with a deep interest in quantum physics, theoretical science, and the questions that arise at the edge of understanding.</p>
+      <p>A space where complex ideas are broken down and explored through research and reflection. The goal is not just to explain, but to think, to create a quiet place where science and philosophy can meet and expand.</p>
     </div>
     <a href="about.html" class="see-more-btn">Read Full Bio →</a>
   </section>
 
-  <div id="notebook-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); justify-content:center; align-items:center; z-index:1000;">
-    <div id="notebook-content" style="background:#fff; border-radius:10px; padding:2rem; position:relative; width:92%; max-width:860px; height:90%; overflow:auto;">
-      <button id="notebook-close" onclick="closeNotebook()" style="position:absolute; top:12px; right:16px;">Close</button>
-      <img src="notebooks.jpg" alt="Notebook Background" style="width:100%;">
-      <textarea placeholder="Write your thoughts..." style="position:absolute; top:7%; left:7%; width:86%; height:85%; background:transparent; border:none; color:#333;"></textarea>
-    </div>
-  </div>
-
-  <!-- COMPETITION POPUP -->
-  <div id="competition-popup">
-    <div class="popup-content">
-      <button class="close-popup" onclick="closeCompetition()">×</button>
-      <h2>🚀 QParadox Grand Opening Challenge</h2>
-      <p class="popup-sub">Prompt: <strong>Visualize a Paradox</strong></p>
-      <p>Express a paradox through art, code, or words — let physics meet imagination.  
-      Show how curiosity bends reality itself.</p>
-      <a href="competition.html" class="popup-btn">See More →</a>
-    </div>
-  </div>
-
-  <!-- CONTACT POPUP -->
-  <div id="contact-popup">
-    <div class="popup-content">
-      <button class="close-popup" onclick="closeContact()">×</button>
-      <h2>📧 Contact QParadox</h2>
-      <p>Email: <strong>yarahamid@qparadox.tech</strong></p>
-      <div>
-        <button class="popup-btn" onclick="copyEmail()">Copy Email</button>
-        <a href="mailto:yarahamid@qparadox.tech" class="popup-btn">Send Email</a>
-      </div>
+  <div id="notebook-modal">
+    <div id="notebook-content">
+      <button id="notebook-close" onclick="closeNotebook()">Close</button>
+      <img src="notebooks.jpg" alt="Notebook Background" />
+      <textarea placeholder="Write your thoughts..."></textarea>
     </div>
   </div>
 
   <footer>© 2025 QParadox. All rights reserved.</footer>
 
+  <!-- ===== COMPETITION POPUP (auto-opens) ===== -->
+  <div id="competition-popup" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-label="Competition">
+      <button class="modal-close" onclick="closeCompetition()" aria-label="Close">×</button>
+      <h2 style="color:#fff;margin-bottom:.6rem;">🚀 QParadox Grand Opening</h2>
+      <p style="color:#9fd2ff;margin:.3rem 0 1rem;"><strong>Challenge:</strong> Visualize a Paradox</p>
+      <p>Express a paradox through art, code, or words — where physics meets imagination.</p>
+      <a class="modal-btn" href="competition.html">See More →</a>
+    </div>
+  </div>
+
+  <!-- ===== CONTACT POPUP (opens when user clicks Contact) ===== -->
+  <div id="contact-popup" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-label="Contact">
+      <button class="modal-close" onclick="closeContact()" aria-label="Close">×</button>
+      <h2 style="color:#fff;margin-bottom:.6rem;">📧 Contact QParadox</h2>
+      <p>Email: <strong>yarahamid@qparadox.tech</strong></p>
+      <div style="margin-top:1rem;">
+        <button class="modal-btn" onclick="copyEmail()">Copy Email</button>
+        <a class="modal-btn" href="mailto:yarahamid@qparadox.tech">Send Email</a>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-    particlesJS('particles', { particles:{number:{value:60},color:{value:'#fff'},shape:{type:'circle'},opacity:{value:.3},size:{value:2},line_linked:{enable:true,distance:140,color:'#fff',opacity:.2,width:1},move:{enable:true,speed:1}},interactivity:{events:{onhover:{enable:true,mode:'grab'}},modes:{grab:{distance:120,line_linked:{opacity:.4}}}},retina_detect:true });
+    // particles
+    particlesJS('particles', {
+      particles: {
+        number: { value: 60 }, color: { value: '#fff' }, shape: { type: 'circle' }, opacity: { value: .3 }, size: { value: 2 },
+        line_linked: { enable: true, distance: 140, color: '#fff', opacity: .2, width: 1 },
+        move: { enable: true, speed: 1 }
+      },
+      interactivity: { events: { onhover: { enable: true, mode: 'grab' } }, modes: { grab: { distance: 120, line_linked: { opacity: .4 } } } },
+      retina_detect: true
+    });
 
-    const body=document.body, hamburger=document.getElementById('hamburger'), overlay=document.getElementById('overlay'), sidePanel=document.getElementById('side-panel');
-    function openMenu(){body.classList.add('menu-open');hamburger.setAttribute('aria-expanded','true');}
-    function closeMenu(){body.classList.remove('menu-open');hamburger.setAttribute('aria-expanded','false');}
-    hamburger.addEventListener('click',()=>{body.classList.contains('menu-open')?closeMenu():openMenu();});
-    overlay.addEventListener('click',closeMenu);
+    // hamburger and side panel
+    const body = document.body;
+    const hamburger = document.getElementById('hamburger');
+    const overlay = document.getElementById('overlay');
+    const sidePanel = document.getElementById('side-panel');
 
-    function toggleCatState(){const img=document.getElementById('schrodinger-img'),status=document.getElementById('schrodinger-status'),alive=Math.random()>0.5;img.style.opacity=0;status.style.opacity=0;setTimeout(()=>{img.src=alive?'cat-alive.png':'cat-dead.png';status.textContent=alive?'😺 Alive':'💀 Dead';img.style.opacity=1;status.style.opacity=1;},400);}
-    function openNotebook(){document.getElementById('notebook-modal').style.display='flex';}
-    function closeNotebook(){document.getElementById('notebook-modal').style.display='none';}
+    function openMenu() {
+      body.classList.add('menu-open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      hamburger.setAttribute('aria-label', 'Close menu');
+      sidePanel.focus();
+    }
+    function closeMenu() {
+      body.classList.remove('menu-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-label', 'Open menu');
+      hamburger.focus();
+    }
+    function toggleMenu() {
+      if (body.classList.contains('menu-open')) closeMenu(); else openMenu();
+    }
 
-    // POPUPS
-    function openCompetition(){document.getElementById('competition-popup').classList.add('show');}
-    function closeCompetition(){document.getElementById('competition-popup').classList.remove('show');}
-    window.addEventListener('load',()=>{setTimeout(openCompetition,1200);});
+    hamburger.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeMenu();
+        closeCompetition();
+        closeContact();
+      }
+    });
+    sidePanel.addEventListener('click', (e) => { if (e.target.matches('.sp-link')) closeMenu(); });
 
-    function openContact(){document.getElementById('contact-popup').classList.add('show');}
-    function closeContact(){document.getElementById('contact-popup').classList.remove('show');}
-    function copyEmail(){navigator.clipboard.writeText('yarahamid@qparadox.tech');alert('Email copied to clipboard!');}
-    document.querySelectorAll('a[href="contact.html"]').forEach(link=>{link.addEventListener('click',e=>{e.preventDefault();openContact();});});
+    // old right slide toggle kept for reference safety if called elsewhere
+    function toggleSide(){ toggleMenu(); }
+
+    // cat box
+    function toggleCatState(){
+      const img = document.getElementById('schrodinger-img');
+      const status = document.getElementById('schrodinger-status');
+      const alive = Math.random() > 0.5;
+      img.style.opacity = 0; status.style.opacity = 0;
+      setTimeout(() => {
+        img.src = alive ? 'cat-alive.png' : 'cat-dead.png';
+        status.textContent = alive ? '😺 Alive' : '💀 Dead';
+        img.style.opacity = 1; status.style.opacity = 1;
+      }, 400);
+    }
+
+    // notebook modal
+    function openNotebook(){ document.getElementById('notebook-modal').style.display='flex'; }
+    function closeNotebook(){ document.getElementById('notebook-modal').style.display='none'; }
+    window.openNotebook = openNotebook; window.closeNotebook = closeNotebook; window.toggleCatState = toggleCatState; window.toggleSide = toggleSide;
+
+    /* ===== NEW: Popups logic (competition + contact) ===== */
+    const comp = document.getElementById('competition-popup');
+    const contact = document.getElementById('contact-popup');
+
+    function openCompetition(){ comp.classList.add('show'); comp.setAttribute('aria-hidden','false'); }
+    function closeCompetition(){ comp.classList.remove('show'); comp.setAttribute('aria-hidden','true'); }
+
+    function openContact(){ contact.classList.add('show'); contact.setAttribute('aria-hidden','false'); }
+    function closeContact(){ contact.classList.remove('show'); contact.setAttribute('aria-hidden','true'); }
+
+    function copyEmail(){
+      navigator.clipboard.writeText('yarahamid@qparadox.tech').then(()=>alert('Email copied!'));
+    }
+
+    // Auto-open competition after slight delay
+    window.addEventListener('load', ()=>{ setTimeout(openCompetition, 1200); });
+
+    // Make every nav Contact link open the popup (no page change)
+    document.querySelectorAll('a[href="contact.html"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{ e.preventDefault(); openContact(); });
+    });
+
+    // Clicking outside modal closes it
+    comp.addEventListener('click', (e)=>{ if(e.target===comp) closeCompetition(); });
+    contact.addEventListener('click', (e)=>{ if(e.target===contact) closeContact(); });
   </script>
 </body>
 </html>
