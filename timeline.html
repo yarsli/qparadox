@@ -129,7 +129,7 @@
       </svg>`;
       return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
     }
-    function tryExtensions(base){ return ['.jpg','.jpeg','.png','.webp'].map(e=>`images/${base}${e}`); }
+    function tryExtensions(base){ return ['.jpg','.jpeg','.png','.webp'].map(e=>`${base}${e}`); }
     function setThumb(div, d){
       if(!d.img){ div.style.backgroundImage=svgMonogram(d.people||d.label,'#3b3b3f'); return; }
       const list=tryExtensions(d.img);
@@ -210,7 +210,7 @@
   </script>
 <script>
 addData([
-  {year:-585,label:"Solar eclipse prediction",people:"Thales of Miletus",pillar:"philosophy",type:"publication",tags:"antiquity",img:"thales.jpg",
+  {year:-585,label:"Solar eclipse prediction",people:"Thales of Miletus",pillar:"philosophy",type:"publication",tags:"antiquity",img:"thales",
    desc:"Forecasted an eclipse. The point was order, not omen.",
    bio:"Thales is remembered for pulling sky events into the world of rules. The eclipse story shows how a simple pattern can explain a striking sight."},
   {year:-530,label:"Atomism",people:"Leucippus; Democritus",pillar:"philosophy",type:"theory",tags:"matter",img:"democritus",
